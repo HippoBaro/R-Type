@@ -2,18 +2,18 @@
 // Created by hippolyteb on 11/8/16.
 //
 
-#ifndef SPIDER_SERVER_ISPIDERSOCKET_HPP
-#define SPIDER_SERVER_ISPIDERSOCKET_HPP
+#ifndef RTYPE_SERVER_IRTYPESOCKET_HPP
+#define RTYPE_SERVER_IRTYPESOCKET_HPP
 
 #include <string>
 
-class ISpiderSocket {
+class IRtypeSocket {
 
 private:
     std::string _id;
 
 public:
-    ISpiderSocket() {}
+    IRtypeSocket() {}
 
     virtual std::string &GetSocketID() {
         return _id;
@@ -45,7 +45,7 @@ public:
 
     /// Should listen for new connections on the binded socket and return a new socket when a connection arrives.
     /// \return The new socket representing the new connection.
-    virtual std::unique_ptr<ISpiderSocket> Accept() = 0;
+    virtual std::unique_ptr<IRtypeSocket> Accept() = 0;
 
     /// If your socket implementation automatically accept and stores new connections (Ex. ZeroMQ), return false.
     /// \return whether your Accept() function needs to be called.
@@ -58,4 +58,4 @@ public:
     virtual void *GetNativeSocket() = 0;
 };
 
-#endif //SPIDER_SERVER_ISPIDERSOCKET_HPP
+#endif //RTYPE_SERVER_IRTYPESOCKET_HPP
