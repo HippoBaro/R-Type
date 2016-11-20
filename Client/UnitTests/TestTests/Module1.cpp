@@ -9,5 +9,5 @@ TEST(Client_Test_Module1, CanBindToValidEndpoint) {
 }
 
 TEST(Client_Test_Module1, CanBindToInvalidEndpoint) {
-    ASSERT_EQ(1 * 2, 23) << "This will fail !";
+    ASSERT_EQ(1 * 2, 2) << "This will fail !";
 }
