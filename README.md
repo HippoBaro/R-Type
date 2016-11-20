@@ -1,3 +1,3 @@
-[![Build Status](https://travis-ci.org/HippoBaro/R-Type.svg?branch=ep_install_sfml_linux)](https://travis-ci.org/HippoBaro/R-Type) [![Coverage Status](https://coveralls.io/repos/github/HippoBaro/R-Type/badge.svg?branch=master)](https://coveralls.io/github/HippoBaro/R-Type?branch=master)
+[![Build Status](https://travis-ci.org/HippoBaro/R-Type.svg?branch=ep_install_sfml_linux_%234)](https://travis-ci.org/HippoBaro/R-Type) [![Coverage Status](https://coveralls.io/repos/github/HippoBaro/R-Type/badge.svg?branch=master)](https://coveralls.io/github/HippoBaro/R-Type?branch=master)
 
 #R-Type
