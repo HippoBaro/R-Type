@@ -3,8 +3,8 @@ project(R_Type)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+add_subdirectory(Shared)
+add_subdirectory(Client)
+add_subdirectory(Server)
+
 add_subdirectory(UnitTests)
-
-set(SOURCE_FILES src/main.cpp)
-
-add_executable(R_Type ${SOURCE_FILES})
