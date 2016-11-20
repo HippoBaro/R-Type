@@ -3,5 +3,4 @@
 //
 
 int main() {
-  // Sorry for the test commit
 }
