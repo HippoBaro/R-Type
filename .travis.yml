@@ -1,7 +1,7 @@
 # Enable C++ support
 language: cpp
 # Compiler selection
-compiler: gcc
+compiler: g++
 # Build steps
 install:
   - sudo pip install cpp-coveralls
