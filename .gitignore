@@ -28,5 +28,5 @@
 *.out
 *.app
 
-#Clion
+# CLion
 .idea/*
