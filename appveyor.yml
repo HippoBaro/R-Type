@@ -26,5 +26,5 @@ build:
 # scripts to run before build
 before_build:
   - echo Running cmake...
-  - cd c:\projects\sqlite
+  - cd c:\projects\RType
   - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
