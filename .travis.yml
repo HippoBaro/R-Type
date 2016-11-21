@@ -22,16 +22,7 @@ addons:
     - libglu1-mesa-dev
     - udev
     - xcb
-    - x11-xcb
-    - xcb-randr
-    - xcb-image
-    - opengl
-    - flac
-    - ogg
-    - vorbis
-    - vorbisenc
-    - vorbisfile
-    - openal
+    - libgl-dev
 matrix:
   include:
     - compiler: gcc
