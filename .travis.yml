@@ -27,6 +27,7 @@ addons:
     - libjpeg8-dev
     - libsndfile1-dev
     - libopenal-dev
+    - libudev-dev
 matrix:
   include:
     - compiler: gcc
