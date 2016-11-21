@@ -18,11 +18,15 @@ addons:
     # install toolchains
     - gcc-5
     - g++-5
-    - xorg-dev
-    - libglu1-mesa-dev
-    - udev
-    - xcb
-    - libgl-dev
+    - libpthread-stubs0-dev
+    - libgl1-mesa-dev
+    - libx11-dev
+    - libxrandr-dev
+    - libfreetype6-dev
+    - libglew1.5-dev
+    - libjpeg8-dev
+    - libsndfile1-dev
+    - libopenal-dev
 matrix:
   include:
     - compiler: gcc
