@@ -20,6 +20,18 @@ addons:
     - g++-5
     - xorg-dev
     - libglu1-mesa-dev
+    - udev
+    - xcb
+    - x11-xcb
+    - xcb-randr
+    - xcb-image
+    - opengl
+    - flac
+    - ogg
+    - vorbis
+    - vorbisenc
+    - vorbisfile
+    - openal
 matrix:
   include:
     - compiler: gcc
