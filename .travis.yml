@@ -28,16 +28,6 @@ addons:
     - libsndfile1-dev
     - libopenal-dev
     - libudev-dev
-matrix:
-  include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env: COMPILER=g++-5
 script:
   - mkdir build
   - cd build
