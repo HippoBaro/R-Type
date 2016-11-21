@@ -33,3 +33,5 @@ script:
   - cd build
   - cmake .. && make AllUnitTests
   - ./UnitTests/AllUnitTests
+notifications:
+  slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
