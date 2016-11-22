@@ -10,21 +10,38 @@
 // For templating reasons, we put the code in the header directly
 
 namespace RType {
+  class IEntity;
+
   template <class EventType>
   class EventListener {
-    private:
-      std::shared_ptr<RType::EventManager> _eventManager = nullptr;
+    typedef std::map<RType::Event, std::vector<std::function<void(IEntity&)>>> CALLBACK_MAP;
 
-    public:
-      EventListener(std::shared_ptr<RType::EventManager> eventManager) :
-        _eventManager(eventManager) {}
+  private:
+    std::shared_ptr<RType::EventManager> _eventManager = nullptr;
+    std::shared_ptr<CALLBACK_MAP> _callbacks;
 
-      void Register(RType::Event event, std::function<void(EventType&)> callback)
-      {
-        _eventManager->Register(event, [callback](IEntity& data) {
-          callback(static_cast<EventType&>(data));
-        });
-      }
+  public:
+    EventListener(std::shared_ptr<RType::EventManager> eventManager) :
+      _eventManager(eventManager),
+      _callbacks(std::shared_ptr<CALLBACK_MAP>(new CALLBACK_MAP()))
+    {
+      std::cout << _callbacks << std::endl;
+      _eventManager->AddListener(_callbacks);
+    }
+
+    void Subscribe(RType::Event event, std::function<void(EventType &)> callback)
+    {
+      std::function<void(IEntity&)> newCb = [callback](IEntity &data) {
+        callback(static_cast<EventType &>(data));
+      };
+      (*_callbacks)[event].push_back(newCb);
+    }
+
+    // Remove the callbacks for a specific event
+    void Unsubscribe(RType::Event event)
+    {
+      (*_callbacks).erase(event);
+    }
   };
 }
 
