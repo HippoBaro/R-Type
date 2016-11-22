@@ -21,6 +21,10 @@
  *    // On event code here
  * });
  *
+ * [...]
+ *
+ * e->emit(BULLET_POS_CHANGE, RType::Bullet());
+ *
  */
 
 namespace RType {
