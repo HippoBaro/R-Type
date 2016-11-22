@@ -10,8 +10,4 @@ public:
     virtual void Test() = 0;
 };
 
-// the types of the class factories
-typedef ITest* create_t();
-typedef void destroy_t(ITest*);
-
 #endif //R_TYPE_ITEST_HPP
