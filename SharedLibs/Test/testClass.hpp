@@ -5,13 +5,12 @@
 #ifndef R_TYPE_TESTCLASS_HPP
 #define R_TYPE_TESTCLASS_HPP
 
-#include <iostream>
 #include "../../Shared/Libs/Interfaces/ITest.hpp"
+#include "../../Shared/LibraryLoader/IInternalLibraryLoader.hpp"
 
 class testClass : public ITest {
 public:
     virtual void Test();
-
     virtual ~testClass();
 };
 
