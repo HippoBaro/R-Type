@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6.2)
 
-set(SERVER_TEST_FILES ./TestTests/Module1.cpp ./TestTests/Module2.cpp)
+set(SERVER_TEST_FILES ./TestTests/Module1.cpp)
 
 foreach (_file ${SERVER_TEST_FILES})
     get_filename_component(SERVER_TEST_FILE_ABS ${_file} REALPATH)
