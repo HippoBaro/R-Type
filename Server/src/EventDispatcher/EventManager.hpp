@@ -9,22 +9,22 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <algorithm>
 #include "Events.h"
 
 /*
  * Usage exemple
  *
- *
  * std::shared_ptr<RType::EventManager> e = std::shared_ptr<RType::EventManager>(new RType::EventManager);
+ *
  * RType::EventListener<RType::Bullet> listener(e);
- * listener->Register(RType::BULLET_POS_CHANGE, [&](RType::Bullet &bullet) {
+ * listener.AddListener(RType::BULLET_POS_CHANGE, [&](RType::Bullet &bullet) {
  *    // On event code here
  * });
  *
- * [...]
- *
  * e->emit(BULLET_POS_CHANGE, RType::Bullet());
  *
+ * listener.Unsubscribe(RType::BULLET_POS_CHANGE)
  */
 
 namespace RType {
@@ -35,12 +35,12 @@ namespace RType {
   class EventManager {
 
   private:
-    std::map<RType::Event, std::vector<std::function<void(IEntity&)>>> _listeners = {};
+    std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>>> _listeners = {};
 
   public:
     EventManager();
 
-    void Register(RType::Event event, std::function<void(IEntity&)> callback);
+    void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>> &callbacks);
     void Emit(RType::Event event, IEntity& data);
   };
 }
