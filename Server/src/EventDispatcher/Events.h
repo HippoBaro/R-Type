@@ -5,6 +5,7 @@
 #ifndef R_TYPE_EVENTS_H
 #define R_TYPE_EVENTS_H
 
+// List all events here
 namespace RType {
   enum Event {
     BULLET_DAMAGE_CHANGE,
