@@ -3,6 +3,7 @@ project(R_Type)
 
 include(cmake/ucm.cmake)
 
+add_subdirectory(SharedLibs)
 add_subdirectory(Shared)
 add_subdirectory(Client)
 add_subdirectory(Server)
