@@ -6,10 +6,11 @@
 #define R_TYPE_ILIBRARYLOADER_HPP
 
 #include <string>
-#include "../../Shared/LibraryLoader/ExternalClassFactory.hpp"
+#include "ExternalClassFactory.hpp"
 
 class IInternalLibraryLoader {
 public:
+
 	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
 };
 

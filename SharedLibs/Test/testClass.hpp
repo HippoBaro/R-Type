@@ -5,7 +5,7 @@
 #ifndef R_TYPE_TESTCLASS_HPP
 #define R_TYPE_TESTCLASS_HPP
 
-#include "../../Shared/Libs/Interfaces/ITest.hpp"
+#include <ITest.hpp>
 
 class testClass : public ITest {
 public:
