@@ -8,9 +8,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SERVER_SOURCE_FILES
         src/main.cpp
+        src/EventDispatcher/EventListener.hpp
         src/EventDispatcher/EventManager.cpp
         src/EventDispatcher/EventManager.hpp
-        src/EventDispatcher/EventListener.hpp
         )
 
 IF (MSVC)
