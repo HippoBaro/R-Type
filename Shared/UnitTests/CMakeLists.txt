@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6.2)
 
 set(SHARED_TEST_FILES TestTests/Module1.cpp)
 
-get_filename_component(SHARED_TEST_FILES_ABS ${SHARED_TEST_FILES} REALPATH)
+get_filename_component(SHARED_TEST_FILES_ABS ${SHARED_TEST_FILES} ABSOLUTE)
 set(SHARED_TEST_FILES_ABS_G ${SHARED_TEST_FILES_ABS} CACHE INTERNAL "")
 
 add_executable(SharedUnitTests ../../UnitTests/gtest.cpp ${SHARED_TEST_FILES})
