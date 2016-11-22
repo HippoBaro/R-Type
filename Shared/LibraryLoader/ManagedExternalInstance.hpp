@@ -7,6 +7,7 @@
 
 #include <ostream>
 #include "ExternalClassFactoryLoader.hpp"
+#include "ExternalClassFactory.hpp"
 
 template <class Type>
 class ManagedExternalInstance {
