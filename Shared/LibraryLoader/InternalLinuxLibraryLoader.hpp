@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <dlfcn.h>
 #include "IInternalLibraryLoader.hpp"
 
 class InternalLibraryLoader : public IInternalLibraryLoader {

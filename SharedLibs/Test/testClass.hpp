@@ -6,7 +6,12 @@
 #define R_TYPE_TESTCLASS_HPP
 
 #include "../../Shared/Libs/Interfaces/ITest.hpp"
-#include "../../Shared/LibraryLoader/IInternalLibraryLoader.hpp"
+
+#if MSVC
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
 
 class testClass : public ITest {
 public:
