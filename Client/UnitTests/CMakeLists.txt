@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.6.2)
 
-set(SERVER_TEST_FILES ./TestTests/Module1.cpp)
+set(CLIENT_TEST_FILES TestTests/Module1.cpp)
 
-foreach (_file ${SERVER_TEST_FILES})
-    get_filename_component(SERVER_TEST_FILE_ABS ${_file} REALPATH)
-    set(SERVER_TEST_FILES_ABS_G ${SERVER_TEST_FILES_ABS_G} ${SERVER_TEST_FILE_ABS} CACHE INTERNAL "")
+foreach (_file ${CLIENT_TEST_FILES})
+    get_filename_component(CLIENT_TEST_FILES_ABS ${_file} REALPATH)
+    set(CLIENT_TEST_FILES_ABS_G ${CLIENT_TEST_FILES_ABS_G} ${CLIENT_TEST_FILES_ABS} CACHE INTERNAL "")
 endforeach()
 
-add_executable(ServerUnitTests ../../UnitTests/gtest.cpp ${SERVER_TEST_FILES})
-target_link_libraries(ServerUnitTests gtest)
+add_executable(ClientUnitTests ../../UnitTests/gtest.cpp ${CLIENT_TEST_FILES})
+target_link_libraries(ClientUnitTests gtest)
