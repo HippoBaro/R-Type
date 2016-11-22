@@ -15,7 +15,8 @@ void RType::EventManager::Emit(RType::Event event, RType::IEntity &data)
 {
   for (auto callbacklist : _listeners)
   {
-    for (auto callback : (*callbacklist)[event])
-      callback(data);
+    if (callbacklist != nullptr)
+      for (auto callback : (*callbacklist)[event])
+        callback(data);
   }
 }
