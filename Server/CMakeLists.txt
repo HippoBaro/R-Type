@@ -10,6 +10,7 @@ set(SERVER_SOURCE_FILES
         src/main.cpp
         src/EventDispatcher/EventManager.cpp
         src/EventDispatcher/EventManager.hpp
+        src/EventDispatcher/EventListener.hpp
         )
 
 IF (MSVC)
