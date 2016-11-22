@@ -6,7 +6,6 @@
 #define R_TYPE_MANAGEDEXTERNALINSTANCE_HPP
 
 #include <ostream>
-#include "ExternalClassFactoryLoader.hpp"
 #include "ExternalClassFactory.hpp"
 
 template <class Type>

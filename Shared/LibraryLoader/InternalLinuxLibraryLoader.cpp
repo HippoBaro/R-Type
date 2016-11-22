@@ -27,3 +27,5 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
     }
     return ExternalClassFactory(create_triangle, destroy_triangle);
 }
+
+InternalLibraryLoader::InternalLibraryLoader() {}
