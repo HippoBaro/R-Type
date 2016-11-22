@@ -3,6 +3,7 @@
 //
 
 #include "testClass.hpp"
+#include "../Base.h"
 #include <iostream>
 
 void testClass::Test() {

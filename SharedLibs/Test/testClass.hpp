@@ -7,12 +7,6 @@
 
 #include "../../Shared/Libs/Interfaces/ITest.hpp"
 
-#if MSVC
-#define DLLEXPORT __declspec(dllexport)
-#else
-#define DLLEXPORT
-#endif
-
 class testClass : public ITest {
 public:
     virtual void Test();
