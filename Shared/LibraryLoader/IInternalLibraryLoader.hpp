@@ -5,12 +5,7 @@
 #ifndef R_TYPE_ILIBRARYLOADER_HPP
 #define R_TYPE_ILIBRARYLOADER_HPP
 
-#ifndef MSVC
-#define DLLEXPORT __declspec(dllexport)
-#else
-#define DLLEXPORT
-#endif
-
+#include <string>
 #include "../../Shared/LibraryLoader/ExternalClassFactory.hpp"
 
 class IInternalLibraryLoader {
