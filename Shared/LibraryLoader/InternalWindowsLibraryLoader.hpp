@@ -2,6 +2,7 @@
 // Created by hippolyteb on 11/22/16.
 //
 
+#include <string>
 #include <iostream>
 #include "IInternalLibraryLoader.hpp"
 

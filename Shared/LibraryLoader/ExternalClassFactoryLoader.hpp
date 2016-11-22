@@ -5,8 +5,7 @@
 #ifndef R_TYPE_LIBRARYLOADER_HPP
 #define R_TYPE_LIBRARYLOADER_HPP
 
-#include <string>
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "InternalLinuxLibraryLoader.hpp"
 #include "ManagedExternalInstance.hpp"
 

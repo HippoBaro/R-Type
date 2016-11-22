@@ -10,9 +10,11 @@ int main() {
 
     try {
         ManagedExternalInstance<ITest> poly = ExternalClassFactoryLoader::GetInstanceOf<ITest>("/home/hippolyteb/.CLion2016.2/system/cmake/generated/R-Type-32b3c3e3/32b3c3e3/Debug2/SharedLibs/Test/libTest.so");
-        poly->Test();
+		poly->Test();
     }
     catch (std::exception e) {
 
     }
+
+	std::cin.get();
 }

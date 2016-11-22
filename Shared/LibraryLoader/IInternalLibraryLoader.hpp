@@ -5,11 +5,17 @@
 #ifndef R_TYPE_ILIBRARYLOADER_HPP
 #define R_TYPE_ILIBRARYLOADER_HPP
 
-#include "ExternalClassFactory.hpp"
+#ifndef MSVC
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
+
+#include "../../Shared/LibraryLoader/ExternalClassFactory.hpp"
 
 class IInternalLibraryLoader {
 public:
-    virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
+	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
 };
 
 // the types of the class factories
