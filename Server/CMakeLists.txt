@@ -9,4 +9,4 @@ set(SERVER_SOURCE_FILES src/main.cpp)
 
 add_executable(R_Type_Server ${SHARED_SOURCE_FILES_ABS_G} ${SERVER_SOURCE_FILES})
 
-target_link_libraries(R_Type_Server ${CMAKE_DL_LIBS})
+target_link_libraries(R_Type_Server LibraryLoader)

@@ -8,6 +8,10 @@ void testClass::Test() {
     std::cout << "TEST" << std::endl;
 }
 
+testClass::~testClass() {
+    std::cout << "Destroyed :(" << std::endl;
+}
+
 extern "C" testClass* create() {
     return new testClass();
 }
