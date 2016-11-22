@@ -9,7 +9,7 @@ endif()
 
 add_subdirectory(SharedLibs)
 add_subdirectory(Shared)
-#add_subdirectory(Client)
+add_subdirectory(Client)
 add_subdirectory(Server)
 
 ucm_set_runtime(STATIC)
