@@ -9,14 +9,13 @@
 
 class Timer {
 private:
-    std::chrono::milliseconds _origin;
+    std::chrono::time_point<std::chrono::system_clock> _origin;
 
 public:
-    Timer();
-    void Reset();
-    const std::chrono::milliseconds &getOrigin() const;
+    Timer(std::chrono::time_point<std::chrono::system_clock> origin);
+
+    const std::chrono::time_point<std::chrono::system_clock> &getOrigin() const;
     const TimeRef getCurrent();
 };
-
 
 #endif //R_TYPE_TIMER_HPP
