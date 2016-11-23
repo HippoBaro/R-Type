@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.6.2)
+cmake_minimum_required(VERSION 3.6)
+
 
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
@@ -7,6 +8,9 @@ add_subdirectory(Socket)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SHARED_SOURCE_FILES
+        src/RTypeSocket.hpp
+        src/IRTypeSocket.hpp
+        src/RTypeSocket.cpp
         src/main.cpp
         Include/TimeRef.hpp
         Include/Timer.hpp

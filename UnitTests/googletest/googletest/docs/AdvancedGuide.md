@@ -1458,8 +1458,8 @@ However, a better approach is to move the private code into the
 `foo::internal` namespace, where `foo` is the namespace your project normally
 uses, and put the private declarations in a `*-internal.h` file. Your
 production `.cc` files and your tests are allowed to include this internal
-header, but your clients are not. This way, you can fully test your internal
-implementation without leaking it to your clients.
+header, but your _clients are not. This way, you can fully test your internal
+implementation without leaking it to your _clients.
 
 ## Private Class Members ##
 
@@ -1472,7 +1472,7 @@ your production class, your tests are not automatically friends to it, as they
 are technically defined in sub-classes of the fixture.
 
 Another way to test private members is to refactor them into an implementation
-class, which is then declared in a `*-internal.h` file. Your clients aren't
+class, which is then declared in a `*-internal.h` file. Your _clients aren't
 allowed to include this header but your tests can. Such is called the Pimpl
 (Private Implementation) idiom.
 
