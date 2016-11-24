@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.6.2)
 
-set(SHARED_TEST_FILES TestTests/Module1.cpp)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-get_filename_component(SHARED_TEST_FILES_ABS ${SHARED_TEST_FILES} ABSOLUTE)
-set(SHARED_TEST_FILES_ABS_G ${SHARED_TEST_FILES_ABS} CACHE INTERNAL "")
+set(SHARED_TEST_FILES TestTests/Module1.cpp Time/Timer.cpp Time/TimeRef.cpp)
+
+foreach (_file ${SHARED_TEST_FILES})
+    get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)
+    set(SHARED_TEST_FILES_ABS_G ${SHARED_TEST_FILES_ABS_G} ${SHARED_TEST_FILES_ABS} CACHE INTERNAL "")
+endforeach()
 
 add_executable(SharedUnitTests ../../UnitTests/gtest.cpp ${SHARED_TEST_FILES})
-target_link_libraries(SharedUnitTests gtest)
+target_link_libraries(SharedUnitTests gtest RTypeShared)

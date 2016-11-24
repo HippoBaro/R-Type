@@ -33,7 +33,9 @@ addons:
 script:
   - mkdir build
   - cd build
-  - cmake .. && make AllUnitTests
-  - ./UnitTests/AllUnitTests
+  - cmake .. && make
+  - ./Shared/UnitTests/SharedUnitTests
+  - ./Server/UnitTests/ServerUnitTests
+  - ./Client/UnitTests/ClientUnitTests
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
