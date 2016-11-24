@@ -3,7 +3,7 @@
 //
 
 #include <math.h>
-#include "EaseOutCurve.hpp"
+#include "../../Include/EaseOutCurve.hpp"
 
 double EaseOutCurve::Curve(const double &d) const {
     return sin(d * (M_PI/2));

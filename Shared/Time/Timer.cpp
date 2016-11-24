@@ -2,7 +2,7 @@
 // Created by hippolyteb on 11/22/16.
 //
 
-#include "Timer.hpp"
+#include "../Include/Timer.hpp"
 
 const std::chrono::time_point<std::chrono::system_clock> &Timer::getOrigin() const {
     return _origin;

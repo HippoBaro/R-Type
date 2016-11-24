@@ -6,7 +6,7 @@
 #define R_TYPE_EASEOUTCURVE_HPP
 
 
-#include "../ITweeningCurve.hpp"
+#include "ITweeningCurve.hpp"
 
 class EaseOutCurve : public ITweeningCurve {
 public:

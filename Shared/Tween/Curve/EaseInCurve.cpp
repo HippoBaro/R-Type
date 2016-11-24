@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "EaseInCurve.hpp"
+#include "../../Include/EaseInCurve.hpp"
 
 double EaseInCurve::Curve(const double &d) const {
     return 1 - cos(d * (M_PI/2));
