@@ -9,12 +9,22 @@
 
 class TimeRef {
 private:
-    const std::chrono::milliseconds &_current;
+    const std::chrono::milliseconds _current;
 public:
     TimeRef();
     TimeRef(const std::chrono::milliseconds &milliseconds);
 
     const std::chrono::milliseconds &getMilliseconds() const;
+
+    TimeRef GetRelative(const std::chrono::milliseconds &milliseconds);
+
+    friend bool operator<(const TimeRef &lhs, const TimeRef &rhs);
+    friend bool operator>(const TimeRef &lhs, const TimeRef &rhs);
+    friend bool operator<=(const TimeRef &lhs, const TimeRef &rhs);
+    friend bool operator>=(const TimeRef &lhs, const TimeRef &rhs);
+
+    friend bool operator==(const TimeRef &lhs, const TimeRef &rhs);
+    friend bool operator!=(const TimeRef &lhs, const TimeRef &rhs);
 };
 
 
