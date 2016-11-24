@@ -8,6 +8,8 @@
 
 class InternalLibraryLoader : public IInternalLibraryLoader {
 public:
+    virtual ~InternalLibraryLoader();
+
     InternalLibraryLoader();
 
     ExternalClassFactory GetFactoryForClass(std::string libraryPath) override final;
