@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include "../../Include/Timer.hpp"
+#include <Timer.hpp>
 
 TEST(Tests_Time, CreateTimerFromCurrentTime) {
     auto thread = new std::thread([&] {

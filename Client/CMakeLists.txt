@@ -7,11 +7,10 @@ add_subdirectory(SFML EXCLUDE_FROM_ALL)
 include_directories(SYSTEM "SFML/include/")
 include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
 
-
 IF (MSVC)
-    set(CMAKE_CXX_FLAGS "-std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra -pedantic -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter")
 ENDIF()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

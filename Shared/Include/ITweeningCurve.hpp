@@ -7,6 +7,8 @@
 
 class ITweeningCurve {
 public:
+    virtual ~ITweeningCurve() { }
+
     virtual double Curve(const double &) const = 0;
 };
 

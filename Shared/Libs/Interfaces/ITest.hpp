@@ -7,6 +7,8 @@
 
 class ITest {
 public:
+    virtual ~ITest() { }
+
     virtual void Test() = 0;
 };
 

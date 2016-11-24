@@ -29,3 +29,5 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
 }
 
 InternalLibraryLoader::InternalLibraryLoader() {}
+
+InternalLibraryLoader::~InternalLibraryLoader() { }

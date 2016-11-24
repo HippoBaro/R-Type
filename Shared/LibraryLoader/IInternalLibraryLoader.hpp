@@ -11,6 +11,7 @@
 class IInternalLibraryLoader {
 public:
 
+	virtual ~IInternalLibraryLoader() {};
 	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
 };
 

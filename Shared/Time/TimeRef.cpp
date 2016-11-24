@@ -2,8 +2,7 @@
 // Created by hippolyteb on 11/22/16.
 //
 
-#include <chrono>
-#include "../Include/TimeRef.hpp"
+#include <TimeRef.hpp>
 
 TimeRef::TimeRef() : _current(std::chrono::milliseconds()) { }
 
