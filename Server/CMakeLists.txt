@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Server)
 
-include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces)
+include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
 add_subdirectory(UnitTests)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

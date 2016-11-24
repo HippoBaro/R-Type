@@ -6,7 +6,7 @@
 #define R_TYPE_SMOOTHSTEPCURVE_HPP
 
 
-#include "../ITweeningCurve.hpp"
+#include "ITweeningCurve.hpp"
 
 class SmoothStepCurve : public ITweeningCurve {
 public:

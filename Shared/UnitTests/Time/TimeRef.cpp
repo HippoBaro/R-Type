@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include "../../Time/TimeRef.hpp"
-#include "../../Time/Timer.hpp"
+#include "../../Include/TimeRef.hpp"
+#include "../../Include/Timer.hpp"
 
 TEST(Tests_TimeRef, AddTimeRef) {
     auto timer = Timer(std::chrono::system_clock::now());

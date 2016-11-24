@@ -6,7 +6,7 @@
 #define R_TYPE_EASEINCURVE_HPP
 
 
-#include "../ITweeningCurve.hpp"
+#include "ITweeningCurve.hpp"
 
 class EaseInCurve : public ITweeningCurve {
     double Curve(const double &d) const override;

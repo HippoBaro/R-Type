@@ -9,7 +9,7 @@
 #include <memory>
 #include <tgmath.h>
 #include "ITweeningCurve.hpp"
-#include "../Time/Timer.hpp"
+#include "Timer.hpp"
 
 template <typename TweenInnerType, class TweeningCurve>
 class Tween {
