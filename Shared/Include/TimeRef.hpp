@@ -9,7 +9,7 @@
 
 class TimeRef {
 private:
-    const std::chrono::milliseconds _current;
+    std::chrono::milliseconds _current;
 public:
     TimeRef();
     TimeRef(const std::chrono::milliseconds &milliseconds);

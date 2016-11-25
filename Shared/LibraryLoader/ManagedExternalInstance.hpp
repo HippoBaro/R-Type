@@ -11,13 +11,16 @@
 template <class Type>
 class ManagedExternalInstance {
 private:
-    Type *_externalInstance;
+    Type *_externalInstance = nullptr;
     ExternalClassFactory _factory;
 
 public:
     ManagedExternalInstance(const ExternalClassFactory  &factory) : _factory(factory) {
-        _externalInstance = (Type *)_factory.getCreate()();
+        _externalInstance = (Type *)_factory.getCreate()(nullptr);
     }
+
+    ManagedExternalInstance(ManagedExternalInstance const &) = default;
+    ManagedExternalInstance & operator = (ManagedExternalInstance const &) = default;
 
     virtual ~ManagedExternalInstance() {
         if (_externalInstance != nullptr)
