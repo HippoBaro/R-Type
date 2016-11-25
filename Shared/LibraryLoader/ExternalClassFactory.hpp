@@ -9,16 +9,16 @@
 
 class ExternalClassFactory {
 private:
-    std::function<void *()> _create = nullptr;
+    std::function<void *(void *)> _create = nullptr;
     std::function<void(void *)> _destroy = nullptr;
 
 public:
     ExternalClassFactory() {}
 
-    ExternalClassFactory(const std::function<void *()> &_create, const std::function<void(void *)> &_destroy) : _create(
+    ExternalClassFactory(const std::function<void *(void *)> &_create, const std::function<void(void *)> &_destroy) : _create(
             _create), _destroy(_destroy) {}
 
-    const std::function<void *()> &getCreate() const {
+    const std::function<void *(void *)> &getCreate() const {
         return _create;
     }
 
