@@ -15,7 +15,7 @@ template <typename TweenInnerType>
 class Tween {
 
 private:
-    Timer *_timer = nullptr;
+    std::shared_ptr<Timer> _timer;
     std::shared_ptr<ITweeningCurve> _curvingOption;
 
     TweenInnerType _startValue;
@@ -29,7 +29,7 @@ private:
 
 public:
     template <class TweeningCurve>
-    Tween(Timer *timer, TweenInnerType const &startValue, TimeRef const &start,
+    Tween(std::shared_ptr<Timer> &timer, TweenInnerType const &startValue, TimeRef const &start,
           TweenInnerType const &endValue, TimeRef const &end) : _timer(timer), _curvingOption(nullptr),
                                                                 _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                 _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){
@@ -37,7 +37,7 @@ public:
         _curvingOption = std::unique_ptr<ITweeningCurve>(new TweeningCurve());
     }
 
-    Tween(Timer *timer, TweenInnerType const &startValue, TimeRef const &start,
+    Tween(std::shared_ptr<Timer> &timer, TweenInnerType const &startValue, TimeRef const &start,
          TweenInnerType const &endValue, TimeRef const &end, ITweeningCurve *curve) : _timer(timer),_curvingOption(std::shared_ptr<ITweeningCurve>(curve)),
                                                                _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){ }
@@ -55,31 +55,8 @@ public:
         if (currentTimeAsDouble >= 1)
             return _endValue;
 
-        return _startValue + (TweenInnerType)(_delta * _curvingOption->Curve(currentTimeAsDouble));
-    }
-
-    bool isPartOf(TimeRef const &timeRef) {
-        return timeRef <= _end && timeRef >= _start;
-    }
-
-    const std::shared_ptr<ITweeningCurve> &getCurvingOption() const {
-        return _curvingOption;
-    }
-
-    TweenInnerType getStartValue() const {
-        return _startValue;
-    }
-
-    TweenInnerType getEndValue() const {
-        return _endValue;
-    }
-
-    const TimeRef &getStart() const {
-        return _start;
-    }
-
-    const TimeRef &getEnd() const {
-        return _end;
+        TweenInnerType newValue = _startValue + static_cast<TweenInnerType>(fmod(_curvingOption->Curve(currentTimeAsDouble) * _delta, _maxValue));
+        return newValue;
     }
 };
 

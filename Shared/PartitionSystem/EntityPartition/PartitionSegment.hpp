@@ -5,8 +5,8 @@
 #ifndef R_TYPE_PARTITIONSEGMENT_HPP
 #define R_TYPE_PARTITIONSEGMENT_HPP
 
-#include <vec2.hpp>
-#include <Tween.hpp>
+#include "../../Include/vec2.hpp"
+#include "../../Include/Tween.hpp"
 
 class PartitionSegment {
 private:
@@ -17,10 +17,7 @@ public:
     PartitionSegment(const Tween<vec2d> &locationVector);
 
 public:
-    Tween<vec2d> getLocationVector() const;
-    bool isPartOf(TimeRef const &timeRef);
-
-
+    const Tween<vec2d> &getLocationVector() const;
 };
 
 

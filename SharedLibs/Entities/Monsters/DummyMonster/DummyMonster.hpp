@@ -14,11 +14,11 @@
 
 class DummyMonster : public IEntity {
 private:
-    Timer *_timer;
+    std::shared_ptr<Timer> _timer;
     EntityPartition _partition;
 
 public:
-    DummyMonster(Timer *timer);
+    DummyMonster(std::shared_ptr<Timer> &timer);
 };
 
 

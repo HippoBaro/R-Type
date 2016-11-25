@@ -6,19 +6,19 @@
 #define R_TYPE_ENTITYPARTITION_HPP
 
 #include <vector>
-#include "PartitionSegmentBuilder.hpp"
+#include "IEntity.hpp"
+#include "PartitionSegment.hpp"
 
-class EntityPartition {
+class EntityPartition : public IEntity {
 private:
-    Timer *_timer;
     std::vector<PartitionSegment> _segments;
 
 public:
-    EntityPartition(Timer *);
+    EntityPartition();
 
 public:
     EntityPartition &AddSegment(PartitionSegment const &segment);
-    PartitionSegment GetCurrentSegment(TimeRef const &timeRef);
+    EntityPartition &Repeat(int const count);
 };
 
 

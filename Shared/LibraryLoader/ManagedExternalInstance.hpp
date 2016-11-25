@@ -15,8 +15,8 @@ private:
     ExternalClassFactory _factory;
 
 public:
-    ManagedExternalInstance(const ExternalClassFactory &factory, std::initializer_list<void *> &args) : _factory(factory) {
-        _externalInstance = (Type *)_factory.getCreate()(args);
+    ManagedExternalInstance(const ExternalClassFactory  &factory) : _factory(factory) {
+        _externalInstance = (Type *)_factory.getCreate()(nullptr);
     }
 
     ManagedExternalInstance(ManagedExternalInstance const &) = default;
@@ -28,7 +28,8 @@ public:
     }
 
     Type *
-    operator->() const noexcept  {
+    operator->() const noexcept
+    {
         return _externalInstance;
     }
 };
