@@ -6,8 +6,9 @@
 #define R_TYPE_TIMER_HPP
 
 #include "TimeRef.hpp"
+#include "IService.hpp"
 
-class Timer {
+class Timer : public IService {
 private:
     std::chrono::time_point<std::chrono::system_clock> _origin;
 
