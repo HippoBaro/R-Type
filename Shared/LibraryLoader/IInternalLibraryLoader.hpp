@@ -12,12 +12,11 @@ class IInternalLibraryLoader {
 public:
 
 	virtual ~IInternalLibraryLoader() {};
-
 	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
 };
 
 // the types of the class factories
-typedef void* create_t(std::initializer_list<void *>);
+typedef void* create_t(void*);
 typedef void destroy_t(void*);
 
 #endif //R_TYPE_ILIBRARYLOADER_HPP

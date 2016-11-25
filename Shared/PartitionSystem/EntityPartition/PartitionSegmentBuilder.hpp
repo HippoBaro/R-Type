@@ -7,42 +7,27 @@
 
 #include <memory>
 #include "PartitionSegment.hpp"
-#include <ITweeningCurve.hpp>
-#include <vec2.hpp>
+#include "../../Include/ITweeningCurve.hpp"
+#include "../../Include/vec2.hpp"
 
 class PartitionSegmentBuilder {
 private:
     ITweeningCurve *_curvingOption = nullptr;
 
     TimeRef _start = TimeRef();
-    std::chrono::milliseconds _duration =std::chrono::milliseconds();
+    TimeRef _end = TimeRef();
 
     vec2d _startValue = vec2d();
     vec2d _endValue = vec2d();
 
 public:
 
-    PartitionSegmentBuilder(PartitionSegmentBuilder const &other);
-
-    PartitionSegmentBuilder();
-
     PartitionSegmentBuilder &From(vec2d const &);
     PartitionSegmentBuilder &To(vec2d const &);
     PartitionSegmentBuilder &Begins(TimeRef const &);
-    PartitionSegmentBuilder &For(std::chrono::milliseconds const &);
+    PartitionSegmentBuilder &Ends(TimeRef const &);
     template <class Curve> PartitionSegmentBuilder &WithCurving();
-    PartitionSegmentBuilder &Invert();
-    PartitionSegment Build(Timer *);
-
-    ITweeningCurve *getCurvingOption() const;
-
-    const TimeRef &getStart() const;
-
-    const std::chrono::milliseconds &getDuration() const;
-
-    const vec2d &getStartValue() const;
-
-    const vec2d &getEndValue() const;
+    PartitionSegment Build(std::shared_ptr<Timer> &);
 };
 
 

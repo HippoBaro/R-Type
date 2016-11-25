@@ -4,7 +4,7 @@
 
 #include "PartitionSegment.hpp"
 
-Tween<vec2d> PartitionSegment::getLocationVector() const {
+const Tween<vec2d> &PartitionSegment::getLocationVector() const {
     return _locationVector;
 }
 
@@ -12,7 +12,3 @@ PartitionSegment::PartitionSegment(const Tween<vec2d> &locationVector) : _locati
         locationVector) {}
 
 PartitionSegment::PartitionSegment() : _locationVector() {}
-
-bool PartitionSegment::isPartOf(TimeRef const &timeRef) {
-    return this->_locationVector.isPartOf(timeRef);
-}

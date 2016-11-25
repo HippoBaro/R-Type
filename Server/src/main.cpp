@@ -2,9 +2,12 @@
 // Created by hippolyteb on 11/20/16.
 //
 
+#include <ExternalClassFactoryLoader.hpp>
+#include <IEntity.hpp>
+
 int main()
 {
-    /*Timer *tmer = new Timer(std::chrono::system_clock::now());
-    ManagedExternalInstance<IEntity> monster(ExternalClassFactoryLoader::GetInstanceOf<IEntity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so", { tmer }));*/
+    ManagedExternalInstance<IEntity> monster(ExternalClassFactoryLoader::GetInstanceOf<IEntity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so"));
+
     return (0);
 }
