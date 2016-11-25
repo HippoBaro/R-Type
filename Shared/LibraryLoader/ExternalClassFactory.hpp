@@ -6,19 +6,20 @@
 #define R_TYPE_EXTERNALCLASSFACTORY_HPP
 
 #include <functional>
+#include <memory>
+#include "../Include/IService.hpp"
 
 class ExternalClassFactory {
 private:
-    std::function<void *(void *)> _create = nullptr;
+    std::function<void *(std::initializer_list<void *>)> _create = nullptr;
     std::function<void(void *)> _destroy = nullptr;
 
 public:
     ExternalClassFactory() {}
 
-    ExternalClassFactory(const std::function<void *(void *)> &_create, const std::function<void(void *)> &_destroy) : _create(
-            _create), _destroy(_destroy) {}
+    ExternalClassFactory(const std::function<void *(std::initializer_list<void *>)> &create, const std::function<void(void *)> &_destroy) : _create(create), _destroy(_destroy) { }
 
-    const std::function<void *(void *)> &getCreate() const {
+    const std::function<void *(std::initializer_list<void *>)> &getCreate() const {
         return _create;
     }
 

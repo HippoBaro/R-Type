@@ -4,10 +4,13 @@
 
 #include <ExternalClassFactoryLoader.hpp>
 #include <IEntity.hpp>
+#include <Timer.hpp>
 
 int main()
 {
-    ManagedExternalInstance<IEntity> monster(ExternalClassFactoryLoader::GetInstanceOf<IEntity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so"));
+    Timer *tmer = new Timer(std::chrono::system_clock::now());
+    ManagedExternalInstance<IEntity> monster(ExternalClassFactoryLoader::GetInstanceOf<IEntity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so", { tmer }));
 
+    std::cin.get();
     return (0);
 }
