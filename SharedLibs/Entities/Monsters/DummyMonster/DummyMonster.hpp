@@ -18,7 +18,7 @@ private:
     EntityPartition _partition;
 
 public:
-    DummyMonster(std::shared_ptr<Timer> &timer);
+    DummyMonster(Timer *timer);
 };
 
 

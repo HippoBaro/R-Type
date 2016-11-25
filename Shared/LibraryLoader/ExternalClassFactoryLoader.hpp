@@ -15,13 +15,12 @@
 #include "InternalLinuxLibraryLoader.hpp"
 #endif
 
-
 class ExternalClassFactoryLoader {
 private:
     static std::unique_ptr<IInternalLibraryLoader> _dynLoader;
 public:
-    template<class Type> static ManagedExternalInstance<Type> GetInstanceOf(std::string libraryPath) {
-        return ManagedExternalInstance<Type>(_dynLoader->GetFactoryForClass(libraryPath));
+    template<class Type> static ManagedExternalInstance<Type> GetInstanceOf(std::string libraryPath, std::initializer_list<void *> args) {
+        return ManagedExternalInstance<Type>(_dynLoader->GetFactoryForClass(libraryPath), args);
     }
 };
 
