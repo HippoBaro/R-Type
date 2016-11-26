@@ -15,7 +15,8 @@ public:
     Timer(std::chrono::time_point<std::chrono::system_clock> origin);
 
     const std::chrono::time_point<std::chrono::system_clock> &getOrigin() const;
-    const TimeRef getCurrent();
+    TimeRef getCurrent();
+    TimeRef getStart();
 };
 
 #endif //R_TYPE_TIMER_HPP
