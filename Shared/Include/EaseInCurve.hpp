@@ -9,7 +9,7 @@
 #include "ITweeningCurve.hpp"
 
 class EaseInCurve : public ITweeningCurve {
-    double Curve(const double &d) const override;
+    double Curve(const double &d) const override final;
 };
 
 

@@ -10,7 +10,7 @@
 
 class EaseOutCurve : public ITweeningCurve {
 public:
-    double Curve(const double &d) const override;
+    double Curve(const double &d) const override final;
 };
 
 
