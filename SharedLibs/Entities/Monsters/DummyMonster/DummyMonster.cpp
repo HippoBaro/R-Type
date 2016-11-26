@@ -6,8 +6,6 @@
 #include <thread>
 #include "DummyMonster.hpp"
 #include "../../../../Shared/PartitionSystem/EntityPartition/EntityPartitionBuilder.hpp"
-#include "../../../../Shared/Include/EaseInOutCurve.hpp"
-#include "../../../../Shared/Include/LinearCurve.hpp"
 
 DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
     _partition = EntityPartitionBuilder(timer).AddSegment(
@@ -18,7 +16,6 @@ DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
                             .To(vec2d(20, 20))
             ).ContinueWith(
                     PartitionSegmentBuilder()
-                            //.WithCurving<LinearCurve>()
                             .For(std::chrono::seconds(10))
                             .To(vec2d(5, 5))
             ).Loop(2)
