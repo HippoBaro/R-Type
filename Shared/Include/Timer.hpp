@@ -15,6 +15,8 @@ private:
 public:
     Timer(std::chrono::time_point<std::chrono::system_clock> origin);
 
+    virtual ~Timer();
+
     const std::chrono::time_point<std::chrono::system_clock> &getOrigin() const;
     TimeRef getCurrent();
     TimeRef getStart();
