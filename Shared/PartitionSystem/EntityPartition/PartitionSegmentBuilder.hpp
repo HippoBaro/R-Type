@@ -7,8 +7,8 @@
 
 #include <memory>
 #include "PartitionSegment.hpp"
-#include "../../Include/ITweeningCurve.hpp"
-#include "../../Include/vec2.hpp"
+#include <ITweeningCurve.hpp>
+#include <vec2.hpp>
 
 class PartitionSegmentBuilder {
 private:
