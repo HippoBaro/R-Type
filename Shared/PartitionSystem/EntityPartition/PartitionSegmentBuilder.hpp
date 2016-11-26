@@ -15,20 +15,34 @@ private:
     ITweeningCurve *_curvingOption = nullptr;
 
     TimeRef _start = TimeRef();
-    TimeRef _end = TimeRef();
+    std::chrono::milliseconds _duration =std::chrono::milliseconds();
 
     vec2d _startValue = vec2d();
     vec2d _endValue = vec2d();
 
 public:
 
+    PartitionSegmentBuilder(PartitionSegmentBuilder const &other);
+
+    PartitionSegmentBuilder();
+
     PartitionSegmentBuilder &From(vec2d const &);
     PartitionSegmentBuilder &To(vec2d const &);
     PartitionSegmentBuilder &Begins(TimeRef const &);
-    PartitionSegmentBuilder &BeginsAfterPrevious();
-    PartitionSegmentBuilder &Ends(TimeRef const &);
+    PartitionSegmentBuilder &For(std::chrono::milliseconds const &);
     template <class Curve> PartitionSegmentBuilder &WithCurving();
+    PartitionSegmentBuilder &Invert();
     PartitionSegment Build(Timer *);
+
+    ITweeningCurve *getCurvingOption() const;
+
+    const TimeRef &getStart() const;
+
+    const std::chrono::milliseconds &getDuration() const;
+
+    const vec2d &getStartValue() const;
+
+    const vec2d &getEndValue() const;
 };
 
 
