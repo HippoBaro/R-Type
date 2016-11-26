@@ -18,10 +18,7 @@ public:
     EntityPartition(Timer *);
 
 public:
-    EntityPartition &AddSegment(PartitionSegmentBuilder &segment);
     EntityPartition &AddSegment(PartitionSegment const &segment);
-    EntityPartition &ContinueWith(PartitionSegmentBuilder &segment);
-    EntityPartition &Repeat(int const count);
     PartitionSegment GetCurrentSegment(TimeRef const &timeRef);
 };
 
