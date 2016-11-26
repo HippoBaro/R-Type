@@ -5,8 +5,8 @@
 #ifndef R_TYPE_PARTITIONSEGMENT_HPP
 #define R_TYPE_PARTITIONSEGMENT_HPP
 
-#include "../../Include/vec2.hpp"
-#include "../../Include/Tween.hpp"
+#include <vec2.hpp>
+#include <Tween.hpp>
 
 class PartitionSegment {
 private:
