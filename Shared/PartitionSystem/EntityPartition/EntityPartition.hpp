@@ -7,17 +7,20 @@
 
 #include <vector>
 #include "IEntity.hpp"
-#include "PartitionSegment.hpp"
+#include "PartitionSegmentBuilder.hpp"
 
 class EntityPartition : public IEntity {
 private:
+    Timer *_timer;
     std::vector<PartitionSegment> _segments;
 
 public:
-    EntityPartition();
+    EntityPartition(Timer *);
 
 public:
+    EntityPartition &AddSegment(PartitionSegmentBuilder &segment);
     EntityPartition &AddSegment(PartitionSegment const &segment);
+    EntityPartition &ContinueWith(PartitionSegmentBuilder &segment);
     EntityPartition &Repeat(int const count);
     PartitionSegment GetCurrentSegment(TimeRef const &timeRef);
 };
