@@ -7,9 +7,8 @@
 
 #include <vector>
 #include "PartitionSegmentBuilder.hpp"
-#include "../../Libs/Interfaces/IEntity.hpp"
 
-class EntityPartition : public IEntity {
+class EntityPartition {
 private:
     Timer *_timer;
     std::vector<PartitionSegment> _segments;
