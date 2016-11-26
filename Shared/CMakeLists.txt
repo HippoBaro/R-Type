@@ -11,8 +11,7 @@ set(SHARED_SOURCE_FILES src/main.cpp Time/TimeRef.cpp Include/TimeRef.hpp Time/T
         Include/EventManager.hpp
         Include/Events.h)
 
-include_directories(Libs/Interfaces)
-include_directories(Include)
+include_directories(Include Libs/Interfaces)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
