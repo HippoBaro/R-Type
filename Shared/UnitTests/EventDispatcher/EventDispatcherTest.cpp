@@ -21,7 +21,7 @@ namespace RType {
   };
 }
 
-TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
+TEST(Tests_EventDispatcher, EmitEventWithSubscribeAndUnsunbscribe) {
 
   RType::Bullet bulletEntity;
   std::shared_ptr<RType::EventManager> e = std::shared_ptr<RType::EventManager>(new RType::EventManager);
