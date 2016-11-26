@@ -27,5 +27,4 @@ TimeRef Timer::getStart() {
 }
 
 Timer::~Timer() {
-    std::cout << "test" << std::endl;
 }
