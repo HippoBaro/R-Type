@@ -7,19 +7,8 @@
 
 EntityPartition::EntityPartition(Timer *timer) : _timer(timer), _segments(std::vector<PartitionSegment>()) {}
 
-EntityPartition &EntityPartition::AddSegment(PartitionSegmentBuilder &segment) {
-    _segments.push_back(segment.Build(_timer));
-    return *this;
-}
-
 EntityPartition &EntityPartition::AddSegment(PartitionSegment const &segment) {
     _segments.push_back(segment);
-    return *this;
-}
-
-EntityPartition &EntityPartition::Repeat(int const count) {
-    for (int i = 0; i < count - 1; ++i)
-        AddSegment(_segments.back());
     return *this;
 }
 
@@ -31,9 +20,4 @@ PartitionSegment EntityPartition::GetCurrentSegment(TimeRef const &timeRef) {
     if (ret.isPartOf(timeRef))
         return ret;
     return _segments.back();
-}
-
-EntityPartition &EntityPartition::ContinueWith(PartitionSegmentBuilder &segment) {
-    _segments.push_back(segment.Begins(_segments.back().getLocationVector().getEnd()).Build(_timer));
-    return *this;
 }
