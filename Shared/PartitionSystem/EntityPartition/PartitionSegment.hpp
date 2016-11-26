@@ -19,6 +19,8 @@ public:
 public:
     Tween<vec2d> getLocationVector() const;
     bool isPartOf(TimeRef const &timeRef);
+
+
 };
 
 
