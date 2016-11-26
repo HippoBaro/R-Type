@@ -25,9 +25,10 @@ public:
     PartitionSegmentBuilder &From(vec2d const &);
     PartitionSegmentBuilder &To(vec2d const &);
     PartitionSegmentBuilder &Begins(TimeRef const &);
+    PartitionSegmentBuilder &BeginsAfterPrevious();
     PartitionSegmentBuilder &Ends(TimeRef const &);
     template <class Curve> PartitionSegmentBuilder &WithCurving();
-    PartitionSegment Build(std::shared_ptr<Timer> &);
+    PartitionSegment Build(Timer *);
 };
 
 

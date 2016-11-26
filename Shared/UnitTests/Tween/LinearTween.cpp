@@ -8,7 +8,7 @@
 #include <LinearCurve.hpp>
 
 TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
-    auto timer = std::make_shared<Timer>(std::chrono::system_clock::now());
+    auto timer = new Timer(std::chrono::system_clock::now());
 
     Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getCurrent().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
@@ -25,7 +25,7 @@ TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
     auto dtn = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::milliseconds(500));
     auto future = nowClock + dtn;
 
-    auto timer = std::make_shared<Timer>(future);
+    auto timer = new Timer(future);
 
     Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getStart().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
     std::this_thread::sleep_for(std::chrono::milliseconds(490));

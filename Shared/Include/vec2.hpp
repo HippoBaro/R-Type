@@ -24,7 +24,7 @@ public:
         return *this;
     }
 
-    vec2 operator+(vec2 &v) {
+    vec2 operator+(vec2 v) {
         return vec2(x + v.x, y + v.y);
     }
 
