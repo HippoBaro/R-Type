@@ -4,7 +4,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SHARED_TEST_FILES TestTests/Module1.cpp Time/Timer.cpp Time/TimeRef.cpp Tween/LinearTween.cpp PartitionSystem/EntityPartition.cpp)
 
-include_directories(../Include)
+include_directories(../Include ../Libs/Interfaces)
 
 foreach (_file ${SHARED_TEST_FILES})
     get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)
