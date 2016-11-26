@@ -14,7 +14,7 @@
 
 class DummyMonster : public IEntity {
 private:
-    std::shared_ptr<Timer> _timer;
+    Timer *_timer;
     EntityPartition _partition;
 
 public:

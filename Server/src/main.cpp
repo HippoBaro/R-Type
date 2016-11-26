@@ -12,5 +12,6 @@ int main()
     ManagedExternalInstance<IEntity> monster(ExternalClassFactoryLoader::GetInstanceOf<IEntity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so", { tmer }));
 
     std::cin.get();
+    std::cout << tmer->getCurrent().getMilliseconds().count() << std::endl;
     return (0);
 }
