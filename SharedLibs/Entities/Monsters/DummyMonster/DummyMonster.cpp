@@ -5,21 +5,24 @@
 #include <iostream>
 #include <thread>
 #include "DummyMonster.hpp"
+#include "../../../../Shared/PartitionSystem/EntityPartition/EntityPartitionBuilder.hpp"
+#include "../../../../Shared/Include/EaseInOutCurve.hpp"
+#include "../../../../Shared/Include/LinearCurve.hpp"
 
 DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
-    _partition.AddSegment(
-            PartitionSegmentBuilder()
-                .Begins(_timer->getCurrent())
-                .Ends(_timer->getCurrent().GetRelative(std::chrono::seconds(1)))
-                .From(vec2d(0, 0))
-                .To(vec2d(10, 10))
-    ).ContinueWith(
-            PartitionSegmentBuilder()
-                .Begins(_timer->getCurrent().GetRelative(std::chrono::seconds(1)))
-                .Ends(_timer->getCurrent().GetRelative(std::chrono::seconds(10)))
-                .From(vec2d(9, 9))
-                .To(vec2d(5, 5))
-    ).Repeat(5);
+    _partition = EntityPartitionBuilder(timer).AddSegment(
+                    PartitionSegmentBuilder()
+                            .Begins(_timer->getCurrent())
+                            .For(std::chrono::seconds(1))
+                            .From(vec2d(0, 0))
+                            .To(vec2d(20, 20))
+            ).ContinueWith(
+                    PartitionSegmentBuilder()
+                            //.WithCurving<LinearCurve>()
+                            .For(std::chrono::seconds(10))
+                            .To(vec2d(5, 5))
+            ).Loop(2)
+    .Build();
 
     for (int i = 0; i < 501; ++i) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
