@@ -11,7 +11,7 @@ PartitionSegmentBuilder &PartitionSegmentBuilder::From(vec2d const &from) {
 }
 
 PartitionSegmentBuilder &PartitionSegmentBuilder::To(vec2d const &to) {
-    _startValue = to;
+    _endValue = to;
     return *this;
 }
 
@@ -25,7 +25,7 @@ PartitionSegmentBuilder &PartitionSegmentBuilder::Ends(TimeRef const &end) {
     return *this;
 }
 
-PartitionSegment PartitionSegmentBuilder::Build(std::shared_ptr<Timer> &timer) {
+PartitionSegment PartitionSegmentBuilder::Build(Timer *timer) {
     if (_curvingOption == nullptr)
         _curvingOption = new LinearCurve();
     return PartitionSegment(Tween<vec2d>(timer, _startValue, _start, _endValue, _end, _curvingOption));
@@ -34,5 +34,9 @@ PartitionSegment PartitionSegmentBuilder::Build(std::shared_ptr<Timer> &timer) {
 template<class Curve>
 PartitionSegmentBuilder &PartitionSegmentBuilder::WithCurving() {
     _curvingOption = new Curve();
+    return *this;
+}
+
+PartitionSegmentBuilder &PartitionSegmentBuilder::BeginsAfterPrevious() {
     return *this;
 }
