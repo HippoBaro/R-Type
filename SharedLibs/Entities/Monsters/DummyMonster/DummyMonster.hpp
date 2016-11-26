@@ -6,11 +6,11 @@
 #define R_TYPE_DUMMYMONSTER_HPP
 
 
-#include "../../../../Shared/PartitionSystem/EntityPartition/EntityPartition.hpp"
-#include "../../../../Shared/Libs/Interfaces/IEntity.hpp"
-#include "../../../../Shared/Include/Timer.hpp"
-#include "../../../Base.h"
-#include "../../../../Shared/PartitionSystem/EntityPartition/PartitionSegmentBuilder.hpp"
+#include "EntityPartition.hpp"
+#include <IEntity.hpp>
+#include <Timer.hpp>
+#include <Base.h>
+#include "PartitionSegmentBuilder.hpp"
 
 class DummyMonster : public IEntity {
 private:
