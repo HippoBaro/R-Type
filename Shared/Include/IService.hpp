@@ -6,7 +6,10 @@
 #define R_TYPE_ISERVICE_HPP
 
 class IService {
+public:
+    virtual ~IService() {
 
+    }
 };
 
 #endif //R_TYPE_ISERVICE_HPP

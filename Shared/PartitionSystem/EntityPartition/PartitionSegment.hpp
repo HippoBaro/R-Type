@@ -17,7 +17,8 @@ public:
     PartitionSegment(const Tween<vec2d> &locationVector);
 
 public:
-    const Tween<vec2d> &getLocationVector() const;
+    Tween<vec2d> getLocationVector() const;
+    bool isPartOf(TimeRef const &timeRef);
 };
 
 

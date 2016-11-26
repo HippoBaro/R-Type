@@ -19,6 +19,7 @@ public:
 public:
     EntityPartition &AddSegment(PartitionSegment const &segment);
     EntityPartition &Repeat(int const count);
+    PartitionSegment GetCurrentSegment(TimeRef const &timeRef);
 };
 
 
