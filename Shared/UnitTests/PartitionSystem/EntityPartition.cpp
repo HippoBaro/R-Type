@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include "../../PartitionSystem/EntityPartition/EntityPartitionBuilder.hpp"
+#include <EntityPartitionBuilder.hpp>
 
 TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
     auto timer = new Timer(std::chrono::system_clock::now());

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <thread>
 #include "DummyMonster.hpp"
-#include "../../../../Shared/PartitionSystem/EntityPartition/EntityPartitionBuilder.hpp"
+#include <EntityPartitionBuilder.hpp>
 
 DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
     _partition = EntityPartitionBuilder(timer).AddSegment(
