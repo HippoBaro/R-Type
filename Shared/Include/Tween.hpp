@@ -61,6 +61,26 @@ public:
     bool isPartOf(TimeRef const &timeRef) {
         return timeRef <= _end && timeRef >= _start;
     }
+
+    const std::shared_ptr<ITweeningCurve> &getCurvingOption() const {
+        return _curvingOption;
+    }
+
+    TweenInnerType getStartValue() const {
+        return _startValue;
+    }
+
+    TweenInnerType getEndValue() const {
+        return _endValue;
+    }
+
+    const TimeRef &getStart() const {
+        return _start;
+    }
+
+    const TimeRef &getEnd() const {
+        return _end;
+    }
 };
 
 #endif //R_TYPE_TWEEN_HPP
