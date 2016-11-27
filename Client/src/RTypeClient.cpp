@@ -9,5 +9,7 @@ RTypeClient::RTypeClient() : _networkClient(new RTypeNetworkClient()), _sfmlClie
 }
 
 void RTypeClient::Run() {
+    _networkClient->Run();
     _sfmlClient->Run();
+    _networkClient->Ending();
 }
