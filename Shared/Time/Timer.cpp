@@ -3,6 +3,7 @@
 //
 
 #include <Timer.hpp>
+#include <iostream>
 
 const std::chrono::time_point<std::chrono::system_clock> &Timer::getOrigin() const {
     return _origin;
@@ -23,4 +24,7 @@ Timer::Timer(std::chrono::time_point<std::chrono::system_clock> origin) : _origi
 
 TimeRef Timer::getStart() {
     return TimeRef(std::chrono::milliseconds(0));
+}
+
+Timer::~Timer() {
 }
