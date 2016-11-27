@@ -8,18 +8,26 @@ include_directories(Libs/Interfaces Include)
 set(SHARED_SOURCE_FILES
         src/main.cpp
 
-        Time/TimeRef.cpp                 Include/TimeRef.hpp
-        Time/Timer.cpp                   Include/Timer.hpp
+        Time/TimeRef.cpp
+        Include/TimeRef.hpp
+        Time/Timer.cpp
+        Include/Timer.hpp
 
         Include/Tween.hpp
         Include/ITweeningCurve.hpp
-        Tween/Curve/LinearCurve.cpp      Include/LinearCurve.hpp
-        Tween/Curve/SmoothStepCurve.cpp  Include/SmoothStepCurve.hpp
-        Tween/Curve/EaseInCurve.cpp      Include/EaseInCurve.hpp
-        Tween/Curve/EaseInOutCurve.cpp   Include/EaseInOutCurve.hpp
-        Tween/Curve/EaseOutCurve.cpp     Include/EaseOutCurve.hpp
+        Tween/Curve/LinearCurve.cpp
+        Include/LinearCurve.hpp
+        Tween/Curve/SmoothStepCurve.cpp
+        Include/SmoothStepCurve.hpp
+        Tween/Curve/EaseInCurve.cpp
+        Include/EaseInCurve.hpp
+        Tween/Curve/EaseInOutCurve.cpp
+        Include/EaseInOutCurve.hpp
+        Tween/Curve/EaseOutCurve.cpp
+        Include/EaseOutCurve.hpp
 
-        EventDispatcher/EventManager.cpp Include/EventListener.hpp
+        EventDispatcher/EventManager.cpp
+        Include/EventListener.hpp
         Include/EventManager.hpp
         Include/Events.h
         )
