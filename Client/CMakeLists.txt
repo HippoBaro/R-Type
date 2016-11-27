@@ -7,6 +7,7 @@ add_subdirectory(SFML EXCLUDE_FROM_ALL)
 include_directories(SYSTEM "SFML/include/")
 include_directories(Includes Interfaces)
 include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
+include_directories(Includes Interfaces)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
