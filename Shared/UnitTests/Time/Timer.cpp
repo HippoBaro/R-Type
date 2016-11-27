@@ -25,7 +25,7 @@ TEST(Tests_Time, CreateTimerFromFutureTime) {
         auto timer = Timer(future);
         std::this_thread::sleep_for(std::chrono::seconds(2));
         auto now = timer.getCurrent().getMilliseconds();
-        ASSERT_EQ(now.count() == 0, true) << "Timer getMilliseconds() should be 0 but is " << now.count();
+        ASSERT_EQ(now.count() <= 1, true) << "Timer getMilliseconds() should be 0 but is " << now.count();
         std::this_thread::sleep_for(std::chrono::seconds(2));
         now = timer.getCurrent().getMilliseconds();
         ASSERT_EQ(now.count() > 1900 && now.count() < 2100, true) << "Timer getMilliseconds() should be 2000 but is " << now.count();
