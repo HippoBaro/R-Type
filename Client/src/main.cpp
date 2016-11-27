@@ -2,7 +2,11 @@
 // Created by pasteu_e on 11/21/16.
 //
 
-int main() {
-    //Init branch #36 -> Mettre en place l'architecture client
+#include <RTypeClient.hpp>
+
+int main(void) {
+    RTypeClient client;
+
+    client.Run();
     return 0;
 }
