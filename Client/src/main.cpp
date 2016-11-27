@@ -6,6 +6,7 @@
 
 int main(void) {
     RTypeClient client;
+
     client.Run();
     return 0;
 }
