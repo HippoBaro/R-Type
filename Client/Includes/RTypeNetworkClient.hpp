@@ -6,9 +6,20 @@
 #define R_TYPE_RTYPENETWORKCLIENT_HPP
 
 
+#include <thread>
+
 class RTypeNetworkClient {
+private:
+    std::unique_ptr<std::thread> _networkThread;
+
 public:
     RTypeNetworkClient();
+
+    void RunReceive();
+
+    void Run();
+
+    void Ending();
 };
 
 
