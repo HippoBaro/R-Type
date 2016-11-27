@@ -4,41 +4,15 @@
 
 #include <thread>
 #include <iostream>
-#include "RTypeMenuContext.hpp"
+#include <RTypeMenuContext.hpp>
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
 
-SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()), _window() {
+SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()) {
 
 }
 
 void SFMLManager::Run() {
-    _window.create(sf::VideoMode(Width, Height), "RType");
-    _window.setVerticalSyncEnabled(true);
-    _window.setFramerateLimit(60);
-
-    // Boucle de jeu.
-    while (_window.isOpen()) {
-        _inputListener->CheckForInputs(_window);
-
-        sf::RenderTexture renderTexture;
-        renderTexture.create(Width, Height);
-        renderTexture.clear();
-
-        sf::Texture texture;
-        texture.loadFromFile("sprites/r-typesheet1.gif", sf::IntRect(101, 3, 32, 14));
-        sf::Sprite sprite;
-        sprite.setTexture(texture);
-        sprite.setPosition(sf::Vector2f(10, 50));
-        sprite.setScale(sf::Vector2f(10.f, 10.f));
-
-        renderTexture.draw(sprite);
-        renderTexture.display();
-        const sf::Texture& textureDisplay = renderTexture.getTexture();
-        sf::Sprite DrawableSprite(textureDisplay);
-
-        _window.draw(DrawableSprite);
-        _window.display();
-    }
-    //std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(500));
+    std::cout << "Coucou je suis dans le SFMLManager" << std::endl;
+    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(10));
 }

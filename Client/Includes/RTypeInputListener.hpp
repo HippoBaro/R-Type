@@ -7,15 +7,10 @@
 
 
 #include <functional>
-#include <SFML/Window.hpp>
 
 class RTypeInputListener {
 public:
-    void CheckForInputs(sf::Window &window);
 
-private:
-    void KeyBoardEvent(sf::Keyboard::Key);
-    void MouseEvent(sf::Mouse::Button);
 };
 
 
