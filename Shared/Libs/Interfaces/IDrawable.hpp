@@ -6,16 +6,16 @@
 #define R_TYPE_IDRAWABLE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <vec2.hpp>
 
 class IDrawable {
 public:
-    IDrawable(Entity *self) {
-        self->RegisterTrait(Trait::Drawable);
-    }
+    virtual ~IDrawable() {}
 
+public:
     virtual void Draw(sf::RenderTexture &rect) = 0;
-    virtual vec2<unsigned int> GetRenderRect() = 0;
-    virtual vec2<unsigned int> GetPosition() = 0;
+    virtual vec2<int> GetRenderRect() = 0;
+    virtual vec2<int> GetPosition() = 0;
 };
 
 #endif //R_TYPE_IDRAWABLE_HPP

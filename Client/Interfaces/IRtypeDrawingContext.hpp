@@ -5,10 +5,11 @@
 #ifndef R_TYPE_IRTYPEDRAWINGCONTEXT_HPP
 #define R_TYPE_IRTYPEDRAWINGCONTEXT_HPP
 
+#include <SFML/Graphics.hpp>
 
 class IRtypeDrawingContext {
 public:
-    virtual void Draw() = 0;
+    virtual void Draw(sf::RenderTexture &) = 0;
     virtual ~IRtypeDrawingContext() {};
 };
 

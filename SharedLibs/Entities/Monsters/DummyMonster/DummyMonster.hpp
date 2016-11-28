@@ -7,13 +7,13 @@
 
 
 #include "EntityPartition.hpp"
-#include <Entity.hpp>
 #include <Timer.hpp>
 #include <Base.h>
 #include <IDrawable.hpp>
+#include <DrawableEntity.hpp>
 #include "PartitionSegmentBuilder.hpp"
 
-class DummyMonster : public Entity, public IDrawable {
+class DummyMonster : public DrawableEntity {
 private:
     Timer *_timer;
     EntityPartition _partition;
@@ -23,9 +23,9 @@ public:
 
     void Draw(sf::RenderTexture &rect) override;
 
-    vec2<unsigned int> GetRenderRect() override;
+    vec2<int> GetRenderRect() override;
 
-    vec2<unsigned int> GetPosition() override;
+    vec2<int> GetPosition() override;
 };
 
 
