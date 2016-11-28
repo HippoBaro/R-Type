@@ -20,13 +20,24 @@ void SFMLManager::Run() {
     // Boucle de jeu.
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
-//        sf::Texture texture;
-//        texture.loadFromFile("sprites/r-typesheet1.gif", sf::IntRect(101, 3, 32, 14));
-//        sf::Sprite sprite;
-//        sprite.setTexture(texture);
-//        sprite.setPosition(sf::Vector2f(10, 50));
-//        sprite.setScale(sf::Vector2f(10.f, 10.f));
-//        _window.draw(sprite);
+
+        sf::RenderTexture renderTexture;
+        renderTexture.create(Width, Height);
+        renderTexture.clear();
+
+        sf::Texture texture;
+        texture.loadFromFile("sprites/r-typesheet1.gif", sf::IntRect(101, 3, 32, 14));
+        sf::Sprite sprite;
+        sprite.setTexture(texture);
+        sprite.setPosition(sf::Vector2f(10, 50));
+        sprite.setScale(sf::Vector2f(10.f, 10.f));
+
+        renderTexture.draw(sprite);
+        renderTexture.display();
+        const sf::Texture& textureDisplay = renderTexture.getTexture();
+        sf::Sprite DrawableSprite(textureDisplay);
+
+        _window.draw(DrawableSprite);
         _window.display();
     }
     //std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(500));
