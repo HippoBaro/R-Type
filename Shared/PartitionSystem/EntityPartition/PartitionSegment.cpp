@@ -4,11 +4,11 @@
 
 #include "PartitionSegment.hpp"
 
-Tween<vec2d> PartitionSegment::getLocationVector() const {
+Tween<vec2<unsigned int>> PartitionSegment::getLocationVector() const {
     return _locationVector;
 }
 
-PartitionSegment::PartitionSegment(const Tween<vec2d> &locationVector) : _locationVector(
+PartitionSegment::PartitionSegment(const Tween<vec2<unsigned int>> &locationVector) : _locationVector(
         locationVector) {}
 
 PartitionSegment::PartitionSegment() : _locationVector() {}
