@@ -6,13 +6,13 @@
 #include <iostream>
 #include "RTypeNetworkClient.hpp"
 
-RTypeNetworkClient::RTypeNetworkClient() : _networkThread(nullptr) {
+RTypeNetworkClient::RTypeNetworkClient() : _networkThread() {
 
 }
 
 void RTypeNetworkClient::RunReceive() {
     while (true) {
-        std::cout << "Waiting for incoming message from server" << std::endl;
+        //std::cout << "Waiting for incoming message from server" << std::endl;
         //TODO : Send incoming message to eventEmitter here !
         std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(5));
     }
