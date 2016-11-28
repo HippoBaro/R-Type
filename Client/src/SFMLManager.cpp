@@ -4,15 +4,24 @@
 
 #include <thread>
 #include <iostream>
-#include <RTypeMenuContext.hpp>
+#include "RTypeMenuContext.hpp"
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
 
-SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()) {
+SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()), _window() {
 
 }
 
 void SFMLManager::Run() {
-    std::cout << "Coucou je suis dans le SFMLManager" << std::endl;
-    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(10));
+    _window.create(sf::VideoMode(WIDTH, HEIGHT), "RType");
+    _window.setVerticalSyncEnabled(true);
+    _window.setFramerateLimit(60);
+
+    // Boucle de jeu.
+    while (_window.isOpen()) {
+        _inputListener->CheckForInputs(_window);
+        _window.clear(sf::Color::Black);
+        _window.display();
+    }
+    //std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(500));
 }
