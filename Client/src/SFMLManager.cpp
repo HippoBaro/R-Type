@@ -13,7 +13,7 @@ SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameCont
 }
 
 void SFMLManager::Run() {
-    _window.create(sf::VideoMode(WIDTH, HEIGHT), "RType");
+    _window.create(sf::VideoMode(Width, Height), "RType");
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);
 
