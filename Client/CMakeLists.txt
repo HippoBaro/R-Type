@@ -5,9 +5,9 @@ project(R_Type_Client)
 add_subdirectory(UnitTests)
 add_subdirectory(SFML EXCLUDE_FROM_ALL)
 include_directories(SYSTEM "SFML/include/")
-include_directories(Includes Interfaces)
 include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
 include_directories(Includes Interfaces)
+add_subdirectory(sprites)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -37,4 +37,8 @@ set(CLIENT_SOURCE_FILES
         )
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
-target_link_libraries(R_Type_Client sfml-graphics sfml-window sfml-system)
+target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system)
+
+add_custom_command(TARGET R_Type_Client PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/Client/sprites $<TARGET_FILE_DIR:R_Type_Client>)

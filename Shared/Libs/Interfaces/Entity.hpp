@@ -5,8 +5,9 @@
 #ifndef R_TYPE_IENTITY_HPP
 #define R_TYPE_IENTITY_HPP
 
-#include <<algorithm>>
+#include <algorithm>
 #include "../Trait.hpp"
+#include <vector>
 
 class Entity {
 protected:

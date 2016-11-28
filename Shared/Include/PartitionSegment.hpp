@@ -10,14 +10,14 @@
 
 class PartitionSegment {
 private:
-    Tween<vec2<unsigned int>> _locationVector;
+    Tween<vec2<int>> _locationVector;
 
 public:
     PartitionSegment();
-    PartitionSegment(const Tween<vec2<unsigned int>> &locationVector);
+    PartitionSegment(const Tween<vec2<int>> &locationVector);
 
 public:
-    Tween<vec2<unsigned int>> getLocationVector() const;
+    Tween<vec2<int>> getLocationVector() const;
     bool isPartOf(TimeRef const &timeRef);
 
 

@@ -5,19 +5,19 @@
 #ifndef R_TYPE_ENTITYPOOL_HPP
 #define R_TYPE_ENTITYPOOL_HPP
 
-
 #include <Entity.hpp>
 #include <IDrawable.hpp>
 #include <vector>
-#include <bits/unique_ptr.h>
+#include <memory>
+#include <ManagedExternalInstance.hpp>
 
 class EntityPool {
 private:
-    std::vector<std::unique_ptr<Entity>> _pool = std::vector<std::unique_ptr<Entity>>();
+    std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
 
 public:
-    void AddEntity(Entity *entity);
-    void Draw();
+    void AddEntity(ManagedExternalInstance<Entity> &entity);
+    void Draw(sf::RenderTexture &target);
 };
 
 
