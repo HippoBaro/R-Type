@@ -14,11 +14,11 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
             .AddSegment(PartitionSegmentBuilder()
                                 .Begins(timer->getCurrent())
                                 .For(std::chrono::seconds(1))
-                                .From(vec2d(0, 0))
-                                .To(vec2d(20, 20)))
+                                .From(vec2<int>(0, 0))
+                                .To(vec2<int>(20, 20)))
             .ContinueWith(PartitionSegmentBuilder()
                                   .For(std::chrono::milliseconds(500))
-                                  .To(vec2d(5, 5)))
+                                  .To(vec2<int>(5, 5)))
             .Loop(2)
             .Build();
 
