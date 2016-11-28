@@ -3,7 +3,7 @@
 //
 
 #include <algorithm>
-#include "EntityPartition.hpp"
+#include <EntityPartition.hpp>
 
 EntityPartition::EntityPartition(Timer *timer) : _timer(timer), _segments(std::vector<PartitionSegment>()) {}
 
