@@ -10,8 +10,8 @@
 #include "IRtypeDrawingContext.hpp"
 #include "RTypeInputListener.hpp"
 
-#define WIDTH 800
-#define HEIGHT 600
+constexpr int Width = 800;
+constexpr int Height = 600;
 
 class SFMLManager {
 private:
