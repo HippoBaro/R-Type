@@ -17,8 +17,8 @@ private:
     TimeRef _start = TimeRef();
     std::chrono::milliseconds _duration =std::chrono::milliseconds();
 
-    vec2<unsigned int> _startValue = vec2<unsigned int>();
-    vec2<unsigned int> _endValue = vec2<unsigned int>();
+    vec2<int> _startValue = vec2<int>();
+    vec2<int> _endValue = vec2<int>();
 
 public:
 
@@ -26,11 +26,11 @@ public:
 
     PartitionSegmentBuilder();
 
-    PartitionSegmentBuilder &From(vec2<unsigned int> const &);
-    PartitionSegmentBuilder &To(vec2<unsigned int> const &);
+    PartitionSegmentBuilder &From(vec2<int> const &);
+    PartitionSegmentBuilder &To(vec2<int> const &);
     PartitionSegmentBuilder &Begins(TimeRef const &);
     PartitionSegmentBuilder &For(std::chrono::milliseconds const &);
-    template <class Curve> PartitionSegmentBuilder &WithCurving();
+    PartitionSegmentBuilder &WithCurving(ITweeningCurve *curve);
     PartitionSegmentBuilder &Invert();
     PartitionSegment Build(Timer *);
 
@@ -40,9 +40,9 @@ public:
 
     const std::chrono::milliseconds &getDuration() const;
 
-    const vec2<unsigned int> &getStartValue() const;
+    const vec2<int> &getStartValue() const;
 
-    const vec2<unsigned int> &getEndValue() const;
+    const vec2<int> &getEndValue() const;
 };
 
 

@@ -10,7 +10,7 @@
 
 class RTypeMenuContext : public IRtypeDrawingContext {
 public:
-    void Draw() override final;
+    void Draw(sf::RenderTexture &) override final;
 };
 
 
