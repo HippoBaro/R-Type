@@ -20,7 +20,7 @@ EntityPartitionBuilder &EntityPartitionBuilder::Loop(int const count) {
 
 EntityPartitionBuilder &EntityPartitionBuilder::ContinueWith(PartitionSegmentBuilder &segment) {
     segment.Begins(TimeRef(_segments.back().getStart().getMilliseconds() + _segments.back().getDuration()));
-    segment.From(vec2d(_segments.back().getEndValue()));
+    segment.From(vec2<int>(_segments.back().getEndValue()));
     _segments.push_back(segment);
     return *this;
 }
