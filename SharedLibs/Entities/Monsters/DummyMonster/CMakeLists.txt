@@ -6,5 +6,5 @@ ELSE()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter")
 ENDIF()
 
-add_library(DummyMonster SHARED ../../../../Shared/Libs/Interfaces/IEntity.hpp DummyMonster.hpp DummyMonster.cpp)
+add_library(DummyMonster SHARED ../../../../Shared/Libs/Interfaces/Entity.hpp DummyMonster.hpp DummyMonster.cpp)
 link_libraries(DummyMonster RTypeShared pthread)
