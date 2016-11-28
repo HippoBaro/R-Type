@@ -29,7 +29,7 @@
 
 namespace RType {
 
-  // TODO: Put the real IEntity definition
+  // TODO: Put the real Entity definition
   class IEntity;
 
   class EventManager {
