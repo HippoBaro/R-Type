@@ -7,13 +7,9 @@ include_directories(../Include)
 
 IF (MSVC)
     set(LIBRARY_LOADER_FILES ${LIBRARY_LOADER_FILES} InternalWindowsLibraryLoader.hpp InternalWindowsLibraryLoader.cpp)
-ELSE()
-    set(LIBRARY_LOADER_FILES ${LIBRARY_LOADER_FILES} InternalLinuxLibraryLoader.hpp InternalLinuxLibraryLoader.cpp)
-ENDIF()
-
-IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
+    set(LIBRARY_LOADER_FILES ${LIBRARY_LOADER_FILES} InternalLinuxLibraryLoader.hpp InternalLinuxLibraryLoader.cpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter")
 ENDIF()
 
