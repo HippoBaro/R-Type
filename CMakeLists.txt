@@ -8,7 +8,7 @@ if(MSVC)
 endif()
 
 add_subdirectory(SFML EXCLUDE_FROM_ALL)
-include_directories(SYSTEM "../SFML/include/")
+include_directories(SYSTEM "SFML/include/")
 
 add_subdirectory(SharedLibs)
 add_subdirectory(Shared)
