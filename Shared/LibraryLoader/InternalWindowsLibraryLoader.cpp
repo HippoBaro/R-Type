@@ -6,7 +6,7 @@
 #include <windows.h>
 
 ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
-    HMODULE myDll = LoadLibrary("C:\\R-Type\\build\\SharedLibs\\Test\\Debug\\Test.dll");
+    HMODULE myDll = LoadLibrary(libraryPath.c_str());
 
     if(myDll == nullptr)
         return ExternalClassFactory();
