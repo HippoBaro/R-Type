@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.6.2)
+project (DrawableDummyMonster)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -8,14 +9,8 @@ ENDIF()
 
 include_directories(../../../../Shared/Libs/Interfaces ../../../../Shared/Include ../../.. ../../../../SFML/include)
 
-set(SOURCES DummyMonster.hpp DummyMonster.cpp)
-
-if (GRAPHICCLIENT)
-    set(SOURCES ${SOURCES} )
-endif()
-
-add_library(DummyMonster SHARED ${SOURCES})
+add_library(DummyMonster SHARED DummyMonster.hpp DummyMonster.cpp)
 link_libraries(DummyMonster)
 
-add_library(DrawableDummyMonster SHARED GraphicDummyMonster.cpp GraphicDummyMonster.hpp)
-link_libraries(DrawableDummyMonster DummyMonster)
+add_library(DrawableDummyMonster SHARED DummyMonster.hpp DummyMonster.cpp GraphicDummyMonster.cpp GraphicDummyMonster.hpp)
+link_libraries(DrawableDummyMonster sfml-graphics sfml-window sfml-system)
