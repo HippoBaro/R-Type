@@ -7,6 +7,9 @@ if(MSVC)
     add_definitions(-DMSVC)
 endif()
 
+add_subdirectory(SFML EXCLUDE_FROM_ALL)
+include_directories(SYSTEM "../SFML/include/")
+
 add_subdirectory(SharedLibs)
 add_subdirectory(Shared)
 add_subdirectory(Client)

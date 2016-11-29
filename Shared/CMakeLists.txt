@@ -13,7 +13,7 @@ set(SHARED_SOURCE_FILES src/main.cpp Include/TimeRef.hpp Include/Timer.hpp Inclu
         Include/EntityPartition.hpp Include/EntityPartitionBuilder.hpp Include/EntityPool.hpp
         Include/PartitionSegment.hpp Include/PartitionSegmentBuilder.hpp)
 
-include_directories(Include Libs/Interfaces ../Client/SFML/include LibraryLoader)
+include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
