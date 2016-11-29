@@ -34,9 +34,11 @@ public:
             _factory.getDestroy()(_externalInstance);
     }
 
+    Type *GetInstance() const noexcept {
+        return _externalInstance;
+    }
 
-
-    Type * operator->() const noexcept  {
+    Type *operator->() const noexcept  {
         return _externalInstance;
     }
 };

@@ -5,14 +5,13 @@
 #ifndef R_TYPE_RTYPEGAMECONTEXT_HPP
 #define R_TYPE_RTYPEGAMECONTEXT_HPP
 
-
 #include <SFML/Graphics/RenderTexture.hpp>
 #include "IRtypeDrawingContext.hpp"
-#include "../../Shared/EntityPool/EntityPool.hpp"
+#include "ClientEntityPool.hpp"
 
 class RTypeGameContext : public IRtypeDrawingContext{
 private:
-    EntityPool _pool = EntityPool();
+    ClientEntityPool _pool = ClientEntityPool();
 public:
     RTypeGameContext();
     void Draw(sf::RenderTexture &) override final;

@@ -13,7 +13,7 @@ public:
 
 	virtual ~IInternalLibraryLoader() {};
 
-	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath) = 0;
+	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath, std::string const &constructor = "create", std::string const &destructor = "destroy") = 0;
 };
 
 // the types of the class factories

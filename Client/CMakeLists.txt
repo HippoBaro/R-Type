@@ -34,7 +34,7 @@ set(CLIENT_SOURCE_FILES
         Includes/RTypeNetworkClient.hpp
 
         Interfaces/IRtypeDrawingContext.hpp
-        )
+        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp)
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
 target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system)

@@ -9,7 +9,7 @@ set(SHARED_SOURCE_FILES src/main.cpp Time/TimeRef.cpp Include/TimeRef.hpp Time/T
         EventDispatcher/EventManager.cpp
         Include/EventListener.hpp
         Include/EventManager.hpp
-        Include/Events.h Libs/Interfaces/IDrawable.hpp EntityPool/EntityPool.cpp EntityPool/EntityPool.hpp Libs/Trait.hpp Libs/Interfaces/DrawableEntity.hpp)
+        Include/Events.h Libs/Interfaces/IDrawable.hpp EntityPool/EntityPool.cpp Include/EntityPool.hpp Libs/Trait.hpp Libs/Interfaces/DrawableEntity.hpp)
 
 include_directories(Include Libs/Interfaces ../Client/SFML/include LibraryLoader)
 
