@@ -13,20 +13,13 @@
 #include <DrawableEntity.hpp>
 #include "PartitionSegmentBuilder.hpp"
 
-class DummyMonster : public DrawableEntity {
-private:
+class DummyMonster : public Entity {
+protected:
     Timer *_timer;
     EntityPartition _partition;
 
 public:
     DummyMonster(Timer *timer);
-
-    void Draw(sf::RenderTexture &rect) override;
-
-    vec2<int> GetRenderRect() override;
-
-    vec2<int> GetPosition() override;
 };
-
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

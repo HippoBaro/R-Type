@@ -12,12 +12,14 @@
 #include <ManagedExternalInstance.hpp>
 
 class EntityPool {
-private:
+protected:
     std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
 
 public:
-    void AddEntity(ManagedExternalInstance<Entity> &entity);
-    void Draw(sf::RenderTexture &target);
+    virtual ~EntityPool();
+
+public:
+    virtual void AddEntity(ManagedExternalInstance<Entity> &entity);
 };
 
 
