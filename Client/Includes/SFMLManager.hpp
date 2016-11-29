@@ -18,7 +18,6 @@ private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRtypeDrawingContext> _gameContext;
     std::unique_ptr<IRtypeDrawingContext> _menuContext;
-    //sf::RenderWindow _window;
 
 public:
     SFMLManager();
