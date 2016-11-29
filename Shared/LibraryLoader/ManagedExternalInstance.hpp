@@ -26,7 +26,10 @@ public:
         this->_factory = ref._factory;
     }
 
-    ManagedExternalInstance(ManagedExternalInstance const &ref){ }
+    ManagedExternalInstance(ManagedExternalInstance const &ref) : _factory() {}
+    ManagedExternalInstance & operator = (ManagedExternalInstance const &){
+        return *this;
+    };
 
     virtual ~ManagedExternalInstance() {
         if (_externalInstance != nullptr && _hasBeenCopied)
