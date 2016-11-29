@@ -15,7 +15,7 @@ if (GRAPHICCLIENT)
 endif()
 
 add_library(DummyMonster SHARED ${SOURCES})
-link_libraries(DummyMonster RTypeShared pthread)
+link_libraries(DummyMonster)
 
 add_library(DrawableDummyMonster SHARED GraphicDummyMonster.cpp GraphicDummyMonster.hpp)
 link_libraries(DrawableDummyMonster DummyMonster)

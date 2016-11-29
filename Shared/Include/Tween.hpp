@@ -5,9 +5,8 @@
 #ifndef R_TYPE_TWEEN_HPP
 #define R_TYPE_TWEEN_HPP
 
-
 #include <memory>
-#include <tgmath.h>
+#include <math.h>
 #include "ITweeningCurve.hpp"
 #include "Timer.hpp"
 
