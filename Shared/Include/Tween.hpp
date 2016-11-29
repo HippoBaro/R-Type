@@ -15,7 +15,7 @@ class Tween {
 
 private:
     Timer *_timer = nullptr;
-    std::shared_ptr<ITweeningCurve> _curvingOption;
+    ITweeningCurve *_curvingOption;
 
     TweenInnerType _startValue;
     TweenInnerType _endValue;
@@ -33,11 +33,11 @@ public:
                                                                 _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                 _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){
         static_assert(std::is_base_of<ITweeningCurve, TweeningCurve>::value, "TweeningCurve must be a descendant of ITweeningCurve");
-        _curvingOption = std::unique_ptr<ITweeningCurve>(new TweeningCurve());
+        _curvingOption = new TweeningCurve();
     }
 
     Tween(Timer *timer, TweenInnerType const &startValue, TimeRef const &start,
-         TweenInnerType const &endValue, TimeRef const &end, ITweeningCurve *curve) : _timer(timer),_curvingOption(std::shared_ptr<ITweeningCurve>(curve)),
+         TweenInnerType const &endValue, TimeRef const &end, ITweeningCurve *curve) : _timer(timer),_curvingOption(curve),
                                                                _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){ }
 
@@ -61,7 +61,7 @@ public:
         return timeRef <= _end && timeRef >= _start;
     }
 
-    const std::shared_ptr<ITweeningCurve> &getCurvingOption() const {
+    const ITweeningCurve *getCurvingOption() const {
         return _curvingOption;
     }
 
