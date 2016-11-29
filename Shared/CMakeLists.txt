@@ -5,7 +5,7 @@ add_subdirectory(LibraryLoader)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SHARED_SOURCE_FILES src/main.cpp Time/TimeRef.cpp Include/TimeRef.hpp Time/Timer.cpp Include/Timer.hpp Include/Tween.hpp Include/ITweeningCurve.hpp Include/LinearCurve.hpp Include/SmoothStepCurve.hpp Include/EaseInCurve.hpp Include/EaseInOutCurve.hpp Include/EaseOutCurve.hpp Include/vec2.hpp Libs/Interfaces/Entity.hpp Include/IService.hpp
+set(SHARED_SOURCE_FILES src/main.cpp Include/TimeRef.hpp Include/Timer.hpp Include/Tween.hpp Include/ITweeningCurve.hpp Include/LinearCurve.hpp Include/SmoothStepCurve.hpp Include/EaseInCurve.hpp Include/EaseInOutCurve.hpp Include/EaseOutCurve.hpp Include/vec2.hpp Libs/Interfaces/Entity.hpp Include/IService.hpp
         EventDispatcher/EventManager.cpp
         Include/EventListener.hpp
         Include/EventManager.hpp
