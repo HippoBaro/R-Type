@@ -41,4 +41,4 @@ target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-s
 
 add_custom_command(TARGET R_Type_Client PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/Client/sprites $<TARGET_FILE_DIR:R_Type_Client>/includes)
+        ${CMAKE_SOURCE_DIR}/Client/sprites $<TARGET_FILE_DIR:R_Type_Client>/sprites)

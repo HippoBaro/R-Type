@@ -8,12 +8,13 @@
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
 
-SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()), _window() {
+SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()) {
 
 }
 
 void SFMLManager::Run() {
-    _window.create(sf::VideoMode(Width, Height), "RType");
+    sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
+    sf::RenderWindow _window(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);
 
