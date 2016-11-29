@@ -34,8 +34,8 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 12.5 && current.x >= 12.4 &&
-              current.y <= 12.5 && current.y >= 12.4, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 13.1 && current.x >= 12.4 &&
+              current.y <= 13.1 && current.y >= 12.4, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
