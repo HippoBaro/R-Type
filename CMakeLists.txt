@@ -9,11 +9,9 @@ endif()
 
 add_subdirectory(SFML EXCLUDE_FROM_ALL)
 
-
 add_subdirectory(Shared)
 add_subdirectory(Client)
 add_subdirectory(Server)
-
 
 ucm_set_runtime(STATIC)
 

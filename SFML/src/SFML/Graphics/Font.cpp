@@ -33,11 +33,11 @@
 #include <SFML/System/InputStream.hpp>
 #include <SFML/System/Err.hpp>
 #include <ft2build.h>
-#include "freetype/freetype.h" FT_FREETYPE_H
-#include "freetype/ftglyph.h" FT_GLYPH_H
-#include "freetype/ftoutln.h" FT_OUTLINE_H
-#include "freetype/ftbitmap.h" FT_BITMAP_H
-#include "freetype/ftstroke.h" FT_STROKER_H
+#include FT_FREETYPE_H
+#include FT_GLYPH_H
+#include FT_OUTLINE_H
+#include FT_BITMAP_H
+#include FT_STROKER_H
 #include <cstdlib>
 #include <cstring>
 

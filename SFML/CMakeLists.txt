@@ -40,7 +40,7 @@ endif()
 project(SFML)
 
 # include the configuration file
-include(cmake/Config.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/Config.cmake)
 
 # setup version numbers
 set(VERSION_MAJOR 2)
@@ -48,7 +48,7 @@ set(VERSION_MINOR 4)
 set(VERSION_PATCH 1)
 
 # add the SFML header path
-include_directories(include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # add an option for choosing the build type (shared or static)
 if(NOT (SFML_OS_IOS OR SFML_OS_ANDROID))
@@ -254,7 +254,7 @@ if(NOT SFML_BUILD_FRAMEWORKS)
     endif()
 else()
     # find only "root" headers
-    file(GLOB SFML_HEADERS RELATIVE .. "include/SFML/*")
+    file(GLOB SFML_HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "include/SFML/*")
 
     # in fact we have to fool cmake to copy all the headers in subdirectories
     # to do that we have to add the "root" headers to the PUBLIC_HEADER
@@ -307,22 +307,22 @@ if(SFML_OS_WINDOWS)
 
     # install the binaries of SFML dependencies
     if(ARCH_32BITS)
-        install(DIRECTORY extlibs/bin/x86 DESTINATION bin)
+        install(DIRECTORY extlibs/bin/x86/ DESTINATION bin)
         if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
-            install(DIRECTORY extlibs/libs-msvc/x86 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-msvc/x86/ DESTINATION lib)
         elseif(SFML_COMPILER_MSVC)
-            install(DIRECTORY extlibs/libs-msvc-universal/x86 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-msvc-universal/x86/ DESTINATION lib)
         else()
-            install(DIRECTORY extlibs/libs-mingw/x86 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-mingw/x86/ DESTINATION lib)
         endif()
     elseif(ARCH_64BITS)
-        install(DIRECTORY extlibs/bin/x64 DESTINATION bin)
+        install(DIRECTORY extlibs/bin/x64/ DESTINATION bin)
         if(SFML_COMPILER_MSVC AND SFML_MSVC_VERSION LESS 14)
-            install(DIRECTORY extlibs/libs-msvc/x64 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-msvc/x64/ DESTINATION lib)
         elseif(SFML_COMPILER_MSVC)
-            install(DIRECTORY extlibs/libs-msvc-universal/x64 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-msvc-universal/x64/ DESTINATION lib)
         else()
-            install(DIRECTORY extlibs/libs-mingw/x64 DESTINATION lib)
+            install(DIRECTORY extlibs/libs-mingw/x64/ DESTINATION lib)
         endif()
     endif()
 
