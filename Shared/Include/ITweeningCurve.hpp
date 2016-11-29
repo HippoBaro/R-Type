@@ -5,6 +5,8 @@
 #ifndef R_TYPE_ITWEENINGCURVE_HPP
 #define R_TYPE_ITWEENINGCURVE_HPP
 
+#include <math.h>
+
 class ITweeningCurve {
 public:
     virtual ~ITweeningCurve() { }

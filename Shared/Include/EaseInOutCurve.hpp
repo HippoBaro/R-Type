@@ -10,7 +10,9 @@
 
 class EaseInOutCurve : public ITweeningCurve {
 public:
-    double Curve(const double &d) const override final;
+    double Curve(const double &d) const override final {
+        return -0.5 * (cos(M_PI*d) - 1);
+    }
 };
 
 
