@@ -6,35 +6,24 @@
 #include <thread>
 #include "DummyMonster.hpp"
 #include <EntityPartitionBuilder.hpp>
+#include <EaseInOutCurve.hpp>
+#include <EaseOutCurve.hpp>
 
 DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
     _partition = EntityPartitionBuilder(timer).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
-                            .For(std::chrono::seconds(1))
-                            .From(vec2d(0, 0))
-                            .To(vec2d(20, 20))
-            ).ContinueWith(
-                    PartitionSegmentBuilder()
-                            .For(std::chrono::seconds(10))
-                            .To(vec2d(5, 5))
-            ).Loop(2)
-    .Build();
-
-    for (int i = 0; i < 501; ++i) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        auto const current = _partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-        std::cout << "Monster pos : [X:" << current.x << "; Y:" << current.y << "] TIME : " << _timer->getCurrent().getMilliseconds().count() << std::endl;
-    }
+                            .For(std::chrono::seconds(5))
+                            .From(vec2<int>(0, 0))
+                            .To(vec2<int>(500, 500))
+                            .WithCurving(new EaseInOutCurve()))
+            .ContinueWith(PartitionSegmentBuilder()
+                                  .From(vec2<int>(500, 500))
+                                  .For(std::chrono::seconds(10))
+                                  .To(vec2<int>(100, 90))
+                                  .WithCurving(new EaseOutCurve()))
+            .Loop(2)
+            .Build();
 }
 
-extern "C" DLLEXPORT DummyMonster *create(const std::initializer_list<void *> init) {
-    std::cout << "TEST" << std::endl;
-    for (auto i : init) // access by value, the type of i is int
-        return new DummyMonster((Timer *)i);
-    return nullptr;
-}
-
-extern "C" DLLEXPORT void destroy(DummyMonster *p) {
-    delete p;
-}
+RTYPE_ENTITY_REGISTER(DummyMonster)

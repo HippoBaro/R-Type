@@ -4,7 +4,7 @@
 
 #include "InternalLinuxLibraryLoader.hpp"
 
-ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath) {
+ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
     // load the triangle library
     void *factory = dlopen(libraryPath.c_str(), RTLD_LAZY);
     if (!factory) {
@@ -12,14 +12,14 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
         return ExternalClassFactory();
     }
 
-    create_t *create_triangle = (create_t*) dlsym(factory, "create");
+    create_t *create_triangle = (create_t*) dlsym(factory, constructor.c_str());
     const char *dlsym_error = dlerror();
     if (dlsym_error) {
         std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
         return ExternalClassFactory();
     }
 
-    destroy_t* destroy_triangle = (destroy_t*) dlsym(factory, "destroy");
+    destroy_t* destroy_triangle = (destroy_t*) dlsym(factory, destructor.c_str());
     dlsym_error = dlerror();
     if (dlsym_error) {
         std::cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';

@@ -13,22 +13,32 @@ class ManagedExternalInstance {
 private:
     Type *_externalInstance = nullptr;
     ExternalClassFactory _factory;
+    bool _hasBeenCopied = false;
 
 public:
     ManagedExternalInstance(const ExternalClassFactory &factory, std::initializer_list<void *> &args) : _factory(factory) {
         _externalInstance = (Type *)_factory.getCreate()(args);
     }
 
+    ManagedExternalInstance(ManagedExternalInstance &ref){
+        ref._hasBeenCopied = true;
+        this->_externalInstance = ref._externalInstance;
+        this->_factory = ref._factory;
+    }
+
     ManagedExternalInstance(ManagedExternalInstance const &) = default;
     ManagedExternalInstance & operator = (ManagedExternalInstance const &) = default;
 
     virtual ~ManagedExternalInstance() {
-        if (_externalInstance != nullptr)
+        if (_externalInstance != nullptr && _hasBeenCopied)
             _factory.getDestroy()(_externalInstance);
     }
 
-    Type *
-    operator->() const noexcept  {
+    Type *GetInstance() const noexcept {
+        return _externalInstance;
+    }
+
+    Type *operator->() const noexcept  {
         return _externalInstance;
     }
 };
