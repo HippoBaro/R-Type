@@ -34,8 +34,8 @@ script:
   - mkdir build
   - cd build
   - cmake .. && make
-  - ./Shared/UnitTests/SharedUnitTests
-  - ./Server/UnitTests/ServerUnitTests
-  - ./Client/UnitTests/ClientUnitTests
+  - ./BUILD/SharedUnitTests
+  - ./BUILD/ServerUnitTests
+  - ./BUILD/ClientUnitTests
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
