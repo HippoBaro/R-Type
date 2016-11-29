@@ -14,11 +14,11 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
             .AddSegment(PartitionSegmentBuilder()
                                 .Begins(timer->getCurrent())
                                 .For(std::chrono::seconds(1))
-                                .From(vec2d(0, 0))
-                                .To(vec2d(20, 20)))
+                                .From(vec2<int>(0, 0))
+                                .To(vec2<int>(20, 20)))
             .ContinueWith(PartitionSegmentBuilder()
                                   .For(std::chrono::milliseconds(500))
-                                  .To(vec2d(5, 5)))
+                                  .To(vec2<int>(5, 5)))
             .Loop(2)
             .Build();
 
@@ -34,8 +34,8 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 12.5 && current.x >= 12.4 &&
-              current.y <= 12.5 && current.y >= 12.4, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 13.1 && current.x >= 12.4 &&
+              current.y <= 13.1 && current.y >= 12.4, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();

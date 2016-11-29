@@ -6,5 +6,14 @@ ELSE()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter")
 ENDIF()
 
-add_library(DummyMonster SHARED ../../../../Shared/Libs/Interfaces/IEntity.hpp DummyMonster.hpp DummyMonster.cpp)
+set(SOURCES DummyMonster.hpp DummyMonster.cpp)
+
+if (GRAPHICCLIENT)
+    set(SOURCES ${SOURCES} )
+endif()
+
+add_library(DummyMonster SHARED ${SOURCES})
 link_libraries(DummyMonster RTypeShared pthread)
+
+add_library(DrawableDummyMonster SHARED GraphicDummyMonster.cpp GraphicDummyMonster.hpp)
+link_libraries(DrawableDummyMonster DummyMonster)
