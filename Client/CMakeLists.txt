@@ -5,7 +5,6 @@ project(R_Type_Client)
 add_subdirectory(UnitTests)
 include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
 include_directories(Includes Interfaces)
-add_subdirectory(sprites)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
