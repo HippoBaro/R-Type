@@ -5,7 +5,7 @@
 #ifndef R_TYPE_ITWEENINGCURVE_HPP
 #define R_TYPE_ITWEENINGCURVE_HPP
 
-#if MSCV
+#if MSVC
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
