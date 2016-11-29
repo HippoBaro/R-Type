@@ -5,7 +5,6 @@
 #ifndef R_TYPE_DUMMYMONSTER_HPP
 #define R_TYPE_DUMMYMONSTER_HPP
 
-
 #include "EntityPartition.hpp"
 #include <Timer.hpp>
 #include <Base.h>
