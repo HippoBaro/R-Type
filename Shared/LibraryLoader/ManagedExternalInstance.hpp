@@ -26,9 +26,6 @@ public:
         this->_factory = ref._factory;
     }
 
-    ManagedExternalInstance(ManagedExternalInstance const &) = default;
-    ManagedExternalInstance & operator = (ManagedExternalInstance const &) = default;
-
     virtual ~ManagedExternalInstance() {
         if (_externalInstance != nullptr && _hasBeenCopied)
             _factory.getDestroy()(_externalInstance);
