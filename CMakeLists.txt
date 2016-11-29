@@ -8,13 +8,14 @@ if(MSVC)
 endif()
 
 add_subdirectory(SFML EXCLUDE_FROM_ALL)
-include_directories(SYSTEM "SFML/include/")
 
-add_subdirectory(SharedLibs)
+
 add_subdirectory(Shared)
 add_subdirectory(Client)
 add_subdirectory(Server)
 
+
 ucm_set_runtime(STATIC)
 
+add_subdirectory(SharedLibs)
 add_subdirectory(UnitTests)
