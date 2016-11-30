@@ -9,7 +9,13 @@ ENDIF()
 
 include_directories(../../../../Shared/Libs/Interfaces ../../../../Shared/Include ../../.. ../../../../SFML/include)
 
-add_library(DummyMonster SHARED DummyMonster.hpp DummyMonster.cpp)
+add_library(DummyMonster SHARED
+        DummyMonster.hpp
+        DummyMonster.cpp)
 
-add_library(DrawableDummyMonster SHARED DummyMonster.hpp DummyMonster.cpp GraphicDummyMonster.cpp GraphicDummyMonster.hpp)
+add_library(DrawableDummyMonster SHARED
+        DummyMonster.hpp
+        DummyMonster.cpp
+        GraphicDummyMonster.cpp
+        GraphicDummyMonster.hpp)
 target_link_libraries(DrawableDummyMonster sfml-graphics sfml-window sfml-system)
