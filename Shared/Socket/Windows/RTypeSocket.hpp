@@ -12,20 +12,20 @@
 #include <winsock.h>
 #include "RTypeNetworkPayload.h"
 
-constexpr uint16_t port() { return 5673; }
 
 class RTypeSocket : public IRTypeSocket {
 private:
     SOCKET _socket;
     SOCKADDR_IN _addr;
+    uint16_t _port;
 
 private:
     void CreateSocket();
 
 public:
-    RTypeSocket();
+    RTypeSocket(uint16_t port);
 
-    RTypeSocket(const std::string &addr);
+    RTypeSocket(const std::string &addr, uint16_t port);
 
     virtual ~RTypeSocket();
 

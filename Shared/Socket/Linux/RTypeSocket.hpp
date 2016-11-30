@@ -16,20 +16,19 @@
 #include <malloc.h>
 #include "RTypeNetworkPayload.h"
 
-constexpr uint16_t port() { return 5673; }
-
 class RTypeSocket : public IRTypeSocket {
 private:
     int _socket;
     struct sockaddr_in _addr;
+    uint16_t _port;
 
 private:
     void CreateSocket();
 
 public:
-    RTypeSocket();
+    RTypeSocket(uint16_t port);
 
-    RTypeSocket(const std::string &addr);
+    RTypeSocket(const std::string &addr, uint16_t port);
 
     virtual ~RTypeSocket();
 
