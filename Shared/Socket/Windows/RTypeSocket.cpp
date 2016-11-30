@@ -47,7 +47,7 @@ void RTypeSocket::Bind() {
     }
 }
 
-void RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
+bool RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
     SOCKADDR_IN  clientAddr;
     int lengthSockAddr = sizeof(clientAddr);
 
@@ -55,16 +55,16 @@ void RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
     memset((buffer), '\0', (length));
     SSIZE_T data = recvfrom(_socket, buffer, length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
     if (data == -1) {
-        payload._isEmpty = true;
         payload._ip = "";
         payload._payload = "";
         free(buffer);
+        return false;
     } else {
         buffer[data] = '\0';
-        payload._isEmpty = false;
         payload._ip = std::string(inet_ntoa(clientAddr.sin_addr));
         payload._payload = std::string(buffer);
         free(buffer);
+        return true;
     }
 }
 
