@@ -1,3 +1,7 @@
+os:
+  - linux
+  - osx
+
 sudo: required
 dist: trusty
 
@@ -15,7 +19,6 @@ addons:
     sources:
     # add PPAs with more up-to-date toolchains
     - ubuntu-toolchain-r-test
-    - llvm-toolchain-precise-3.6
     packages:
     # install toolchains
     - gcc-5
