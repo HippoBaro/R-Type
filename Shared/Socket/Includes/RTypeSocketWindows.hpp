@@ -1,9 +1,9 @@
 //
-// Created by pasteu_e on 28/11/16.
+// Created by pasteu_e on 30/11/16.
 //
 
-#ifndef R_TYPE_RTYPESOCKET_HPP
-#define R_TYPE_RTYPESOCKET_HPP
+#ifndef R_TYPE_RTYPESOCKETWINDOWS_HPP
+#define R_TYPE_RTYPESOCKETWINDOWS_HPP
 
 #include "IRTypeSocket.hpp"
 #include <strings.h>
@@ -18,7 +18,7 @@
 
 constexpr uint16_t port() { return 5673; }
 
-class RTypeSocket : public IRTypeSocket {
+class RTypeSocketWindows : public IRTypeSocket {
 private:
     int _socket;
     struct sockaddr_in _addr;
@@ -27,11 +27,11 @@ private:
     void CreateSocket();
 
 public:
-    RTypeSocket();
+    RTypeSocketWindows();
 
-    RTypeSocket(const std::string &addr);
+    RTypeSocketWindows(const std::string &addr);
 
-    virtual ~RTypeSocket();
+    virtual ~RTypeSocketWindows();
 
     void Bind() override final;
 
@@ -42,4 +42,4 @@ public:
 };
 
 
-#endif //R_TYPE_RTYPESOCKET_HPP
+#endif //R_TYPE_RTYPESOCKETWINDOWS_HPP
