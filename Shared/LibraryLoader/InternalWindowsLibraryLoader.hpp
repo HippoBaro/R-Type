@@ -8,6 +8,6 @@
 
 class InternalLibraryLoader : public IInternalLibraryLoader {
 public:
-    ExternalClassFactory GetFactoryForClass(std::string libraryPath, std::string const &constructor = "create", std::string const &destructor = "destroy") override final;
+    ExternalClassFactory GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor = "create", std::string const &destructor = "destroy") override final;
     void DestroyFactory(void *pVoid) override final;
 };

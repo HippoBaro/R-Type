@@ -11,7 +11,7 @@
 int main()
 {
     Timer *tmer = new Timer(std::chrono::system_clock::now());
-    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("../SharedLibs/Entities/Monsters/DummyMonster/libDummyMonster.so", { tmer }));
+    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DummyMonster", { tmer }));
 
     Trait trait = Drawable;
     std::cout << monster->ImplementTrait(trait) << std::endl;
