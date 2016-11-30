@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "PartitionSegment.hpp"
+#include "LinearCurve.hpp"
 #include <ITweeningCurve.hpp>
 #include <vec2.hpp>
 
@@ -22,27 +23,74 @@ private:
 
 public:
 
-    PartitionSegmentBuilder(PartitionSegmentBuilder const &other);
+    PartitionSegmentBuilder(PartitionSegmentBuilder const &other){
+        this->_curvingOption = other.getCurvingOption();
+        this->_duration = other.getDuration();
+        this->_endValue = other.getEndValue();
+        this->_start = other.getStart();
+        this->_startValue = other.getStartValue();
+    }
 
-    PartitionSegmentBuilder();
+    PartitionSegmentBuilder() {}
 
-    PartitionSegmentBuilder &From(vec2<int> const &);
-    PartitionSegmentBuilder &To(vec2<int> const &);
-    PartitionSegmentBuilder &Begins(TimeRef const &);
-    PartitionSegmentBuilder &For(std::chrono::milliseconds const &);
-    PartitionSegmentBuilder &WithCurving(ITweeningCurve *curve);
-    PartitionSegmentBuilder &Invert();
-    PartitionSegment Build(Timer *);
+    PartitionSegmentBuilder &From(vec2<int> const &from){
+        _startValue = from;
+        return *this;
+    }
 
-    ITweeningCurve *getCurvingOption() const;
+    PartitionSegmentBuilder &To(vec2<int> const &to){
+        _endValue = to;
+        return *this;
+    }
 
-    const TimeRef &getStart() const;
+    PartitionSegmentBuilder &Begins(TimeRef const &begin){
+        _start = begin;
+        return *this;
+    }
 
-    const std::chrono::milliseconds &getDuration() const;
+    PartitionSegmentBuilder &For(std::chrono::milliseconds const &duration){
+        _duration = duration;
+        return *this;
+    }
 
-    const vec2<int> &getStartValue() const;
+    PartitionSegmentBuilder &WithCurving(ITweeningCurve *curve){
+        _curvingOption = curve;
+        return *this;
+    }
 
-    const vec2<int> &getEndValue() const;
+    PartitionSegmentBuilder &Invert(){
+        vec2<int> temp;
+        temp = _startValue;
+        _startValue = _endValue;
+        _endValue = temp;
+        return *this;
+    }
+
+    PartitionSegment Build(Timer *timer){
+        if (_curvingOption == nullptr)
+            _curvingOption = new LinearCurve();
+        return PartitionSegment(Tween<vec2<int>>(timer, _startValue, _start, _endValue, TimeRef(_start.getMilliseconds() + _duration), _curvingOption));
+    }
+
+    ITweeningCurve *getCurvingOption() const{
+        return _curvingOption;
+    }
+
+    const TimeRef &getStart() const{
+        return _start;
+    }
+
+    const std::chrono::milliseconds &getDuration() const{
+        return _duration;
+    }
+
+    const vec2<int> &getStartValue() const {
+        return _startValue;
+    }
+
+    const vec2<int> &getEndValue() const {
+        return _endValue;
+    }
 };
 
 

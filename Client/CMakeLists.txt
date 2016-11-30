@@ -3,11 +3,8 @@ cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Client)
 
 add_subdirectory(UnitTests)
-add_subdirectory(SFML EXCLUDE_FROM_ALL)
-include_directories(SYSTEM "SFML/include/")
 include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
 include_directories(Includes Interfaces)
-add_subdirectory(sprites)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -15,6 +12,7 @@ ELSE()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter")
 ENDIF()
 
+include_directories(SYSTEM "../SFML/include/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CLIENT_SOURCE_FILES

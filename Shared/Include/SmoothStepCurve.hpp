@@ -10,7 +10,9 @@
 
 class SmoothStepCurve : public ITweeningCurve {
 public:
-    double Curve(const double &d) const override final;
+    double Curve(const double &d) const override final{
+        return (d*d *(3 - 2*d));
+    }
 };
 
 
