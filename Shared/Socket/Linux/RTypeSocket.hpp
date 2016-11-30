@@ -18,7 +18,7 @@
 
 constexpr uint16_t port() { return 5673; }
 
-class RTypeSocketLinux : public IRTypeSocket {
+class RTypeSocket : public IRTypeSocket {
 private:
     int _socket;
     struct sockaddr_in _addr;
@@ -27,11 +27,11 @@ private:
     void CreateSocket();
 
 public:
-    RTypeSocketLinux();
+    RTypeSocket();
 
-    RTypeSocketLinux(const std::string &addr);
+    RTypeSocket(const std::string &addr);
 
-    virtual ~RTypeSocketLinux();
+    virtual ~RTypeSocket();
 
     void Bind() override final;
 

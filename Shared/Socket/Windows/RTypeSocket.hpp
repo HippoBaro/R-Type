@@ -6,32 +6,28 @@
 #define R_TYPE_RTYPESOCKETWINDOWS_HPP
 
 #include "IRTypeSocket.hpp"
-#include <strings.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <fcntl.h>
-#include <arpa/inet.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <malloc.h>
+#include <winsock.h>
 #include "RTypeNetworkPayload.h"
 
 constexpr uint16_t port() { return 5673; }
 
-class RTypeSocketWindows : public IRTypeSocket {
+class RTypeSocket : public IRTypeSocket {
 private:
-    int _socket;
-    struct sockaddr_in _addr;
+    SOCKET _socket;
+    SOCKADDR_IN _addr;
 
 private:
     void CreateSocket();
 
 public:
-    RTypeSocketWindows();
+    RTypeSocket();
 
-    RTypeSocketWindows(const std::string &addr);
+    RTypeSocket(const std::string &addr);
 
-    virtual ~RTypeSocketWindows();
+    virtual ~RTypeSocket();
 
     void Bind() override final;
 
