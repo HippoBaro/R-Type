@@ -4,9 +4,17 @@
 
 #include "InternalLinuxLibraryLoader.hpp"
 
-ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
+ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
     // load the triangle library
-    void *factory = dlopen(libraryPath.c_str(), RTLD_LAZY);
+
+#if(DARWIN)
+    std::string ext = ".dylib";
+#else
+    std::string ext = ".so";
+#endif
+    std::string lib = (libraryPath + "lib" + libName + ext);
+
+    void *factory = dlopen(lib.c_str(), RTLD_LAZY);
     if (!factory)
         throw std::runtime_error("Unable to load library");
 

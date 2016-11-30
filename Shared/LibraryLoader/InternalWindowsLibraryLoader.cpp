@@ -5,8 +5,8 @@
 #include "InternalWindowsLibraryLoader.hpp"
 #include <windows.h>
 
-ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
-    HMODULE myDll = LoadLibrary(libraryPath.c_str());
+ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
+    HMODULE myDll = LoadLibrary((libraryPath + "\\" + libName + ".dll").c_str());
 
     if(myDll == nullptr)
         throw std::runtime_error("Unable to load library");
