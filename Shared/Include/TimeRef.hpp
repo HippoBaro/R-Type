@@ -11,20 +11,42 @@ class TimeRef {
 private:
     std::chrono::milliseconds _current;
 public:
-    TimeRef();
-    TimeRef(const std::chrono::milliseconds &milliseconds);
 
-    const std::chrono::milliseconds &getMilliseconds() const;
+    TimeRef() : _current(std::chrono::milliseconds()) {}
 
-    TimeRef GetRelative(const std::chrono::milliseconds &milliseconds);
+    TimeRef(const std::chrono::milliseconds &milliseconds) : _current(milliseconds) {}
 
-    friend bool operator<(const TimeRef &lhs, const TimeRef &rhs);
-    friend bool operator>(const TimeRef &lhs, const TimeRef &rhs);
-    friend bool operator<=(const TimeRef &lhs, const TimeRef &rhs);
-    friend bool operator>=(const TimeRef &lhs, const TimeRef &rhs);
+    const std::chrono::milliseconds &getMilliseconds() const {
+        return _current;
+    }
 
-    friend bool operator==(const TimeRef &lhs, const TimeRef &rhs);
-    friend bool operator!=(const TimeRef &lhs, const TimeRef &rhs);
+    TimeRef GetRelative(const std::chrono::milliseconds &milliseconds) {
+        return TimeRef(_current + milliseconds);
+    }
+
+    friend bool operator<(const TimeRef &lhs, const TimeRef &rhs) {
+        return lhs._current < rhs._current;
+    }
+
+    friend bool operator>(const TimeRef &lhs, const TimeRef &rhs) {
+        return rhs < lhs;
+    }
+
+    friend bool operator<=(const TimeRef &lhs, const TimeRef &rhs) {
+        return !(rhs < lhs);
+    }
+
+    friend bool operator>=(const TimeRef &lhs, const TimeRef &rhs) {
+        return !(lhs < rhs);
+    }
+
+    friend bool operator==(const TimeRef &lhs, const TimeRef &rhs){
+        return lhs._current == rhs._current;
+    }
+
+    friend bool operator!=(const TimeRef &lhs, const TimeRef &rhs) {
+        return !(rhs == lhs);
+    }
 };
 
 

@@ -13,13 +13,17 @@ private:
     Tween<vec2<int>> _locationVector;
 
 public:
-    PartitionSegment();
-    PartitionSegment(const Tween<vec2<int>> &locationVector);
+    PartitionSegment() : _locationVector() {}
+    PartitionSegment(const Tween<vec2<int>> &locationVector): _locationVector(locationVector) {}
 
 public:
-    Tween<vec2<int>> getLocationVector() const;
-    bool isPartOf(TimeRef const &timeRef);
+    Tween<vec2<int>> getLocationVector() const {
+        return _locationVector;
+    }
 
+    bool isPartOf(TimeRef const &timeRef){
+        return this->_locationVector.isPartOf(timeRef);
+    }
 
 };
 

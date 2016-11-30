@@ -5,6 +5,11 @@
 #ifndef R_TYPE_ITWEENINGCURVE_HPP
 #define R_TYPE_ITWEENINGCURVE_HPP
 
+#if MSVC
+#define _USE_MATH_DEFINES
+#endif
+#include <math.h>
+
 class ITweeningCurve {
 public:
     virtual ~ITweeningCurve() { }

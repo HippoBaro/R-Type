@@ -8,7 +8,9 @@
 #include "ITweeningCurve.hpp"
 
 class LinearCurve : public ITweeningCurve {
-    double Curve(double const &d) const override final;
+    double Curve(double const &d) const override final {
+        return d;
+    }
 };
 
 

@@ -11,35 +11,33 @@
 template <class Type>
 class ManagedExternalInstance {
 private:
-    Type *_externalInstance = nullptr;
+    std::shared_ptr<Type> _externalInstance = nullptr;
     ExternalClassFactory _factory;
-    bool _hasBeenCopied = false;
 
 public:
     ManagedExternalInstance(const ExternalClassFactory &factory, std::initializer_list<void *> &args) : _factory(factory) {
-        _externalInstance = (Type *)_factory.getCreate()(args);
+        _externalInstance = std::shared_ptr<Type>((Type *)_factory.getCreate()(args), _factory.getDestroy());
     }
 
-    ManagedExternalInstance(ManagedExternalInstance &ref){
-        ref._hasBeenCopied = true;
+    ManagedExternalInstance(ManagedExternalInstance const &ref) : _factory() {
         this->_externalInstance = ref._externalInstance;
         this->_factory = ref._factory;
     }
 
-    ManagedExternalInstance(ManagedExternalInstance const &) = default;
-    ManagedExternalInstance & operator = (ManagedExternalInstance const &) = default;
+    ManagedExternalInstance & operator = (ManagedExternalInstance const &ref){
+        this->_externalInstance = ref._externalInstance;
+        this->_factory = ref._factory;
+        return *this;
+    };
 
-    virtual ~ManagedExternalInstance() {
-        if (_externalInstance != nullptr && _hasBeenCopied)
-            _factory.getDestroy()(_externalInstance);
-    }
+    virtual ~ManagedExternalInstance() { }
 
     Type *GetInstance() const noexcept {
-        return _externalInstance;
+        return _externalInstance.get();
     }
 
     Type *operator->() const noexcept  {
-        return _externalInstance;
+        return _externalInstance.get();
     }
 };
 
