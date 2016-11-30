@@ -9,6 +9,8 @@ include(cmake/ucm.cmake)
 
 if(MSVC)
     add_definitions(-DMSVC)
+elseif(APPLE)
+    add_definitions(-DAPPLE)
 endif()
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
