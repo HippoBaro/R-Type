@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.6.2)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SHARED_TEST_FILES TestTests/Module1.cpp Time/Timer.cpp Time/TimeRef.cpp Tween/LinearTween.cpp PartitionSystem/EntityPartition.cpp EventDispatcher/EventDispatcherTest.cpp)
+set(SHARED_TEST_FILES Time/Timer.cpp Time/TimeRef.cpp Tween/LinearTween.cpp PartitionSystem/EntityPartition.cpp EventDispatcher/EventDispatcherTest.cpp)
 
 include_directories(../Include)
 foreach (_file ${SHARED_TEST_FILES})
