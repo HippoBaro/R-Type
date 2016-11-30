@@ -7,27 +7,21 @@
 ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
     // load the triangle library
     void *factory = dlopen(libraryPath.c_str(), RTLD_LAZY);
-    if (!factory) {
-        std::cerr << "Cannot load library: " << dlerror() << '\n';
-        return ExternalClassFactory();
-    }
+    if (!factory)
+        throw std::runtime_error("Unable to load library");
 
     create_t *create_triangle = (create_t*) dlsym(factory, constructor.c_str());
     const char *dlsym_error = dlerror();
-    if (dlsym_error) {
-        std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
-        return ExternalClassFactory();
-    }
+    if (dlsym_error)
+        throw std::runtime_error("Unable to load library");
 
     destroy_t* destroy_triangle = (destroy_t*) dlsym(factory, destructor.c_str());
     dlsym_error = dlerror();
-    if (dlsym_error) {
-        std::cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
-        return ExternalClassFactory();
-    }
-    return ExternalClassFactory(create_triangle, destroy_triangle);
+    if (dlsym_error)
+        throw std::runtime_error("Unable to load library");
+    return ExternalClassFactory(create_triangle, destroy_triangle, factory, libraryPath, [&](void *ptr) { this->DestroyFactory(ptr); });
 }
 
-InternalLibraryLoader::InternalLibraryLoader() {}
-
-InternalLibraryLoader::~InternalLibraryLoader() { }
+void InternalLibraryLoader::DestroyFactory(void *factory) {
+    dlclose(factory);
+}
