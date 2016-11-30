@@ -3,13 +3,13 @@
 //
 
 #include <gtest/gtest.h>
-#include "RTypeSocket.hpp"
+#include "RTypeSocketLinux.hpp"
 #include <thread>
 
 RTypeNetworkPayload globalPayload;
 
 void create_server() {
-    RTypeSocket server = RTypeSocket();
+    RTypeSocketLinux server = RTypeSocketLinux();
     server.Bind();
     for (int i = 0; i < 10000; ++i) {
         server.Receive(globalPayload, 1024);
@@ -20,7 +20,7 @@ void create_server() {
 }
 
 void create_client() {
-    RTypeSocket client = RTypeSocket("127.0.0.1");
+    RTypeSocketLinux client = RTypeSocketLinux("127.0.0.1");
     for (int i = 0; i < 10000; ++i) {
         client.Send("Bonjour server !");
     }
