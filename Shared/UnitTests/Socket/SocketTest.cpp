@@ -11,7 +11,7 @@ RTypeNetworkPayload globalPayload;
 void create_server() {
     RTypeSocket server = RTypeSocket();
     server.Bind();
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 100000; ++i) {
         server.Receive(globalPayload, 1024);
         if (!globalPayload._isEmpty) {
             break;
@@ -21,7 +21,7 @@ void create_server() {
 
 void create_client() {
     RTypeSocket client = RTypeSocket("127.0.0.1");
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 100000; ++i) {
         client.Send("Bonjour server !");
     }
 }
