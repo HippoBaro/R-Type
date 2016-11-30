@@ -5,7 +5,6 @@
 #ifndef R_TYPE_ENTITYPARTITION_HPP
 #define R_TYPE_ENTITYPARTITION_HPP
 
-#include <algorithm>
 #include <vector>
 #include "PartitionSegmentBuilder.hpp"
 
@@ -23,12 +22,9 @@ public:
     }
 
     PartitionSegment GetCurrentSegment(TimeRef const &timeRef){
-        auto ret = *std::find_if(_segments.begin(), _segments.end(), [timeRef](PartitionSegment &arg) {
-            return arg.isPartOf(timeRef);
-        });
-
-        if (ret.isPartOf(timeRef))
-            return ret;
+		for(auto i : _segments)
+			if (i.isPartOf(timeRef))
+				return i;
         return _segments.back();
     }
 };
