@@ -2,18 +2,19 @@ os:
   - linux
   - osx
 
-sudo: required
-dist: trusty
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+    - os: osx
+      osx_image: xcode8.2
 
 # Enable C++ support
 language: cpp
-# Enable caching
-cache: ccache
 # Compiler selection
-compiler: gcc
-# Build steps
-install:
-  - sudo pip install cpp-coveralls
+
 addons:
   apt:
     sources:
@@ -33,6 +34,7 @@ addons:
     - libsndfile1-dev
     - libopenal-dev
     - libudev-dev
+
 script:
   - mkdir build
   - cd build
@@ -40,5 +42,6 @@ script:
   - ./BUILD/SharedUnitTests
   - ./BUILD/ServerUnitTests
   - ./BUILD/ClientUnitTests
+
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
