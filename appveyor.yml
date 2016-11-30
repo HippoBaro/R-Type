@@ -8,8 +8,8 @@ init:
 # clone directory
 clone_folder: c:\projects\RType
 
-platform: x64
-configuration: Release
+platform: Win32
+configuration: Debug
 
 install:
   # by default, all script lines are interpreted as batch
@@ -21,12 +21,7 @@ build:
 before_build:
   - echo Running cmake...
   - cd c:\projects\RType
-  - cmake -G "Visual Studio 14 2015 Win32" -DCMAKE_INSTALL_PREFIX=%P%
-
-after_build:
-  - echo Running Unit Tests...
-  - cd c:\projects\RType
-  - ctest -C Release
+  - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
 
 notifications:
   - provider: Slack
