@@ -11,6 +11,8 @@ if(MSVC)
     add_definitions(-DMSVC)
 endif()
 
+#set(CMAKE_VERBOSE_MAKEFILE ON)
+
 add_subdirectory(SFML EXCLUDE_FROM_ALL)
 
 add_subdirectory(Shared)
