@@ -10,10 +10,10 @@
 
 class IInternalLibraryLoader {
 public:
-
 	virtual ~IInternalLibraryLoader() {};
 
 	virtual ExternalClassFactory GetFactoryForClass(std::string libraryPath, std::string const &constructor = "create", std::string const &destructor = "destroy") = 0;
+	virtual void DestroyFactory(void *) = 0;
 };
 
 // the types of the class factories
