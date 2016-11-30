@@ -42,7 +42,7 @@ set(SHARED_SOURCE_FILES
         Socket/Sources/RTypeSocket.cpp
         Socket/Includes/RTypeSocket.hpp
         Socket/Interfaces/IRTypeSocket.hpp
-        )
+        Socket/Includes/RTypeNetworkPayload.h)
 
 include_directories(Include Libs/Interfaces ../Client/SFML/include LibraryLoader Socket/Includes Socket/Interfaces)
 
