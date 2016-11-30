@@ -8,7 +8,7 @@ init:
 # clone directory
 clone_folder: c:\projects\RType
 
-platform: Win32
+platform: x86
 configuration: Debug
 
 install:
