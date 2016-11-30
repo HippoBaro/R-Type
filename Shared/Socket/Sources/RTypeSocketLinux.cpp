@@ -2,9 +2,9 @@
 // Created by pasteu_e on 28/11/16.
 //
 
-#include "RTypeSocket.hpp"
+#include "RTypeSocketLinux.hpp"
 
-RTypeSocket::RTypeSocket() {
+RTypeSocketLinux::RTypeSocketLinux() :_socket(), _addr() {
     bzero(&_addr, sizeof(_addr));
     _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -12,7 +12,7 @@ RTypeSocket::RTypeSocket() {
     CreateSocket();
 }
 
-RTypeSocket::RTypeSocket(const std::string &addr) {
+RTypeSocketLinux::RTypeSocketLinux(const std::string &addr) :_socket(), _addr() {
     bzero(&_addr, sizeof(_addr));
     _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = inet_addr(addr.c_str());
@@ -20,18 +20,18 @@ RTypeSocket::RTypeSocket(const std::string &addr) {
     CreateSocket();
 }
 
-RTypeSocket::~RTypeSocket() {
+RTypeSocketLinux::~RTypeSocketLinux() {
     close(_socket);
 }
 
-void RTypeSocket::CreateSocket() {
+void RTypeSocketLinux::CreateSocket() {
     _socket = socket(AF_INET, SOCK_DGRAM, 0);
     if (_socket < 0) {
         std::cerr << "Create socket failed ! " << std::endl;
     }
 }
 
-void RTypeSocket::Bind() {
+void RTypeSocketLinux::Bind() {
     if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
         std::cerr << "Binding port " << port() << " failed !" << std::endl;
     }
@@ -40,7 +40,7 @@ void RTypeSocket::Bind() {
     }
 }
 
-void RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
+void RTypeSocketLinux::Receive(RTypeNetworkPayload &payload, size_t length) {
     struct sockaddr_in clientAddr;
     socklen_t lengthSockAddr = sizeof(clientAddr);
 
@@ -61,7 +61,7 @@ void RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
     }
 }
 
-void RTypeSocket::Send(const std::string &payload) {
+void RTypeSocketLinux::Send(const std::string &payload) {
     if (sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
         std::cerr << "Sending failed !" << std::endl;
     }

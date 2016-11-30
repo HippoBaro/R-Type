@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.6.2)
 
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
+add_subdirectory(Socket)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -39,12 +40,9 @@ set(SHARED_SOURCE_FILES
         Include/EntityPool.hpp
         Libs/Trait.hpp
         Libs/Interfaces/DrawableEntity.hpp
-        Socket/Sources/RTypeSocket.cpp
-        Socket/Includes/RTypeSocket.hpp
-        Socket/Interfaces/IRTypeSocket.hpp
-        Socket/Includes/RTypeNetworkPayload.h)
+        )
 
-include_directories(Include Libs/Interfaces ../Client/SFML/include LibraryLoader Socket/Includes Socket/Interfaces)
+include_directories(Include Libs/Interfaces ../Client/SFML/include LibraryLoader Socket)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -53,4 +51,4 @@ ELSE()
 ENDIF()
 
 add_library(RTypeShared SHARED ${SHARED_SOURCE_FILES})
-target_link_libraries(RTypeShared LibraryLoader)
+target_link_libraries(RTypeShared LibraryLoader LibrarySocket)
