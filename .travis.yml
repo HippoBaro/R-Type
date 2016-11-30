@@ -4,32 +4,31 @@ matrix:
       dist: trusty
       sudo: required
       compiler: gcc
+      addons:
+        apt:
+          sources:
+          # add PPAs with more up-to-date toolchains
+          - ubuntu-toolchain-r-test
+          packages:
+          # install toolchains
+          - gcc-5
+          - g++-5
+          - libpthread-stubs0-dev
+          - libgl1-mesa-dev
+          - libx11-dev
+          - libxrandr-dev
+          - libfreetype6-dev
+          - libglew1.5-dev
+          - libjpeg8-dev
+          - libsndfile1-dev
+          - libopenal-dev
+          - libudev-dev
     - os: osx
       osx_image: xcode8.2
 
 # Enable C++ support
 language: cpp
 # Compiler selection
-
-addons:
-  apt:
-    sources:
-    # add PPAs with more up-to-date toolchains
-    - ubuntu-toolchain-r-test
-    packages:
-    # install toolchains
-    - gcc-5
-    - g++-5
-    - libpthread-stubs0-dev
-    - libgl1-mesa-dev
-    - libx11-dev
-    - libxrandr-dev
-    - libfreetype6-dev
-    - libglew1.5-dev
-    - libjpeg8-dev
-    - libsndfile1-dev
-    - libopenal-dev
-    - libudev-dev
 
 script:
   - mkdir build
