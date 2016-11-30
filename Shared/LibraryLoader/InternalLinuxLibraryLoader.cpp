@@ -7,7 +7,7 @@
 ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
     // load the triangle library
 
-#if(DARWIN)
+#if(APPLE)
     std::string ext = ".dylib";
 #else
     std::string ext = ".so";
