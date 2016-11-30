@@ -21,7 +21,7 @@ build:
 before_build:
   - echo Running cmake...
   - cd c:\projects\RType
-  - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
+  - cmake -G "Visual Studio 14 2015 Win32" -DCMAKE_INSTALL_PREFIX=%P%
 
 after_build:
   - echo Running Unit Tests...
