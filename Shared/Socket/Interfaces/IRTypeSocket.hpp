@@ -6,18 +6,17 @@
 #define R_TYPE_IRTYPESOCKET_HPP
 
 #include <iostream>
+#include "RTypeNetworkPayload.h"
 
 class IRTypeSocket {
 public:
+    virtual ~IRTypeSocket() {}
 
-    virtual void Bind(const std::string &port) = 0;
+    virtual void Bind() = 0;
 
-    virtual std::string Receive() = 0;
+    virtual void Receive(RTypeNetworkPayload &, size_t) = 0;
 
-    virtual void Send(const int &socket, const std::string &payload) = 0;
-
-    virtual void Disconnect() = 0;
-
+    virtual void Send(const std::string &payload) = 0;
 };
 
 #endif //R_TYPE_IRTYPESOCKET_HPP
