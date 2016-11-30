@@ -156,4 +156,11 @@ const Texture& RenderTexture::getTexture() const
     return m_texture;
 }
 
+
+////////////////////////////////////////////////////////////
+bool RenderTexture::activate(bool active)
+{
+    return setActive(active);
+}
+
 } // namespace sf

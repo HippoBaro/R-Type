@@ -11,11 +11,10 @@
 
 class EntityPartition {
 private:
-    Timer *_timer;
     std::vector<PartitionSegment> _segments;
 
 public:
-    EntityPartition(Timer *timer) : _timer(timer), _segments(std::vector<PartitionSegment>()) {};
+    EntityPartition(Timer *timer) : _segments(std::vector<PartitionSegment>()) {};
 
 public:
     EntityPartition &AddSegment(PartitionSegment const &segment){
