@@ -22,18 +22,18 @@ private:
     std::vector<ExternalClassFactory> _factories = std::vector<ExternalClassFactory>();
 
 private:
-    ExternalClassFactory GetFactoryOf(std::string libraryPath, std::string const &constructor, std::string const &destructor) {
+    ExternalClassFactory GetFactoryOf(std::string const &libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
         for (const ExternalClassFactory& i : _factories) // access by const reference
             if (i.getLibName() == libraryPath)
                 return i;
-        auto newRef = _dynLoader->GetFactoryForClass(libraryPath, constructor, destructor);
+        auto newRef = _dynLoader->GetFactoryForClass(libraryPath, libName, constructor, destructor);
         _factories.push_back(newRef);
         return newRef;
     }
 
 public:
-    template<class Type> ManagedExternalInstance<Type> GetInstanceOf(std::string libraryPath, std::initializer_list<void *> args, std::string const &constructor = "create", std::string const &destructor = "destroy") {
-        return ManagedExternalInstance<Type>(GetFactoryOf(libraryPath, constructor, destructor), args);
+    template<class Type> ManagedExternalInstance<Type> GetInstanceOf(std::string libraryPath, std::string const &libName, std::initializer_list<void *> args, std::string const &constructor = "create", std::string const &destructor = "destroy") {
+        return ManagedExternalInstance<Type>(GetFactoryOf(libraryPath, libName, constructor, destructor), args);
     }
 
     virtual ~ExternalClassFactoryLoader();
