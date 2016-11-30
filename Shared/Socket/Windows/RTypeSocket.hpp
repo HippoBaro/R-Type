@@ -31,7 +31,7 @@ public:
 
     void Bind() override final;
 
-    void Receive(RTypeNetworkPayload &payload, size_t length) override final;
+    bool Receive(RTypeNetworkPayload &payload, size_t length) override final;
 
     void Send(const std::string &payload) override final;
 

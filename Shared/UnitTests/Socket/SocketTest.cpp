@@ -12,8 +12,7 @@ void create_server() {
     RTypeSocket server = RTypeSocket(5678);
     server.Bind();
     for (int i = 0; i < 100000; ++i) {
-        server.Receive(globalPayload, 1024);
-        if (!globalPayload._isEmpty) {
+        if (server.Receive(globalPayload, 1024)) {
             break;
         }
     }
@@ -31,6 +30,5 @@ TEST(Tests_Socket_UDP, Creation) {
     std::thread t2(create_client);
     t1.join();
     t2.join();
-    ASSERT_EQ(globalPayload._isEmpty, false);
     ASSERT_EQ(globalPayload._payload, "Bonjour server !");
 }

@@ -8,9 +8,8 @@
 #include <iostream>
 
 typedef struct {
-    bool _isEmpty = true;
-    std::string _ip = "";
-    std::string _payload = "";
+    std::string _ip;
+    std::string _payload;
 } RTypeNetworkPayload;
 
 #endif //R_TYPE_RTYPENETWORKPAYLOAD_H

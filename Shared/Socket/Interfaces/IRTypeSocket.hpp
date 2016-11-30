@@ -14,7 +14,7 @@ public:
 
     virtual void Bind() = 0;
 
-    virtual void Receive(RTypeNetworkPayload &, size_t) = 0;
+    virtual bool Receive(RTypeNetworkPayload &, size_t) = 0;
 
     virtual void Send(const std::string &payload) = 0;
 };
