@@ -26,9 +26,7 @@ before_build:
 after_build:
   - echo Running Unit Tests...
   - cd c:\projects\RType\BUILD
-  - SharedUnitTests.exe
-  - ServerUnitTests.exe
-  - ClientUnitTests.exe
+  - ctest --output-on-failure
 
 notifications:
   - provider: Slack
