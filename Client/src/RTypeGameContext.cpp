@@ -9,7 +9,7 @@
 
 RTypeGameContext::RTypeGameContext() : _pool() {
     Timer *timer = new Timer(std::chrono::system_clock::now());
-    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::GetInstanceOf<Entity>("libDrawableDummyMonster.dylib", { timer }, "createDrawable", "destroyDrawable"));
+    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer }, "createDrawable", "destroyDrawable"));
 
     _pool.AddEntity(monster);
 }
