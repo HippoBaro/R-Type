@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.6.2)
 
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
+add_subdirectory(Socket)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -34,7 +35,7 @@ set(SHARED_SOURCE_FILES
         Include/PartitionSegment.hpp
         Include/PartitionSegmentBuilder.hpp)
 
-include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader)
+include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -43,4 +44,4 @@ ELSE()
 ENDIF()
 
 add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES})
-target_link_libraries(RTypeShared LibraryLoader)
+target_link_libraries(RTypeShared LibraryLoader LibrarySocket)
