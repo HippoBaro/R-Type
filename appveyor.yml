@@ -25,7 +25,7 @@ before_build:
 
 after_build:
   - echo Running Unit Tests...
-  - cd c:\projects\RType\BUILD
+  - cd c:\projects\RType
   - ctest -C Release
 
 notifications:
