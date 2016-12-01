@@ -33,10 +33,7 @@ language: cpp
 script:
   - mkdir build
   - cd build
-  - cmake .. && make
-  - ./BUILD/SharedUnitTests
-  - ./BUILD/ServerUnitTests
-  - ./BUILD/ClientUnitTests
+  - cmake .. && make && ctest --output-on-failure
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
