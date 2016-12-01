@@ -26,7 +26,6 @@ before_build:
 after_build:
   - echo Running CTest Unit Tests...
   - cd c:\projects\RType
-  - make test
 
 notifications:
   - provider: Slack
