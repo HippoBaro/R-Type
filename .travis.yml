@@ -33,7 +33,7 @@ language: cpp
 script:
   - mkdir build
   - cd build
-  - cmake .. && make && ctest --output-on-failure
+  - cmake .. && make && ctest
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
