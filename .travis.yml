@@ -37,7 +37,7 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake .. && make && ctest
+  - cmake .. && make && make test
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
