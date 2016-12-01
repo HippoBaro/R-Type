@@ -27,16 +27,16 @@ RTypeSocket::~RTypeSocket() {
 void RTypeSocket::CreateSocket() {
     _socket = socket(AF_INET, SOCK_DGRAM, 0);
     if (_socket < 0) {
-        std::cerr << "Create socket failed ! " << std::endl;
+        throw std::runtime_error(std::string("Create socket failed !"));
     }
 }
 
 void RTypeSocket::Bind() {
     if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
-        std::cerr << "Binding port " << _port << " failed !" << std::endl;
+        throw std::runtime_error(std::string("Binding port failed !"));
     }
     if (fcntl(_socket, F_SETFL, O_NONBLOCK, 1) == -1) {
-        std::cerr << "Failed to set non-blocking socket !" << std::endl;
+        throw std::runtime_error(std::string("Failed to set non-blocking socket !"));
     }
 }
 
@@ -48,14 +48,12 @@ bool RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
     bzero(buffer, length);
     ssize_t data = recvfrom(_socket, buffer, length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
     if (data == -1) {
-        payload._ip = "";
-        payload._payload = "";
         free(buffer);
         return false;
     } else {
         buffer[data] = '\0';
-        payload._ip = std::string(inet_ntoa(clientAddr.sin_addr));
-        payload._payload = std::string(buffer);
+        payload.Ip = std::string(inet_ntoa(clientAddr.sin_addr));
+        payload.Payload = std::string(buffer);
         free(buffer);
         return true;
     }
@@ -63,6 +61,7 @@ bool RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
 
 void RTypeSocket::Send(const std::string &payload) {
     if (sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
+        // On ne throw pas ici car si il n'y a pas de server qui tourne lorseque le client tente de Send la function sendto renvera -1
         std::cerr << "Sending failed !" << std::endl;
     }
 }
