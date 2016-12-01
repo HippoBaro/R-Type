@@ -24,9 +24,8 @@ before_build:
   - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
 
 after_build:
-  - echo Running Unit Tests...
+  - echo Running CTest Unit Tests...
   - cd c:\projects\RType
-  - ctest -C Release
 
 notifications:
   - provider: Slack
