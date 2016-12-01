@@ -5,8 +5,8 @@
 #include <chrono>
 #include <Timer.hpp>
 #include <Entity.hpp>
-#include <ManagedExternalInstance.hpp>
-#include <ExternalClassFactoryLoader.hpp>
+#include <LibraryLoader/ManagedExternalInstance.hpp>
+#include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 
 int main()
 {

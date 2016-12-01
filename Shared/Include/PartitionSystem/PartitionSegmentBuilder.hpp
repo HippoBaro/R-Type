@@ -7,8 +7,8 @@
 
 #include <memory>
 #include "PartitionSegment.hpp"
-#include "LinearCurve.hpp"
-#include <ITweeningCurve.hpp>
+#include "PartitionSystem/Tween/Curve/LinearCurve.hpp"
+#include <PartitionSystem/Tween/Curve/ITweeningCurve.hpp>
 #include <vec2.hpp>
 
 class PartitionSegmentBuilder {

@@ -6,7 +6,7 @@
 #define R_TYPE_PARTITIONSEGMENT_HPP
 
 #include <vec2.hpp>
-#include <Tween.hpp>
+#include <PartitionSystem/Tween/Tween.hpp>
 
 class PartitionSegment {
 private:

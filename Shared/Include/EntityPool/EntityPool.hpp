@@ -9,7 +9,7 @@
 #include <IDrawable.hpp>
 #include <vector>
 #include <memory>
-#include <ManagedExternalInstance.hpp>
+#include <LibraryLoader/ManagedExternalInstance.hpp>
 
 class EntityPool {
 protected:

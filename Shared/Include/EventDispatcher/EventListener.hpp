@@ -5,7 +5,7 @@
 #ifndef R_TYPE_EVENTLISTENER_HPP
 #define R_TYPE_EVENTLISTENER_HPP
 
-#include <EventManager.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 // For templating reasons, we put the code in the header directly
 

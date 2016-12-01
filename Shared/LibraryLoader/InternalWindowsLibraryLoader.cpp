@@ -2,7 +2,7 @@
 // Created by hippolyteb on 11/22/16.
 //
 
-#include "InternalWindowsLibraryLoader.hpp"
+#include "LibraryLoader/InternalWindowsLibraryLoader.hpp"
 #include <windows.h>
 
 ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {

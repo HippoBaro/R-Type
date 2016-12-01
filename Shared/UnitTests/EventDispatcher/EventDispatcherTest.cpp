@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <EventManager.hpp>
-#include <EventListener.hpp>
+#include <EventDispatcher/EventManager.hpp>
+#include <EventDispatcher/EventListener.hpp>
 
 
 // Entity model
