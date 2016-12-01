@@ -26,7 +26,7 @@ before_build:
 after_build:
   - echo Running Unit Tests...
   - cd c:\projects\RType\BUILD
-  - ctest
+  - ctest -C Release
 
 notifications:
   - provider: Slack
