@@ -27,6 +27,8 @@ after_build:
   - echo Running CTest Unit Tests...
   - cd c:\projects\RType
   - ctest -C Release
+  - type c:\projects\RType\Testing\Temporary\LastTest.log
+  - type c:\projects\RType\Testing\Temporary\LastTestsFailed.log
 
 notifications:
   - provider: Slack
