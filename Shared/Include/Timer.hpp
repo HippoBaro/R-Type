@@ -23,7 +23,6 @@ public:
 
     TimeRef getCurrent() const {
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::system_clock::now());
-        auto origin = std::chrono::time_point_cast<std::chrono::milliseconds>(_origin);
         auto test = now - std::chrono::time_point_cast<std::chrono::milliseconds>(_origin);
         return TimeRef(test);
     }
