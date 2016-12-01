@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <malloc.h>
+#include <stdexcept>
 #include "RTypeNetworkPayload.h"
 
 class RTypeSocket : public IRTypeSocket {
