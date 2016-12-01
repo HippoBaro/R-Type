@@ -5,7 +5,6 @@
 #ifndef R_TYPE_RTYPEINPUTLISTENER_HPP
 #define R_TYPE_RTYPEINPUTLISTENER_HPP
 
-
 #include <functional>
 #include <SFML/Window.hpp>
 
