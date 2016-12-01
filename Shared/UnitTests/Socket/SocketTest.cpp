@@ -30,5 +30,5 @@ TEST(Tests_Socket_UDP, Creation) {
     std::thread t2(create_client);
     t1.join();
     t2.join();
-    ASSERT_EQ(globalPayload._payload, "Bonjour server !");
+    ASSERT_EQ(globalPayload.Payload, "Bonjour server !");
 }

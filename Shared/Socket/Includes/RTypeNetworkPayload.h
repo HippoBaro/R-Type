@@ -7,9 +7,12 @@
 
 #include <iostream>
 
-typedef struct {
-    std::string _ip;
-    std::string _payload;
-} RTypeNetworkPayload;
+class RTypeNetworkPayload {
+public:
+    std::string Ip;
+    std::string Payload;
+
+    RTypeNetworkPayload(std::string const &ip = "", std::string const &payload = "") : Ip(ip), Payload(payload) {};
+};
 
 #endif //R_TYPE_RTYPENETWORKPAYLOAD_H

@@ -29,21 +29,21 @@ void RTypeSocket::CreateSocket() {
     WSADATA wsa;
     int err = WSAStartup(MAKEWORD(2, 2), &wsa);
     if (err < 0) {
-        std::cerr << "WSAStartup failed ! " << std::endl;
+        throw std::runtime_error(std::string("WSAStartup failed !"));
     }
     _socket = socket(AF_INET, SOCK_DGRAM, 0);
     if (_socket < 0) {
-        std::cerr << "Create socket failed ! " << std::endl;
+        throw std::runtime_error(std::string("Create socket failed !"));
     }
 }
 
 void RTypeSocket::Bind() {
     if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
-        std::cerr << "Binding port " << _port << " failed !" << std::endl;
+        throw std::runtime_error(std::string("Binding port failed !"));
     }
     DWORD nonBlocking = 1;
     if (ioctlsocket(_socket, FIONBIO, &nonBlocking) != 0) {
-        std::cerr << "Failed to set non-blocking socket !" << std::endl;
+        throw std::runtime_error(std::string("Failed to set non-blocking socket !"));
     }
 }
 
@@ -55,14 +55,12 @@ bool RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
     memset((buffer), '\0', (length));
     SSIZE_T data = recvfrom(_socket, buffer, length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
     if (data == -1) {
-        payload._ip = "";
-        payload._payload = "";
         free(buffer);
         return false;
     } else {
         buffer[data] = '\0';
-        payload._ip = std::string(inet_ntoa(clientAddr.sin_addr));
-        payload._payload = std::string(buffer);
+        payload.Ip = std::string(inet_ntoa(clientAddr.sin_addr));
+        payload.Payload = std::string(buffer);
         free(buffer);
         return true;
     }
@@ -70,6 +68,7 @@ bool RTypeSocket::Receive(RTypeNetworkPayload &payload, size_t length) {
 
 void RTypeSocket::Send(const std::string &payload) {
     if (sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
+        // On ne throw pas ici car si il n'y a pas de server qui tourne lorseque le client tente de Send la function sendto renvera -1
         std::cerr << "Sending failed !" << std::endl;
     }
 }
