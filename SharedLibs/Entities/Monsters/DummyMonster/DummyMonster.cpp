@@ -5,9 +5,9 @@
 #include <iostream>
 #include <thread>
 #include "DummyMonster.hpp"
-#include <EntityPartitionBuilder.hpp>
-#include <EaseInOutCurve.hpp>
-#include <EaseOutCurve.hpp>
+#include <PartitionSystem/EntityPartitionBuilder.hpp>
+#include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
+#include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
 
 DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
     _partition = EntityPartitionBuilder(timer).AddSegment(

@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include <Tween.hpp>
-#include <LinearCurve.hpp>
+#include <PartitionSystem/Tween/Tween.hpp>
+#include <PartitionSystem/Tween/Curve/LinearCurve.hpp>
 
 TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
     auto timer = new Timer(std::chrono::system_clock::now());

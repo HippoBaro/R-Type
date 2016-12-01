@@ -13,30 +13,30 @@ set(SHARED_SOURCE_FILES
         src/main.cpp
         Include/TimeRef.hpp
         Include/Timer.hpp
-        Include/Tween.hpp
-        Include/ITweeningCurve.hpp
-        Include/LinearCurve.hpp
-        Include/SmoothStepCurve.hpp
-        Include/EaseInCurve.hpp
-        Include/EaseInOutCurve.hpp
-        Include/EaseOutCurve.hpp
+        Include/PartitionSystem/Tween/Tween.hpp
+        Include/PartitionSystem/Tween/Curve/ITweeningCurve.hpp
+        Include/PartitionSystem/Tween/Curve/LinearCurve.hpp
+        Include/PartitionSystem/Tween/Curve/SmoothStepCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInOutCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseOutCurve.hpp
         Include/vec2.hpp
         Libs/Interfaces/Entity.hpp
         Include/IService.hpp
         EventDispatcher/EventManager.cpp
-        Include/EventListener.hpp
-        Include/EventManager.hpp
-        Include/Events.h
+        Include/EventDispatcher/EventListener.hpp
+        Include/EventDispatcher/EventManager.hpp
+        Include/EventDispatcher/Events.h
         Libs/Interfaces/IDrawable.hpp
         EntityPool/EntityPool.cpp
-        Include/EntityPool.hpp
+        Include/EntityPool/EntityPool.hpp
         Libs/Trait.hpp
         Libs/Interfaces/DrawableEntity.hpp
-        Include/EntityPartition.hpp
-        Include/EntityPartitionBuilder.hpp
-        Include/EntityPool.hpp
-        Include/PartitionSegment.hpp
-        Include/PartitionSegmentBuilder.hpp)
+        Include/PartitionSystem/EntityPartition.hpp
+        Include/PartitionSystem/EntityPartitionBuilder.hpp
+        Include/EntityPool/EntityPool.hpp
+        Include/PartitionSystem/PartitionSegment.hpp
+        Include/PartitionSystem/PartitionSegmentBuilder.hpp)
 
 include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 

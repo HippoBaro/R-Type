@@ -2,7 +2,7 @@
 // Created by hippolyteb on 11/22/16.
 //
 
-#include "InternalLinuxLibraryLoader.hpp"
+#include "LibraryLoader/InternalLinuxLibraryLoader.hpp"
 
 ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
     // load the triangle library

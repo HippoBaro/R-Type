@@ -5,7 +5,7 @@
 #ifndef R_TYPE_LINEARCURVE_HPP
 #define R_TYPE_LINEARCURVE_HPP
 
-#include "ITweeningCurve.hpp"
+#include "PartitionSystem/Tween/Curve/ITweeningCurve.hpp"
 
 class LinearCurve : public ITweeningCurve {
     double Curve(double const &d) const override final {

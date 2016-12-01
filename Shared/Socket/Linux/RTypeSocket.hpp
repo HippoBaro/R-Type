@@ -5,7 +5,7 @@
 #ifndef R_TYPE_RTYPESOCKETLINUX_HPP
 #define R_TYPE_RTYPESOCKETLINUX_HPP
 
-#include "IRTypeSocket.hpp"
+#include "../../Include/Socket/IRTypeSocket.hpp"
 #include <strings.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <malloc.h>
 #include <stdexcept>
-#include "RTypeNetworkPayload.h"
+#include "../../Include/Socket/RTypeNetworkPayload.h"
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {

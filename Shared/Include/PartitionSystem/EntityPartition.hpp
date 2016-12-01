@@ -6,7 +6,7 @@
 #define R_TYPE_ENTITYPARTITION_HPP
 
 #include <vector>
-#include "PartitionSegmentBuilder.hpp"
+#include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class EntityPartition {
 private:
