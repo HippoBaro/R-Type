@@ -5,7 +5,6 @@
 #ifndef R_TYPE_RTYPECLIENT_HPP
 #define R_TYPE_RTYPECLIENT_HPP
 
-
 #include <memory>
 #include "RTypeNetworkClient.hpp"
 #include "SFMLManager.hpp"

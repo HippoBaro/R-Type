@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 2.6.2)
 
+add_subdirectory(Include)
+
+file(GLOB HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "Shared/Include/*")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Include)
+
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
 
@@ -10,35 +15,16 @@ set(LIBRARY_SOCKET_FILES
 
 
 set(SHARED_SOURCE_FILES
+        ${HEADERS}
         src/main.cpp
-        Include/TimeRef.hpp
-        Include/Timer.hpp
-        Include/PartitionSystem/Tween/Tween.hpp
-        Include/PartitionSystem/Tween/Curve/ITweeningCurve.hpp
-        Include/PartitionSystem/Tween/Curve/LinearCurve.hpp
-        Include/PartitionSystem/Tween/Curve/SmoothStepCurve.hpp
-        Include/PartitionSystem/Tween/Curve/EaseInCurve.hpp
-        Include/PartitionSystem/Tween/Curve/EaseInOutCurve.hpp
-        Include/PartitionSystem/Tween/Curve/EaseOutCurve.hpp
-        Include/vec2.hpp
         Libs/Interfaces/Entity.hpp
-        Include/IService.hpp
         EventDispatcher/EventManager.cpp
-        Include/EventDispatcher/EventListener.hpp
-        Include/EventDispatcher/EventManager.hpp
-        Include/EventDispatcher/Events.h
         Libs/Interfaces/IDrawable.hpp
         EntityPool/EntityPool.cpp
-        Include/EntityPool/EntityPool.hpp
         Libs/Trait.hpp
-        Libs/Interfaces/DrawableEntity.hpp
-        Include/PartitionSystem/EntityPartition.hpp
-        Include/PartitionSystem/EntityPartitionBuilder.hpp
-        Include/EntityPool/EntityPool.hpp
-        Include/PartitionSystem/PartitionSegment.hpp
-        Include/PartitionSystem/PartitionSegmentBuilder.hpp)
+        Libs/Interfaces/DrawableEntity.hpp)
 
-include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
+include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 
 IF (MSVC)
     set(LIBRARY_SOCKET_FILES ${LIBRARY_SOCKET_FILES} Socket/Windows/RTypeSocket.hpp)
