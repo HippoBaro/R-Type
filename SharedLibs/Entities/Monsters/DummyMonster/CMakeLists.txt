@@ -6,8 +6,6 @@ ELSE()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter")
 ENDIF()
 
-include_directories(../../../SFML/include)
-
 add_library(DummyMonster SHARED
         DummyMonster.hpp
         DummyMonster.cpp)

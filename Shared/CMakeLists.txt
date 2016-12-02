@@ -12,10 +12,9 @@ set(LIBRARY_SOCKET_FILES
 set(SHARED_SOURCE_FILES
         src/main.cpp
         EventDispatcher/EventManager.cpp
-        EntityPool/EntityPool.cpp
-        Libs/Trait.hpp)
+        EntityPool/EntityPool.cpp)
 
-include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
+include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum ../SharedLibs/Interfaces)
 
 IF (MSVC)
     set(LIBRARY_SOCKET_FILES ${LIBRARY_SOCKET_FILES} Socket/Windows/RTypeSocket.hpp)

@@ -8,7 +8,7 @@
 #include "PartitionSystem/EntityPartition.hpp"
 #include <Timer.hpp>
 #include <Base.h>
-#include <Interfaces/Libs/IDrawable.hpp>
+#include <Interfaces/IDrawable.hpp>
 #include <Interfaces/Libs/DrawableEntity.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 

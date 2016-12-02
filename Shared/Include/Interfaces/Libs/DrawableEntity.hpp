@@ -6,14 +6,13 @@
 #define R_TYPE_DRAWABLEENTITY_HPP
 
 #include "Entity.hpp"
-#include "IDrawable.hpp"
+#include "../../../../SharedLibs/Interfaces/IDrawable.hpp"
 
 class DrawableEntity : public Entity, public IDrawable {
 public:
     DrawableEntity() {
         this->RegisterTrait(Trait::Drawable);
     }
-
 };
 
 #endif //R_TYPE_DRAWABLEENTITY_HPP
