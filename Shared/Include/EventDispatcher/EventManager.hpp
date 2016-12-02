@@ -11,6 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include "Events.h"
+#include <Interfaces/Libs/Entity.hpp>
 
 /*
  * Usage exemple
@@ -29,19 +30,16 @@
 
 namespace RType {
 
-  // TODO: Put the real Entity definition
-  class IEntity;
-
   class EventManager {
 
   private:
-    std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>>> _listeners = {};
+    std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity&)>>>>> _listeners = {};
 
   public:
     EventManager();
 
-    void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>> &callbacks);
-    void Emit(RType::Event event, IEntity& data);
+    void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity&)>>>> &callbacks);
+    void Emit(RType::Event event, Entity& data);
   };
 }
 

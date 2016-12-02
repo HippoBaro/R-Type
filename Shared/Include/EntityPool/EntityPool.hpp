@@ -5,8 +5,8 @@
 #ifndef R_TYPE_ENTITYPOOL_HPP
 #define R_TYPE_ENTITYPOOL_HPP
 
-#include <Entity.hpp>
-#include <IDrawable.hpp>
+#include <Libs/Entity.hpp>
+#include <Libs/IDrawable.hpp>
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>

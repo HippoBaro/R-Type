@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Client)
 
 add_subdirectory(UnitTests)
-include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
+include_directories(../Shared/LibraryLoader/ ../Shared/Include/Interfaces ../Shared/Include)
 include_directories(Includes Interfaces)
 
 IF (MSVC)

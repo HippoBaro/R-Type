@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.6.2)
 
-add_subdirectory(Include)
-
-file(GLOB HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "Shared/Include/*")
+file(GLOB HEADERS RELATIVE ${PROJECT_SOURCE_DIR} "Include/*")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Include)
 
 add_subdirectory(UnitTests)
@@ -15,14 +13,10 @@ set(LIBRARY_SOCKET_FILES
 
 
 set(SHARED_SOURCE_FILES
-        ${HEADERS}
         src/main.cpp
-        Libs/Interfaces/Entity.hpp
         EventDispatcher/EventManager.cpp
-        Libs/Interfaces/IDrawable.hpp
         EntityPool/EntityPool.cpp
-        Libs/Trait.hpp
-        Libs/Interfaces/DrawableEntity.hpp)
+        Libs/Trait.hpp)
 
 include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 

@@ -12,13 +12,13 @@
 #include <Libs/DrawableEntity.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
-class DummyMonster : public Entity {
+class Player : public Entity {
 protected:
     Timer *_timer;
     EntityPartition _partition;
 
 public:
-    DummyMonster(Timer *timer);
+    Player(Timer *timer);
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP
