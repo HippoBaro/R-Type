@@ -4,7 +4,7 @@
 
 #include "RTypeSocket.hpp"
 
-RTypeSocket::RTypeSocket(uint16_t port) :_socket(), _addr(), _port(port) {
+RTypeSocket::RTypeSocket(uint16_t port) : _socket(), _addr(), _port(port) {
     bzero(&_addr, sizeof(_addr));
     _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -12,7 +12,7 @@ RTypeSocket::RTypeSocket(uint16_t port) :_socket(), _addr(), _port(port) {
     CreateSocket();
 }
 
-RTypeSocket::RTypeSocket(const std::string &addr, uint16_t port) :_socket(), _addr(), _port(port) {
+RTypeSocket::RTypeSocket(const std::string &addr, uint16_t port) : _socket(), _addr(), _port(port) {
     bzero(&_addr, sizeof(_addr));
     _addr.sin_family = AF_INET;
     _addr.sin_addr.s_addr = inet_addr(addr.c_str());
