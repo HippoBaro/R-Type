@@ -5,7 +5,7 @@
 #ifndef R_TYPE_IDRAWABLE_HPP
 #define R_TYPE_IDRAWABLE_HPP
 
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include <vec2.hpp>
 
 class IDrawable {
