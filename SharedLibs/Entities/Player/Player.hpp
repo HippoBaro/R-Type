@@ -8,8 +8,8 @@
 #include "PartitionSystem/EntityPartition.hpp"
 #include <Timer.hpp>
 #include <Base.h>
-#include <Libs/IDrawable.hpp>
-#include <Libs/DrawableEntity.hpp>
+#include <Interfaces/Libs/IDrawable.hpp>
+#include <Interfaces/Libs/DrawableEntity.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class Player : public Entity {

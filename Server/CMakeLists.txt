@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Server)
 
-include_directories(../Shared/LibraryLoader/ ../Shared/Include/Interfaces ../Shared/Include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Include)
 
 add_subdirectory(UnitTests)

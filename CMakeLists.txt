@@ -7,6 +7,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/BUILD)
 
 include(cmake/ucm.cmake)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared/Include)
+
 enable_testing()
 
 if(MSVC)
