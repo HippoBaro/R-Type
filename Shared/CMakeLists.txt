@@ -2,9 +2,12 @@ cmake_minimum_required(VERSION 2.6.2)
 
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
-add_subdirectory(Socket)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(LIBRARY_SOCKET_FILES
+        Socket/Interfaces/IRTypeSocket.hpp
+        Socket/Includes/RTypeNetworkPayload.h
+        Socket/Enum/RTypeSocketType.h)
+
 
 set(SHARED_SOURCE_FILES
         src/main.cpp
@@ -35,13 +38,16 @@ set(SHARED_SOURCE_FILES
         Include/PartitionSegment.hpp
         Include/PartitionSegmentBuilder.hpp)
 
-include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket)
+include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 
 IF (MSVC)
+    set(LIBRARY_SOCKET_FILES ${LIBRARY_SOCKET_FILES} Socket/Windows/RTypeSocket.hpp)
+    set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
+    set(LIBRARY_SOCKET_FILES ${LIBRARY_SOCKET_FILES} Socket/Linux/RTypeSocket.hpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter")
 ENDIF()
 
-add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES})
-target_link_libraries(RTypeShared LibraryLoader LibrarySocket)
+add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES} ${LIBRARY_SOCKET_FILES})
+target_link_libraries(RTypeShared LibraryLoader ${LIB_SOCKET})

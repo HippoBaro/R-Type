@@ -3,25 +3,26 @@
 //
 
 #include <gtest/gtest.h>
+#include "IRTypeSocket.hpp"
 #include "RTypeSocket.hpp"
 #include <thread>
 
 RTypeNetworkPayload globalPayload;
 
 void create_server() {
-    RTypeSocket server = RTypeSocket(5678);
-    server.Bind();
+    std::unique_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(5678));
+    server->Bind();
     for (int i = 0; i < 100000; ++i) {
-        if (server.Receive(globalPayload, 1024)) {
+        if (server->Receive(globalPayload, 1024)) {
             break;
         }
     }
 }
 
 void create_client() {
-    RTypeSocket client = RTypeSocket("127.0.0.1", 5678);
+    std::unique_ptr<IRTypeSocket> client = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>("127.0.0.1", 5678));
     for (int i = 0; i < 100000; ++i) {
-        client.Send("Bonjour server !");
+        client->Send("Bonjour server !");
     }
 }
 
