@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "RTypeNetworkPayload.h"
+#include "RTypeSocketType.h"
 
 class IRTypeSocket {
 public:
