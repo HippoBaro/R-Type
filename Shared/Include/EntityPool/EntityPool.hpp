@@ -6,7 +6,6 @@
 #define R_TYPE_ENTITYPOOL_HPP
 
 #include <Interfaces/Libs/Entity.hpp>
-#include <Interfaces/Libs/IDrawable.hpp>
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>
@@ -21,6 +20,5 @@ public:
 public:
     virtual void AddEntity(ManagedExternalInstance<Entity> &entity);
 };
-
 
 #endif //R_TYPE_ENTITYPOOL_HPP

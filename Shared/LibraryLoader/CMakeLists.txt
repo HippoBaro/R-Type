@@ -6,7 +6,6 @@ set(LIBRARY_LOADER_FILES
         ../Include/LibraryLoader/ExternalClassFactoryLoader.hpp
         ../Include/LibraryLoader/ManagedExternalInstance.hpp
         ../Include/LibraryLoader/ExternalClassFactory.hpp)
-include_directories(../Include)
 
 IF (MSVC)
     set(LIBRARY_LOADER_FILES ${LIBRARY_LOADER_FILES}
