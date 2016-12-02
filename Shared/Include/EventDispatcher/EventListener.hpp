@@ -10,11 +10,10 @@
 // For templating reasons, we put the code in the header directly
 
 namespace RType {
-  class IEntity;
 
   template <class EventType>
   class EventListener {
-    typedef std::map<RType::Event, std::vector<std::function<void(IEntity&)>>> callback_map;
+    typedef std::map<RType::Event, std::vector<std::function<void(Entity&)>>> callback_map;
 
   private:
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
@@ -31,7 +30,7 @@ namespace RType {
 
     void Subscribe(RType::Event event, std::function<void(EventType &)> callback)
     {
-      std::function<void(IEntity&)> newCb = [callback](IEntity &data) {
+      std::function<void(Entity&)> newCb = [callback](Entity &data) {
         callback(static_cast<EventType &>(data));
       };
 

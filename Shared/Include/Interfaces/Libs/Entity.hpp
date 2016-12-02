@@ -6,7 +6,7 @@
 #define R_TYPE_IENTITY_HPP
 
 #include <algorithm>
-#include "../Trait.hpp"
+#include "Trait.hpp"
 #include <vector>
 
 class Entity {
