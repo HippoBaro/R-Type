@@ -30,8 +30,17 @@ namespace RType {
       int currentSize = 0;
     } _serializationBuffer;
 
+    int deserializationIndex = 0; // TODO: find a better way than this. Maybe an InitDeserialization ?
+
   protected:
     virtual std::string SerializeEntity() = 0;
+
+    template <typename Ttype>
+    Ttype Deserialize() final {
+      Ttype tmp = *(Ttype*)_serializationBuffer.buffer;
+      deserializationIndex += sizeof(Ttype);
+      return tmp;
+    }
 
     template <typename Ttype>
     void Serialize(Ttype value) final {
