@@ -60,6 +60,7 @@ public:
     virtual ~IRTypeSocket() {}
 
     virtual void Send(const char *message) = 0;
+
     virtual void Send(const Payload *payload, const char *message) = 0;
 
     virtual void InitConnection(uint16_t port) = 0;
