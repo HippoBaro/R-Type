@@ -1,244 +1,135 @@
 //
-// Created by barre_k on 20/11/16.
+// Created by barre_k on 30/11/16.
 //
 
 #ifndef R_TYPE_RTYPESOCKET_HPP
 #define R_TYPE_RTYPESOCKET_HPP
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h> /* close */
-#include <netdb.h> /* gethostbyname */
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-
-#define INVALID_SOCKET -1
-#define SOCKET_ERROR -1
-#define closesocket(s) close(s)
-typedef int SOCKET;
-typedef struct sockaddr_in SOCKADDR_IN;
-typedef struct sockaddr SOCKADDR;
-typedef struct in_addr IN_ADDR;
-
-#define PORT 1977
-#define MAX_CLIENTS 10
-#define BUF_SIZE 1500
-
-#include <stdlib.h>
 #include "IRTypeSocket.hpp"
 
-typedef struct {
-    SOCKADDR_IN sin;
-}   Client;
-
-class RTypeSocket {
-
+class RTypeSocket : public IRTypeSocket
+{
 private:
-    SOCKET _sock;
-    SOCKADDR_IN _sin;
-    fd_set _rdfs;
-    Client _clients[MAX_CLIENTS];
-    Client *_actual_client;
-    char _buffer[BUF_SIZE];
-    int _actual;
-    int _max;
+    Payload *_payload;
+    Payload *_temppayload;
 
 public:
-    RTypeSocket()
+
+    RTypeSocket() : IRTypeSocket()
     {
-        _sin = {0};
-        _actual = 0;
+        _payload = new Payload();
+        _temppayload = new Payload();
     }
 
-    virtual void InitConnection() {
-        _sock = socket(AF_INET, SOCK_DGRAM, 0);
-        if (_sock == INVALID_SOCKET) {
+    virtual ~RTypeSocket() {
+        closesocket(_payload->_sock);
+        delete _payload;
+        delete _temppayload;
+    }
+
+    virtual void InitConnection(uint16_t port)
+    {
+        _payload->_sock = socket(AF_INET, SOCK_DGRAM, 0);
+        if (_payload->_sock == INVALID_SOCKET) {
             std::cerr << "socket()" << std::endl;
             throw errno;
         }
 
-        _sin.sin_addr.s_addr = htonl(INADDR_ANY);
-        _sin.sin_port = htons(PORT);
-        _sin.sin_family = AF_INET;
+        _payload->_type = SERVER;
+        _payload->_sin.sin_addr.s_addr = htonl(INADDR_ANY);
+        _payload->_sin.sin_port = htons(port);
+        _payload->_sin.sin_family = AF_INET;
 
-        if (bind(_sock, (SOCKADDR *) &_sin, sizeof _sin) == SOCKET_ERROR) {
+        if (bind(_payload->_sock, (SOCKADDR *) &_payload->_sin, sizeof _payload->_sin) == SOCKET_ERROR) {
             std::cerr << "bind()" << std::endl;
             throw errno;
         }
-        _max = _sock;
     }
 
-
-    virtual void InitConnection(const std::string address) {
-        _sock = socket(AF_INET, SOCK_DGRAM, 0);
+//  set server connection to server
+    void InitConnection(const std::string address, uint16_t port)
+    {
+        _payload->_sock = socket(AF_INET, SOCK_DGRAM, 0);
+        std::cout << "clients socket" << _payload->_sock << std::endl;
         struct hostent *hostinfo;
 
-        if (_sock == INVALID_SOCKET) {
+        if (_payload->_sock == INVALID_SOCKET) {
             std::cerr << "socket()" << std::endl;
             throw errno;
         }
 
         hostinfo = gethostbyname(address.c_str());
         if (hostinfo == NULL) {
-            std::cerr << address << std::endl;
+            std::cerr << address << " error" << std::endl;
             throw errno;
         }
-
-        _sin.sin_addr = *(IN_ADDR *) hostinfo->h_addr;
-        _sin.sin_port = htons(PORT);
-        _sin.sin_family = AF_INET;
+        _payload->_type = CLIENT;
+        _payload->_sin.sin_addr = *(IN_ADDR *) hostinfo->h_addr;
+        _payload->_sin.sin_port = htons(port);
+        _payload->_sin.sin_family = AF_INET;
     }
 
+    virtual Payload *Receive()
+    {
+        FD_ZERO(&_payload->_rdfs);
+        FD_SET(STDIN_FILENO, &_payload->_rdfs);
+        FD_SET(_payload->_sock, &_payload->_rdfs);
 
-    virtual bool CheckIfClientExists(SOCKADDR_IN *csin) {
-        int i = 0;
-        for (i = 0; i < _actual; i++) {
-            if (_clients[i].sin.sin_addr.s_addr == csin->sin_addr.s_addr
-                && _clients[i].sin.sin_port == csin->sin_port) {
-                return true;
+        if (select(_payload->_sock + 1, &_payload->_rdfs, NULL, NULL, NULL) == -1) {
+            std::cerr << "select errors" << std::endl;
+            return nullptr;
+        }
+
+
+
+        if (FD_ISSET(_payload->_sock, &_payload->_rdfs))
+        {
+
+            if (_payload->_type == CLIENT)
+            {
+                std::cout << "i am client i recieve from server" << std::endl;
+                socklen_t sinsize = sizeof *(&_payload->_sin);
+                if (recvfrom(_payload->_sock, _payload->_buffer, MTU - 1, 0, (SOCKADDR *) &_payload->_sin, &sinsize) < 0) {
+                    throw errno;
+                }
+                return _payload;
             }
-        }
+            else if (_payload->_type == SERVER)
+            {
+                std::cout << "i am server i recieve from client" << std::endl;
+                SOCKADDR_IN csin = {0};
+                socklen_t sinsize = sizeof *&csin;
 
-        return false;
-    }
-
-    virtual Client *GetClient(SOCKADDR_IN *csin) {
-        for (int i = 0; i < _actual; i++) {
-            if (_clients[i].sin.sin_addr.s_addr == csin->sin_addr.s_addr
-                && _clients[i].sin.sin_port == csin->sin_port) {
-                return &_clients[i];
+                if (recvfrom(_payload->_sock, _temppayload->_buffer, MTU - 1, 0, (SOCKADDR *) &csin, &sinsize) < 0)
+                {
+                    std::cerr << "Probleme de reception" << std::endl;
+                    throw (errno);
+                }
+                _temppayload->_sock = _payload->_sock;
+                _temppayload->_sin = csin;
+                return _temppayload;
             }
+
         }
-        return NULL;
+        return nullptr;
     }
 
-    virtual void RemoveClient(int to_remove) {
-        memmove(_clients + to_remove, _clients + to_remove + 1, (_actual - to_remove) * sizeof(Client));
-        _actual--;
+    virtual Payload *GetNativePayload() {
+        return this->_payload;
     }
 
-    virtual void WriteClient(SOCKADDR_IN *sin, const char *buffer) {
-        if (sendto(_sock, buffer, strlen(buffer), 0, (SOCKADDR *) sin, sizeof *sin) < 0) {
-            std::cerr << "send()" << std::endl;
-            throw errno;
-        }
-    }
-
-    virtual void WriteServer(const char* message) {
-        if (sendto(_sock, message, BUF_SIZE - 1, 0, (SOCKADDR *) &_sin, sizeof *&_sin) < 0) {
+    virtual void Send(const Payload *payload, const char *message) {
+        if (sendto(_payload->_sock, message, MTU - 1, 0, (SOCKADDR *) &payload->_sin, sizeof payload->_sin) < 0) {
             std::cerr << "can't send message" << std::endl;
             throw errno;
         }
     }
-
-
-    virtual void SendMessageToAllClients(const char *message)
-    {
-        for (int i = 0; i < _actual; i++)
-        {
-//            if (_actual_client != &_clients[i])
-//            {
-//            }
-            WriteClient(&_clients[i].sin, message);
-        }
-    }
-
-    virtual void EndConnection() {
-        closesocket(_sock);
-    }
-
-    virtual ssize_t ReadClient(SOCKADDR_IN *sin)
-    {
-        ssize_t n = 0;
-        socklen_t sinsize = sizeof *sin;
-
-        if ((n = recvfrom(_sock, _buffer, BUF_SIZE - 1, 0, (SOCKADDR *) sin, &sinsize)) < 0) {
-            std::cerr << "Probleme de reception" << std::endl;
-            throw (errno);
-        }
-        _buffer[n] = 0;
-        return n;
-    }
-
-    int ReadServer() {
-        int n = 0;
-        socklen_t sinsize = sizeof *(&_sin);
-
-        if((n = recvfrom(_sock, _buffer, BUF_SIZE - 1, 0, (SOCKADDR *) &_sin, &sinsize)) < 0)
-        {
+    virtual void Send(const char *message) {
+        if (sendto(_payload->_sock, message, MTU - 1, 0, (SOCKADDR *) &_payload->_sin, sizeof *&_payload->_sin) < 0) {
+            std::cerr << "can't send message" << std::endl;
             throw errno;
         }
-
-        _buffer[n] = 0;
-        return n;
-
     }
-
-
-    char* ListenClient()
-    {
-        FD_ZERO(&_rdfs);
-        FD_SET(STDIN_FILENO, &_rdfs);
-        FD_SET(_sock, &_rdfs);
-        if (select(_max + 1, &_rdfs, NULL, NULL, NULL) == -1) {
-            std::cerr << "select()" << std::endl;
-            throw (errno);
-        }
-        if (FD_ISSET(STDIN_FILENO, &_rdfs))
-        {
-            EndConnection();
-            std::cerr << "key press is not compatiblex" << std::endl;
-            throw (errno);
-        }
-        else if (FD_ISSET(_sock, &_rdfs))
-        {
-            SOCKADDR_IN csin = {0};
-            ReadClient(&csin);
-
-            if (CheckIfClientExists(&csin) == 0) {
-                if (_actual != MAX_CLIENTS)
-                {
-                    Client c = {csin};
-                    _clients[_actual] = c;
-                    _actual++;
-                    return _buffer;
-                }
-            }
-            else
-            {
-                _actual_client = GetClient(&csin);
-                if (_actual_client != NULL)
-                    return _buffer;
-                else
-                    return nullptr;
-            }
-        }
-        return nullptr;
-    }
-
-    char* ListenServer()
-    {
-        FD_ZERO(&_rdfs);
-        FD_SET(STDIN_FILENO, &_rdfs);
-        FD_SET(_sock, &_rdfs);
-
-        if (select(_sock + 1, &_rdfs, NULL, NULL, NULL) == -1)
-        {
-            std::cerr << "select error" << std::endl;
-            throw errno;
-        }
-        if (FD_ISSET(_sock, &_rdfs))
-        {
-            ReadServer();
-            return _buffer;
-        }
-        return nullptr;
-    }
-
 };
 
 
