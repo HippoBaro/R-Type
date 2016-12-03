@@ -31,15 +31,30 @@ namespace RType {
     } _serializationBuffer;
 
   protected:
-    virtual std::string Serialize() = 0;
+    virtual std::string SerializeEntity() = 0;
 
-    void SerializeInt(uint32_t value) final {
-      assert(_serializationBuffer.currentSize + sizeof(uint32_t) <= 508);
-      if (IsBigEndian())
-        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_32(value);
+    template <typename Ttype>
+    void Serialize(Ttype value) final {
+      assert(_serializationBuffer.currentSize + sizeof(Ttype) <= _udpMtu);
+
+      // TODO: this can be done at compile time IMO
+      if (IsBigEndian()) {
+        if (sizeof(Ttype) == 1) // 1 byte => no swap needed
+          *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
+
+        else if (sizeof(Ttype) == 2) // 2 bytes
+          *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_16(value);
+
+        else if (sizeof(Ttype) == 4) // 4 bytes
+          *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_32(value);
+
+        else if (sizeof(Ttype) == 8) // 8 bytes => extrem case
+          *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_64(value);
+      }
+
       else
-        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
-      _serializationBuffer.currentSize += sizeof(uint32_t);
+        *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
+      _serializationBuffer.currentSize += sizeof(Ttype);
     };
   };
 }
