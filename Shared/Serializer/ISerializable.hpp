@@ -15,19 +15,6 @@ namespace RType {
   private:
       virtual ~ISerializable() {};
 
-    // TODO: maybe find a better way
-    // It can convert to anything, but we only use it to swap to little endian to comply the RFC
-    template <typename Ttype>
-    void SwapLastSerializationToLittleEndian(Ttype value) {
-      char container[sizeof(Ttype)];
-      for (short int i = 0 ; i < sizeof(Ttype) ; i++) {
-        container[i] = _serializationBuffer.buffer[_serializationBuffer.currentSize + i];
-      }
-      for (short int i = 0 ; i < sizeof(Ttype) ; i++) {
-        _serializationBuffer.buffer[_serializationBuffer.currentSize + i] = container[sizeof(Ttype) - i];
-      }
-    }
-
     // TODO : determine if this should be done at compile time or at runtime
     constexpr bool IsBigEndian() {
       uint32_t i = 0x01020304; // i = 1234
