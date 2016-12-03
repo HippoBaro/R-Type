@@ -10,4 +10,9 @@ enum SocketType {
         TCP = 1
 };
 
+enum SocketIdentity {
+    Server = 0,
+    Client = 1
+};
+
 #endif //R_TYPE_RTYPESOCKETTYPE_H
