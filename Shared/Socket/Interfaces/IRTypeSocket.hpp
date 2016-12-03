@@ -6,6 +6,7 @@
 #define R_TYPE_IRTYPESOCKET_HPP
 
 #include <iostream>
+#include <memory>
 #include "RTypeNetworkPayload.h"
 #include "RTypeSocketType.h"
 
