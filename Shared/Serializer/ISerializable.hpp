@@ -1,0 +1,63 @@
+//
+// Created by aguado_e on 11/30/16.
+//
+
+#ifndef R_TYPE_SERIALIZER_HPP
+#define R_TYPE_SERIALIZER_HPP
+
+
+#include <string>
+#include <assert.h>
+
+namespace RType {
+
+  class ISerializsable {
+  private:
+
+    // TODO: maybe find a better way
+    // It can convert to anything, but we only use it to swap to little endian to comply the RFC
+    template <typename Ttype>
+    void SwapLastSerializationToLittleEndian(Ttype value) {
+      char container[sizeof(Ttype)];
+      for (short int i = 0 ; i < sizeof(Ttype) ; i++) {
+        container[i] = _serializationBuffer.buffer[_serializationBuffer.currentSize + i];
+      }
+      for (short int i = 0 ; i < sizeof(Ttype) ; i++) {
+        _serializationBuffer.buffer[_serializationBuffer.currentSize + i] = container[sizeof(Ttype) - i];
+      }
+    }
+
+    // TODO : determine if this should be done at compile time or at runtime
+    constexpr bool IsBigEndian() {
+      uint32_t i = 0x01020304; // i = 1234
+      char b[4];
+      *(uint32_t*)(b) = i; // Put in char* to access each byte
+      return b[0] == 1; // if first is biggest => little endian
+    }
+
+    constexpr static short int _udpMtu = 508;
+
+    struct {
+      char buffer[_udpMtu] = {'\0'};
+      int currentSize = 0;
+    } _serializationBuffer;
+
+  protected:
+    virtual std::string Serialize() = 0;
+    virtual ~ISerializable() {};
+
+    void SerializeInt(uint32_t value) final {
+      assert(_serializationBuffer.currentSize + sizeof(uint32_t) <= _udpMtu);
+      if (IsBigEndian()) {
+        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
+        SwapLastSerializationToLittleEndian<uint32_t>(value);
+      }
+      else
+        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
+      _serializationBuffer.currentSize += sizeof(uint32_t);
+    };
+  };
+}
+
+
+#endif //R_TYPE_SERIALIZER_HPP
