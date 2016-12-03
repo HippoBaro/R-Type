@@ -13,6 +13,7 @@ namespace RType {
 
   class ISerializsable {
   private:
+      virtual ~ISerializable() {};
 
     // TODO: maybe find a better way
     // It can convert to anything, but we only use it to swap to little endian to comply the RFC
@@ -44,14 +45,11 @@ namespace RType {
 
   protected:
     virtual std::string Serialize() = 0;
-    virtual ~ISerializable() {};
 
     void SerializeInt(uint32_t value) final {
-      assert(_serializationBuffer.currentSize + sizeof(uint32_t) <= _udpMtu);
-      if (IsBigEndian()) {
-        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
-        SwapLastSerializationToLittleEndian<uint32_t>(value);
-      }
+      assert(_serializationBuffer.currentSize + sizeof(uint32_t) <= 508);
+      if (IsBigEndian())
+        *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_32(value);
       else
         *((uint32_t*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = value;
       _serializationBuffer.currentSize += sizeof(uint32_t);
