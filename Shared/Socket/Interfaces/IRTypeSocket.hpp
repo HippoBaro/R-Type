@@ -15,6 +15,10 @@ public:
 
     virtual void Bind() = 0;
 
+    virtual bool Connect() = 0;
+
+    virtual std::unique_ptr<IRTypeSocket> Accept() = 0;
+
     virtual bool Receive(RTypeNetworkPayload &, size_t) = 0;
 
     virtual void Send(const std::string &payload) = 0;
