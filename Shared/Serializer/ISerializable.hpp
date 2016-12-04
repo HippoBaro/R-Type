@@ -11,7 +11,7 @@
 
 namespace RType {
 
-  class ISerializsable {
+  class ISerializable {
   private:
       virtual ~ISerializable() {};
 
@@ -34,6 +34,7 @@ namespace RType {
 
   protected:
     virtual std::string SerializeEntity() = 0;
+    virtual std::string DeserializeEntity() = 0;
 
     template <typename Ttype>
     Ttype Deserialize() final {
