@@ -7,6 +7,14 @@ set(SHARED_SOURCE_FILES
         src/main.cpp
         EntityPool/EntityPool.cpp
 
+        Serializer/ISerializable.cpp
+        Serializer/ISerializable.hpp
+        Serializer/ISerializerBuffer.hpp
+        Serializer/SerializeBuffer.cpp
+        Serializer/SerializeBuffer.hpp
+        Serializer/DeserializeBuffer.cpp
+        Serializer/DeserializeBuffer.hpp
+
         Include/EntityPool/EntityPool.hpp
 
         Include/Entities/Trait.hpp
