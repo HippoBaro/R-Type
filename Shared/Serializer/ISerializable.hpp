@@ -13,19 +13,24 @@ namespace RType {
 
   class ISerializable {
   private:
-      virtual ~ISerializable() {};
+    enum SerializationType {
+      SERIALIZE,
+      DESERIALIZE
+    };
 
-    // TODO : determine if this should be done at compile time or at runtime
-    constexpr bool IsBigEndian() {
-      uint32_t i = 0x01020304; // i = 1234
+
+    // TODO : Needs to be done at compile time instead of run time
+    bool IsBigEndian() {
+      short int i = 0x010;
       char b[4];
-      *(uint32_t*)(b) = i; // Put in char* to access each byte
-      return b[0] == 1; // if first is biggest => little endian
+      *(short int *) (b) = i;
+      return b[0] == 1;
     }
 
-    constexpr static short int _udpMtu = 508;
+    static const int _udpMtu = 508;
 
-    struct {
+    struct { // TODO: this is used by the both serialization AND the deserialization
+             // TODO: There must be a better way
       char buffer[_udpMtu] = {'\0'};
       int currentSize = 0;
     } _serializationBuffer;
@@ -34,13 +39,25 @@ namespace RType {
 
   protected:
     virtual std::string SerializeEntity() = 0;
-    virtual std::string DeserializeEntity() = 0;
 
     template <typename Ttype>
     Ttype Deserialize() final {
       Ttype tmp = *(Ttype*)_serializationBuffer.buffer;
       deserializationIndex += sizeof(Ttype);
       return tmp;
+    }
+
+    // TODO: read shouldn't read on the class' values. Should have a char[508] parameter
+
+    /*
+     * TODO : There will be only one serialize function with a ActionType
+     * This function will call e.g  SerializeInt(ActionType::Serialize, value)
+     * Each function will implement the 2 behaviors (read and write) and will choose upon ActionType
+    */
+    template <typename Ttype, SerializationType type>
+    void SerializeBis(Ttype value) final {
+      if (type == SERIALIZE)
+        Serialize<Ttype>(value);
     }
 
     template <typename Ttype>
@@ -58,7 +75,7 @@ namespace RType {
         else if (sizeof(Ttype) == 4) // 4 bytes
           *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_32(value);
 
-        else if (sizeof(Ttype) == 8) // 8 bytes => extrem case
+        else if (sizeof(Ttype) == 8) // 8 bytes => extreme case
           *((Ttype*)(_serializationBuffer.buffer + _serializationBuffer.currentSize)) = __bswap_64(value);
       }
 
