@@ -4,18 +4,31 @@
 
 #include "RTypeSocket.hpp"
 
-RTypeSocket::RTypeSocket() : IRTypeSocket() {
+RTypeSocket::RTypeSocket() : IRTypeSocket()
+{
     _payload = new Payload();
     _temppayload = new Payload();
 }
 
 RTypeSocket::~RTypeSocket() {
+#ifdef WIN32
+    WSACleanup();
+#endif
     closesocket(_payload->_sock);
     delete _payload;
     delete _temppayload;
 }
 
-virtual void RTypeSocket::InitConnection(uint16_t port) {
+void RTypeSocket::InitConnection(uint16_t port) {
+#ifdef WIN32
+    WSADATA wsa;
+   int err = WSAStartup(MAKEWORD(2, 2), &wsa);
+   if(err < 0)
+   {
+      puts("WSAStartup failed !");
+      exit(EXIT_FAILURE);
+   }
+#endif
     _payload->_sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (_payload->_sock == INVALID_SOCKET) {
         std::cerr << "socket()" << std::endl;
@@ -55,14 +68,14 @@ void RTypeSocket::InitConnection(const std::string address, uint16_t port) {
 }
 
 
-virtual void RTypeSocket::Send(const Payload *payload, const char *message) {
+void RTypeSocket::Send(const Payload *payload, const char *message) {
     if (sendto(_payload->_sock, message, MTU - 1, 0, (SOCKADDR *) &payload->_sin, sizeof payload->_sin) < 0) {
         std::cerr << "can't send message" << std::endl;
         throw errno;
     }
 }
 
-virtual void RTypeSocket::Send(const char *message) {
+void RTypeSocket::Send(const char *message) {
     if (sendto(_payload->_sock, message, MTU - 1, 0, (SOCKADDR *) &_payload->_sin, sizeof *&_payload->_sin) < 0) {
         std::cerr << "can't send message" << std::endl;
         throw errno;

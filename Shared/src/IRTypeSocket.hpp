@@ -5,12 +5,21 @@
 #include <iostream>
 #include <sstream>
 
+//#ifdef WIN32
+
+//#include <winsock2.h>
+
+//#elif defined (linux)
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h> /* close */
 #include <netdb.h> /* gethostbyname */
+
+//#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -56,8 +65,6 @@ class IRTypeSocket {
 
 public:
     IRTypeSocket() {}
-
-    virtual ~IRTypeSocket() {}
 
     virtual void Send(const char *message) = 0;
 
