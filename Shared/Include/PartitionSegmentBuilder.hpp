@@ -20,6 +20,7 @@ private:
 
     vec2<int> _startValue = vec2<int>();
     vec2<int> _endValue = vec2<int>();
+    vec2<int> _translationValue = vec2<int>();
 
 public:
 
@@ -35,6 +36,11 @@ public:
 
     PartitionSegmentBuilder &From(vec2<int> const &from){
         _startValue = from;
+        return *this;
+    }
+
+    PartitionSegmentBuilder &Translate(vec2<int> const &delta){
+        _translationValue = delta;
         return *this;
     }
 
@@ -62,7 +68,7 @@ public:
         vec2<int> temp;
         temp = _startValue;
         _startValue = _endValue;
-        _endValue = temp;
+        _translationValue = temp - _endValue;
         return *this;
     }
 
@@ -90,6 +96,10 @@ public:
 
     const vec2<int> &getEndValue() const {
         return _endValue;
+    }
+
+    const vec2<int> &getTranslationValue() const {
+        return _translationValue;
     }
 };
 
