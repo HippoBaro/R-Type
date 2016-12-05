@@ -36,7 +36,16 @@ set(SHARED_SOURCE_FILES
         Include/EntityPartitionBuilder.hpp
         Include/EntityPool.hpp
         Include/PartitionSegment.hpp
-        Include/PartitionSegmentBuilder.hpp Serializer/ISerializable.cpp Serializer/ISerializable.hpp)
+        Include/PartitionSegmentBuilder.hpp
+
+        Serializer/ISerializable.cpp
+        Serializer/ISerializable.hpp
+        Serializer/ISerializerBuffer.hpp
+        Serializer/SerializeBuffer.cpp
+        Serializer/SerializeBuffer.hpp
+        Serializer/DeserializeBuffer.cpp
+        Serializer/DeserializeBuffer.hpp
+        )
 
 include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 
