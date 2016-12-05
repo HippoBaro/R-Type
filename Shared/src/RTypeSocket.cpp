@@ -11,7 +11,7 @@ RTypeSocket::RTypeSocket() : IRTypeSocket()
 }
 
 RTypeSocket::~RTypeSocket() {
-#ifdef WIN32
+#ifdef _WIN32
     WSACleanup();
 #endif
     closesocket(_payload->_sock);
@@ -20,19 +20,17 @@ RTypeSocket::~RTypeSocket() {
 }
 
 void RTypeSocket::InitConnection(uint16_t port) {
-#ifdef WIN32
+#ifdef _WIN32
     WSADATA wsa;
    int err = WSAStartup(MAKEWORD(2, 2), &wsa);
    if(err < 0)
    {
-      puts("WSAStartup failed !");
-      exit(EXIT_FAILURE);
+      throw new std::runtime_error("socket error on init connection");
    }
 #endif
     _payload->_sock = socket(AF_INET, SOCK_DGRAM, 0);
     if (_payload->_sock == INVALID_SOCKET) {
-        std::cerr << "socket()" << std::endl;
-        throw errno;
+        throw std::runtime_error("socket error on init connection");
     }
 
     _payload->_type = SERVER;
