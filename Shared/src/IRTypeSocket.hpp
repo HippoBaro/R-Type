@@ -59,7 +59,6 @@ public:
     Payload()
     {
         memset(&_sin, 0, sizeof(SOCKADDR_IN));
-//        _sin = {0};
     }
 };
 
