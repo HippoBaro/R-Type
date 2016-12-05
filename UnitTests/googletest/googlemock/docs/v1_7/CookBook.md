@@ -318,7 +318,7 @@ class LogSink {
 This method's argument list is lengthy and hard to work with (let's
 say that the `message` argument is not even 0-terminated). If we mock
 it as is, using the mock will be awkward. If, however, we try to
-simplify this interface, we'll need to fix all clients depending on
+simplify this interface, we'll need to fix all _clients depending on
 it, which is often infeasible.
 
 The trick is to re-dispatch the method in the mock class:

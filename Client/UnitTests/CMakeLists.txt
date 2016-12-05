@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6.2)
 
-set(CLIENT_TEST_FILES TestTests/Module1.cpp)
+set(CLIENT_TEST_FILES)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 foreach (_file ${CLIENT_TEST_FILES})
