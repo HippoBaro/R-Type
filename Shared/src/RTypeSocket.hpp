@@ -87,7 +87,6 @@ public:
 
             if (_payload->_type == CLIENT)
             {
-                std::cout << "i am client i recieve from server" << std::endl;
                 socklen_t sinsize = sizeof *(&_payload->_sin);
                 if (recvfrom(_payload->_sock, _payload->_buffer, MTU - 1, 0, (SOCKADDR *) &_payload->_sin, &sinsize) < 0) {
                     throw errno;
@@ -96,7 +95,6 @@ public:
             }
             else if (_payload->_type == SERVER)
             {
-                std::cout << "i am server i recieve from client" << std::endl;
                 SOCKADDR_IN csin = {0};
                 socklen_t sinsize = sizeof *&csin;
 

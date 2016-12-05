@@ -6,24 +6,23 @@
 
 int main()
 {
-    char str[] = "azertyuiopqsdfghjklmwxcvbn AZERTYUIOPQSDFGHJKLMWXCVBN";
-    char *ptr;
-    ptr = str;
-    RTypeSocket server =  RTypeSocket();
-    char *messageofclient;
-    bool gamecondition = true;
+    Payload *server_payload;
+    Payload *client;
+    RTypeSocket server = RTypeSocket();
 
-    server.InitConnection();
-    while (gamecondition)
+    server.InitConnection(2323);
+    server_payload = server.GetNativePayload();
+    std::cout << "socket server_payload = " << server_payload->_sock << std::endl;
+
+    while (true)
     {
-        messageofclient = server.ListenClient();
-        if (messageofclient != nullptr)
+        if ((client = server.Receive()) != nullptr)
         {
-            std::cout << "messageofclient " << messageofclient << std::endl;
-
-            server.SendMessageToAllClients("message recu");
+            std::cout << "socket server = " << client->_sock << " addresse "
+             << client->_sin.sin_addr.s_addr  << std::endl;
+            std::cout << "client buffer = " << client->_buffer << std::endl;
+            server.Send(client, "message recu");
         }
     }
-    server.EndConnection();
-    return 0;
+
 }

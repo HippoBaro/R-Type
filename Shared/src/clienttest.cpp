@@ -4,25 +4,23 @@
 
 #include "RTypeSocket.hpp"
 
-int main() {
+int main()
+{
+    Payload *client_payload;
+    Payload *server_payload;
     RTypeSocket client = RTypeSocket();
-    bool gamecondition = true;
-    char lol[] = "wala ca marche";
-    char *messageofserver;
 
+    client.InitConnection("localhost", 2323);
+    client_payload = client.GetNativePayload();
 
-    client.InitConnection("localhost");
-    client.WriteServer("joueur numero 1");
-    client.WriteServer("nique");
-    client.WriteServer(lol);
-    while (gamecondition)
+    client.Send("dimitri");
+    while (true)
     {
-        messageofserver = client.ListenServer();
-        if (messageofserver != nullptr)
+        if ((server_payload = client.Receive()) != nullptr)
         {
-            std::cout << "message of server " << messageofserver << " " << std::string(messageofserver) << std::endl;
+            std::cout << "server messages" << server_payload->_buffer << std::endl;
         }
     }
-    client.EndConnection();
-    return 0;
+
+    return (0);
 }
