@@ -6,13 +6,19 @@
 #define R_TYPE_IRTYPESOCKET_HPP
 
 #include <iostream>
+#include <memory>
 #include "RTypeNetworkPayload.h"
+#include "RTypeSocketType.h"
 
 class IRTypeSocket {
 public:
     virtual ~IRTypeSocket() {}
 
     virtual void Bind() = 0;
+
+    virtual bool Connect() = 0;
+
+    virtual std::unique_ptr<IRTypeSocket> Accept() = 0;
 
     virtual bool Receive(RTypeNetworkPayload &, size_t) = 0;
 
