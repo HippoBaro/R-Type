@@ -5,11 +5,11 @@
 #include <iostream>
 #include <sstream>
 
-//#ifdef WIN32
+#ifdef _WIN32
 
-//#include <winsock2.h>
+#include <winsock2.h>
 
-//#elif defined (linux)
+#elif __linux__
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -18,7 +18,7 @@
 #include <unistd.h> /* close */
 #include <netdb.h> /* gethostbyname */
 
-//#endif
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
