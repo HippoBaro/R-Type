@@ -5,6 +5,7 @@
 #ifndef R_TYPE_GRAPHICDUMMYMONSTER_HPP
 #define R_TYPE_GRAPHICDUMMYMONSTER_HPP
 
+#include <DrawableEntity.hpp>
 #include "DummyMonster.hpp"
 
 class GrahicDummyMonster : DrawableEntity, public DummyMonster {
