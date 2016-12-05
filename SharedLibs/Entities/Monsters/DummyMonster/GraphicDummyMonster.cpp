@@ -16,11 +16,11 @@ void GrahicDummyMonster::Draw(sf::RenderTexture &rect) {
     rect.draw(sprite);
 }
 
-vec2<int> GrahicDummyMonster::GetRenderRect() {
-    return vec2<int>(32 * 5, 14 * 5);
+vec2<float> GrahicDummyMonster::GetRenderRect() {
+    return vec2<float>(32 * 5, 14 * 5);
 }
 
-vec2<int> GrahicDummyMonster::GetPosition() {
+vec2<float> GrahicDummyMonster::GetPosition() {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened();
     return pos;
 }

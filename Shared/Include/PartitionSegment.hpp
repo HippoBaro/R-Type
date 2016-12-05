@@ -10,14 +10,14 @@
 
 class PartitionSegment {
 private:
-    Tween<vec2<int>> _locationVector;
+    Tween<vec2<float>> _locationVector;
 
 public:
     PartitionSegment() : _locationVector() {}
-    PartitionSegment(const Tween<vec2<int>> &locationVector): _locationVector(locationVector) {}
+    PartitionSegment(const Tween<vec2<float>> &locationVector): _locationVector(locationVector) {}
 
 public:
-    Tween<vec2<int>> getLocationVector() const {
+    Tween<vec2<float>> getLocationVector() const {
         return _locationVector;
     }
 
