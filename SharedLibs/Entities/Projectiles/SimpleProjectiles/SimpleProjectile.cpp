@@ -1,13 +1,16 @@
 //
-// Created by hippolyteb on 11/25/16.
+// Created by hippolyteb on 12/5/16.
 //
+
+#include "SimpleProjectile.hpp"
 
 #include <EntityPartitionBuilder.hpp>
 #include <EaseInOutCurve.hpp>
 #include <EaseOutCurve.hpp>
-#include "DummyMonster.hpp"
+#include <Base.h>
+#include "SimpleProjectile.hpp"
 
-DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
+SimpleProjectile::SimpleProjectile(Timer *timer) : _timer(timer), _partition(timer) {
     _partition = EntityPartitionBuilder(timer).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
@@ -24,4 +27,4 @@ DummyMonster::DummyMonster(Timer *timer) : _timer(timer), _partition(timer) {
             .Build();
 }
 
-RTYPE_ENTITY_REGISTER(DummyMonster)
+RTYPE_ENTITY_REGISTER(SimpleProjectile)
