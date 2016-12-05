@@ -18,9 +18,9 @@ private:
     TimeRef _start = TimeRef();
     std::chrono::milliseconds _duration =std::chrono::milliseconds();
 
-    vec2<int> _startValue = vec2<int>();
-    vec2<int> _endValue = vec2<int>();
-    vec2<int> _translationValue = vec2<int>();
+    vec2<float> _startValue = vec2<float>();
+    vec2<float> _endValue = vec2<float>();
+    vec2<float> _translationValue = vec2<float>();
 
 public:
 
@@ -34,17 +34,17 @@ public:
 
     PartitionSegmentBuilder() {}
 
-    PartitionSegmentBuilder &From(vec2<int> const &from){
+    PartitionSegmentBuilder &From(vec2<float> const &from){
         _startValue = from;
         return *this;
     }
 
-    PartitionSegmentBuilder &Translate(vec2<int> const &delta){
+    PartitionSegmentBuilder &Translate(vec2<float> const &delta){
         _translationValue = delta;
         return *this;
     }
 
-    PartitionSegmentBuilder &To(vec2<int> const &to){
+    PartitionSegmentBuilder &To(vec2<float> const &to){
         _endValue = to;
         return *this;
     }
@@ -65,7 +65,7 @@ public:
     }
 
     PartitionSegmentBuilder &Invert(){
-        vec2<int> temp;
+        vec2<float> temp;
         temp = _startValue;
         _startValue = _endValue;
         _translationValue = temp - _endValue;
@@ -75,7 +75,7 @@ public:
     PartitionSegment Build(Timer *timer){
         if (_curvingOption == nullptr)
             _curvingOption = new LinearCurve();
-        return PartitionSegment(Tween<vec2<int>>(timer, _startValue, _start, _endValue, TimeRef(_start.getMilliseconds() + _duration), _curvingOption));
+        return PartitionSegment(Tween<vec2<float>>(timer, _startValue, _start, _endValue, TimeRef(_start.getMilliseconds() + _duration), _curvingOption));
     }
 
     ITweeningCurve *getCurvingOption() const{
@@ -90,15 +90,15 @@ public:
         return _duration;
     }
 
-    const vec2<int> &getStartValue() const {
+    const vec2<float> &getStartValue() const {
         return _startValue;
     }
 
-    const vec2<int> &getEndValue() const {
+    const vec2<float> &getEndValue() const {
         return _endValue;
     }
 
-    const vec2<int> &getTranslationValue() const {
+    const vec2<float> &getTranslationValue() const {
         return _translationValue;
     }
 };

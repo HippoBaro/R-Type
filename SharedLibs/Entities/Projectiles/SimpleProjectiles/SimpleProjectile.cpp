@@ -11,15 +11,15 @@
 #include "SimpleProjectile.hpp"
 
 SimpleProjectile::SimpleProjectile(Timer *timer) : _timer(timer), _partition(timer) {
-    _partition = EntityPartitionBuilder(timer, vec2<int>(0, 0)).AddSegment(
+    _partition = EntityPartitionBuilder(timer, vec2<float>(0, 0)).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
                             .For(std::chrono::seconds(5))
-                            .Translate(vec2<int>(500, 500))
+                            .Translate(vec2<float>(500, 500))
                             .WithCurving(new EaseInOutCurve()))
             .AddSegment(PartitionSegmentBuilder()
                                   .For(std::chrono::seconds(10))
-                                  .Translate(vec2<int>(100, 90))
+                                  .Translate(vec2<float>(100, 90))
                                   .WithCurving(new EaseOutCurve()))
             .Loop(2)
             .Build();
