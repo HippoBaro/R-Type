@@ -11,7 +11,7 @@
 #include "SimpleProjectile.hpp"
 
 SimpleProjectile::SimpleProjectile(Timer *timer) : _timer(timer), _partition(timer) {
-    _partition = EntityPartitionBuilder(timer, vec2<float>(0, 0)).AddSegment(
+    _partition = EntityPartitionBuilder(timer, timer->getCurrent(), vec2<float>(0, 0)).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
                             .For(std::chrono::seconds(5))
