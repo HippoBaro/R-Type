@@ -104,7 +104,9 @@ Payload *RTypeSocket::Receive() {
             }
             return _payload;
         } else if (_payload->_type == SERVER) {
-            SOCKADDR_IN csin = {0};
+//            SOCKADDR_IN csin = {0};
+            SOCKADDR_IN csin;
+            memset(&csin, 0, sizeof(SOCKADDR_IN));
             socklen_t sinsize = sizeof *&csin;
 
             if (recvfrom(_payload->_sock, _temppayload->_buffer, MTU - 1, 0, (SOCKADDR *) &csin, &sinsize) < 0) {

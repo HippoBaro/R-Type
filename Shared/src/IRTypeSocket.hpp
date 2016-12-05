@@ -56,8 +56,10 @@ public:
     char _buffer[MTU];
 
     ~Payload() {}
-    Payload() {
-        _sin = {0};
+    Payload()
+    {
+        memset(&_sin, 0, sizeof(SOCKADDR_IN));
+//        _sin = {0};
     }
 };
 
@@ -76,7 +78,7 @@ public:
 
     virtual Payload* GetNativePayload() = 0;
 
-    virtual Payload *Receive() = 0;
+    virtual Payload* Receive() = 0;
 };
 
 #endif //RTYPE_SERVER_IRTYPESOCKET_HPP
