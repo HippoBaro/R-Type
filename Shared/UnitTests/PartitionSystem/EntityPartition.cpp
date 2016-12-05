@@ -10,14 +10,14 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
     auto timer = new Timer(std::chrono::system_clock::now());
 
     //Create our entity partition
-    auto partition = EntityPartitionBuilder(timer, vec2<int>(0, 0))
+    auto partition = EntityPartitionBuilder(timer, vec2<float>(0, 0))
             .AddSegment(PartitionSegmentBuilder()
                                 .Begins(timer->getCurrent())
                                 .For(std::chrono::seconds(1))
-                                .Translate(vec2<int>(20, 20)))
+                                .Translate(vec2<float>(20, 20)))
             .AddSegment(PartitionSegmentBuilder()
                                   .For(std::chrono::milliseconds(500))
-                                  .Translate(vec2<int>(-15, -15)))
+                                  .Translate(vec2<float>(-15, -15)))
             .Loop(2)
             .Build();
 
