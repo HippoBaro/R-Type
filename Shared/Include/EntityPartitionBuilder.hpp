@@ -12,15 +12,17 @@ class EntityPartitionBuilder {
 private:
     std::vector<PartitionSegmentBuilder> _segments;
     Timer *_timer;
+    TimeRef _startTime;
     vec2<float> _initialPosition;
 
 public:
-    EntityPartitionBuilder(Timer *timer, vec2<float> const &initialPos) : _segments(), _timer(timer), _initialPosition(initialPos) {}
+    EntityPartitionBuilder(Timer *timer, TimeRef const &startTime, vec2<float> const &initialPos) : _segments(), _timer(timer), _startTime(startTime), _initialPosition(initialPos) {}
 
 public:
     EntityPartitionBuilder &AddSegment(PartitionSegmentBuilder &segment){
         if (_segments.size() == 0) {// if this is the very first segment
             segment.From(_initialPosition);
+            segment.Begins(_startTime);
             auto translationvalue = segment.getTranslationValue();
             segment.To(_initialPosition + translationvalue);
         }
