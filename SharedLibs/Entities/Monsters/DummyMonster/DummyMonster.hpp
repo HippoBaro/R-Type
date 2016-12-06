@@ -6,9 +6,9 @@
 #define R_TYPE_DUMMYMONSTER_HPP
 
 #include "PartitionSystem/EntityPartition.hpp"
-#include <Timer.hpp>
+#include <Time/Timer.hpp>
 #include <Base.h>
-#include <Interfaces/Libs/Entity.hpp>
+#include <Entities/Entity.hpp>
 #include <EventDispatcher/EventManager.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
