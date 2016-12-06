@@ -28,7 +28,7 @@ set(SHARED_SOURCE_FILES
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
         Include/Socket/Enum/RTypeSocketType.h
-        Include/Socket/Linux/RTypeSocket.hpp
+        Include/Socket/UNIX/RTypeSocket.hpp
         Include/Socket/Windows/RTypeSocket.hpp
 
         Include/Time/Timer.hpp
@@ -43,20 +43,17 @@ include_directories(Libs/Interfaces
         Include/
         ../SFML/include
         LibraryLoader
-        Socket/
-        Socket/Interfaces
         Include/Socket/Enum
+        Include/Socket
         ../SharedLibs/Interfaces)
 
 IF (MSVC)
-    set(LIBRARY_SOCKET_FILES Include/Socket/Windows/RTypeSocket.hpp)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(LIBRARY_SOCKET_FILES Include/Socket/Linux/RTypeSocket.hpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 
-add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES} ${LIBRARY_SOCKET_FILES})
+add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES})
 
 target_link_libraries(RTypeShared LibraryLoader ${LIB_SOCKET})

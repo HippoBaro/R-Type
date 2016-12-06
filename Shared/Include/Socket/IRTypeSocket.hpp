@@ -20,9 +20,9 @@ public:
 
     virtual std::unique_ptr<IRTypeSocket> Accept() = 0;
 
-    virtual bool Receive(RTypeNetworkPayload &, size_t) = 0;
+    virtual bool Receive(RTypeNetworkPayload &) = 0;
 
-    virtual void Send(const std::string &payload) = 0;
+    virtual bool Send(const RTypeNetworkPayload &payload) = 0;
 };
 
 #endif //R_TYPE_IRTYPESOCKET_HPP
