@@ -23,8 +23,8 @@ matrix:
           - libsndfile1-dev
           - libopenal-dev
           - libudev-dev
-#    - os: osx
-#      osx_image: xcode8.2
+    - os: osx
+      osx_image: xcode8.2
 
 # Enable C++ support
 language: cpp
