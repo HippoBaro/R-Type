@@ -23,21 +23,21 @@ TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     auto current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 10.2 && current.x >= 9.8 &&
-              current.y <= 10.2 && current.y >= 9.8, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 11 && current.x >= 9 &&
+              current.y <= 11 && current.y >= 9, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 20 && current.x >= 19 &&
-              current.y <= 20 && current.y >= 19, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 21 && current.x >= 18 &&
+              current.y <= 21 && current.y >= 18, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 13 && current.x >= 10 &&
-              current.y <= 13 && current.y >= 10, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 14 && current.x >= 9 &&
+              current.y <= 14 && current.y >= 9, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     current = partition.GetCurrentSegment(timer->getCurrent()).getLocationVector().GetTweened();
-    ASSERT_EQ(current.x <= 8 && current.x >= 5 &&
-              current.y <= 8 && current.y >= 5, true) << "Partition wasn't played correctly. Vec was :" << current.x;
+    ASSERT_EQ(current.x <= 9 && current.x >= 5 &&
+              current.y <= 9 && current.y >= 5, true) << "Partition wasn't played correctly. Vec was :" << current.x;
 }
