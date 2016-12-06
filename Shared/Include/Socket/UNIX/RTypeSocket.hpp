@@ -171,7 +171,6 @@ public:
         socklen_t length = sizeof(clientAddr);
         int client = accept(_socket, (struct sockaddr *) &clientAddr, &length);
         if (client < 0) {
-            std::cerr << "Server Accept Failed !" << std::endl;
             return nullptr;
         }
         return std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
