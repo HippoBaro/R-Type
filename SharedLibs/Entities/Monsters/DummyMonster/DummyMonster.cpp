@@ -2,8 +2,6 @@
 // Created by hippolyteb on 11/25/16.
 //
 
-#include <iostream>
-#include <thread>
 #include "DummyMonster.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 #include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
