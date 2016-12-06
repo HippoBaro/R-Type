@@ -12,6 +12,7 @@
 #include <algorithm>
 #include "Events.h"
 #include <Interfaces/Libs/Entity.hpp>
+#include <IMessage.hpp>
 
 /*
  * Usage exemple
@@ -29,18 +30,20 @@
  */
 
 namespace RType {
+    class EventManager {
 
-  class EventManager {
+    private:
+        std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(
+                Entity &, IMessage *message)>>>>> _listeners = {};
 
-  private:
-    std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity&)>>>>> _listeners = {};
+    public:
+        EventManager();
 
-  public:
-    EventManager();
+        void
+        AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity &, IMessage *message)>>>> &callbacks);
 
-    void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity&)>>>> &callbacks);
-    void Emit(RType::Event event, Entity& data);
-  };
+        void Emit(RType::Event event, IMessage *message, Entity &sender);
+    };
 }
 
 

@@ -9,9 +9,9 @@
 #include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
 #include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(GetParamFromInitializerList<Timer*>(init, 0), *GetParamFromInitializerList<TimeRef*>(init, 1), *GetParamFromInitializerList<vec2<float>*>(init, 2)) { }
+DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
 
-DummyMonster::DummyMonster(Timer *timer, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer) {
+DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
