@@ -2,7 +2,7 @@
 // Created by hippolyteb on 11/29/16.
 //
 
-#include <Interfaces/Libs/DrawableEntity.hpp>
+#include <Entities/DrawableEntity.hpp>
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target) {

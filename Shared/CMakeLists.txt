@@ -6,18 +6,57 @@ add_subdirectory(LibraryLoader)
 set(SHARED_SOURCE_FILES
         src/main.cpp
         EventDispatcher/EventManager.cpp
-        EntityPool/EntityPool.cpp)
+        EntityPool/EntityPool.cpp
 
-include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum ../SharedLibs/Interfaces)
+        Include/EntityPool/EntityPool.hpp
+
+        Include/Entities/Trait.hpp
+        Include/Entities/Entity.hpp
+        Include/Entities/DrawableEntity.hpp
+        Include/Entities/PlayerRef.hpp
+
+        Include/EventDispatcher/EventListener.hpp
+        Include/EventDispatcher/EventManager.hpp
+        Include/EventDispatcher/Events.h
+        Include/EventDispatcher/IMessage.hpp
+
+        Include/PartitionSystem/EntityPartition.hpp
+        Include/PartitionSystem/EntityPartitionBuilder.hpp
+        Include/PartitionSystem/PartitionSegment.hpp
+        Include/PartitionSystem/PartitionSegmentBuilder.hpp
+
+        Include/Socket/IRTypeSocket.hpp
+        Include/Socket/RTypeNetworkPayload.h
+        Include/Socket/Enum/RTypeSocketType.h
+        Include/Socket/Linux/RTypeSocket.hpp
+        Include/Socket/Windows/RTypeSocket.hpp
+
+        Include/Time/Timer.hpp
+        Include/Time/TimeRef.hpp
+
+        Include/IService.hpp
+        Include/vec2.hpp
+        )
+
+include_directories(Libs/Interfaces
+        Include
+        Include/
+        ../SFML/include
+        LibraryLoader
+        Socket/
+        Socket/Interfaces
+        Include/Socket/Enum
+        ../SharedLibs/Interfaces)
 
 IF (MSVC)
-    set(LIBRARY_SOCKET_FILES Socket/Windows/RTypeSocket.hpp)
+    set(LIBRARY_SOCKET_FILES Include/Socket/Windows/RTypeSocket.hpp)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(LIBRARY_SOCKET_FILES Socket/Linux/RTypeSocket.hpp)
+    set(LIBRARY_SOCKET_FILES Include/Socket/Linux/RTypeSocket.hpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 
 add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES} ${LIBRARY_SOCKET_FILES})
+
 target_link_libraries(RTypeShared LibraryLoader ${LIB_SOCKET})
