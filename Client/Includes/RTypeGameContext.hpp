@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include "IRtypeDrawingContext.hpp"
 #include "ClientEntityPool.hpp"
+#include <vec2.hpp>
 
 class RTypeGameContext : public IRtypeDrawingContext{
 private:

@@ -4,11 +4,10 @@
 
 #include "SimpleProjectile.hpp"
 
-#include <EntityPartitionBuilder.hpp>
-#include <EaseInOutCurve.hpp>
-#include <EaseOutCurve.hpp>
+#include <PartitionSystem/EntityPartitionBuilder.hpp>
+#include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
+#include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
 #include <Base.h>
-#include "SimpleProjectile.hpp"
 
 SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
 
