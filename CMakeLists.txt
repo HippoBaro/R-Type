@@ -9,6 +9,7 @@ include(cmake/ucm.cmake)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared/Include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SharedLibs/Interfaces)
 
 enable_testing()
 
