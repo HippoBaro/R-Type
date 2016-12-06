@@ -9,6 +9,8 @@
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>
+#include "EventManager.hpp"
+#include "EventListener.hpp"
 
 class EntityPool {
 protected:
@@ -28,5 +30,6 @@ public:
 public:
     const std::shared_ptr<RType::EventManager> &getEventManager() const;
 };
+
 
 #endif //R_TYPE_ENTITYPOOL_HPP
