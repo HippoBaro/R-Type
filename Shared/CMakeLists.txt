@@ -24,6 +24,13 @@ set(SHARED_SOURCE_FILES
         Include/PartitionSystem/EntityPartitionBuilder.hpp
         Include/PartitionSystem/PartitionSegment.hpp
         Include/PartitionSystem/PartitionSegmentBuilder.hpp
+        Include/PartitionSystem/Tween/Tween.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInOutCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseOutCurve.hpp
+        Include/PartitionSystem/Tween/Curve/ITweeningCurve.hpp
+        Include/PartitionSystem/Tween/Curve/LinearCurve.hpp
+        Include/PartitionSystem/Tween/Curve/SmoothStepCurve.hpp
 
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
