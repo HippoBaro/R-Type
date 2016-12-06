@@ -25,6 +25,10 @@ public:
 		for(auto i : _segments)
 			if (i.isPartOf(timeRef))
 				return i;
+
+        if (_segments.front().getStart() > timeRef)
+            return _segments.front();
+
         return _segments.back();
     }
 };

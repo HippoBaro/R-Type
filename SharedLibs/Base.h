@@ -13,9 +13,7 @@
 
 #define RTYPE_ENTITY_REGISTER(Entity)                                                   \
 extern "C" DLLEXPORT Entity *create(const std::initializer_list<void *> init) {         \
-    for (auto i : init)                                                                 \
-        return new Entity((Timer *) i);                                                 \
-    return nullptr;                                                                     \
+    return new Entity(init);                                                            \
 }                                                                                       \
                                                                                         \
 extern "C" DLLEXPORT void destroy(Entity *p) {                                          \
@@ -25,13 +23,23 @@ extern "C" DLLEXPORT void destroy(Entity *p) {                                  
 
 #define RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableEntity)                                          \
 extern "C" DLLEXPORT DrawableEntity *createDrawable(const std::initializer_list<void *> init) { \
-    for (auto i : init)                                                                         \
-        return new DrawableEntity((Timer *) i);                                                 \
-    return nullptr;                                                                             \
+    return new DrawableEntity(init);                                                            \
 }                                                                                               \
                                                                                                 \
 extern "C" DLLEXPORT void destroyDrawable(DrawableEntity *p) {                                  \
     delete p;                                                                                   \
+}
+
+template<typename T>
+T GetParamFromInitializerList(const std::initializer_list<void *> &init, unsigned int index) {
+    unsigned int i = 0;
+    for (auto const param : init){
+        if (i == index)
+            return static_cast<T>(param);
+        i++;
+    }
+
+    return nullptr;
 }
 
 #endif //R_TYPE_BASE_H
