@@ -8,7 +8,7 @@
 #include <memory>
 #include <math.h>
 #include "PartitionSystem/Tween/Curve/ITweeningCurve.hpp"
-#include "Timer.hpp"
+#include "Time/Timer.hpp"
 
 template <typename TweenInnerType>
 class Tween {

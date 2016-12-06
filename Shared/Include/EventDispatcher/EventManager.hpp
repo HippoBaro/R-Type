@@ -12,7 +12,7 @@
 #include <algorithm>
 #include "Events.h"
 #include <EventDispatcher/IMessage.hpp>
-#include <Interfaces/Libs/Entity.hpp>
+#include <Entities/Entity.hpp>
 #include <EventDispatcher/IMessage.hpp>
 
 /*

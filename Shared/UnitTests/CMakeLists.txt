@@ -11,12 +11,12 @@ set(SHARED_TEST_FILES
         Socket/SocketTest.cpp)
 
 IF (MSVC)
-    set(LIBRARY_SOCKET_HEADER_FOLDER ../Socket/Windows)
+    set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/Windows)
 ELSE()
-    set(LIBRARY_SOCKET_HEADER_FOLDER ../Socket/Linux)
+    set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/Linux)
 ENDIF()
 
-include_directories(../Include ../Libs/Interfaces ../Socket/Includes ../Socket/Interfaces ../Socket/Enum ${LIBRARY_SOCKET_HEADER_FOLDER})
+include_directories(../Include ../Libs/Interfaces ../Socket/Includes ../Socket/Interfaces ../Include/Socket/Enum ${LIBRARY_SOCKET_HEADER_FOLDER})
 
 foreach (_file ${SHARED_TEST_FILES})
     get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)
