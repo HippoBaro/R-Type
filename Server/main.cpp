@@ -10,7 +10,7 @@
 
 int main()
 {
-    Timer *tmer = new Timer(std::chrono::system_clock::now());
+    Timer *tmer = new Timer(std::chrono::steady_clock::now());
     ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DummyMonster", { tmer }));
 
     Trait trait = Drawable;

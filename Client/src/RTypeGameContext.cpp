@@ -8,7 +8,7 @@
 #include "RTypeGameContext.hpp"
 
 RTypeGameContext::RTypeGameContext() : _pool() {
-    Timer *timer = new Timer(std::chrono::system_clock::now());
+    Timer *timer = new Timer(std::chrono::steady_clock::now());
 
     auto now = timer->getCurrent().GetRelative(std::chrono::seconds(5));
     auto stratPos = vec2<float>(0, 0);
