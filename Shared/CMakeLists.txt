@@ -3,12 +3,6 @@ cmake_minimum_required(VERSION 2.6.2)
 add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
 
-set(LIBRARY_SOCKET_FILES
-        Socket/Interfaces/IRTypeSocket.hpp
-        Socket/Includes/RTypeNetworkPayload.h
-        Socket/Enum/RTypeSocketType.h)
-
-
 set(SHARED_SOURCE_FILES
         src/main.cpp
         EventDispatcher/EventManager.cpp
@@ -17,7 +11,7 @@ set(SHARED_SOURCE_FILES
 include_directories(Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum ../SharedLibs/Interfaces)
 
 IF (MSVC)
-    set(LIBRARY_SOCKET_FILES ${LIBRARY_SOCKET_FILES} Socket/Windows/RTypeSocket.hpp)
+    set(LIBRARY_SOCKET_FILES Socket/Windows/RTypeSocket.hpp)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
