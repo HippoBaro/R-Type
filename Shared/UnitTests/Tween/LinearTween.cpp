@@ -17,7 +17,7 @@ TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     now = tween.GetTweened();
-    ASSERT_EQ(now > 75 && now < 85, true) << "Tween should be 50 but is " << now;
+    ASSERT_EQ(now > 70 && now < 85, true) << "Tween should be 50 but is " << now;
 }
 
 TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
