@@ -21,10 +21,13 @@ public:
         return _locationVector;
     }
 
-    bool isPartOf(TimeRef const &timeRef){
+    bool isPartOf(TimeRef const &timeRef) {
         return this->_locationVector.isPartOf(timeRef);
     }
 
+    TimeRef getStart() {
+        return this->_locationVector.getStart();
+    }
 };
 
 
