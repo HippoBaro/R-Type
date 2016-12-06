@@ -9,6 +9,7 @@
 #include <Timer.hpp>
 #include <Base.h>
 #include <Interfaces/Libs/Entity.hpp>
+#include <EventDispatcher/EventManager.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class DummyMonster : public Entity {

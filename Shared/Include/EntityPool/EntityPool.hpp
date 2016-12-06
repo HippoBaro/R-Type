@@ -9,8 +9,8 @@
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>
-#include "EventManager.hpp"
-#include "EventListener.hpp"
+#include "EventDispatcher/EventManager.hpp"
+#include "EventDispatcher/EventListener.hpp"
 
 class EntityPool {
 protected:

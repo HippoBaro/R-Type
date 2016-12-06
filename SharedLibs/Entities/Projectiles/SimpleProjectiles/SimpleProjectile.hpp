@@ -5,8 +5,8 @@
 #ifndef R_TYPE_SIMPLEPROJECTILE_HPP
 #define R_TYPE_SIMPLEPROJECTILE_HPP
 
-#include <EntityPartition.hpp>
-#include <EventManager.hpp>
+#include <PartitionSystem/EntityPartition.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 class SimpleProjectile {
 protected:

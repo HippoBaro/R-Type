@@ -11,7 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include "Events.h"
-#include <IMessage.hpp>
+#include <EventDispatcher/IMessage.hpp>
 #include <Interfaces/Libs/Entity.hpp>
 #include <IMessage.hpp>
 
