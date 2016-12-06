@@ -7,10 +7,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/BUILD)
 
 include(cmake/ucm.cmake)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared/Include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SharedLibs/Interfaces)
-
 enable_testing()
 
 if(MSVC)
@@ -31,3 +27,7 @@ ucm_set_runtime(STATIC)
 
 add_subdirectory(SharedLibs)
 add_subdirectory(UnitTests)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared/Include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SharedLibs/Interfaces)
