@@ -6,7 +6,7 @@
 #define R_TYPE_DRAWABLEENTITY_HPP
 
 #include "Entity.hpp"
-#include "../../../../SharedLibs/Interfaces/IDrawable.hpp"
+#include "IDrawable.hpp"
 
 class DrawableEntity : public Entity, public IDrawable {
 public:
