@@ -3,8 +3,8 @@
 //
 
 #include <chrono>
-#include <Timer.hpp>
-#include <Interfaces/Libs/Entity.hpp>
+#include <Time/Timer.hpp>
+#include <Entities/Entity.hpp>
 #include <LibraryLoader/ManagedExternalInstance.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 
