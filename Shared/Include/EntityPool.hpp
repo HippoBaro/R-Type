@@ -10,16 +10,26 @@
 #include <vector>
 #include <memory>
 #include <ManagedExternalInstance.hpp>
+#include "EventManager.hpp"
+#include "EventListener.hpp"
 
 class EntityPool {
 protected:
     std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
+    std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
+    RType::EventListener _eventListener = RType::EventListener(_eventManager);
+
+public:
+    EntityPool();
 
 public:
     virtual ~EntityPool();
 
 public:
     virtual void AddEntity(ManagedExternalInstance<Entity> &entity);
+
+public:
+    const std::shared_ptr<RType::EventManager> &getEventManager() const;
 };
 
 
