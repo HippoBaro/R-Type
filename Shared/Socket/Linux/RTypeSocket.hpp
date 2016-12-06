@@ -6,15 +6,10 @@
 #define R_TYPE_RTYPESOCKETLINUX_HPP
 
 #include <Socket/IRTypeSocket.hpp>
-#include <strings.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <malloc.h>
-#include <stdexcept>
 #include <Socket/RTypeNetworkPayload.h>
 
 template<SocketType type>
