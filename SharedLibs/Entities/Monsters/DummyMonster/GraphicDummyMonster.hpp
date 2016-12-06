@@ -11,7 +11,7 @@
 class GrahicDummyMonster : DrawableEntity, public DummyMonster {
 
 public:
-    GrahicDummyMonster(Timer *timer);
+    GrahicDummyMonster(const std::initializer_list<void *> init);
 
 public:
     void Draw(sf::RenderTexture &rect) override;
