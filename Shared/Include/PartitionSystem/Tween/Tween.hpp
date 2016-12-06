@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <math.h>
-#include "ITweeningCurve.hpp"
+#include "PartitionSystem/Tween/Curve/ITweeningCurve.hpp"
 #include "Timer.hpp"
 
 template <typename TweenInnerType>

@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 2.6.2)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SHARED_TEST_FILES Time/Timer.cpp Time/TimeRef.cpp Tween/LinearTween.cpp PartitionSystem/EntityPartition.cpp EventDispatcher/EventDispatcherTest.cpp Socket/SocketTest.cpp)
+set(SHARED_TEST_FILES
+        Time/Timer.cpp
+        Time/TimeRef.cpp
+        Tween/LinearTween.cpp
+        PartitionSystem/EntityPartition.cpp
+        EventDispatcher/EventDispatcherTest.cpp
+        Socket/SocketTest.cpp)
 
 IF (MSVC)
     set(LIBRARY_SOCKET_HEADER_FOLDER ../Socket/Windows)
@@ -10,7 +16,7 @@ ELSE()
     set(LIBRARY_SOCKET_HEADER_FOLDER ../Socket/Linux)
 ENDIF()
 
-include_directories(../Include ../Socket/Includes ../Socket/Interfaces ../Socket/Enum ${LIBRARY_SOCKET_HEADER_FOLDER})
+include_directories(../Include ../Libs/Interfaces ../Socket/Includes ../Socket/Interfaces ../Socket/Enum ${LIBRARY_SOCKET_HEADER_FOLDER})
 
 foreach (_file ${SHARED_TEST_FILES})
     get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)

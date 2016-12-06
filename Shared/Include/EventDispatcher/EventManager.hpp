@@ -11,6 +11,9 @@
 #include <memory>
 #include <algorithm>
 #include "Events.h"
+#include <EventDispatcher/IMessage.hpp>
+#include <Interfaces/Libs/Entity.hpp>
+#include <EventDispatcher/IMessage.hpp>
 
 /*
  * Usage exemple
@@ -28,21 +31,20 @@
  */
 
 namespace RType {
+    class EventManager {
 
-  // TODO: Put the real Entity definition
-  class IEntity;
+    private:
+        std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(
+                Entity &, IMessage *message)>>>>> _listeners = {};
 
-  class EventManager {
+    public:
+        EventManager();
 
-  private:
-    std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>>> _listeners = {};
+        void
+        AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity &, IMessage *message)>>>> &callbacks);
 
-  public:
-    EventManager();
-
-    void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(IEntity&)>>>> &callbacks);
-    void Emit(RType::Event event, IEntity& data);
-  };
+        void Emit(RType::Event event, IMessage *message, Entity &sender);
+    };
 }
 
 

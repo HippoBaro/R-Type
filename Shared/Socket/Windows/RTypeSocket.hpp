@@ -5,13 +5,13 @@
 #ifndef R_TYPE_RTYPESOCKETWINDOWS_HPP
 #define R_TYPE_RTYPESOCKETWINDOWS_HPP
 
-#include "IRTypeSocket.hpp"
+#include <Socket/IRTypeSocket.hpp>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <malloc.h>
 #include <winsock.h>
 #include <stdexcept>
-#include "RTypeNetworkPayload.h"
+#include <Socket/RTypeNetworkPayload.h>
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {

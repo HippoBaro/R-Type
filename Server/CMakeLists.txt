@@ -1,19 +1,20 @@
 cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Server)
 
-include_directories(../Shared/LibraryLoader/ ../Shared/Libs/Interfaces ../Shared/Include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Include)
+
 add_subdirectory(UnitTests)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SERVER_SOURCE_FILES
-        src/main.cpp
-        )
+        main.cpp
+        GameInstance/GameInstanceManager.cpp GameInstance/GameInstance.cpp Include/GameInstance.hpp)
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 
 add_executable(R_Type_Server ${SERVER_SOURCE_FILES})
