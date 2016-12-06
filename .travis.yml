@@ -23,8 +23,8 @@ matrix:
           - libsndfile1-dev
           - libopenal-dev
           - libudev-dev
-#    - os: osx
-#      osx_image: xcode8.2
+    - os: osx
+      osx_image: xcode8.2
 
 # Enable C++ support
 language: cpp
@@ -37,7 +37,8 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake .. && make && make test
+  - cmake .. && make
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv

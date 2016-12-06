@@ -3,13 +3,17 @@
 //
 
 #include <Timer.hpp>
-#include <ManagedExternalInstance.hpp>
-#include <ExternalClassFactoryLoader.hpp>
+#include <LibraryLoader/ManagedExternalInstance.hpp>
+#include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include "RTypeGameContext.hpp"
 
 RTypeGameContext::RTypeGameContext() : _pool() {
-    Timer *timer = new Timer(std::chrono::system_clock::now());
-    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer }, "createDrawable", "destroyDrawable"));
+    Timer *timer = new Timer(std::chrono::steady_clock::now());
+
+    auto now = timer->getCurrent().GetRelative(std::chrono::seconds(5));
+    auto stratPos = vec2<float>(0, 0);
+
+    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer, nullptr, &now, &stratPos }, "createDrawable", "destroyDrawable"));
 
     _pool.AddEntity(monster);
 }

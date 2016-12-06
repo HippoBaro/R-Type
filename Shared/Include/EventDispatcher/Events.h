@@ -7,10 +7,11 @@
 
 // List all events here
 namespace RType {
-  enum Event {
-    BULLET_DAMAGE_CHANGE,
-    BULLET_POS_CHANGE
-  };
+    enum Event {
+        BULLET_DAMAGE_CHANGE,
+        BULLET_POS_CHANGE,
+        NEW_ENTITY
+    };
 }
 
 #endif //R_TYPE_EVENTS_H

@@ -6,7 +6,7 @@
 #define R_TYPE_ENTITYPARTITION_HPP
 
 #include <vector>
-#include "PartitionSegmentBuilder.hpp"
+#include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class EntityPartition {
 private:
@@ -25,6 +25,10 @@ public:
 		for(auto i : _segments)
 			if (i.isPartOf(timeRef))
 				return i;
+
+        if (_segments.front().getStart() > timeRef)
+            return _segments.front();
+
         return _segments.back();
     }
 };
