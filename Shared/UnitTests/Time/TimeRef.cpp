@@ -7,7 +7,7 @@
 #include <Timer.hpp>
 
 TEST(Tests_TimeRef, AddTimeRef) {
-    auto timer = Timer(std::chrono::system_clock::now());
+    auto timer = Timer(std::chrono::steady_clock::now());
     auto now = timer.getCurrent();
     auto future = now.GetRelative(std::chrono::seconds(10));
     ASSERT_EQ(future.getMilliseconds().count() >= 10000 && future.getMilliseconds().count() < 10100, true) << "TimeRef getMilliseconds() should be 10000 but is " << future.getMilliseconds().count();
