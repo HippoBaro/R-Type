@@ -30,7 +30,7 @@ TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
     Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getStart().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
     std::this_thread::sleep_for(std::chrono::milliseconds(490));
     int now = tween.GetTweened();
-    ASSERT_EQ(now == 0, true) << "Tween should be 0 but is " << now;
+    ASSERT_EQ(now < 100, true) << "Tween should be 0 but is " << now;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     now = tween.GetTweened();
