@@ -6,15 +6,17 @@
 #define R_TYPE_SIMPLEPROJECTILE_HPP
 
 #include <EntityPartition.hpp>
+#include <EventManager.hpp>
 
 class SimpleProjectile {
 protected:
     Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
+    RType::EventManager *_eventManager;
 
 public:
     SimpleProjectile(const std::initializer_list<void *> init);
-    SimpleProjectile(Timer *, TimeRef const &, vec2<float> const &);
+    SimpleProjectile(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 };
 
 
