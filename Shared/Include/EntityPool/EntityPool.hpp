@@ -5,7 +5,7 @@
 #ifndef R_TYPE_ENTITYPOOL_HPP
 #define R_TYPE_ENTITYPOOL_HPP
 
-#include <Interfaces/Libs/Entity.hpp>
+#include <Entities/Entity.hpp>
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>

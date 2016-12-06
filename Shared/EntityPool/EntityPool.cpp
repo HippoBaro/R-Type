@@ -2,7 +2,7 @@
 // Created by hippolyteb on 11/28/16.
 //
 
-#include <Interfaces/Libs/DrawableEntity.hpp>
+#include <Entities/DrawableEntity.hpp>
 #include <EntityPool/EntityPool.hpp>
 
 void EntityPool::AddEntity(ManagedExternalInstance<Entity> &entity) {
