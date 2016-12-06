@@ -96,11 +96,8 @@ public:
         }
     }
 
-    void Send(const std::string &payload) override final {
-        if (sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
-            // On ne throw pas ici car si il n'y a pas de server qui tourne lorseque le client tente de Send la function sendto renvera -1
-            std::cerr << "Sending failed !" << std::endl;
-        }
+    bool Send(const std::string &payload) override final {
+        return !(sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0);
     }
 };
 
@@ -216,10 +213,8 @@ public:
         }
     }
 
-    void Send(const std::string &payload) override final {
-        if (send(_socket, payload.c_str(), payload.size(), 0) < 0) {
-            std::cerr << "Sending failed !" << std::endl;
-        }
+    bool Send(const std::string &payload) override final {
+        return !(send(_socket, payload.c_str(), payload.size(), 0) < 0);
     }
 };
 

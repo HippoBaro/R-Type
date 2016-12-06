@@ -9,10 +9,11 @@
 
 class RTypeNetworkPayload {
 public:
-    std::string Ip;
-    std::string Payload;
+    std::string Ip = "";
+    char *Payload;
+    int Length;
 
-    RTypeNetworkPayload(std::string const &ip = "", std::string const &payload = "") : Ip(ip), Payload(payload) {};
+    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {};
 };
 
 #endif //R_TYPE_RTYPENETWORKPAYLOAD_H
