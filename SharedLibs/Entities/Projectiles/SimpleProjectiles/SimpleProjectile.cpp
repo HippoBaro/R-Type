@@ -10,18 +10,20 @@
 #include <Base.h>
 #include "SimpleProjectile.hpp"
 
-SimpleProjectile::SimpleProjectile(Timer *timer) : _timer(timer), _partition(timer) {
-    _partition = EntityPartitionBuilder(timer, timer->getCurrent(), vec2<float>(0, 0)).AddSegment(
+SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(GetParamFromInitializerList<Timer*>(init, 0), *GetParamFromInitializerList<TimeRef*>(init, 1), *GetParamFromInitializerList<vec2<float>*>(init, 2)) { }
+
+SimpleProjectile::SimpleProjectile(Timer *timer, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer) {
+    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
-                            .For(std::chrono::seconds(5))
+                            .For(std::chrono::seconds(2))
                             .Translate(vec2<float>(500, 500))
                             .WithCurving(new EaseInOutCurve()))
             .AddSegment(PartitionSegmentBuilder()
-                                  .For(std::chrono::seconds(10))
-                                  .Translate(vec2<float>(100, 90))
-                                  .WithCurving(new EaseOutCurve()))
-            .Loop(2)
+                                .For(std::chrono::seconds(5))
+                                .Translate(vec2<float>(-400, -400))
+                                .WithCurving(new EaseOutCurve()))
+            .Loop(3)
             .Build();
 }
 
