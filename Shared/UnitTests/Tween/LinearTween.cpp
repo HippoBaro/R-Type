@@ -13,11 +13,11 @@ TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
     Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getCurrent().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     int now = tween.GetTweened();
-    ASSERT_EQ(now > 23 && now < 27, true) << "Tween should be 50 but is " << now;
+    ASSERT_EQ(now > 20 && now < 30, true) << "Tween should be 50 but is " << now;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     now = tween.GetTweened();
-    ASSERT_EQ(now > 73 && now < 77, true) << "Tween should be 50 but is " << now;
+    ASSERT_EQ(now > 70 && now < 80, true) << "Tween should be 50 but is " << now;
 }
 
 TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
@@ -34,7 +34,7 @@ TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     now = tween.GetTweened();
-    ASSERT_EQ(now > 47 && now < 53, true) << "Tween should be 50 but is " << now;
+    ASSERT_EQ(now > 47 && now < 60, true) << "Tween should be 50 but is " << now;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(600));
     now = tween.GetTweened();
