@@ -9,11 +9,12 @@
 
 class SimpleProjectile {
 protected:
-    Timer *_timer;
-    EntityPartition _partition;
+    Timer *_timer = nullptr;
+    EntityPartition _partition = EntityPartition(_timer);
 
 public:
-    SimpleProjectile(Timer *timer);
+    SimpleProjectile(const std::initializer_list<void *> init);
+    SimpleProjectile(Timer *, TimeRef const &, vec2<float> const &);
 };
 
 
