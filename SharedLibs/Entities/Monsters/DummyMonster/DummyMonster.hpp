@@ -13,11 +13,12 @@
 
 class DummyMonster : public Entity {
 protected:
-    Timer *_timer;
-    EntityPartition _partition;
+    Timer *_timer = nullptr;
+    EntityPartition _partition = EntityPartition(_timer);
 
 public:
-    DummyMonster(Timer *timer);
+    DummyMonster(const std::initializer_list<void *> init);
+    DummyMonster(Timer *, TimeRef const &, vec2<float> const &);
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

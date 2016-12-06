@@ -4,7 +4,7 @@
 
 #include "GraphicDummyMonster.hpp"
 
-GrahicDummyMonster::GrahicDummyMonster(Timer *timer) : DummyMonster(timer) {}
+GrahicDummyMonster::GrahicDummyMonster(const std::initializer_list<void *> init) : DummyMonster(init) {}
 
 void GrahicDummyMonster::Draw(sf::RenderTexture &rect) {
     sf::Texture texture;
