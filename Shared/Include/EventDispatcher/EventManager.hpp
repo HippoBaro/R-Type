@@ -13,7 +13,7 @@
 #include "Events.h"
 #include <EventDispatcher/IMessage.hpp>
 #include <Interfaces/Libs/Entity.hpp>
-#include <IMessage.hpp>
+#include <EventDispatcher/IMessage.hpp>
 
 /*
  * Usage exemple
