@@ -24,7 +24,7 @@ private:
 private:
     ExternalClassFactory GetFactoryOf(std::string const &libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
         for (const ExternalClassFactory& i : _factories) // access by const reference
-            if (i.getLibName() == libraryPath)
+            if (i.getLibName() == libName)
                 return i;
         auto newRef = _dynLoader->GetFactoryForClass(libraryPath, libName, constructor, destructor);
         _factories.push_back(newRef);
@@ -41,12 +41,5 @@ public:
 public:
     static std::unique_ptr<ExternalClassFactoryLoader> Instance;
 };
-
-std::unique_ptr<ExternalClassFactoryLoader> ExternalClassFactoryLoader::Instance = std::unique_ptr<ExternalClassFactoryLoader>(new ExternalClassFactoryLoader());
-
-ExternalClassFactoryLoader::~ExternalClassFactoryLoader() {
-    for (ExternalClassFactory& i : _factories) // access by const reference
-        i.Destroy();
-}
 
 #endif //R_TYPE_LIBRARYLOADER_HPP

@@ -22,7 +22,7 @@ void SFMLManager::Run() {
         _inputListener->CheckForInputs(_window);
 
         sf::RenderTexture context;
-        _gameContext->Draw(context);
+        _gameContext->Draw(context, _textureBag);
 
         sf::Sprite sprite(context.getTexture());
         _window.draw(sprite);

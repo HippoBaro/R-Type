@@ -11,10 +11,14 @@
 class PartitionSegment {
 private:
     Tween<vec2<float>> _locationVector;
+    float _fireRate = 0;
+    std::string _projectileType = "";
 
 public:
     PartitionSegment() : _locationVector() {}
-    PartitionSegment(const Tween<vec2<float>> &locationVector): _locationVector(locationVector) {}
+    PartitionSegment(const Tween<vec2<float>> &locationVector, float fireRate, std::string const &projectileType): _locationVector(locationVector),
+                                                                                                                   _fireRate(fireRate),
+                                                                                                                   _projectileType(projectileType){}
 
 public:
     Tween<vec2<float>> getLocationVector() const {
@@ -27,6 +31,17 @@ public:
 
     TimeRef getStart() {
         return this->_locationVector.getStart();
+    }
+
+    bool ShouldFireNow(TimeRef const &timeRef) {
+        //auto totalSegmentDuration = _locationVector.getEnd().getMilliseconds() - _locationVector.getStart().getMilliseconds();
+        //auto
+
+        return timeRef.getMilliseconds().count() % 5 == 0;
+    }
+
+    std::string getCurrentProjectile() {
+        return _projectileType;
     }
 };
 
