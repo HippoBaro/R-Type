@@ -14,7 +14,7 @@ public:
     DrawableSimpleProjectile(const std::initializer_list<void *> init);
 
 public:
-    void Draw(sf::RenderTexture &rect) override;
+    void Draw(sf::RenderTexture *rect, TextureBag &) override;
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
 

@@ -7,12 +7,17 @@
 
 #include <EntityPool/EntityPool.hpp>
 #include <EventDispatcher/EventManager.hpp>
+#include "TextureBag.hpp"
 
 class ClientEntityPool : public EntityPool {
-private:
-    RType::EventManager _eventManager = RType::EventManager();
+
+public:
+    ClientEntityPool(const std::shared_ptr<Timer> &);
+
 public :
-    virtual void Draw(sf::RenderTexture &target);
+    virtual void Draw(sf::RenderTexture &, TextureBag &);
+
+    void AddEntity(std::string const &entityName, vec2<float> const &initialPos) override;
 };
 
 

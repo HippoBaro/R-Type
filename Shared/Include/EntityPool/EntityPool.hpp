@@ -9,27 +9,34 @@
 #include <vector>
 #include <memory>
 #include <LibraryLoader/ManagedExternalInstance.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 #include "EventDispatcher/EventManager.hpp"
 #include "EventDispatcher/EventListener.hpp"
+#include <LibraryLoader/ExternalClassFactoryLoader.hpp>
+#include <Time/Timer.hpp>
 
 class EntityPool {
 protected:
     std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     RType::EventListener _eventListener = RType::EventListener(_eventManager);
+    std::shared_ptr<Timer> _timer;
 
 public:
-    EntityPool();
+    EntityPool(std::shared_ptr<Timer> const &);
 
 public:
     virtual ~EntityPool();
 
 public:
-    virtual void AddEntity(ManagedExternalInstance<Entity> &entity);
+    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos);
     virtual void ProcessEntities();
 
 public:
     const std::shared_ptr<RType::EventManager> &getEventManager() const;
+
+private:
+    void SpawnProjectile(FireProjectileMessage const &);
 };
 
 

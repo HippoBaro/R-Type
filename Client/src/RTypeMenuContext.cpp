@@ -4,6 +4,6 @@
 
 #include "RTypeMenuContext.hpp"
 
-void RTypeMenuContext::Draw(sf::RenderTexture &) {
+void RTypeMenuContext::Draw(sf::RenderTexture &, TextureBag &) {
 
 }
