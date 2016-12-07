@@ -35,15 +35,15 @@ namespace RType {
 
     private:
         std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(
-                Entity &, IMessage *message)>>>>> _listeners = {};
+                Entity *, IMessage *message)>>>>> _listeners = {};
 
     public:
         EventManager();
 
         void
-        AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity &, IMessage *message)>>>> &callbacks);
+        AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(Entity *, IMessage *message)>>>> &callbacks);
 
-        void Emit(RType::Event event, IMessage *message, Entity &sender);
+        void Emit(RType::Event event, IMessage *message, Entity *sender);
     };
 }
 
