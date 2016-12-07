@@ -18,10 +18,12 @@ void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &) {
     {
         sf::Text text;
         text.setFont(font);
-        text.setString("Hello Hippolyte");
         text.setCharacterSize(60);
         text.setFillColor(sf::Color::White);
-        //text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
+        text.setString("Hello Hippolyte");
+        context.draw(text);
+        text.setString("Hello Hippolyte");
         context.draw(text);
     }
     context.display();
