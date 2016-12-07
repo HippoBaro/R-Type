@@ -12,7 +12,7 @@
 namespace RType {
 
     class EventListener {
-        typedef std::map<RType::Event, std::vector<std::function<void(Entity *, IMessage *message)>>> callback_map;
+        typedef std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>> callback_map;
 
     private:
         std::shared_ptr<RType::EventManager> _eventManager = nullptr;
@@ -29,7 +29,7 @@ namespace RType {
         void Subscribe(RType::Event event, std::function<void(EntityType *, MessageType *message)> callback) {
 
             // Add the callback relative to the given event
-            (*_callbacks)[event].push_back([=](Entity *entity, IMessage *message){
+            (*_callbacks)[event].push_back([=](void *entity, IMessage *message){
                 callback((EntityType *)entity, (MessageType *)message);
             });
         }

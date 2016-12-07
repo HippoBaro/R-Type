@@ -22,7 +22,7 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
                                 .WithCurving(new EaseOutCurve())
-                                .Fire("SimpleProjectile", 1))
+                                .Fire("SimpleProjectile", 3))
             .Loop(3)
             .Build();
 }
