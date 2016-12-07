@@ -15,14 +15,19 @@ protected:
 public:
     virtual ~Entity() { }
 
-    virtual bool ImplementTrait(Trait &trait) {
-        for(auto &x : _traits)
-            if (x == trait) return true;
+    virtual bool ImplementTrait(Trait trait) {
+        for(auto x : _traits)
+            if (x == trait)
+                return true;
         return false;
     }
 
     virtual void RegisterTrait(Trait trait) {
         _traits.push_back(trait);
+    }
+
+    virtual void Destroy(){
+        RegisterTrait(Garbage);
     }
 
     virtual void Cycle() = 0;

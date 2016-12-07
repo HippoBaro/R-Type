@@ -31,6 +31,10 @@ public:
 
         return _segments.back();
     }
+
+    bool isPartitionPlayed(TimeRef const &ref){
+        return _segments.back().getEnd() <= ref;
+    }
 };
 
 

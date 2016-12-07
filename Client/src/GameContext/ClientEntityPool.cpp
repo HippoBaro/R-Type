@@ -2,15 +2,13 @@
 // Created by hippolyteb on 11/29/16.
 //
 
-#include <Entities/DrawableEntity.hpp>
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
     for (const auto& i : _pool)
     {
-        Trait traitDrawable = Drawable;
-        DrawableEntity *entity = dynamic_cast<DrawableEntity*>(i.GetInstance());
-        if (entity->ImplementTrait(traitDrawable)) {
+        if (i->ImplementTrait(Trait::Drawable)) {
+            IDrawable *entity = dynamic_cast<IDrawable*>(i.GetInstance());
             auto renderTarget = entity->getRenderTexture();
             if (renderTarget == nullptr)
                 renderTarget = entity->createRenderTexture((unsigned int) entity->GetRenderRect().x, (unsigned int) entity->GetRenderRect().y);
