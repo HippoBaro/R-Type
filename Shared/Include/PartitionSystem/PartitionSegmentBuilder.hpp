@@ -16,11 +16,13 @@ private:
     ITweeningCurve *_curvingOption = nullptr;
 
     TimeRef _start = TimeRef();
-    std::chrono::milliseconds _duration =std::chrono::milliseconds();
+    std::chrono::milliseconds _duration = std::chrono::milliseconds();
 
     vec2<float> _startValue = vec2<float>();
     vec2<float> _endValue = vec2<float>();
     vec2<float> _translationValue = vec2<float>();
+    float _fireRate = 0;
+    std::string _projectileType = "";
 
 public:
 
@@ -30,6 +32,9 @@ public:
         this->_endValue = other.getEndValue();
         this->_start = other.getStart();
         this->_startValue = other.getStartValue();
+        this->_projectileType = other.getProjectileType();
+        this->_translationValue = other.getTranslationValue();
+        this->_fireRate = other.getFireRate();
     }
 
     PartitionSegmentBuilder() {}
@@ -64,6 +69,12 @@ public:
         return *this;
     }
 
+    PartitionSegmentBuilder &Fire(std::string const &projectileType, float ratePerSecond) {
+        _fireRate = ratePerSecond;
+        _projectileType = projectileType;
+        return *this;
+    }
+
     PartitionSegmentBuilder &Invert(){
         vec2<float> temp;
         temp = _startValue;
@@ -75,7 +86,10 @@ public:
     PartitionSegment Build(Timer *timer){
         if (_curvingOption == nullptr)
             _curvingOption = new LinearCurve();
-        return PartitionSegment(Tween<vec2<float>>(timer, _startValue, _start, _endValue, TimeRef(_start.getMilliseconds() + _duration), _curvingOption));
+        return PartitionSegment(Tween<vec2<float>>(timer, _startValue, _start, _endValue,
+                                                   TimeRef(_start.getMilliseconds() + _duration),
+                                                   _curvingOption),
+                                _fireRate, _projectileType);
     }
 
     ITweeningCurve *getCurvingOption() const{
@@ -100,6 +114,14 @@ public:
 
     const vec2<float> &getTranslationValue() const {
         return _translationValue;
+    }
+
+    float getFireRate() const {
+        return _fireRate;
+    }
+
+    const std::string &getProjectileType() const {
+        return _projectileType;
     }
 };
 
