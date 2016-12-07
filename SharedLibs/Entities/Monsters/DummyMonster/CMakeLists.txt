@@ -9,6 +9,7 @@ ENDIF()
 add_library(DummyMonster SHARED
         DummyMonster.hpp
         DummyMonster.cpp)
+target_link_libraries(DummyMonster)
 
 add_library(DrawableDummyMonster SHARED
         DummyMonster.hpp
