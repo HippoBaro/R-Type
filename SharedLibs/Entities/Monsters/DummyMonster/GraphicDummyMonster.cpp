@@ -4,7 +4,9 @@
 
 #include "GraphicDummyMonster.hpp"
 
-GrahicDummyMonster::GrahicDummyMonster(const std::initializer_list<void *> init) : DummyMonster(init) {}
+GrahicDummyMonster::GrahicDummyMonster(const std::initializer_list<void *> init) : DummyMonster(init) {
+    this->RegisterTrait(Trait::Drawable);
+}
 
 void GrahicDummyMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 

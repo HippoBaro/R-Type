@@ -37,6 +37,9 @@ public:
 
 private:
     void SpawnProjectile(FireProjectileMessage const &);
+
+private:
+    bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);
 };
 
 

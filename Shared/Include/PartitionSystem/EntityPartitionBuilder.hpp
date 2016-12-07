@@ -5,6 +5,7 @@
 #ifndef R_TYPE_ENTITYPARTITIONBUILDER_HPP
 #define R_TYPE_ENTITYPARTITIONBUILDER_HPP
 
+#include <vector>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 #include "EntityPartition.hpp"
 

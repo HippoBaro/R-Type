@@ -2,9 +2,12 @@
 // Created by hippolyteb on 12/5/16.
 //
 
+#include <iostream>
 #include "DrawableSimpleProjectile.hpp"
 
-DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {}
+DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {
+    this->RegisterTrait(Trait::Drawable);
+}
 
 void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     auto texture = bag.getSprite("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
@@ -32,6 +35,10 @@ vec2<float> DrawableSimpleProjectile::GetPosition() {
 
 void DrawableSimpleProjectile::Cycle() {
     SimpleProjectile::Cycle();
+}
+
+DrawableSimpleProjectile::~DrawableSimpleProjectile() {
+std::cout << "Destroyed !" << std::endl;
 }
 
 RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)

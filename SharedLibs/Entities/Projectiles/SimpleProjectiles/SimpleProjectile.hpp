@@ -16,6 +16,9 @@ protected:
     RType::EventManager *_eventManager;
 
 public:
+    virtual ~SimpleProjectile();
+
+public:
     SimpleProjectile(const std::initializer_list<void *> init);
     SimpleProjectile(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 
