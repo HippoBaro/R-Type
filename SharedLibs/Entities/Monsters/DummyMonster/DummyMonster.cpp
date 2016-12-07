@@ -6,6 +6,7 @@
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 #include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
 #include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 
 DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
 
@@ -22,6 +23,10 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
                                 .WithCurving(new EaseOutCurve()))
             .Loop(3)
             .Build();
+}
+
+void DummyMonster::Cycle() {
+    _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage("SimpleProjectile", _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened()), this);
 }
 
 RTYPE_ENTITY_REGISTER(DummyMonster)
