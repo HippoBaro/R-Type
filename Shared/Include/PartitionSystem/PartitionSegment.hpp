@@ -34,6 +34,10 @@ public:
         return this->_locationVector.getStart();
     }
 
+    TimeRef getEnd() {
+        return this->_locationVector.getEnd();
+    }
+
     bool ShouldFireNow(TimeRef const &timeRef) {
         //auto totalSegmentDuration = _locationVector.getEnd().getMilliseconds() - _locationVector.getStart().getMilliseconds();
         //auto

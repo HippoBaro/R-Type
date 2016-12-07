@@ -21,6 +21,11 @@ SimpleProjectile::SimpleProjectile(Timer *timer, RType::EventManager *eventManag
 }
 
 void SimpleProjectile::Cycle() {
+    if (_partition.isPartitionPlayed(_timer->getCurrent()))
+        this->Destroy();
+}
+
+SimpleProjectile::~SimpleProjectile() {
 
 }
 
