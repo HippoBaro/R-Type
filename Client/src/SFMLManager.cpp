@@ -7,6 +7,7 @@
 #include "RTypeMenuContext.hpp"
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
+#include <SFML/OpenGL.hpp>
 
 SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()) {
 
@@ -15,6 +16,7 @@ SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameCont
 void SFMLManager::Run() {
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
     sf::RenderWindow _window(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
+    glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);
     // Boucle de jeu.
