@@ -12,6 +12,7 @@ include_directories(../../../../Shared/Libs/Interfaces ../../../../Shared/Includ
 add_library(SimpleProjectile SHARED
         SimpleProjectile.hpp
         SimpleProjectile.cpp)
+target_link_libraries(SimpleProjectile)
 
 add_library(DrawableSimpleProjectile SHARED
         SimpleProjectile.cpp
