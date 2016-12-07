@@ -6,11 +6,11 @@
 #define R_TYPE_RTYPEGAMECONTEXT_HPP
 
 #include <SFML/Graphics/RenderTexture.hpp>
-#include "IRtypeDrawingContext.hpp"
+#include "IRTypeDrawingContext.hpp"
 #include "ClientEntityPool.hpp"
 #include <vec2.hpp>
 
-class RTypeGameContext : public IRtypeDrawingContext{
+class RTypeGameContext : public IRTypeDrawingContext{
 private:
     ClientEntityPool _pool = ClientEntityPool();
 public:
