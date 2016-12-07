@@ -7,6 +7,7 @@
 
 #include <EntityPool/EntityPool.hpp>
 #include <EventDispatcher/EventManager.hpp>
+#include <IDrawable.hpp>
 #include "TextureBag.hpp"
 
 class ClientEntityPool : public EntityPool {
