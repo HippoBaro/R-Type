@@ -13,7 +13,7 @@ RTypeGameContext::RTypeGameContext() : _pool() {
     auto now = timer->getCurrent().GetRelative(std::chrono::seconds(5));
     auto stratPos = vec2<float>(0, 0);
 
-    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer, nullptr, &now, &stratPos }, "createDrawable", "destroyDrawable"));
+    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer, _pool.getEventManager().get(), &now, &stratPos }, "createDrawable", "destroyDrawable"));
 
     _pool.AddEntity(monster);
 }
@@ -21,6 +21,7 @@ RTypeGameContext::RTypeGameContext() : _pool() {
 void RTypeGameContext::Draw(sf::RenderTexture &context) {
     context.create(800, 600);
     context.clear(sf::Color::White);
+    _pool.ProcessEntities();
     _pool.Draw(context);
     context.display();
 }

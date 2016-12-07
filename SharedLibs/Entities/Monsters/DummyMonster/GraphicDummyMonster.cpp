@@ -25,4 +25,8 @@ vec2<float> GrahicDummyMonster::GetPosition() {
     return pos;
 }
 
+void GrahicDummyMonster::Cycle() {
+    DummyMonster::Cycle();
+}
+
 RTYPE_DRAWABLE_ENTITY_REGISTER(GrahicDummyMonster)

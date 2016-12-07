@@ -26,6 +26,7 @@ public:
 
 public:
     virtual void AddEntity(ManagedExternalInstance<Entity> &entity);
+    virtual void ProcessEntities();
 
 public:
     const std::shared_ptr<RType::EventManager> &getEventManager() const;
