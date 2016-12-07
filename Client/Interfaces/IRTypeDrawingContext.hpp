@@ -7,10 +7,10 @@
 
 #include <SFML/Graphics.hpp>
 
-class IRtypeDrawingContext {
+class IRTypeDrawingContext {
 public:
     virtual void Draw(sf::RenderTexture &) = 0;
-    virtual ~IRtypeDrawingContext() {};
+    virtual ~IRTypeDrawingContext() {};
 };
 
 

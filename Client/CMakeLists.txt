@@ -30,7 +30,7 @@ set(CLIENT_SOURCE_FILES
         Includes/RTypeMenuContext.hpp
         Includes/RTypeNetworkClient.hpp
 
-        Interfaces/IRtypeDrawingContext.hpp
+        Interfaces/IRTypeDrawingContext.hpp
         src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp)
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
