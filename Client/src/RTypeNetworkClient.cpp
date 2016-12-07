@@ -7,3 +7,7 @@
 RTypeNetworkClient::RTypeNetworkClient() {
 
 }
+
+void RTypeNetworkClient::Run() {
+
+}
