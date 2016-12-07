@@ -12,7 +12,6 @@
 class IDrawable {
 private:
     std::unique_ptr<sf::RenderTexture> _renderTexture = nullptr;
-    bool isTextureSet = false;
 
 public:
     virtual ~IDrawable() {}

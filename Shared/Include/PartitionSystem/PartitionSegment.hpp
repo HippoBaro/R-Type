@@ -7,6 +7,7 @@
 
 #include <vec2.hpp>
 #include <PartitionSystem/Tween/Tween.hpp>
+#include <string>
 
 class PartitionSegment {
 private:
