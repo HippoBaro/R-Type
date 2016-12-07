@@ -7,11 +7,11 @@
 
 #include <Socket/IRTypeSocket.hpp>
 #include <fcntl.h>
-#include <stdlib.h>
-#include <malloc.h>
+#include <cstdlib>
 #include <winsock.h>
 #include <stdexcept>
 #include <Socket/RTypeNetworkPayload.h>
+#include <Socket/Enum/RTypeSocketType.h>
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {
@@ -77,30 +77,22 @@ public:
         return nullptr;
     }
 
-    bool Receive(RTypeNetworkPayload &payload, size_t length) override final {
+    bool Receive(RTypeNetworkPayload &payload) override final {
         SOCKADDR_IN  clientAddr;
         int lengthSockAddr = sizeof(clientAddr);
 
-        char *buffer = (char *) malloc(sizeof(char) * length);
-        memset((buffer), '\0', (length));
-        SSIZE_T data = recvfrom(_socket, buffer, length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
+        memset((payload.Payload), '\0', (size_t) (payload.Length));
+        SSIZE_T data = recvfrom(_socket, payload.Payload, payload.Length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
         if (data == -1) {
-            free(buffer);
             return false;
         } else {
-            buffer[data] = '\0';
             payload.Ip = std::string(inet_ntoa(clientAddr.sin_addr));
-            payload.Payload = std::string(buffer);
-            free(buffer);
             return true;
         }
     }
 
-    void Send(const std::string &payload) override final {
-        if (sendto(_socket, payload.c_str(), payload.size(), 0, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
-            // On ne throw pas ici car si il n'y a pas de server qui tourne lorseque le client tente de Send la function sendto renvera -1
-            std::cerr << "Sending failed !" << std::endl;
-        }
+    bool Send(const RTypeNetworkPayload &payload) override final {
+        return sendto(_socket, payload.Payload, payload.Length, 0, (struct sockaddr *) &_addr, sizeof(_addr)) >= 0;
     }
 };
 
@@ -136,6 +128,8 @@ private:
         }
     }
 
+    RTypeSocket(SOCKET socket, SOCKADDR_IN addrClient) : _identity(), _socket(socket), _addrServer(), _addrClient(addrClient), _port() {}
+
 public:
     RTypeSocket(uint16_t port) : _identity(), _socket(), _addrServer(), _addrClient(), _port(port) {
         _identity = Server;
@@ -159,8 +153,6 @@ public:
         CreateSocket();
     }
 
-    RTypeSocket(SOCKET socket, SOCKADDR_IN addrClient) : _identity(), _socket(socket), _addrServer(), _addrClient(addrClient), _port() {}
-
     ~RTypeSocket() {
 		closesocket(_socket);
         WSACleanup();
@@ -182,44 +174,32 @@ public:
     }
 
     bool Connect() override final {
-        if (connect(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer)) < 0) {
-            std::cerr << "Connect failed !" << std::endl;
-            return false;
-        }
-        return true;
+        return connect(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer)) >= 0;
     }
 
     std::unique_ptr<IRTypeSocket> Accept() override final {
         struct sockaddr_in clientAddr;
         int length = sizeof(clientAddr);
-        int client = accept(_socket, (struct sockaddr *) &clientAddr, &length);
+        SOCKET client = accept(_socket, (struct sockaddr *) &clientAddr, &length);
         if (client < 0) {
-            std::cerr << "Server Accept Failed !" << std::endl;
             return nullptr;
         }
         return std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
     }
 
-    bool Receive(RTypeNetworkPayload &payload, size_t length) override final {
-        char *buffer = (char *) malloc(sizeof(char) * length);
-        memset((buffer), '\0', (length));
-        SSIZE_T data = recv(_socket,buffer,length,0);
+    bool Receive(RTypeNetworkPayload &payload) override final {
+        memset((payload.Payload), '\0', (size_t) (payload.Length));
+        SSIZE_T data = recv(_socket, payload.Payload, payload.Length,0);
         if (data == -1) {
-            free(buffer);
             return false;
         } else {
-            buffer[data] = '\0';
             payload.Ip = std::string(inet_ntoa(_addrClient.sin_addr));
-            payload.Payload = std::string(buffer);
-            free(buffer);
             return true;
         }
     }
 
-    void Send(const std::string &payload) override final {
-        if (send(_socket, payload.c_str(), payload.size(), 0) < 0) {
-            std::cerr << "Sending failed !" << std::endl;
-        }
+    bool Send(const RTypeNetworkPayload &payload) override final {
+        return send(_socket, payload.Payload, payload.Length, 0) >= 0;
     }
 };
 
