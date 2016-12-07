@@ -31,7 +31,7 @@ set(CLIENT_SOURCE_FILES
         Includes/RTypeNetworkClient.hpp
 
         Interfaces/IRtypeDrawingContext.hpp
-        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp src/TextureBag/TextureBag.cpp Includes/TextureBag.hpp)
+        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp ../SharedLibs/Interfaces/TextureBag.hpp)
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
 target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system)
