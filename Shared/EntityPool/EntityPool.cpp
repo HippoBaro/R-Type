@@ -2,10 +2,7 @@
 // Created by hippolyteb on 11/28/16.
 //
 
-#include <Entities/DrawableEntity.hpp>
 #include <EntityPool/EntityPool.hpp>
-#include <Messages/FireProjectileMessage.hpp>
-#include <iostream>
 
 void EntityPool::AddEntity(std::string const &entityName, vec2<float> const &initialPos) {
     auto now = _timer->getCurrent();
@@ -18,7 +15,6 @@ EntityPool::~EntityPool() { }
 
 EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
     _eventListener.Subscribe<Entity, FireProjectileMessage>(FireProjectileMessage::EventType, [&](Entity *, FireProjectileMessage *message) {
-        //std::cout << "Fire ! Projectile is : " << message->getProjectileName() << std::endl;
         SpawnProjectile(*message);
     });
 }
@@ -28,8 +24,20 @@ const std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() const 
 }
 
 void EntityPool::ProcessEntities() {
-    for (auto const entity : _pool)
-        entity->Cycle();
+    for (unsigned int i = 0; i < _pool.size(); ++i) {
+        if (_pool[i]->ImplementTrait(Garbage))
+        {
+            _pool.erase(_pool.begin() + i);
+            ProcessEntities();
+            break;
+        }
+        _pool[i]->Cycle();
+        GarbageEntities(_pool[i]);
+    }
+}
+
+bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) {
+    return true;
 }
 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message) {

@@ -11,7 +11,6 @@ set(SHARED_SOURCE_FILES
 
         Include/Entities/Trait.hpp
         Include/Entities/Entity.hpp
-        Include/Entities/DrawableEntity.hpp
         Include/Entities/PlayerRef.hpp
 
         Include/EventDispatcher/EventListener.hpp

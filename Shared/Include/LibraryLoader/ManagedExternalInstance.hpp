@@ -36,6 +36,14 @@ public:
     Type *operator->() const noexcept  {
         return _externalInstance.get();
     }
+
+    bool operator==(const ManagedExternalInstance &rhs) const {
+        return std::tie(_externalInstance, _factory) == std::tie(rhs._externalInstance, rhs._factory);
+    }
+
+    bool operator!=(const ManagedExternalInstance &rhs) const {
+        return !(rhs == *this);
+    }
 };
 
 #endif //R_TYPE_MANAGEDEXTERNALINSTANCE_HPP
