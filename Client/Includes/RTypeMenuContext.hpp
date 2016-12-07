@@ -6,9 +6,9 @@
 #define R_TYPE_RTYPEMENUCONTEXT_HPP
 
 
-#include "IRtypeDrawingContext.hpp"
+#include "IRTypeDrawingContext.hpp"
 
-class RTypeMenuContext : public IRtypeDrawingContext {
+class RTypeMenuContext : public IRTypeDrawingContext {
 public:
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
