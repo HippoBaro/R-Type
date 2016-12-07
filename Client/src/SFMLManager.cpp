@@ -6,7 +6,7 @@
 #include <iostream>
 #include "RTypeMenuContext.hpp"
 #include "SFMLManager.hpp"
-//#include "RTypeGameContext.hpp"
+#include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 
 SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(nullptr), _menuContext(new RTypeMenuContext()), _soundManager(new SoundManager()) {
