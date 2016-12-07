@@ -6,10 +6,11 @@
 #define R_TYPE_IRTYPEDRAWINGCONTEXT_HPP
 
 #include <SFML/Graphics.hpp>
+#include "TextureBag.hpp"
 
 class IRtypeDrawingContext {
 public:
-    virtual void Draw(sf::RenderTexture &) = 0;
+    virtual void Draw(sf::RenderTexture &, TextureBag &) = 0;
     virtual ~IRtypeDrawingContext() {};
 };
 

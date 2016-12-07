@@ -6,14 +6,19 @@
 
 DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {}
 
-void DrawableSimpleProjectile::Draw(sf::RenderTexture &rect) {
-    sf::Texture texture;
-    rect.clear(sf::Color::Transparent);
-    texture.loadFromFile("sprites/r-typesheet1.png", sf::IntRect(257, 109, 16, 8));
+void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
+    auto texture = bag.getSprite("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+
+    rect->clear(sf::Color::Transparent);
+    if (texture == nullptr) {
+        sf::Texture newtexture;
+        newtexture.loadFromFile("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+        texture = bag.AddSprite("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8), newtexture);
+    }
     sf::Sprite sprite;
-    sprite.setTexture(texture);
+    sprite.setTexture(*texture);
     sprite.setScale(sf::Vector2f(5.f, 5.f));
-    rect.draw(sprite);
+    rect->draw(sprite);
 }
 
 vec2<float> DrawableSimpleProjectile::GetRenderRect() {

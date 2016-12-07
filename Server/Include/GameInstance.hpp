@@ -11,7 +11,7 @@
 class GameInstance {
 private:
     uint16_t _id;
-    EntityPool _pool = EntityPool();
+    std::unique_ptr<EntityPool> _pool = nullptr;
     RType::EventManager _eventManager = RType::EventManager();
 
 public:
