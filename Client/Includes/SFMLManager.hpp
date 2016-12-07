@@ -9,15 +9,17 @@
 #include <SFML/Graphics.hpp>
 #include "IRtypeDrawingContext.hpp"
 #include "RTypeInputListener.hpp"
+#include "TextureBag.hpp"
 
-constexpr int Width = 800;
-constexpr int Height = 600;
+constexpr int Width = 1280;
+constexpr int Height = 720;
 
 class SFMLManager {
 private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRtypeDrawingContext> _gameContext;
     std::unique_ptr<IRtypeDrawingContext> _menuContext;
+    TextureBag _textureBag = TextureBag();
 
 public:
     SFMLManager();
