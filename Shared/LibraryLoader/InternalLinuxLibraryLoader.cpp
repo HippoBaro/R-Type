@@ -27,7 +27,7 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
     dlsym_error = dlerror();
     if (dlsym_error)
         throw std::runtime_error("Unable to load library");
-    return ExternalClassFactory(create_triangle, destroy_triangle, factory, libraryPath, [&](void *ptr) { this->DestroyFactory(ptr); });
+    return ExternalClassFactory(create_triangle, destroy_triangle, factory, libName, [&](void *ptr) { this->DestroyFactory(ptr); });
 }
 
 void InternalLibraryLoader::DestroyFactory(void *factory) {

@@ -16,17 +16,23 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
                             .Begins(_timer->getCurrent())
                             .For(std::chrono::seconds(2))
                             .Translate(vec2<float>(500, 500))
-                            .WithCurving(new EaseInOutCurve()))
+                            .WithCurving(new EaseInOutCurve())
+                            .Fire("SimpleProjectile", 1))
             .AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
-                                .WithCurving(new EaseOutCurve()))
+                                .WithCurving(new EaseOutCurve())
+                                .Fire("SimpleProjectile", 1))
             .Loop(3)
             .Build();
 }
 
 void DummyMonster::Cycle() {
-    _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage("SimpleProjectile", _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened()), this);
+    auto now = _timer->getCurrent();
+    auto segment = _partition.GetCurrentSegment(now);
+    if (segment.ShouldFireNow(now)) {
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment.getCurrentProjectile(), segment.getLocationVector().GetTweened()), this);
+    }
 }
 
 RTYPE_ENTITY_REGISTER(DummyMonster)
