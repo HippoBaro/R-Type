@@ -7,6 +7,7 @@
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 #include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
 #include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
+#include <iostream>
 
 SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
 
@@ -26,7 +27,6 @@ void SimpleProjectile::Cycle() {
 }
 
 SimpleProjectile::~SimpleProjectile() {
-
 }
 
 RTYPE_ENTITY_REGISTER(SimpleProjectile)

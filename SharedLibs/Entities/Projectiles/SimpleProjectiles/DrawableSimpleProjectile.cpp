@@ -37,8 +37,6 @@ void DrawableSimpleProjectile::Cycle() {
     SimpleProjectile::Cycle();
 }
 
-DrawableSimpleProjectile::~DrawableSimpleProjectile() {
-std::cout << "Destroyed !" << std::endl;
-}
+DrawableSimpleProjectile::~DrawableSimpleProjectile() {}
 
 RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
