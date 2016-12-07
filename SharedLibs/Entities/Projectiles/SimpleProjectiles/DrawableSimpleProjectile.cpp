@@ -17,12 +17,12 @@ void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     }
     sf::Sprite sprite;
     sprite.setTexture(*texture);
-    sprite.setScale(sf::Vector2f(5.f, 5.f));
+    //sprite.setScale(sf::Vector2f(5.f, 5.f));
     rect->draw(sprite);
 }
 
 vec2<float> DrawableSimpleProjectile::GetRenderRect() {
-    return vec2<float>(16 * 5, 8 * 5);
+    return vec2<float>(16, 8);
 }
 
 vec2<float> DrawableSimpleProjectile::GetPosition() {
