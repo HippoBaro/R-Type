@@ -5,7 +5,6 @@ add_subdirectory(LibraryLoader)
 
 set(SHARED_SOURCE_FILES
         src/main.cpp
-        EventDispatcher/EventManager.cpp
         EntityPool/EntityPool.cpp
 
         Include/EntityPool/EntityPool.hpp
