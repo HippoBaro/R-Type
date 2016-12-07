@@ -7,7 +7,7 @@
 
 #include <vec2.hpp>
 #include <SFML/Graphics.hpp>
-#include <../../Client/Includes/TextureBag.hpp>
+#include <TextureBag.hpp>
 
 class IDrawable {
 private:
