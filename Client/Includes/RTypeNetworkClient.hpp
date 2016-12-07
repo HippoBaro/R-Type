@@ -9,6 +9,7 @@
 class RTypeNetworkClient {
 public:
     RTypeNetworkClient();
+    void Run();
 };
 
 
