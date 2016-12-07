@@ -24,6 +24,8 @@ public:
     virtual void RegisterTrait(Trait trait) {
         _traits.push_back(trait);
     }
+
+    virtual void Cycle() = 0;
 };
 
 #endif //R_TYPE_IENTITY_HPP
