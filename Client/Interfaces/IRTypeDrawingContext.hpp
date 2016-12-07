@@ -8,10 +8,10 @@
 #include <SFML/Graphics.hpp>
 #include "TextureBag.hpp"
 
-class IRtypeDrawingContext {
+class IRTypeDrawingContext {
 public:
     virtual void Draw(sf::RenderTexture &, TextureBag &) = 0;
-    virtual ~IRtypeDrawingContext() {};
+    virtual ~IRTypeDrawingContext() {};
 };
 
 
