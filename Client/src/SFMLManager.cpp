@@ -26,6 +26,7 @@ void SFMLManager::Run() {
     // Boucle de jeu.
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
+
         _menuContext->Draw(context);
         //_gameContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
