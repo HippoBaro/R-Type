@@ -14,7 +14,7 @@ SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameCont
 }
 
 void SFMLManager::Run() {
-    _soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
+    //_soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
     sf::RenderWindow _window(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
 
