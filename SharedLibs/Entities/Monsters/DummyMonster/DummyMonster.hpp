@@ -21,6 +21,8 @@ protected:
 public:
     DummyMonster(const std::initializer_list<void *> init);
     DummyMonster(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+
+    void Cycle() override;
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

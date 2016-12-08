@@ -6,8 +6,23 @@
 #define R_TYPE_DRAWABLESIMPLEPROJECTILE_HPP
 
 
-class DrawableSimpleProjectile {
+#include <IDrawable.hpp>
+#include "SimpleProjectile.hpp"
 
+class DrawableSimpleProjectile : public SimpleProjectile, public IDrawable  {
+public:
+    DrawableSimpleProjectile(const std::initializer_list<void *> init);
+
+public:
+    void Draw(sf::RenderTexture *rect, TextureBag &) override;
+    vec2<float> GetRenderRect() override;
+    vec2<float> GetPosition() override;
+
+public:
+    virtual ~DrawableSimpleProjectile();
+
+private:
+    void Cycle() override;
 };
 
 

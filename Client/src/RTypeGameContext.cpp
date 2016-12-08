@@ -8,19 +8,17 @@
 #include "RTypeGameContext.hpp"
 
 RTypeGameContext::RTypeGameContext() : _pool() {
-    Timer *timer = new Timer(std::chrono::steady_clock::now());
+    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
+    _pool = std::make_shared<ClientEntityPool>(_timer);
 
-    auto now = timer->getCurrent().GetRelative(std::chrono::seconds(5));
     auto stratPos = vec2<float>(0, 0);
 
-    ManagedExternalInstance<Entity> monster(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { timer, nullptr, &now, &stratPos }, "createDrawable", "destroyDrawable"));
-
-    _pool.AddEntity(monster);
+    _pool->AddEntity("DummyMonster", stratPos);
 }
 
-void RTypeGameContext::Draw(sf::RenderTexture &context) {
-    context.create(800, 600);
+void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::White);
-    _pool.Draw(context);
+    _pool->ProcessEntities();
+    _pool->Draw(context, bag);
     context.display();
 }

@@ -20,7 +20,7 @@ private:
 public:
     ExternalClassFactory(const std::function<void *(std::initializer_list<void *>)> &create,
                          const std::function<void(void *)> &_destroy,
-                         void *libRef, std::string &libName,
+                         void *libRef, std::string const &libName,
                          std::function<void(void *)> const &factoryDestroy) :
             _create(create),
             _destroy(_destroy),

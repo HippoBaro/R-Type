@@ -18,7 +18,7 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
     destroy_t *destroy = (destroy_t *) GetProcAddress(myDll, destructor.c_str());
     if(destroy == nullptr)
         throw std::runtime_error("Unable to load library");
-    return ExternalClassFactory(create, destroy, myDll, libraryPath, [&](void *ptr) { this->DestroyFactory(ptr); });
+    return ExternalClassFactory(create, destroy, myDll, libName, [&](void *ptr) { this->DestroyFactory(ptr); });
 }
 
 void InternalLibraryLoader::DestroyFactory(void *factory) {
