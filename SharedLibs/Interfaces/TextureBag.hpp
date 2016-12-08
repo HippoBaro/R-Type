@@ -18,7 +18,7 @@ public:
     TextureBag() : _textures() {};
 
 public:
-    sf::Texture *getSprite(std::string const &textureFile, sf::IntRect const &rect){
+    sf::Texture *getTexture(std::string const &textureFile, sf::IntRect const &rect){
         std::stringstream ss;
 
         ss << textureFile << rect.height << rect.left << rect.top << rect.width;
@@ -28,7 +28,7 @@ public:
         return nullptr;
     }
 
-    sf::Texture *AddSprite(std::string const &textureFile, sf::IntRect const &rect, sf::Texture const &texture) {
+    sf::Texture *AddTexture(std::string const &textureFile, sf::IntRect const &rect, sf::Texture const &texture) {
         std::stringstream ss;
 
         ss << textureFile << rect.height << rect.left << rect.top << rect.width;

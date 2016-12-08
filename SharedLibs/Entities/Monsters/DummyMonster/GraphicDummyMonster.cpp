@@ -10,13 +10,13 @@ GrahicDummyMonster::GrahicDummyMonster(const std::initializer_list<void *> init)
 
 void GrahicDummyMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
-    auto texture = bag.getSprite("sprites/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
+    auto texture = bag.getTexture("sprites/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
         sf::Texture newtexture;
         newtexture.loadFromFile("sprites/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
-        texture = bag.AddSprite("sprites/r-typesheet1.png", sf::IntRect(101, 3, 32, 14), newtexture);
+        texture = bag.AddTexture("sprites/r-typesheet1.png", sf::IntRect(101, 3, 32, 14), newtexture);
     }
 
     sf::Sprite sprite;
