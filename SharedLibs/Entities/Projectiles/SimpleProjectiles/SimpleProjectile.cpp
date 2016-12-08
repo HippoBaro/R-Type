@@ -14,7 +14,7 @@ SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : S
 SimpleProjectile::SimpleProjectile(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
-                            .Begins(_timer->getCurrent())
+                            .Begins(timeRef)
                             .For(std::chrono::seconds(2))
                             .Translate(vec2<float>(1280, 0)))
             .Build();
