@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include "IRTypeDrawingContext.hpp"
 #include "RTypeInputListener.hpp"
+#include "SoundManager.hpp"
 #include "TextureBag.hpp"
 
 constexpr int Width = 1280;
@@ -19,6 +20,7 @@ private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRTypeDrawingContext> _gameContext;
     std::unique_ptr<IRTypeDrawingContext> _menuContext;
+    std::unique_ptr<SoundManager> _soundManager;
     TextureBag _textureBag = TextureBag();
 
 public:
