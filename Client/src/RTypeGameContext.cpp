@@ -9,11 +9,11 @@
 
 RTypeGameContext::RTypeGameContext() : _pool() {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
-    _pool = std::make_shared<ClientEntityPool>(_timer, "{\"test\":\"Je suis venu te die que je m'en vais.\"}");
+    _pool = std::make_shared<ClientEntityPool>(_timer);
+    _pool->LoadPartition("");
+    //auto stratPos = vec2<float>(0, 0);
 
-    auto stratPos = vec2<float>(0, 0);
-
-    _pool->AddEntity("DummyMonster", stratPos);
+    //_pool->AddEntity("DummyMonster", stratPos);
 }
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {

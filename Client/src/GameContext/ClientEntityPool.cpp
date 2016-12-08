@@ -30,7 +30,3 @@ void ClientEntityPool::AddEntity(std::string const &entityName, vec2<float> cons
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, {_timer.get() , _eventManager.get(), &now, &pos }, "createDrawable", "destroyDrawable"));
     _pool.push_back(entity);
 }
-
-ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer, std::string const &partition) : EntityPool(timer, partition) {
-
-}
