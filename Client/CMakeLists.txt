@@ -35,7 +35,10 @@ set(CLIENT_SOURCE_FILES
         Includes/ClientEntityPool.hpp
         src/SoundManager.cpp
         Includes/SoundManager.hpp
-        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp ../SharedLibs/Interfaces/TextureBag.hpp)
+        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp ../SharedLibs/Interfaces/TextureBag.hpp
+        src/SoundManager.cpp
+        Includes/SoundManager.hpp
+        )
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
 target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system sfml-audio)
