@@ -29,7 +29,7 @@ vec2<float> DrawableSimpleProjectile::GetRenderRect() {
 }
 
 vec2<float> DrawableSimpleProjectile::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened();
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
 
