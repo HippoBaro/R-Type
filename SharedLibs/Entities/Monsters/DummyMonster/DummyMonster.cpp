@@ -18,12 +18,12 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
                             .Translate(vec2<float>(500, 500))
                             .WithCurving(new EaseInOutCurve())
                             .Fire("SimpleProjectile", 1))
-/*            .AddSegment(PartitionSegmentBuilder()
+            .AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
                                 .WithCurving(new EaseOutCurve())
                                 .Fire("SimpleProjectile", 3))
-            .Loop(3)*/
+            .Loop(3)
             .Build();
 }
 
@@ -31,7 +31,7 @@ void DummyMonster::Cycle() {
     auto now = _timer->getCurrent();
     if (_partition.ShouldFire(now)) {
         auto segment = _partition.GetCurrentSegment(now);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment.getCurrentProjectile(), segment.getLocationVector().GetTweened()), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
     }
 }
 

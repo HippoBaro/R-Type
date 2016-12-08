@@ -16,8 +16,7 @@ SimpleProjectile::SimpleProjectile(Timer *timer, RType::EventManager *eventManag
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
                             .For(std::chrono::seconds(2))
-                            .Translate(vec2<float>(1280, 0))
-                            .WithCurving(new EaseInOutCurve()))
+                            .Translate(vec2<float>(1280, 0)))
             .Build();
 }
 
