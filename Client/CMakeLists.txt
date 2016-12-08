@@ -39,7 +39,7 @@ set(CLIENT_SOURCE_FILES
         Includes/ClientEntityPool.hpp
         src/SoundManager.cpp
         Includes/SoundManager.hpp
-        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp ../SharedLibs/Interfaces/TextureBag.hpp
+        ../SharedLibs/Interfaces/TextureBag.hpp
         src/SoundManager.cpp
         Includes/SoundManager.hpp
         Includes/DrawableMenu/ADrawableMenu.hpp
