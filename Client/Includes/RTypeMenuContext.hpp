@@ -11,7 +11,8 @@
 
 class RTypeMenuContext : public IRTypeDrawingContext {
 private:
-    ClientEntityPool _pool = ClientEntityPool();
+    std::shared_ptr<Timer> _timer = nullptr;
+    std::shared_ptr<ClientEntityPool> _pool = nullptr;
     sf::Texture _backgroundTexture;
     sf::Sprite _background;
     sf::Font _font;
