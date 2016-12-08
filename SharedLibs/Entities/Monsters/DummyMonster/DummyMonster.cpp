@@ -14,16 +14,16 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
-                            .For(std::chrono::seconds(2))
+                            .For(std::chrono::seconds(10))
                             .Translate(vec2<float>(500, 500))
                             .WithCurving(new EaseInOutCurve())
                             .Fire("SimpleProjectile", 1))
-            .AddSegment(PartitionSegmentBuilder()
+/*            .AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
                                 .WithCurving(new EaseOutCurve())
                                 .Fire("SimpleProjectile", 3))
-            .Loop(3)
+            .Loop(3)*/
             .Build();
 }
 

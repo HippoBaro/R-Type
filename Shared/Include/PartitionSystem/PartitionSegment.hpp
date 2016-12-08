@@ -50,7 +50,8 @@ public:
         auto end = getEnd();
         if (timeRef < start || timeRef > end)
             return false;
-        if (_timeBeetweenShot > 0 && timeRef.getMilliseconds().count() - _lastShot > _timeBeetweenShot) {
+        auto lasp = timeRef.getMilliseconds().count() - _lastShot;
+        if (_timeBeetweenShot > 0 && lasp > _timeBeetweenShot) {
             _lastShot = timeRef.getMilliseconds().count();
             return true;
         }
