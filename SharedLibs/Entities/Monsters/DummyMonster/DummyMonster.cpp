@@ -29,8 +29,8 @@ DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, Time
 
 void DummyMonster::Cycle() {
     auto now = _timer->getCurrent();
-    auto segment = _partition.GetCurrentSegment(now);
-    if (segment.ShouldFireNow(now)) {
+    if (_partition.ShouldFire(now)) {
+        auto segment = _partition.GetCurrentSegment(now);
         _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment.getCurrentProjectile(), segment.getLocationVector().GetTweened()), this);
     }
 }
