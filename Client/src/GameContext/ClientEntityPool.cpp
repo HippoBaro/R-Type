@@ -24,9 +24,13 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
 
 ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer) : EntityPool(timer) {}
 
-void ClientEntityPool::AddEntity(std::string const &entityName, vec2<float> const &initialPos) {
-    auto now = _timer->getCurrent();
+void ClientEntityPool::AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const &startTime) {
+    auto now = startTime;
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, {_timer.get() , _eventManager.get(), &now, &pos }, "createDrawable", "destroyDrawable"));
     _pool.push_back(entity);
+}
+
+ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer, std::string const &partition) : EntityPool(timer, partition) {
+
 }

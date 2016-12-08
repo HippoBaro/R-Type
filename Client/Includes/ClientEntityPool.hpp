@@ -14,11 +14,12 @@ class ClientEntityPool : public EntityPool {
 
 public:
     ClientEntityPool(const std::shared_ptr<Timer> &);
+    ClientEntityPool(const std::shared_ptr<Timer> &, std::string const &);
 
 public :
     virtual void Draw(sf::RenderTexture &, TextureBag &);
 
-    void AddEntity(std::string const &entityName, vec2<float> const &initialPos) override;
+    void AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const & = TimeRef()) override;
 };
 
 

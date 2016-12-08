@@ -9,7 +9,7 @@
 
 RTypeGameContext::RTypeGameContext() : _pool() {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
-    _pool = std::make_shared<ClientEntityPool>(_timer);
+    _pool = std::make_shared<ClientEntityPool>(_timer, "{\"test\":\"Je suis venu te die que je m'en vais.\"}");
 
     auto stratPos = vec2<float>(0, 0);
 
