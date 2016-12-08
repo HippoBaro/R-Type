@@ -19,14 +19,14 @@ set(CLIENT_SOURCE_FILES
         src/RTypeClient.cpp
         src/SFMLManager.cpp
         src/RTypeInputListener.cpp
-        #src/RTypeGameContext.cpp
+        src/RTypeGameContext.cpp
         src/RTypeMenuContext.cpp
         src/RTypeNetworkClient.cpp
 
         Includes/RTypeClient.hpp
         Includes/SFMLManager.hpp
         Includes/RTypeInputListener.hpp
-        #Includes/RTypeGameContext.hpp
+        Includes/RTypeGameContext.hpp
         Includes/RTypeMenuContext.hpp
         Includes/RTypeNetworkClient.hpp
 
