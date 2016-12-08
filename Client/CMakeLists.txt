@@ -38,6 +38,11 @@ set(CLIENT_SOURCE_FILES
         ../SharedLibs/Interfaces/TextureBag.hpp
         src/SoundManager.cpp
         Includes/SoundManager.hpp
+        Includes/DrawableMenu/ADrawableMenu.hpp
+        Includes/DrawableMenu/MenuRoot.hpp
+        Includes/DrawableMenu/MenuSettings.hpp
+        Includes/DrawableMenu/MenuCreate.hpp
+        Includes/DrawableMenu/MenuJoin.hpp
         )
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
