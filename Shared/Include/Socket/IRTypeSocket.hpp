@@ -8,7 +8,7 @@
 #include <iostream>
 #include <memory>
 #include "RTypeNetworkPayload.h"
-#include "RTypeSocketType.h"
+#include "Enum/RTypeSocketType.h"
 
 class IRTypeSocket {
 public:
