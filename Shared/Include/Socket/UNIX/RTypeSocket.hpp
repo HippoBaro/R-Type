@@ -11,7 +11,8 @@
 #include <fcntl.h>
 #include <arpa/inet.h>
 #include <Socket/RTypeNetworkPayload.h>
-#include <cstdlib>
+#include <cstring>
+#include <unistd.h>
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {

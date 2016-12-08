@@ -6,7 +6,6 @@
 #include <Messages/UserInputMessage.hpp>
 #include "RTypeInputListener.hpp"
 
-//TODO : Remove all output and send event to NetworkClient by eventEmitter
 
 RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
 }
@@ -16,15 +15,14 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
-                std::cout << "Close window event." << std::endl;
                 window.close();
                 break;
             case sf::Event::KeyPressed:
                 KeyBoardEvent(event.key.code);
                 break;
-            case sf::Event::MouseButtonPressed:
-                MouseEvent(event.mouseButton.button);
-                break;
+//            case sf::Event::MouseButtonPressed:
+//                MouseEvent(event.mouseButton.button);
+//                break;
             default:
                 break;
         }
@@ -58,16 +56,16 @@ void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key key) {
     }
 }
 
-void RTypeInputListener::MouseEvent(sf::Mouse::Button button) {
-    switch (button) {
-        case sf::Mouse::Left:
-            std::cout << "Left Click" << std::endl;
-            break;
-        case sf::Mouse::Right:
-            std::cout << "Right Click" << std::endl;
-            break;
-        default:
-            break;
-
-    }
-}
+//void RTypeInputListener::MouseEvent(sf::Mouse::Button button) {
+//    switch (button) {
+//        case sf::Mouse::Left:
+//            std::cout << "Left Click" << std::endl;
+//            break;
+//        case sf::Mouse::Right:
+//            std::cout << "Right Click" << std::endl;
+//            break;
+//        default:
+//            break;
+//
+//    }
+//}

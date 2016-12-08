@@ -14,7 +14,6 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _i
     eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == CLOSE_WINDOWS) {
             _window.close();
-            std::cout << "Close windows" << std::endl;
         }
     });
 }
