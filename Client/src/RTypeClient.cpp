@@ -4,10 +4,6 @@
 
 #include "RTypeClient.hpp"
 
-RTypeClient::RTypeClient() : _networkClient(new RTypeNetworkClient()), _sfmlClient(new SFMLManager()) {
-
-}
-
 void RTypeClient::Run() {
-    _sfmlClient->Run();
+    _sfmlManager->Run();
 }
