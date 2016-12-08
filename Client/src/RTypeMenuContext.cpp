@@ -8,18 +8,14 @@
 #include "RTypeMenuContext.hpp"
 
 RTypeMenuContext::RTypeMenuContext() : _backgroundTexture(), _background(), _font(), _text(), _menuRoot() {
-    Timer *timer = new Timer(std::chrono::steady_clock::now());
-    auto now = timer->getCurrent();
-    auto stratPos = vec2<float>(1500, 100);
-    ManagedExternalInstance<Entity> depth_star(
-            ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDeathStar", {timer, nullptr, &now, &stratPos}, "createDrawable", "destroyDrawable"));
-    _pool.AddEntity(depth_star);
+    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
+    _pool = std::make_shared<ClientEntityPool>(_timer);
 
-    now = timer->getCurrent();
+    auto stratPos = vec2<float>(1500, 100);
+    _pool->AddEntity("DeathStar", stratPos);
+
     stratPos = vec2<float>(1500, 450);
-    ManagedExternalInstance<Entity> mars(
-            ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableMars", {timer, nullptr, &now, &stratPos}, "createDrawable", "destroyDrawable"));
-    _pool.AddEntity(mars);
+    _pool->AddEntity("Mars", stratPos);
 
     _backgroundTexture.loadFromFile("sprites/spacebackground.png");
     _background.setTexture(_backgroundTexture);
@@ -47,11 +43,12 @@ void RTypeMenuContext::DrawMenu(sf::RenderTexture &context, std::map<std::string
     }
 }
 
-void RTypeMenuContext::Draw(sf::RenderTexture &, TextureBag &) {
+void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.create(1280, 720);
     context.clear(sf::Color::Black);
     context.draw(_background);
-    _pool.Draw(context);
+    _pool->ProcessEntities();
+    _pool->Draw(context, bag);
     DrawMenu(context, _menuRoot);
     context.display();
 }
