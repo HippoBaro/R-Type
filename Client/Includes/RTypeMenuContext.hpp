@@ -9,7 +9,8 @@
 #include "IRTypeDrawingContext.hpp"
 #include "ClientEntityPool.hpp"
 #include <Messages/UserInputMessage.hpp>
-
+#include "DrawableMenu/ADrawableMenu.hpp"
+#include <vector>
 
 class RTypeMenuContext : public IRTypeDrawingContext {
 private:
@@ -19,20 +20,17 @@ private:
     sf::Sprite _background = sf::Sprite();
     sf::Font _font = sf::Font();
     sf::Text _text = sf::Text();
-    std::map<int, std::pair<bool, std::string>> _currentMenu = std::map<int, std::pair<bool, std::string>>();
-    std::map<int, std::pair<bool, std::string>> _menuRoot = std::map<int, std::pair<bool, std::string>>();
-    std::map<int, std::pair<bool, std::string>> _menuSettings = std::map<int, std::pair<bool, std::string>>();
+
+    std::vector<std::unique_ptr<ADrawableMenu>> _menu {};
+
     std::shared_ptr<RType::EventManager> _eventManager;
     RType::EventListener _eventListener;
 
 private:
-    void DrawMenu(sf::RenderTexture &, std::map<int, std::pair<bool, std::string>> &);
-    void UpdateMenu(UserEventType type, std::map<int, std::pair<bool, std::string>> &);
-    void NextMenu(std::map<int, std::pair<bool, std::string>> &menu);
+    void DrawMenu(sf::RenderTexture &context);
 
 public:
     RTypeMenuContext(std::shared_ptr<RType::EventManager> eventManager);
-
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 
