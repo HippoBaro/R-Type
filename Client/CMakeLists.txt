@@ -19,22 +19,26 @@ set(CLIENT_SOURCE_FILES
         src/RTypeClient.cpp
         src/SFMLManager.cpp
         src/RTypeInputListener.cpp
-        src/RTypeGameContext.cpp
+        #src/RTypeGameContext.cpp
         src/RTypeMenuContext.cpp
         src/RTypeNetworkClient.cpp
 
         Includes/RTypeClient.hpp
         Includes/SFMLManager.hpp
         Includes/RTypeInputListener.hpp
-        Includes/RTypeGameContext.hpp
+        #Includes/RTypeGameContext.hpp
         Includes/RTypeMenuContext.hpp
         Includes/RTypeNetworkClient.hpp
 
         Interfaces/IRTypeDrawingContext.hpp
-        src/GameContext/ClientEntityPool.cpp Includes/ClientEntityPool.hpp)
+        src/GameContext/ClientEntityPool.cpp
+        Includes/ClientEntityPool.hpp
+        src/SoundManager.cpp
+        Includes/SoundManager.hpp
+        )
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
-target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system)
+target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system sfml-audio)
 
 add_custom_command(TARGET R_Type_Client PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
