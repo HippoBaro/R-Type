@@ -35,6 +35,23 @@ public:
     bool isPartitionPlayed(TimeRef const &ref){
         return _segments.back().getEnd() <= ref;
     }
+
+    TimeRef getStart() {
+        return _segments.front().getStart();
+    }
+
+    TimeRef getEnd() {
+        return _segments.back().getEnd();
+    }
+
+    bool ShouldFire(TimeRef const &timeRef) {
+        auto start = getStart();
+        auto end = getEnd();
+        if (timeRef < start || timeRef > end)
+            return false;
+        auto segment = GetCurrentSegment(timeRef);
+        return segment.ShouldFireNow(timeRef);
+    }
 };
 
 
