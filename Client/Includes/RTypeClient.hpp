@@ -6,17 +6,17 @@
 #define R_TYPE_RTYPECLIENT_HPP
 
 #include <memory>
+#include <EventDispatcher/EventManager.hpp>
 #include "RTypeNetworkClient.hpp"
 #include "SFMLManager.hpp"
 
 class RTypeClient {
 private:
-    std::unique_ptr<RTypeNetworkClient> _networkClient;
-    std::unique_ptr<SFMLManager> _sfmlClient;
+    std::shared_ptr<RType::EventManager> _eventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());
+    std::unique_ptr<RTypeNetworkClient> _networkClient = std::unique_ptr<RTypeNetworkClient>(new RTypeNetworkClient());
+    std::unique_ptr<SFMLManager> _sfmlManager = std::unique_ptr<SFMLManager>(new SFMLManager(_eventManager));
 
 public:
-    RTypeClient();
-
     void Run();
 };
 

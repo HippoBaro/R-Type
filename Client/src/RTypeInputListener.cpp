@@ -3,9 +3,13 @@
 //
 
 #include <iostream>
+#include <Messages/UserInputMessage.hpp>
 #include "RTypeInputListener.hpp"
 
 //TODO : Remove all output and send event to NetworkClient by eventEmitter
+
+RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
+}
 
 void RTypeInputListener::CheckForInputs(sf::Window &window) {
     sf::Event event;
@@ -30,17 +34,25 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
 void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key key) {
     switch (key) {
         case sf::Keyboard::Left:
-            std::cout << "Press Left" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LEFT), this);
             break;
         case sf::Keyboard::Right:
-            std::cout << "Press Right" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_RIGHT), this);
             break;
         case sf::Keyboard::Up:
-            std::cout << "Press Up" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_UP), this);
             break;
         case sf::Keyboard::Down:
-            std::cout << "Press Down" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_DOWN), this);
             break;
+        case sf::Keyboard::Space:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_SPACE), this);
+            break;
+        case sf::Keyboard::Return:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ENTER), this);
+            break;
+        case sf::Keyboard::Escape:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ESCAPE), this);
         default:
             break;
     }
