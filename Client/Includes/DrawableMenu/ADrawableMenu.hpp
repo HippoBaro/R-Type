@@ -24,6 +24,8 @@ protected:
     bool _active = false;
 
 public:
+    virtual ~ADrawableMenu() {}
+
     void moveSelection(UserEventType type) {
         if (_active) {
             if (_menuType == VERTICAL) {
