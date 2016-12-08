@@ -30,7 +30,7 @@ vec2<float> GraphicShip::GetRenderRect() {
 }
 
 vec2<float> GraphicShip::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened();
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
 

@@ -54,7 +54,6 @@ void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
 }
 
 void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
-    context.create(1280, 720);
     context.clear(sf::Color::Black);
     context.draw(_background);
     _pool->ProcessEntities();
