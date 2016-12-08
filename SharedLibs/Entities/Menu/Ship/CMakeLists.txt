@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 2.6.2)
+
+IF (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ELSE()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter")
+ENDIF()
+
+add_library(Ship SHARED
+        Ship.hpp
+        Ship.cpp)
+target_link_libraries(Ship)
+
+add_library(DrawableShip SHARED
+        Ship.hpp
+        Ship.cpp
+        GraphicShip.cpp
+        GraphicShip.hpp)
+target_link_libraries(DrawableShip sfml-graphics sfml-window sfml-system)
