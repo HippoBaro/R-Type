@@ -28,18 +28,16 @@ public:
 
     void moveSelection(UserEventType type) {
         if (_active) {
-            if (_menuType == VERTICAL) {
-                for (auto &elem : _menuMap) {
-                    if (elem.second.first) {
-                        if (type == USER_DOWN && (unsigned long) elem.first < _menuMap.size() - 1) {
-                            elem.second.first = !elem.second.first;
-                            _menuMap[elem.first + 1] = std::make_pair(!_menuMap[elem.first + 1].first, _menuMap[elem.first + 1].second);
-                            break;
-                        } else if (type == USER_UP && elem.first > 0) {
-                            elem.second.first = !elem.second.first;
-                            _menuMap[elem.first - 1] = std::make_pair(!_menuMap[elem.first - 1].first, _menuMap[elem.first - 1].second);
-                            break;
-                        }
+            for (auto &elem : _menuMap) {
+                if (elem.second.first) {
+                    if (((_menuType == VERTICAL && type == USER_DOWN) || (_menuType == HORIZONTAL && type == USER_RIGHT)) && (unsigned long) elem.first < _menuMap.size() - 1) {
+                        elem.second.first = !elem.second.first;
+                        _menuMap[elem.first + 1] = std::make_pair(!_menuMap[elem.first + 1].first, _menuMap[elem.first + 1].second);
+                        break;
+                    } else if (((_menuType == VERTICAL && type == USER_UP) || (_menuType == HORIZONTAL && type == USER_LEFT)) && elem.first > 0) {
+                        elem.second.first = !elem.second.first;
+                        _menuMap[elem.first - 1] = std::make_pair(!_menuMap[elem.first - 1].first, _menuMap[elem.first - 1].second);
+                        break;
                     }
                 }
             }
@@ -82,6 +80,22 @@ public:
                     context.draw(text);
                     i++;
                 }
+            } else if (_menuType == HORIZONTAL) {
+                int i = 1;
+                long x = (context.getSize().x / 3);
+                for (auto &elem : _menuMap) {
+                    std::pair<bool, std::string> value = elem.second;
+                    if (elem.second.first)
+                        text.setFillColor(sf::Color::Red);
+                    else
+                        text.setFillColor(sf::Color::White);
+                    text.setString(elem.second.second);
+                    text.setPosition(x, 410);
+                    x += (elem.second.second.size() * 50);
+                    context.draw(text);
+                    i++;
+                }
+
             }
         }
     }
