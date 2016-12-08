@@ -19,10 +19,10 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _i
 }
 
 void SFMLManager::Run() {
-    //_soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
+    _soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
-
+    glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);
 
@@ -31,8 +31,7 @@ void SFMLManager::Run() {
     // Boucle de jeu.
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
-
-        _menuContext->Draw(context);
+        _menuContext->Draw(context, _textureBag);
         //_gameContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);
