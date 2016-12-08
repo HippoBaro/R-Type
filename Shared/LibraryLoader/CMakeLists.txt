@@ -5,7 +5,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(LIBRARY_LOADER_FILES
         ../Include/LibraryLoader/ExternalClassFactoryLoader.hpp
         ../Include/LibraryLoader/ManagedExternalInstance.hpp
-        ../Include/LibraryLoader/ExternalClassFactory.hpp)
+        ../Include/LibraryLoader/ExternalClassFactory.hpp ExternalClassFactoryLoader.cpp)
 
 IF (MSVC)
     set(LIBRARY_LOADER_FILES ${LIBRARY_LOADER_FILES}

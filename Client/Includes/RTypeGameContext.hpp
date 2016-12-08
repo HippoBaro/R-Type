@@ -8,14 +8,14 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include "IRtypeDrawingContext.hpp"
 #include "ClientEntityPool.hpp"
-#include <vec2.hpp>
 
 class RTypeGameContext : public IRtypeDrawingContext{
 private:
-    ClientEntityPool _pool = ClientEntityPool();
+    std::shared_ptr<Timer> _timer = nullptr;
+    std::shared_ptr<ClientEntityPool> _pool = nullptr;
 public:
     RTypeGameContext();
-    void Draw(sf::RenderTexture &) override final;
+    void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 
 

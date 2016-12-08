@@ -5,8 +5,9 @@
 #ifndef R_TYPE_TRAITS_HPP
 #define R_TYPE_TRAITS_HPP
 
-enum Trait {
-    Drawable
+enum Trait : int {
+    Drawable,
+    Garbage
 };
 
 #endif //R_TYPE_TRAITS_HPP

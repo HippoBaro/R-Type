@@ -5,14 +5,12 @@ add_subdirectory(LibraryLoader)
 
 set(SHARED_SOURCE_FILES
         src/main.cpp
-        EventDispatcher/EventManager.cpp
         EntityPool/EntityPool.cpp
 
         Include/EntityPool/EntityPool.hpp
 
         Include/Entities/Trait.hpp
         Include/Entities/Entity.hpp
-        Include/Entities/DrawableEntity.hpp
         Include/Entities/PlayerRef.hpp
 
         Include/EventDispatcher/EventListener.hpp
@@ -24,6 +22,13 @@ set(SHARED_SOURCE_FILES
         Include/PartitionSystem/EntityPartitionBuilder.hpp
         Include/PartitionSystem/PartitionSegment.hpp
         Include/PartitionSystem/PartitionSegmentBuilder.hpp
+        Include/PartitionSystem/Tween/Tween.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseInOutCurve.hpp
+        Include/PartitionSystem/Tween/Curve/EaseOutCurve.hpp
+        Include/PartitionSystem/Tween/Curve/ITweeningCurve.hpp
+        Include/PartitionSystem/Tween/Curve/LinearCurve.hpp
+        Include/PartitionSystem/Tween/Curve/SmoothStepCurve.hpp
 
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
@@ -36,11 +41,9 @@ set(SHARED_SOURCE_FILES
 
         Include/IService.hpp
         Include/vec2.hpp
-        )
+        Include/Messages/FireProjectileMessage.hpp)
 
 include_directories(Libs/Interfaces
-        Include
-        Include/
         ../SFML/include
         LibraryLoader
         Include/Socket/Enum

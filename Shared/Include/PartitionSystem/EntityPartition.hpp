@@ -21,15 +21,36 @@ public:
         return *this;
     }
 
-    PartitionSegment GetCurrentSegment(TimeRef const &timeRef){
-		for(auto i : _segments)
+    PartitionSegment *GetCurrentSegment(TimeRef const &timeRef){
+		for(auto &i : _segments)
 			if (i.isPartOf(timeRef))
-				return i;
+				return &i;
 
         if (_segments.front().getStart() > timeRef)
-            return _segments.front();
+            return &_segments.front();
 
-        return _segments.back();
+        return &_segments.back();
+    }
+
+    bool isPartitionPlayed(TimeRef const &ref){
+        return _segments.back().getEnd() <= ref;
+    }
+
+    TimeRef getStart() {
+        return _segments.front().getStart();
+    }
+
+    TimeRef getEnd() {
+        return _segments.back().getEnd();
+    }
+
+    bool ShouldFire(TimeRef const &timeRef) {
+        auto start = getStart();
+        auto end = getEnd();
+        if (timeRef < start || timeRef > end)
+            return false;
+        auto segment = GetCurrentSegment(timeRef);
+        return segment->ShouldFireNow(timeRef);
     }
 };
 
