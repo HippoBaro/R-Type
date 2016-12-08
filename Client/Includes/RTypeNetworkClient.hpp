@@ -8,7 +8,7 @@
 
 #include <memory>
 #include <Socket/IRTypeSocket.hpp>
-#include <Socket/UNIX/RTypeSocket.hpp>
+#include <RTypeSocket.hpp>
 #include <Socket/Enum/RTypeSocketType.h>
 #include <EventDispatcher/EventListener.hpp>
 
