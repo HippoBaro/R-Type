@@ -5,6 +5,7 @@
 #include <vec2.hpp>
 #include <Time/Timer.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
+#include <SFMLManager.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreate.hpp"
 #include "DrawableMenu/MenuJoin.hpp"
@@ -39,10 +40,12 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventMan
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == USER_UP || message->getEventType() == USER_DOWN || message->getEventType() == USER_LEFT || message->getEventType() == USER_RIGHT) {
             for (auto &&elem : _menu) {
+                SFMLManager::soundManager->PlaySound("sprites/changeMenu.ogg");
                 elem->moveSelection(message->getEventType());
             }
         } else if (message->getEventType() == USER_ENTER) {
-            ADrawableMenu::moveIn(_menu);
+            SFMLManager::soundManager->PlaySound("sprites/menuValidate.ogg");
+            ADrawableMenu::moveIn(_menu, _eventManager);
         }
     });
 }

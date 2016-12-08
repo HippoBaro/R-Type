@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <SFML/Graphics.hpp>
+#include <thread>
 #include "Messages/UserInputMessage.hpp"
 
 enum MenuType {
@@ -44,13 +45,17 @@ public:
         }
     }
 
-    static void moveIn(std::vector<std::unique_ptr<ADrawableMenu>> &_menu) {
+    static void moveIn(std::vector<std::unique_ptr<ADrawableMenu>> &_menu, std::shared_ptr<RType::EventManager> &_eventManager) {
         std::string nextMenu;
         for (auto &&elem : _menu) {
             if (elem->_active) {
                 for (auto &subElem : elem->_menuMap) {
                     if (subElem.second.first) {
                         nextMenu = subElem.second.second;
+                        if (nextMenu == "Quit") {
+                            std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(1000));
+                            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
+                        }
                         for (auto &&tmpElem : _menu) {
                             if (tmpElem->_menuName == nextMenu) {
                                 tmpElem->_active = !tmpElem->_active;
