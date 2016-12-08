@@ -19,7 +19,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _i
 }
 
 void SFMLManager::Run() {
-    _soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
+    //_soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
 
