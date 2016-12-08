@@ -3,13 +3,17 @@ cmake_minimum_required(VERSION 2.6.2)
 project(R_Type_Client)
 
 add_subdirectory(UnitTests)
-include_directories(Includes Interfaces)
 
 IF (MSVC)
+    set(LIBRARY_SOCKET_HEADER_FOLDER ../Shared/Include/Socket/Windows)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
+    set(LIBRARY_SOCKET_HEADER_FOLDER ../Shared/Include/Socket/UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
+
+include_directories(Includes Interfaces ${LIBRARY_SOCKET_HEADER_FOLDER})
+
 
 include_directories(SYSTEM "../SFML/include/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
