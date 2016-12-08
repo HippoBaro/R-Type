@@ -45,9 +45,37 @@ void EntityPool::SpawnProjectile(FireProjectileMessage const &message) {
     AddEntity(message.getProjectileName(), message.getSpawnPosition(), _timer->getCurrent());
 }
 
-EntityPool::EntityPool(std::shared_ptr<Timer> const &timer, std::string const &partition) : EntityPool(timer) {
+void EntityPool::LoadPartition(std::string const &partition) {
     RType::json j;
 
-    j.parse(partition);
-    std::cout << "Test : " << j["test"] << std::endl;
+    auto json = "{\n"
+            "\t\"partitionName\":\"TestPartition\",\n"
+            "\t\"backgroundTheme\":\"test.ogg\",\n"
+            "\t\"backgroundEntity\": \n"
+            "\t\t{\n"
+            "\t\t\t\"entityName\":\"testEntity\",\n"
+            "\t\t\t\"startPosition\": {\n"
+            "\t\t\t\t\"x\":0,\n"
+            "\t\t\t\t\"y\":0\n"
+            "\t\t}\n"
+            "\t},\n"
+            "\t\"entities\":[\n"
+            "\t\t{\n"
+            "\t\t\t\"entityName\":\"DummyMonster\",\n"
+            "\t\t\t\"startPosition\": {\n"
+            "\t\t\t\t\"x\":0,\n"
+            "\t\t\t\t\"y\":0\n"
+            "\t\t\t},\n"
+            "\t\t\t\"startTime\":1000\n"
+            "\t\t}\n"
+            "\t]\n"
+            "}";
+
+    j = RType::json::parse(json);
+    for (auto const &i : j["entities"]) {
+        std::string name = i["entityName"];
+        vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
+        TimeRef startTime(std::chrono::milliseconds(i[std::string("startTime")]));
+        AddEntity(name, startPos, startTime);
+    }
 }
