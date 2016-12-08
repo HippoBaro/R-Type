@@ -17,7 +17,6 @@ RTypeGameContext::RTypeGameContext() : _pool() {
 }
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
-    context.create(1280, 720);
     context.clear(sf::Color::White);
     _pool->ProcessEntities();
     _pool->Draw(context, bag);

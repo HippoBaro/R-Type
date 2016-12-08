@@ -20,12 +20,11 @@ void SFMLManager::Run() {
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);
     // Boucle de jeu.
+    sf::RenderTexture context;
+    context.create(Width, Height);
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
-
-        sf::RenderTexture context;
         _gameContext->Draw(context, _textureBag);
-
         sf::Sprite sprite(context.getTexture());
         _window.draw(sprite);
         _window.display();
