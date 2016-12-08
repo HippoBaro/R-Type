@@ -39,10 +39,11 @@ public:
     }
 
     bool ShouldFireNow(TimeRef const &timeRef) {
-        //auto totalSegmentDuration = _locationVector.getEnd().getMilliseconds() - _locationVector.getStart().getMilliseconds();
-        //auto
-
-        return timeRef.getMilliseconds().count() % 5 == 0;
+        auto start = getStart();
+        auto end = getEnd();
+        if (timeRef < start || timeRef > end)
+            return false;
+        return true;
     }
 
     std::string getCurrentProjectile() {
