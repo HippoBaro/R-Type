@@ -11,6 +11,8 @@
 #include "RTypeInputListener.hpp"
 #include "SoundManager.hpp"
 #include "TextureBag.hpp"
+#include <Messages/UserInputMessage.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 constexpr int Width = 1280;
 constexpr int Height = 720;
@@ -20,11 +22,13 @@ private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRTypeDrawingContext> _gameContext;
     std::unique_ptr<IRTypeDrawingContext> _menuContext;
-    std::unique_ptr<SoundManager> _soundManager;
+    std::unique_ptr<SoundManager> _soundManager = std::unique_ptr<SoundManager>(new SoundManager());
     TextureBag _textureBag = TextureBag();
+    std::shared_ptr<RType::EventManager> _eventManager;
+    sf::RenderWindow _window;
 
 public:
-    SFMLManager();
+    SFMLManager(std::shared_ptr<RType::EventManager> eventManager);
     void Run();
 };
 

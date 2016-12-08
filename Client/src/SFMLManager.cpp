@@ -9,14 +9,20 @@
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 
-SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(nullptr), _menuContext(new RTypeMenuContext()), _soundManager(new SoundManager()) {
-
+SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(nullptr), _menuContext(new RTypeMenuContext(eventManager)), _eventManager(eventManager), _window() {
+    RType::EventListener eventListener(eventManager);
+    eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+        if (message->getEventType() == CLOSE_WINDOWS) {
+            _window.close();
+            std::cout << "Close windows" << std::endl;
+        }
+    });
 }
 
 void SFMLManager::Run() {
     //_soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
-    sf::RenderWindow _window(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
+    _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
 
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(60);

@@ -41,7 +41,8 @@ set(SHARED_SOURCE_FILES
 
         Include/IService.hpp
         Include/vec2.hpp
-        Include/Messages/FireProjectileMessage.hpp)
+        Include/Messages/FireProjectileMessage.hpp
+        Include/Messages/UserInputMessage.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include
