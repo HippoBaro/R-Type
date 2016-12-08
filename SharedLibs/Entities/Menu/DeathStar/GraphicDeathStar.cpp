@@ -30,7 +30,7 @@ vec2<float> GraphicDeathStar::GetRenderRect() {
 }
 
 vec2<float> GraphicDeathStar::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent()).getLocationVector().GetTweened();
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
 

@@ -28,9 +28,9 @@ void SFMLManager::Run() {
 
     sf::RenderTexture context;
     sf::Sprite renderSprite;
-    // Boucle de jeu.
-    sf::RenderTexture context;
     context.create(Width, Height);
+
+    // Boucle de jeu.
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
         _menuContext->Draw(context, _textureBag);
