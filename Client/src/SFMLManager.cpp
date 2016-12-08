@@ -6,10 +6,10 @@
 #include <iostream>
 #include "RTypeMenuContext.hpp"
 #include "SFMLManager.hpp"
-//#include "RTypeGameContext.hpp"
+#include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 
-SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(nullptr), _menuContext(new RTypeMenuContext(eventManager)), _eventManager(eventManager), _window() {
+SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext(eventManager)), _eventManager(eventManager), _window() {
     RType::EventListener eventListener(eventManager);
     eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == CLOSE_WINDOWS) {
@@ -33,7 +33,7 @@ void SFMLManager::Run() {
     while (_window.isOpen()) {
         _inputListener->CheckForInputs(_window);
         _menuContext->Draw(context, _textureBag);
-        //_gameContext->Draw(context);
+        //_gameContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);
         _window.display();
