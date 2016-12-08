@@ -22,12 +22,12 @@ private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRTypeDrawingContext> _gameContext;
     std::unique_ptr<IRTypeDrawingContext> _menuContext;
-    std::unique_ptr<SoundManager> _soundManager = std::unique_ptr<SoundManager>(new SoundManager());
     TextureBag _textureBag = TextureBag();
     std::shared_ptr<RType::EventManager> _eventManager;
     sf::RenderWindow _window;
 
 public:
+    static std::unique_ptr<SoundManager> soundManager;
     SFMLManager(std::shared_ptr<RType::EventManager> eventManager);
     void Run();
 };
