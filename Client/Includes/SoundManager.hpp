@@ -7,6 +7,7 @@
 
 #include <SFML/Audio.hpp>
 #include <map>
+#include <thread>
 
 class SoundManager {
 private:

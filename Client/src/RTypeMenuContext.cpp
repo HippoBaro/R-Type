@@ -26,7 +26,7 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventMan
     stratPos = vec2<float>(-100, -100);
     _pool->AddEntity("Ship", stratPos);
 
-    _backgroundTexture.loadFromFile("sprites/spacebackground.png");
+    _backgroundTexture.loadFromFile("sprites/spacebackground.jpg");
     _background.setTexture(_backgroundTexture);
     _font.loadFromFile("sprites/pdark.ttf");
     _text.setFont(_font);
@@ -57,6 +57,7 @@ void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
 }
 
 void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
+    context.create(1280, 720);
     context.clear(sf::Color::Black);
     context.draw(_background);
     _pool->ProcessEntities();

@@ -41,4 +41,6 @@ void SFMLManager::Run() {
         _window.draw(renderSprite);
         _window.display();
     }
+    SFMLManager::soundManager->StopMusic();
+    SFMLManager::soundManager->StopSound();
 }
