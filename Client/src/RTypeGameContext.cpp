@@ -6,32 +6,23 @@
 #include <LibraryLoader/ManagedExternalInstance.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include "RTypeGameContext.hpp"
+#include <fstream>
 
-RTypeGameContext::RTypeGameContext() : _pool() {
-    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
+RTypeGameContext::RTypeGameContext(std::string const &partitionFile) : _pool() {
+    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(50));
     _pool = std::make_shared<ClientEntityPool>(_timer);
-    _pool->LoadPartition("{\n"
-                         "\t\"partitionName\":\"TestPartition\",\n"
-                         "\t\"backgroundTheme\":\"test.ogg\",\n"
-                         "\t\"backgroundEntity\": \n"
-                         "\t\t{\n"
-                         "\t\t\t\"entityName\":\"testEntity\",\n"
-                         "\t\t\t\"startPosition\": {\n"
-                         "\t\t\t\t\"x\":0,\n"
-                         "\t\t\t\t\"y\":0\n"
-                         "\t\t}\n"
-                         "\t},\n"
-                         "\t\"entities\":[\n"
-                         "\t\t{\n"
-                         "\t\t\t\"entityName\":\"DummyMonster\",\n"
-                         "\t\t\t\"startPosition\": {\n"
-                         "\t\t\t\t\"x\":0,\n"
-                         "\t\t\t\t\"y\":0\n"
-                         "\t\t\t},\n"
-                         "\t\t\t\"startTime\":1000\n"
-                         "\t\t}\n"
-                         "\t]\n"
-                         "}");
+
+    std::ifstream infile;
+    infile.open(partitionFile);
+
+    std::string data((std::istreambuf_iterator<char>(infile)),
+                    std::istreambuf_iterator<char>());
+    infile.close();
+
+    if (data.empty())
+        throw new std::runtime_error("Invalid partition file");
+
+    _pool->LoadPartition(data);
 }
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {

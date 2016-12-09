@@ -9,7 +9,7 @@
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 
-SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext()) {
+SFMLManager::SFMLManager() : _inputListener(new RTypeInputListener()), _gameContext(new RTypeGameContext("sprites/testPartition.partition")), _menuContext(new RTypeMenuContext()) {
 
 }
 
