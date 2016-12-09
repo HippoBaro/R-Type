@@ -9,7 +9,7 @@
 #include <fstream>
 
 RTypeGameContext::RTypeGameContext(std::string const &partitionFile) : _pool() {
-    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(50));
+    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer);
 
     std::ifstream infile;
