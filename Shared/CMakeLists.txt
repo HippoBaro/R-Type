@@ -38,14 +38,15 @@ set(SHARED_SOURCE_FILES
         Include/PartitionSegment.hpp
         Include/PartitionSegmentBuilder.hpp
 
-        Serializer/ISerializable.cpp
-        Serializer/ISerializable.hpp
-        Serializer/ISerializerBuffer.hpp
-        Serializer/SerializeBuffer.cpp
-        Serializer/SerializeBuffer.hpp
-        Serializer/DeserializeBuffer.cpp
-        Serializer/DeserializeBuffer.hpp
-        )
+        Serializer/Include/IPacker.hpp
+        Serializer/WritePacker.cpp
+        Serializer/Include/WritePacker.hpp
+        Serializer/Include/ISerializable.hpp
+        Serializer/Include/SerializationHelper.hpp
+        Serializer/Helpers/SerializationHelper.cpp
+        Serializer/ReadPacker.cpp
+        Serializer/Include/ReadPacker.hpp
+        Serializer/SerializationHelper.cpp)
 
 include_directories(Include Libs/Interfaces ../SFML/include LibraryLoader Socket/ Socket/Interfaces Socket/Enum)
 
