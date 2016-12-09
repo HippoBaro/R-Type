@@ -13,7 +13,6 @@ void SoundManager::PlayMusic(bool loop, const std::string &path) {
         _music.setVolume(_musicVolume);
         _music.play();
     }
-
 }
 
 void SoundManager::setMusicVolume(float volume) {
