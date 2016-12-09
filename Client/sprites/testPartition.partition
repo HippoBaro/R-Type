@@ -1,0 +1,30 @@
+{
+	"partitionName":"TestPartition",
+	"backgroundTheme":"test.ogg",
+	"backgroundEntity":
+		{
+			"entityName":"testEntity",
+			"startPosition": {
+				"x":0,
+				"y":0
+		}
+	},
+	"entities":[
+		{
+			"entityName":"DummyMonster",
+			"startPosition": {
+				"x":0,
+				"y":0
+			},
+			"startTime":0
+		},
+		{
+			"entityName":"DummyMonster",
+			"startPosition": {
+				"x":0,
+				"y":0
+			},
+			"startTime":0
+		}
+	]
+}
