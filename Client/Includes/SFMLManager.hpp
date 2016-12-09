@@ -27,7 +27,7 @@ private:
     sf::RenderWindow _window;
 
 public:
-    static std::unique_ptr<SoundManager> soundManager;
+    std::unique_ptr<SoundManager> _soundManager = std::unique_ptr<SoundManager>(new SoundManager());;
     SFMLManager(std::shared_ptr<RType::EventManager> eventManager);
     void Run();
 };

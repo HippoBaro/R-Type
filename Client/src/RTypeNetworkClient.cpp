@@ -24,6 +24,8 @@ RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> even
                 break;
             case USER_ESCAPE:
                 break;
+            default:
+                break;
         }
     });
 }

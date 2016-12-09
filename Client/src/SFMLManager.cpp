@@ -9,8 +9,6 @@
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 
-std::unique_ptr<SoundManager> SFMLManager::soundManager = std::unique_ptr<SoundManager>(new SoundManager());
-
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext(eventManager)), _eventManager(eventManager), _window() {
     RType::EventListener eventListener(eventManager);
     eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
@@ -18,10 +16,15 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _i
             _window.close();
         }
     });
+    eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+        if (message->getEventType() == PLAY_SOUND) {
+            _soundManager->PlaySound(message->getPlaySound());
+        }
+    });
 }
 
 void SFMLManager::Run() {
-    soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
+    _soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
     sf::VideoMode desktop =  sf::VideoMode::getDesktopMode();
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
     glEnable(GL_TEXTURE_2D);
@@ -41,6 +44,6 @@ void SFMLManager::Run() {
         _window.draw(renderSprite);
         _window.display();
     }
-    SFMLManager::soundManager->StopMusic();
-    SFMLManager::soundManager->StopSound();
+    _soundManager->StopMusic();
+    _soundManager->StopSound();
 }
