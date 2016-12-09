@@ -40,11 +40,11 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventMan
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == USER_UP || message->getEventType() == USER_DOWN || message->getEventType() == USER_LEFT || message->getEventType() == USER_RIGHT) {
             for (auto &&elem : _menu) {
-                SFMLManager::soundManager->PlaySound("sprites/changeMenu.ogg");
+                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
                 elem->moveSelection(message->getEventType());
             }
         } else if (message->getEventType() == USER_ENTER) {
-            SFMLManager::soundManager->PlaySound("sprites/menuValidate.ogg");
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), this);
             ADrawableMenu::moveIn(_menu, _eventManager);
         }
     });
