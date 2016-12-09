@@ -57,6 +57,7 @@ void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
 }
 
 void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
+    //TODO: DIRTY ! We need to find a better solution on OSX for that !
     context.create(1280, 720);
     context.clear(sf::Color::Black);
     context.draw(_background);
