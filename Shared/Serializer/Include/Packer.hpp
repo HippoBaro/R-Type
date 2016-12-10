@@ -38,17 +38,17 @@ namespace RType {
     template <typename T>
     void Pack(std::vector<T> & v) {
       if (_type == WRITE)
-        for (auto& it : v)
+        for (auto&& it : v)
         {
-
           RType::SerializationHelper::Serialize(_buffer, _index, it);
+          _index += sizeof(T);
         }
       else
-        for (auto& it : v)
+        for (auto&& it : v)
         {
           RType::SerializationHelper::Deserialize(_buffer, _index, it);
+          _index += sizeof(T);
         }
-      _index += sizeof(T);
     };
 
     // The rest
@@ -66,12 +66,13 @@ namespace RType {
       if (_type == WRITE)
         for (auto& it : v) {
           RType::SerializationHelper::Serialize(_buffer, _index, it);
+          _index += sizeof(char);
         }
       else
         for (auto&& it : v) {
           RType::SerializationHelper::Deserialize(_buffer, _index, it);
+          _index += sizeof(char);
         }
-      _index += sizeof(char);
     }
   };
 }
