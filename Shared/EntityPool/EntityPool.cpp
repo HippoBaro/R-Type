@@ -52,7 +52,7 @@ void EntityPool::LoadPartition(std::string const &partition) {
     for (auto const &i : j["entities"]) {
         std::string name = i["entityName"];
         vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
-        TimeRef startTime(std::chrono::milliseconds(i[std::string("startTime")]));
+        TimeRef startTime((std::chrono::milliseconds(i["startTime"])));
         AddEntity(name, startPos, startTime);
     }
 }
