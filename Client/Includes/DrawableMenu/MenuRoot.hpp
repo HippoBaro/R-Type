@@ -10,7 +10,8 @@
 
 class MenuRoot : public ADrawableMenu {
 public:
-    MenuRoot() {
+    MenuRoot(std::shared_ptr<RType::EventManager> &eventManager) {
+        _eventManager = eventManager;
         _menuMap[0] = std::make_pair(true, "Create Room");
         _menuMap[1] = std::make_pair(false, "Join Room");
         _menuMap[2] = std::make_pair(false, "Settings");

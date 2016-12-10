@@ -13,7 +13,7 @@
 #include "DrawableMenu/MenuSettings.hpp"
 
 
-RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
+RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager), _eventListener(eventManager){
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer);
 
@@ -28,14 +28,14 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventMan
 
     _backgroundTexture.loadFromFile("sprites/spacebackground.jpg");
     _background.setTexture(_backgroundTexture);
-    _font.loadFromFile("sprites/pdark.ttf");
+    _font.loadFromFile("sprites/mypdark.ttf");
     _text.setFont(_font);
     _text.setCharacterSize(50);
 
-    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuRoot()));
-    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuCreate()));
-    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuJoin()));
-    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSettings()));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuRoot(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuCreate(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuJoin(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSettings(_eventManager)));
 
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == USER_UP || message->getEventType() == USER_DOWN || message->getEventType() == USER_LEFT || message->getEventType() == USER_RIGHT) {
