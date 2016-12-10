@@ -16,7 +16,8 @@
 				"x":0,
 				"y":0
 			},
-			"startTime":0
+			"startTime":0,
+			"id":1
 		},
 		{
 			"entityName":"DummyMonster",
@@ -24,7 +25,8 @@
 				"x":0,
 				"y":0
 			},
-			"startTime":0
+			"startTime":0,
+			"id":2
 		}
 	]
 }

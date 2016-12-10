@@ -29,7 +29,7 @@ public:
     virtual ~EntityPool();
 
 public:
-    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const & = TimeRef());
+    virtual void AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const & = TimeRef());
     virtual void ProcessEntities();
     void LoadPartition(std::string const &);
 

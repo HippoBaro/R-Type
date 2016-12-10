@@ -8,19 +8,18 @@
 #include <PartitionSystem/EntityPartition.hpp>
 #include <EventDispatcher/EventManager.hpp>
 #include <Base.h>
+#include <Entities/Entity.hpp>
 
 class SimpleProjectile : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
 
 public:
     virtual ~SimpleProjectile();
 
 public:
     SimpleProjectile(const std::initializer_list<void *> init);
-    SimpleProjectile(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    SimpleProjectile(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };

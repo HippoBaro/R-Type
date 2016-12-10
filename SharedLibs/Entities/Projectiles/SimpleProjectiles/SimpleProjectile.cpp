@@ -9,9 +9,9 @@
 #include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
 #include <iostream>
 
-SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
+SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(*GetParamFromInitializerList<uint16_t *>(init, 0), GetParamFromInitializerList<Timer*>(init, 1), GetParamFromInitializerList<RType::EventManager*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-SimpleProjectile::SimpleProjectile(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
+SimpleProjectile::SimpleProjectile(uint16_t id, Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager) {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)

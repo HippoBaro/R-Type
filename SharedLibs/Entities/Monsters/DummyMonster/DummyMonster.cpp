@@ -8,9 +8,9 @@
 #include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
 #include <Messages/FireProjectileMessage.hpp>
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
+DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0), GetParamFromInitializerList<Timer*>(init, 1), GetParamFromInitializerList<RType::EventManager*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
+DummyMonster::DummyMonster(uint16_t id, Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager) {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)

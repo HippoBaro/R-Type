@@ -14,13 +14,11 @@
 
 class DummyMonster : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
 
 public:
     DummyMonster(const std::initializer_list<void *> init);
-    DummyMonster(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    DummyMonster(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };
