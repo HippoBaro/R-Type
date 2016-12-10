@@ -10,7 +10,8 @@ namespace RType {
     enum Event {
         BULLET_DAMAGE_CHANGE,
         BULLET_POS_CHANGE,
-        NEW_ENTITY
+        NEW_ENTITY,
+        POSITION_CHANGED_COLLISION
     };
 }
 
