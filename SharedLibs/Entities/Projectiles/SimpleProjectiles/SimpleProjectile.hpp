@@ -13,13 +13,14 @@
 class SimpleProjectile : public Entity {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
+    uint16_t _emitterId = 0;
 
 public:
     virtual ~SimpleProjectile();
 
 public:
     SimpleProjectile(const std::initializer_list<void *> init);
-    SimpleProjectile(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    SimpleProjectile(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &, const std::initializer_list<void *> *);
 
     void Cycle() override;
 };

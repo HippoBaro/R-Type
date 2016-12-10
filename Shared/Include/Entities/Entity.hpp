@@ -38,6 +38,10 @@ public:
         RegisterTrait(Garbage);
     }
 
+    uint16_t getId() const {
+        return _id;
+    }
+
     virtual void Cycle() = 0;
 };
 
