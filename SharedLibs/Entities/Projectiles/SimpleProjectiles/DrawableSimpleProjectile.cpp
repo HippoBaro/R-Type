@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <Messages/ProjectilePositionChangedMessage.hpp>
 #include "DrawableSimpleProjectile.hpp"
 
 DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {
@@ -30,6 +31,7 @@ vec2<float> DrawableSimpleProjectile::GetRenderRect() {
 
 vec2<float> DrawableSimpleProjectile::GetPosition() {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(pos), this);
     return pos;
 }
 
