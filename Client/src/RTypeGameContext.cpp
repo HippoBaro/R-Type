@@ -6,18 +6,27 @@
 #include <LibraryLoader/ManagedExternalInstance.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include "RTypeGameContext.hpp"
+#include <fstream>
 
-RTypeGameContext::RTypeGameContext() : _pool() {
+RTypeGameContext::RTypeGameContext(std::string const &partitionFile) : _pool() {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer);
 
-    auto stratPos = vec2<float>(0, 0);
+    std::ifstream infile;
+    infile.open(partitionFile);
 
-    _pool->AddEntity("DummyMonster", stratPos);
+    std::string data((std::istreambuf_iterator<char>(infile)),
+                    std::istreambuf_iterator<char>());
+    infile.close();
+
+    if (data.empty())
+        throw new std::runtime_error("Invalid partition file");
+
+    _pool->LoadPartition(data);
 }
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
-    context.clear(sf::Color::White);
+    context.clear(sf::Color::Black);
     _pool->ProcessEntities();
     _pool->Draw(context, bag);
     context.display();
