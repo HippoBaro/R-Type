@@ -29,8 +29,9 @@ public:
     virtual ~EntityPool();
 
 public:
-    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos);
+    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const & = TimeRef());
     virtual void ProcessEntities();
+    void LoadPartition(std::string const &);
 
 public:
     const std::shared_ptr<RType::EventManager> &getEventManager() const;
