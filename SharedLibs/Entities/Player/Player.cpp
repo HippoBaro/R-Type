@@ -2,28 +2,21 @@
 // Created by hippolyteb on 11/25/16.
 //
 
-#include <iostream>
-#include <thread>
 #include "Player.hpp"
-#include <PartitionSystem/EntityPartitionBuilder.hpp>
-#include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
-#include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 
-Player::Player(Timer *timer) : _timer(timer), _partition(timer) {
-    _partition = EntityPartitionBuilder(timer).AddSegment(
-                    PartitionSegmentBuilder()
-                            .Begins(_timer->getCurrent())
-                            .For(std::chrono::seconds(5))
-                            .From(vec2<int>(0, 0))
-                            .To(vec2<int>(500, 500))
-                            .WithCurving(new EaseInOutCurve()))
-            .ContinueWith(PartitionSegmentBuilder()
-                                  .From(vec2<int>(500, 500))
-                                  .For(std::chrono::seconds(10))
-                                  .To(vec2<int>(100, 90))
-                                  .WithCurving(new EaseOutCurve()))
-            .Loop(2)
-            .Build();
+Player::Player(const std::initializer_list<void *> init) : Player(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
+
+Player::Player(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
+
+}
+
+void Player::Cycle() {
+//    auto now = _timer->getCurrent();
+//    if (_partition.ShouldFire(now)) {
+//        auto segment = _partition.GetCurrentSegment(now);
+//        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
+//    }
 }
 
 RTYPE_ENTITY_REGISTER(Player)
