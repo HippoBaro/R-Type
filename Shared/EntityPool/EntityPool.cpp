@@ -5,10 +5,10 @@
 #include <EntityPool/EntityPool.hpp>
 #include <Json/Json.hpp>
 
-void EntityPool::AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const &timeRef) {
+void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &timeRef) {
     auto now = timeRef;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, {_timer.get() , _eventManager.get(), &now, &pos }, "create", "destroy"));
+    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, _timer.get() , _eventManager.get(), &now, &pos }, "create", "destroy"));
     _pool.push_back(entity);
 }
 
@@ -42,7 +42,7 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
 }
 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message) {
-    AddEntity(message.getProjectileName(), message.getSpawnPosition(), _timer->getCurrent());
+    AddEntity(message.getProjectileName(), 10, message.getSpawnPosition(), _timer->getCurrent());
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {
@@ -53,6 +53,7 @@ void EntityPool::LoadPartition(std::string const &partition) {
         std::string name = i["entityName"];
         vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
         TimeRef startTime((std::chrono::milliseconds(i["startTime"])));
-        AddEntity(name, startPos, startTime);
+        uint16_t id = i["id"];
+        AddEntity(name, id, startPos, startTime);
     }
 }

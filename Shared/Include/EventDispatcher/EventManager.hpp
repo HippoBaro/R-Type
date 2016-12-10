@@ -10,10 +10,8 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <EventDispatcher/IMessage.hpp>
 #include "Events.h"
-#include <EventDispatcher/IMessage.hpp>
-#include <Entities/Entity.hpp>
-#include <EventDispatcher/IMessage.hpp>
 
 /*
  * Usage exemple

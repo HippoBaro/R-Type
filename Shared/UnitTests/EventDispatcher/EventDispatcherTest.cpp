@@ -8,13 +8,9 @@
 
 // Entity model
 namespace RType {
-    class Bullet : public Entity {
+    class Bullet {
     public:
         int a = 0;
-
-        Bullet() : Entity() {}
-
-        void Cycle() override {}
     };
 }
 

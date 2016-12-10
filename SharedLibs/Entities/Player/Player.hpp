@@ -13,12 +13,10 @@
 
 class Player : public Entity {
 protected:
-    Timer *_timer = nullptr;
-    RType::EventManager *_eventManager;
 
 public:
     Player(const std::initializer_list<void *> init);
-    Player(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    Player(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };

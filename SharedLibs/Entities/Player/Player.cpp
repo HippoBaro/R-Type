@@ -5,9 +5,9 @@
 #include "Player.hpp"
 #include <Messages/FireProjectileMessage.hpp>
 
-Player::Player(const std::initializer_list<void *> init) : Player(GetParamFromInitializerList<Timer*>(init, 0), GetParamFromInitializerList<RType::EventManager*>(init, 1), *GetParamFromInitializerList<TimeRef*>(init, 2), *GetParamFromInitializerList<vec2<float>*>(init, 3)) { }
+Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromInitializerList<uint16_t  *>(init, 0), GetParamFromInitializerList<Timer*>(init, 1), GetParamFromInitializerList<RType::EventManager*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-Player::Player(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
+Player::Player(uint16_t id, Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager) {
 
 }
 

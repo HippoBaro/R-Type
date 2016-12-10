@@ -18,7 +18,7 @@ public:
 public :
     virtual void Draw(sf::RenderTexture &, TextureBag &);
 
-    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const & = TimeRef()) override;
+    virtual void AddEntity(std::string const &entityName, uint16_t, vec2<float> const &initialPos, TimeRef const & = TimeRef()) override;
 };
 
 
