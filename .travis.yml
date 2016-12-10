@@ -23,16 +23,18 @@ matrix:
           - libsndfile1-dev
           - libopenal-dev
           - libudev-dev
+        install:
+            - export CXX="g++-5" CC="gcc-5"
+            - export CXX="clang++-3.7" CC="clang-3.7"
     - os: osx
       osx_image: xcode8.2
+      before_install:
+        - brew update
+        - brew install cmake
 
 # Enable C++ support
 language: cpp
 # Compiler selection
-
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cmake   ; fi
 
 script:
   - mkdir build
