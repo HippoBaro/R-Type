@@ -5,7 +5,7 @@
 #ifndef R_TYPE_ISERIALIZABLE_HPP
 #define R_TYPE_ISERIALIZABLE_HPP
 
-#include "IPacker.hpp"
+#include "Packer.hpp"
 
 namespace RType {
 
@@ -13,7 +13,7 @@ namespace RType {
   public:
     virtual ~ISerializable() {};
 
-    virtual void Serialize(RType::IPacker & packer) = 0;
+    virtual void Serialize(RType::Packer & packer) = 0;
   };
 }
 

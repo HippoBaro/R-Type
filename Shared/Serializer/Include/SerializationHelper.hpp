@@ -7,8 +7,6 @@
 
 #include <iostream>
 #include <assert.h>
-#include <bitset>
-
 
 namespace RType {
   namespace SerializationHelper {
@@ -17,7 +15,6 @@ namespace RType {
     template <typename Ttype>
     void Serialize(char *buffer, uint32_t index, Ttype & value)
     {
-      // TODO: this can be done at compile time IMO
       if (RType::SerializationHelper::_IsBigEndian()) {
         if (sizeof(Ttype) == 1) // 1 byte => no swap needed
           *((Ttype*)(buffer + index)) = value;
@@ -28,10 +25,9 @@ namespace RType {
         else if (sizeof(Ttype) == 4) // 4 bytes
           *((Ttype*)(buffer + index)) = __bswap_32(value);
 
-        else if (sizeof(Ttype) == 8) // 8 bytes => extreme case
+        else if (sizeof(Ttype) == 8) // 8 bytes
           *((Ttype*)(buffer + index)) = __bswap_64(value);
       }
-
       else
         *((Ttype*)(buffer + index)) = value;
     }
