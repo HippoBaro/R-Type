@@ -24,7 +24,7 @@ void SoundManager::StopMusic() {
     _music.stop();
 }
 
-void SoundManager::PlaySound(const std::string &path) {
+void SoundManager::PlaySoundEffects(const std::string &path) {
     std::map<std::string, sf::SoundBuffer>::iterator it;
 
     it = _cachedSound.find(path);

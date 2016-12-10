@@ -18,7 +18,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> eventManager) : _i
     });
     eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == PLAY_SOUND) {
-            _soundManager->PlaySound(message->getPlaySound());
+            _soundManager->PlaySoundEffects(message->getPlaySound());
         }
     });
 }
