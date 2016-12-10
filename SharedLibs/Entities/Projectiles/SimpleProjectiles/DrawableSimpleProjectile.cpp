@@ -31,7 +31,6 @@ vec2<float> DrawableSimpleProjectile::GetRenderRect() {
 
 vec2<float> DrawableSimpleProjectile::GetPosition() {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(pos), this);
     return pos;
 }
 
