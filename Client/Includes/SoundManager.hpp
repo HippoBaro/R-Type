@@ -26,7 +26,7 @@ public:
 
     void StopMusic();
 
-    void PlaySound(const std::string &path);
+    void PlaySoundEffects(const std::string &path);
 
     void setSoundVolume(float volume);
 
