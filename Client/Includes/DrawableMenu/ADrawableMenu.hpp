@@ -19,6 +19,7 @@ enum MenuType {
 
 class ADrawableMenu {
 protected:
+    std::shared_ptr<RType::EventManager> _eventManager = nullptr;
     std::map<int, std::pair<bool, std::string>> _menuMap = std::map<int, std::pair<bool, std::string>>();
     std::string _menuName = std::string();
     MenuType _menuType = VERTICAL;
@@ -26,6 +27,8 @@ protected:
 
 public:
     virtual ~ADrawableMenu() {}
+
+    virtual void specialDrawing(sf::RenderTexture &context, sf::Text &text) {}
 
     void moveSelection(UserEventType type) {
         if (_active) {
@@ -71,37 +74,25 @@ public:
 
     void Draw(sf::RenderTexture &context, sf::Text &text) {
         if (_active) {
-            if (_menuType == VERTICAL) {
-                int i = 1;
-                long y = (context.getSize().y / 2) - (((50 * _menuMap.size()) + (50 * (_menuMap.size() - 2))) / 2);
-                for (auto &elem : _menuMap) {
-                    std::pair<bool, std::string> value = elem.second;
-                    if (elem.second.first)
-                        text.setFillColor(sf::Color::Red);
-                    else
-                        text.setFillColor(sf::Color::White);
-                    text.setString(elem.second.second);
-                    text.setPosition(150, y + (50 * i));
-                    context.draw(text);
-                    i++;
-                }
-            } else if (_menuType == HORIZONTAL) {
-                int i = 1;
-                long x = (context.getSize().x / 3);
-                for (auto &elem : _menuMap) {
-                    std::pair<bool, std::string> value = elem.second;
-                    if (elem.second.first)
-                        text.setFillColor(sf::Color::Red);
-                    else
-                        text.setFillColor(sf::Color::White);
-                    text.setString(elem.second.second);
+            float x = (context.getSize().x / 2.65f);
+            float y = (context.getSize().y / 3.f);
+            for (auto &elem : _menuMap) {
+                std::pair<bool, std::string> value = elem.second;
+                if (elem.second.first)
+                    text.setFillColor(sf::Color::Red);
+                else
+                    text.setFillColor(sf::Color::White);
+                text.setString(elem.second.second);
+                if (_menuType == VERTICAL) {
+                    text.setPosition(150, y);
+                    y += 50;
+                } else if (_menuType == HORIZONTAL) {
                     text.setPosition(x, 410);
                     x += (elem.second.second.size() * 50);
-                    context.draw(text);
-                    i++;
                 }
-
+                context.draw(text);
             }
+            specialDrawing(context, text);
         }
     }
 };

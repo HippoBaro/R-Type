@@ -19,7 +19,8 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    PLAY_SOUND
+    PLAY_SOUND,
+    USER_LETTER
 };
 
 class UserInputMessage : public IMessage {
@@ -29,6 +30,8 @@ public:
 private:
     const UserEventType _event;
     std::string _playSound = "";
+    char _letter = ' ';
+
 public:
     UserInputMessage(const UserEventType &event) : _event(event) {}
 
@@ -36,8 +39,16 @@ public:
         _playSound = sound;
     }
 
+    UserInputMessage(const UserEventType &event, const char &letter) : _event(event) {
+        _letter = letter;
+    }
+
     const std::string &getPlaySound() const {
         return _playSound;
+    }
+
+    const char &getUserLetter() const {
+        return _letter;
     }
 
     const UserEventType &getEventType() const {

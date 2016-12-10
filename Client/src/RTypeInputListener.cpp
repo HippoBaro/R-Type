@@ -29,7 +29,7 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
     }
 }
 
-void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key key) {
+void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
     switch (key) {
         case sf::Keyboard::Left:
             _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LEFT), this);
@@ -51,7 +51,13 @@ void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key key) {
             break;
         case sf::Keyboard::Escape:
             _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ESCAPE), this);
+            break;
+        case sf::Keyboard::BackSpace:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, '\b'), this);
+            break;
         default:
+            if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
+                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, key + 65), this);
             break;
     }
 }
