@@ -13,7 +13,7 @@ DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMons
 DummyMonster::DummyMonster(Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : _timer(timer), _eventManager(eventManager) {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
-                            .Begins(_timer->getCurrent())
+                            .Begins(timeRef)
                             .For(std::chrono::seconds(10))
                             .Translate(vec2<float>(500, 500))
                             .WithCurving(new EaseInOutCurve())
