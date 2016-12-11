@@ -27,31 +27,41 @@ namespace RType {
       _type(type)
     {};
 
-    Packer(SerializationType type, char *to_serialize) : _type(type)
+    Packer(SerializationType type, char *to_serialize) :
+      _type(type)
     {
       _buffer = to_serialize;
     };
 
     char *getBuffer() { return _buffer; };
 
-    // For containers
     template <typename T>
     void Pack(std::vector<T> & v) {
-      if (_type == WRITE)
-        for (auto&& it : v)
-        {
+      if (_type == WRITE) {
+
+        // Serialize size so we can get it back later
+        size_t len = v.size();
+        RType::SerializationHelper::Serialize(_buffer, _index, len);
+        _index += sizeof(size_t);
+
+        for (auto&& it : v) {
           RType::SerializationHelper::Serialize(_buffer, _index, it);
           _index += sizeof(T);
         }
-      else
-        for (auto&& it : v)
-        {
-          RType::SerializationHelper::Deserialize(_buffer, _index, it);
+      }
+      else {
+        size_t len;
+        RType::SerializationHelper::Deserialize(_buffer, _index, len);
+        _index += sizeof(size_t);
+        assert(v.size() >= len); // Is the container big enough to hold the data ?
+
+        for (size_t i = 0; i < len; i++) {
+          RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
           _index += sizeof(T);
         }
+      }
     };
 
-    // The rest
     template <typename T>
     void Pack(T & v) {
       if (_type == WRITE)
@@ -63,16 +73,29 @@ namespace RType {
 
     // Special case for strings (which are not vectors but still containers)
     void Pack(std::string & v) {
-      if (_type == WRITE)
+      if (_type == WRITE) {
+
+        size_t len = v.length();
+        RType::SerializationHelper::Serialize(_buffer, _index, len);
+        _index += sizeof(size_t);
+
         for (auto& it : v) {
           RType::SerializationHelper::Serialize(_buffer, _index, it);
           _index += sizeof(char);
         }
-      else
-        for (auto&& it : v) {
-          RType::SerializationHelper::Deserialize(_buffer, _index, it);
+      }
+      else {
+
+        size_t len = 0;
+        RType::SerializationHelper::Deserialize(_buffer, _index, len);
+        _index += sizeof(size_t);
+        assert(v.size() >= len); // Is the container big enough to hold the data ?
+
+        for (size_t i = 0; i < len; i++) {
+          RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
           _index += sizeof(char);
         }
+      }
     }
   };
 }
