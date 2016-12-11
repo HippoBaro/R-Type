@@ -15,6 +15,9 @@ private:
     std::shared_ptr<ClientEntityPool> _pool = nullptr;
 public:
     void Setup(std::string const &partitionString);
+
+    void ReleaseListener() override;
+
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 
