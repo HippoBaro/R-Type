@@ -37,7 +37,7 @@ vec2<float> GraphicPlayer::GetPosition() {
 }
 
 void GraphicPlayer::Cycle() {
-    GraphicPlayer::Cycle();
+    Player::Cycle();
 }
 
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicPlayer)
