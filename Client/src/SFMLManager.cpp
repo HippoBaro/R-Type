@@ -45,6 +45,7 @@ void SFMLManager::Run() {
             _currentContext = _gameContext.get();
             _currentContext->Setup("sprites/testPartition.partition");
             _switch = !_switch;
+            _menuContext->ReleaseListener();
         }
         _inputListener->CheckForInputs(_window);
         _currentContext->Draw(context, _textureBag);

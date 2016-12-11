@@ -31,3 +31,7 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     _pool->Draw(context, bag);
     context.display();
 }
+
+void RTypeGameContext::ReleaseListener() {
+
+}

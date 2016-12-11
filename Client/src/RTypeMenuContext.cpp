@@ -87,3 +87,7 @@ void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
 }
 
 void RTypeMenuContext::Setup(std::string const &string) {}
+
+void RTypeMenuContext::ReleaseListener() {
+    _eventListener.~EventListener();
+}
