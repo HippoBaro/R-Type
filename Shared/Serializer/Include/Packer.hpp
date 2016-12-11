@@ -18,7 +18,7 @@ namespace RType {
   class Packer {
   private:
     char *_buffer;
-    uint32_t _index = 0;
+    uint16_t _index = 0;
     SerializationType _type;
 
   public:
@@ -34,6 +34,7 @@ namespace RType {
     };
 
     char *getBuffer() { return _buffer; };
+    uint16_t getLength() { return _index; };
 
     template <typename T>
     void Pack(std::vector<T> & v) {
