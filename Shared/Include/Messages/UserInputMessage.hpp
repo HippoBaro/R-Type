@@ -11,7 +11,6 @@
 #include <EventDispatcher/Events.h>
 
 enum UserEventType {
-    CLOSE_WINDOWS,
     USER_UP,
     USER_DOWN,
     USER_RIGHT,
@@ -19,7 +18,8 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    USER_LETTER
+    USER_LETTER,
+    CLOSE_WINDOWS
 };
 
 class UserInputMessage : public IMessage {

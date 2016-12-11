@@ -52,22 +52,20 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
                 elem->moveSelection(message->getEventType());
             }
         } else if (message->getEventType() == USER_ENTER) {
-            std::string channelName = "";
-            bool check = false;
             for (auto &&elem : _menu) {
-                if (elem->getActive() && (elem->getMenuName() == "Create Room" || elem->getMenuName() == "Join Room"))
-                    channelName = elem->getChannelName();
-                if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
-                    check = true;
-            }
-            if (ADrawableMenu::moveIn(_menu, _eventManager) == "Back" && check)
-                _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_STOP_WAITING), nullptr);
-            for (auto &&elem : _menu) {
-                if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
-                    _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_WAITING, channelName), nullptr);
+                if (elem->moveInSubMenu(_menu))
+                    break;
             }
         }
     });
+}
+
+void RTypeMenuContext::Setup(std::string const &string) {
+
+}
+
+void RTypeMenuContext::ReleaseListener() {
+    _eventListener.~EventListener();
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
@@ -85,10 +83,4 @@ void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     _pool->Draw(context, bag);
     DrawMenu(context);
     context.display();
-}
-
-void RTypeMenuContext::Setup(std::string const &string) {}
-
-void RTypeMenuContext::ReleaseListener() {
-    _eventListener.~EventListener();
 }

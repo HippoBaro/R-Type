@@ -10,14 +10,7 @@
 
 class MenuSettings : public ADrawableMenu {
 public:
-    MenuSettings(std::shared_ptr<RType::EventManager> &eventManager) {
-        _eventManager = eventManager;
-        _menuMap[0] = std::make_pair(false, "Music Volume");
-        _menuMap[1] = std::make_pair(false, "Sound Volume");
-        _menuMap[2] = std::make_pair(true, "Back");
-        _menuName = "Settings";
-        _menuType = VERTICAL;
-    }
+    MenuSettings(std::shared_ptr<RType::EventManager> &eventManager);
 };
 
 
