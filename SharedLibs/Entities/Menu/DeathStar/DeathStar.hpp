@@ -15,13 +15,11 @@
 
 class DeathStar : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
 
 public:
     DeathStar(const std::initializer_list<void *> init);
-    DeathStar(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    DeathStar(uint16_t id, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };
