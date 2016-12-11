@@ -12,7 +12,7 @@
 
 class SimpleProjectile : public Entity {
 protected:
-    EntityPartition _partition = EntityPartition(_timer);
+    EntityPartition _partition = EntityPartition(_timer.get());
     uint16_t _emitterId = 0;
 
 public:
@@ -20,7 +20,7 @@ public:
 
 public:
     SimpleProjectile(const std::initializer_list<void *> init);
-    SimpleProjectile(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &, const std::initializer_list<void *> *);
+    SimpleProjectile(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &, const std::initializer_list<void *> *);
 
     void Cycle() override;
 };

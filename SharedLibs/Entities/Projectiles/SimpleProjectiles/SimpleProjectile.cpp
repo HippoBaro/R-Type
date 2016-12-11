@@ -12,8 +12,8 @@
 
 SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) :
         SimpleProjectile(*GetParamFromInitializerList<uint16_t *>(init, 0),
-                         GetParamFromInitializerList<Timer*>(init, 1),
-                         GetParamFromInitializerList<RType::EventManager*>(init, 2),
+                         *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
+                         *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),
                          *GetParamFromInitializerList<TimeRef*>(init, 3),
                          *GetParamFromInitializerList<vec2<float>*>(init, 4),
                          GetParamFromInitializerList<std::initializer_list<void *>*>(init, 5))
@@ -22,13 +22,13 @@ SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) :
 }
 
 SimpleProjectile::SimpleProjectile(uint16_t id,
-                                   Timer *timer,
-                                   RType::EventManager *eventManager,
+                                   std::shared_ptr<Timer> timer,
+                                   std::shared_ptr<RType::EventManager> eventManager,
                                    TimeRef const &timeRef,
                                    vec2<float> const &startPosition,
                                    const std::initializer_list<void *> *params) : Entity(id, timer, eventManager) {
     _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
-    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
+    _partition = EntityPartitionBuilder(timer.get(), timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(2))
