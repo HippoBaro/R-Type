@@ -2,9 +2,20 @@
 // Created by pasteu_e on 08/12/16.
 //
 
+#include <EventDispatcher/EventManager.hpp>
+#include <Messages/UserInputMessage.hpp>
+#include <iostream>
 #include "SoundManager.hpp"
 
-SoundManager::SoundManager() : _music(), _sound(), _cachedSound() {
+SoundManager::SoundManager(std::shared_ptr<RType::EventManager> &eventManager) : _music(), _sound(), _cachedSound(), _eventManager(eventManager), _eventListener(eventManager) {
+    _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+        if (message->getEventType() == VOLUME_MUSIC) {
+            setMusicVolume(message->getVolume());
+        } else if (message->getEventType() == VOLUME_SOUND) {
+            setSoundVolume(message->getVolume());
+        }
+    });
+
 }
 
 void SoundManager::PlayMusic(bool loop, const std::string &path) {

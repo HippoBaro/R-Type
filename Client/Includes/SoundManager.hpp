@@ -8,6 +8,7 @@
 #include <SFML/Audio.hpp>
 #include <map>
 #include <thread>
+#include <EventDispatcher/EventListener.hpp>
 
 class SoundManager {
 private:
@@ -16,9 +17,11 @@ private:
     sf::Music _music;
     sf::Sound _sound;
     std::map<std::string, sf::SoundBuffer> _cachedSound;
+    std::shared_ptr<RType::EventManager> _eventManager;
+    RType::EventListener _eventListener;
 
 public:
-    SoundManager();
+    SoundManager(std::shared_ptr<RType::EventManager> &eventManager);
 
     void PlayMusic(bool loop, const std::string &path);
 

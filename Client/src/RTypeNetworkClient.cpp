@@ -5,7 +5,7 @@
 #include <Messages/UserInputMessage.hpp>
 #include "RTypeNetworkClient.hpp"
 
-RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager), _eventListener(eventManager){
+RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager){
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         switch (message->getEventType()) {
             case CLOSE_WINDOWS:

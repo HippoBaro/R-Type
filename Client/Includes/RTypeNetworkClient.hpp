@@ -19,7 +19,7 @@ private:
     RType::EventListener _eventListener;
 
 public:
-    RTypeNetworkClient(std::shared_ptr<RType::EventManager> eventManager);
+    RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager);
 };
 
 

@@ -45,9 +45,11 @@ set(CLIENT_SOURCE_FILES
         Includes/DrawableMenu/ADrawableMenu.hpp
         Includes/DrawableMenu/MenuRoot.hpp
         Includes/DrawableMenu/MenuSettings.hpp
-        Includes/DrawableMenu/MenuCreate.hpp
+        Includes/DrawableMenu/MenuCreateRoom.hpp
+        Includes/DrawableMenu/MenuJoinRoom.hpp
         Includes/DrawableMenu/MenuJoin.hpp
-        )
+        Includes/DrawableMenu/MenuCreate.hpp
+        Includes/DrawableMenu/MenuMusicVolume.hpp Includes/DrawableMenu/MenuSoundVolume.hpp)
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
 target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system sfml-audio)
