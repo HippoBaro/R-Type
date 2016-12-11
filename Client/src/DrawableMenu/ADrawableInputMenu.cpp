@@ -7,7 +7,7 @@
 ADrawableInputMenu::ADrawableInputMenu(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager) {
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (_active && message->getEventType() == USER_LETTER) {
-            _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/keyboard_key.ogg"), this);
+            _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/keyboard_key.ogg"), this);
             if (message->getUserLetter() != '\b') {
                 if (_blinkingCursor) {
                     if (_drawableTextByUser.size() < 12) {

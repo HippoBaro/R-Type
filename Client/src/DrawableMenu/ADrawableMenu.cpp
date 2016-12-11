@@ -43,7 +43,7 @@ void ADrawableMenu::moveUp() {
             if (elem.second.first && elem.first > 0) {
                 elem.second.first = !elem.second.first;
                 _menuMap[elem.first - 1] = std::make_pair(!_menuMap[elem.first - 1].first, _menuMap[elem.first - 1].second);
-                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/changeMenu.ogg"), this);
                 break;
             }
         }
@@ -56,7 +56,7 @@ void ADrawableMenu::moveDown() {
             if (elem.second.first && elem.first < _menuMap.size() - 1) {
                 elem.second.first = !elem.second.first;
                 _menuMap[elem.first + 1] = std::make_pair(!_menuMap[elem.first + 1].first, _menuMap[elem.first + 1].second);
-                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/changeMenu.ogg"), this);
                 break;
             }
         }
@@ -69,7 +69,7 @@ void ADrawableMenu::moveRight() {
             if (elem.second.first && elem.first < _menuMap.size() - 1) {
                 elem.second.first = !elem.second.first;
                 _menuMap[elem.first + 1] = std::make_pair(!_menuMap[elem.first + 1].first, _menuMap[elem.first + 1].second);
-                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/changeMenu.ogg"), this);
                 break;
             }
         }
@@ -82,7 +82,7 @@ void ADrawableMenu::moveLeft() {
             if (elem.second.first && elem.first > 0) {
                 elem.second.first = !elem.second.first;
                 _menuMap[elem.first - 1] = std::make_pair(!_menuMap[elem.first - 1].first, _menuMap[elem.first - 1].second);
-                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/changeMenu.ogg"), this);
                 break;
             }
         }
@@ -111,7 +111,7 @@ bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &a
                     return false;
                 elem->_active = true;
                 _active = false;
-                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), nullptr);
+                _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/menuValidate.ogg"), nullptr);
                 return true;
             }
         }
