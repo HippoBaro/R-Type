@@ -22,24 +22,12 @@ namespace RType {
     SerializationType _type;
 
   public:
-    Packer(RType::SerializationType type) :
-      _buffer(new char[1500]),
-      _type(type)
-    {};
+    Packer(RType::SerializationType type);
+    Packer(SerializationType type, char *to_serialize);
+    ~Packer();
 
-    Packer(SerializationType type, char *to_serialize) :
-      _type(type)
-    {
-      _buffer = to_serialize;
-    };
-
-    ~Packer() {
-      if (_type == WRITE)
-        delete _buffer;
-    };
-
-    char *getBuffer() { return _buffer; };
-    uint16_t getLength() { return _index; };
+    char *getBuffer();
+    uint16_t getLength();
 
     template <typename T>
     void Pack(std::vector<T> & v) {
@@ -77,7 +65,6 @@ namespace RType {
       _index += sizeof(T);
     };
 
-    // Special case for strings (which are not vectors but still containers)
     void Pack(std::string & v) {
       if (_type == WRITE) {
 
