@@ -7,7 +7,7 @@
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 TEST(EntityPartionTest, PlayPlayValidEntityPartition) {
-    auto timer = new Timer(std::chrono::steady_clock::now());
+    auto timer = std::shared_ptr<Timer>(new Timer(std::chrono::steady_clock::now()));
 
     //Create our entity partition
     auto partition = EntityPartitionBuilder(timer, timer->getCurrent(), vec2<float>(0, 0))

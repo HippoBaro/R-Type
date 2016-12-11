@@ -14,7 +14,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
         Entity(id, timer, eventManager)
 {
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager));
-    _partition = EntityPartitionBuilder(timer.get(), timeRef, startPosition).AddSegment(
+    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))

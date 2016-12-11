@@ -14,7 +14,7 @@ template <typename TweenInnerType>
 class Tween {
 
 private:
-    Timer *_timer = nullptr;
+    std::shared_ptr<Timer> _timer = nullptr;
     ITweeningCurve *_curvingOption;
 
     TweenInnerType _startValue;
@@ -28,7 +28,7 @@ private:
 
 public:
     template <class TweeningCurve>
-    Tween(Timer *timer, TweenInnerType const &startValue, TimeRef const &start,
+    Tween(std::shared_ptr<Timer> timer, TweenInnerType const &startValue, TimeRef const &start,
           TweenInnerType const &endValue, TimeRef const &end) : _timer(timer), _curvingOption(nullptr),
                                                                 _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                 _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){
@@ -36,7 +36,7 @@ public:
         _curvingOption = new TweeningCurve();
     }
 
-    Tween(Timer *timer, TweenInnerType const &startValue, TimeRef const &start,
+    Tween(std::shared_ptr<Timer> timer, TweenInnerType const &startValue, TimeRef const &start,
          TweenInnerType const &endValue, TimeRef const &end, ITweeningCurve *curve) : _timer(timer),_curvingOption(curve),
                                                                _startValue(startValue), _endValue(endValue), _start(start), _end(end),
                                                                _delta(_endValue - _startValue), _maxValue(std::numeric_limits<TweenInnerType>::max()){ }

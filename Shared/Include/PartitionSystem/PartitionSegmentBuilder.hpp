@@ -83,7 +83,7 @@ public:
         return *this;
     }
 
-    PartitionSegment Build(Timer *timer){
+    PartitionSegment Build(std::shared_ptr<Timer> timer){
         if (_curvingOption == nullptr)
             _curvingOption = new LinearCurve();
         return PartitionSegment(Tween<vec2<float>>(timer, _startValue, _start, _endValue,

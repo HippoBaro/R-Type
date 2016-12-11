@@ -15,7 +15,7 @@
 
 class DummyMonster : public Entity {
 protected:
-    EntityPartition _partition = EntityPartition(_timer.get());
+    EntityPartition _partition = EntityPartition(_timer);
     std::unique_ptr<RType::EventListener> _eventListener;
 
 public:
