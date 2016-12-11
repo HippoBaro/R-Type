@@ -59,7 +59,7 @@ public:
             _blinkingCursor = !_blinkingCursor;
             if (_blinkingCursor)
                 _drawableTextByUser += "_";
-            else
+            else if (_drawableTextByUser.back() == '_')
                 _drawableTextByUser.pop_back();
             _frame = 0;
         }
