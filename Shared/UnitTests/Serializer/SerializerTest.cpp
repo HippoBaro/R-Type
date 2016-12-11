@@ -6,6 +6,15 @@
 #include <ISerializable.hpp>
 #include <bitset>
 
+class Bullet : RType::ISerializable {
+public:
+  Bullet() {};
+  int ammo = 32;
+  virtual void Serialize(RType::Packer & packer) override {
+    packer.Pack(ammo);
+  }
+};
+
 class Player : RType::ISerializable {
 public:
   int life = 300;
@@ -15,6 +24,7 @@ public:
   float damage = 12.45f;
   char letter = 'a';
   std::string name = "this is my name";
+  Bullet bullet;
 
   virtual void Serialize(RType::Packer & packer) override {
     packer.Pack(life);
@@ -24,6 +34,7 @@ public:
     packer.Pack(damage);
     packer.Pack(letter);
     packer.Pack(name);
+    bullet.Serialize(packer);
   }
 };
 
@@ -46,6 +57,7 @@ TEST(Tests_Serialization, SerializerTest) {
   toto.letter = 'T';
   toto.name = "Hello World !";
   toto.name.resize(20);
+  toto.bullet.ammo = 0;
 
   toto.Serialize(rpacker);
 
@@ -58,5 +70,6 @@ TEST(Tests_Serialization, SerializerTest) {
   ASSERT_FLOAT_EQ(toto.damage, 12.45);
   ASSERT_EQ(toto.letter, 'a');
   ASSERT_STREQ(toto.name.c_str(), "this is my name");
+  ASSERT_EQ(toto.bullet.ammo, 32);
 }
 
