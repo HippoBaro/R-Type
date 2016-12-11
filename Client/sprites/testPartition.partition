@@ -14,17 +14,19 @@
 			"entityName":"DummyMonster",
 			"startPosition": {
 				"x":0,
-				"y":0
+				"y":400
 			},
-			"startTime":0
+			"startTime":0,
+			"id":1
 		},
 		{
 			"entityName":"DummyMonster",
 			"startPosition": {
-				"x":0,
-				"y":0
+				"x":500,
+				"y":400
 			},
-			"startTime":0
+			"startTime":0,
+			"id":2
 		}
 	]
 }

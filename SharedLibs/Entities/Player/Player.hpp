@@ -5,20 +5,20 @@
 #ifndef R_TYPE_DUMMYMONSTER_HPP
 #define R_TYPE_DUMMYMONSTER_HPP
 
-#include "PartitionSystem/EntityPartition.hpp"
-#include <Timer.hpp>
 #include <Base.h>
-#include <Interfaces/IDrawable.hpp>
-#include <Interfaces/Libs/DrawableEntity.hpp>
-#include "PartitionSystem/PartitionSegmentBuilder.hpp"
+#include <Entities/Entity.hpp>
+#include <EventDispatcher/EventManager.hpp>
+#include <Time/Timer.hpp>
+#include <vec2.hpp>
 
 class Player : public Entity {
 protected:
-    Timer *_timer;
-    EntityPartition _partition;
 
 public:
-    Player(Timer *timer);
+    Player(const std::initializer_list<void *> init);
+    Player(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+
+    void Cycle() override;
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

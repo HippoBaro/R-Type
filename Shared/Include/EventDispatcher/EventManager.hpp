@@ -10,10 +10,8 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <EventDispatcher/IMessage.hpp>
 #include "Events.h"
-#include <EventDispatcher/IMessage.hpp>
-#include <Entities/Entity.hpp>
-#include <EventDispatcher/IMessage.hpp>
 
 /*
  * Usage exemple
@@ -43,6 +41,15 @@ namespace RType {
         void
         AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
             _listeners.push_back(callbacks);
+        }
+
+        void EraseListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
+            auto index = 0;
+            for(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> const &i : _listeners) {
+                if (i == callbacks)
+                    _listeners.erase(_listeners.begin() + index);
+                index++;
+            }
         }
 
         void Emit(RType::Event event, IMessage *message, void *sender) {

@@ -5,6 +5,8 @@
 #ifndef R_TYPE_BASE_H
 #define R_TYPE_BASE_H
 
+#include <initializer_list>
+
 #if MSVC
 #define DLLEXPORT __declspec(dllexport)
 #else

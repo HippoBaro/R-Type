@@ -43,7 +43,7 @@ set(SHARED_SOURCE_FILES
         Include/vec2.hpp
         Include/Messages/FireProjectileMessage.hpp
 
-        Include/Json/Json.hpp)
+        Include/Json/Json.hpp Include/Messages/ProjectilePositionChangedMessage.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include
