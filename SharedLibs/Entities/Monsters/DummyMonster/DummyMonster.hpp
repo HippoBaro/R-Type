@@ -10,11 +10,13 @@
 #include <Base.h>
 #include <Entities/Entity.hpp>
 #include <EventDispatcher/EventManager.hpp>
+#include <EventDispatcher/EventListener.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class DummyMonster : public Entity {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
+    std::unique_ptr<RType::EventListener> _eventListener;
 
 public:
     DummyMonster(const std::initializer_list<void *> init);

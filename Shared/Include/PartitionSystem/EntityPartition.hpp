@@ -45,6 +45,8 @@ public:
     }
 
     bool ShouldFire(TimeRef const &timeRef) {
+        if (_segments.size() == 0)
+            return false;
         auto start = getStart();
         auto end = getEnd();
         if (timeRef < start || timeRef > end)

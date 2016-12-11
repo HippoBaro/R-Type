@@ -15,14 +15,19 @@ namespace RType {
         typedef std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>> callback_map;
 
     private:
-        std::shared_ptr<RType::EventManager> _eventManager = nullptr;
+        RType::EventManager *_eventManager = nullptr;
         std::shared_ptr<callback_map> _callbacks;
 
     public:
-        EventListener(std::shared_ptr<RType::EventManager> eventManager) :
+        EventListener(RType::EventManager *eventManager) :
                 _eventManager(eventManager),
                 _callbacks(std::shared_ptr<callback_map>(new callback_map())) {
             _eventManager->AddListener(_callbacks);
+        }
+
+        virtual ~EventListener() {
+            (*_callbacks).clear();
+            _eventManager->EraseListener(_callbacks);
         }
 
         template<typename EntityType, typename MessageType>

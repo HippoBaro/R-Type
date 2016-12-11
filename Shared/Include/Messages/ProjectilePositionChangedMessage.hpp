@@ -15,7 +15,7 @@ public:
     static constexpr RType::Event EventType = RType::POSITION_CHANGED_COLLISION;
 
 private:
-    const vec2<float> _projectilePosition;
+    vec2<float> _projectilePosition;
     const uint16_t _emitterId;
 
 public:
@@ -28,6 +28,12 @@ public:
 
     const vec2<float> &getProjectilePosition() const {
         return _projectilePosition;
+    }
+
+    bool TestHitBox(vec2<float> pos, vec2<float> size, uint16_t id) {
+        if (_projectilePosition.Intersect(pos, pos + size) && id != _emitterId)
+            return true;
+        return false;
     }
 };
 
