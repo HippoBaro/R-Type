@@ -4,7 +4,7 @@
 
 #include "DrawableMenu/MenuSoundVolume.hpp"
 
-MenuSoundVolume::MenuSoundVolume(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager.get()) {
+MenuSoundVolume::MenuSoundVolume(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager) {
     _eventManager = eventManager;
     _menuMap[0] = std::make_pair(true, "Back");
     _menuName = "Sound Volume";

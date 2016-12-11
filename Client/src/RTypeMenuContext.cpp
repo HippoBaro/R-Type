@@ -18,18 +18,18 @@
 #include "DrawableMenu/MenuSoundVolume.hpp"
 
 
-RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager.get()) {
+RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer);
 
     auto stratPos = vec2<float>(1500, 100);
-    _pool->AddEntity("DeathStar", stratPos);
+    _pool->AddEntity("DeathStar", 1, stratPos, _timer->getCurrent());
 
     stratPos = vec2<float>(1100, 450);
-    _pool->AddEntity("Mars", stratPos);
+    _pool->AddEntity("Mars", 2, stratPos, _timer->getCurrent());
 
     stratPos = vec2<float>(-100, -100);
-    _pool->AddEntity("Ship", stratPos);
+    _pool->AddEntity("Ship", 3, stratPos, _timer->getCurrent());
 
     _backgroundTexture.loadFromFile("sprites/spacebackground.jpg");
     _background.setTexture(_backgroundTexture);
