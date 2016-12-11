@@ -7,6 +7,7 @@
 
 #include <vec2.hpp>
 
+#pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #include <SFML/Graphics.hpp> //SFML is not Weffc++ compliant
 #pragma GCC diagnostic pop
