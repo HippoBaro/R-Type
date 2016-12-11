@@ -41,6 +41,8 @@ set(SHARED_SOURCE_FILES
         Include/vec2.hpp
         Include/Messages/FireProjectileMessage.hpp
         Include/Messages/UserInputMessage.hpp
+        Include/Messages/MenuLobbyMessage.hpp
+        Include/Messages/SoundSystemMessage.hpp
         Include/Json/Json.hpp
         )
 

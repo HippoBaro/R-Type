@@ -20,9 +20,6 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
             case sf::Event::KeyPressed:
                 KeyBoardEvent(event.key.code);
                 break;
-//            case sf::Event::MouseButtonPressed:
-//                MouseEvent(event.mouseButton.button);
-//                break;
             default:
                 break;
         }
@@ -61,17 +58,3 @@ void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
             break;
     }
 }
-
-//void RTypeInputListener::MouseEvent(sf::Mouse::Button button) {
-//    switch (button) {
-//        case sf::Mouse::Left:
-//            std::cout << "Left Click" << std::endl;
-//            break;
-//        case sf::Mouse::Right:
-//            std::cout << "Right Click" << std::endl;
-//            break;
-//        default:
-//            break;
-//
-//    }
-//}
