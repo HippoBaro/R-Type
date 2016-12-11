@@ -10,17 +10,17 @@
 #include <Base.h>
 #include <Entities/Entity.hpp>
 #include <EventDispatcher/EventManager.hpp>
+#include <EventDispatcher/EventListener.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
 class DummyMonster : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
+    std::unique_ptr<RType::EventListener> _eventListener;
 
 public:
     DummyMonster(const std::initializer_list<void *> init);
-    DummyMonster(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    DummyMonster(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };
