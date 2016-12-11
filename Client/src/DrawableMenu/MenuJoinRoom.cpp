@@ -4,7 +4,7 @@
 
 #include "DrawableMenu/MenuJoinRoom.hpp"
 
-MenuJoinRoom::MenuJoinRoom(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager.get()) {
+MenuJoinRoom::MenuJoinRoom(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager) {
     _eventManager = eventManager;
     _menuMap[0] = std::make_pair(true, "Back");
     _menuMap[1] = std::make_pair(false, "Join");
