@@ -8,7 +8,11 @@
 #include <Messages/ProjectilePositionChangedMessage.hpp>
 #include <iostream>
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0), *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1), *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
+DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
+                                                                                    *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
+                                                                                    *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),
+                                                                                    *GetParamFromInitializerList<TimeRef*>(init, 3),
+                                                                                    *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
 DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
         Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))

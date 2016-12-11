@@ -14,13 +14,11 @@
 
 class Mars : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
 
 public:
     Mars(const std::initializer_list<void *> init);
-    Mars(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    Mars(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };

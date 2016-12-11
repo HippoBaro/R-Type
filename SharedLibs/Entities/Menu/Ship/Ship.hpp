@@ -14,13 +14,11 @@
 
 class Ship : public Entity {
 protected:
-    Timer *_timer = nullptr;
     EntityPartition _partition = EntityPartition(_timer);
-    RType::EventManager *_eventManager;
 
 public:
     Ship(const std::initializer_list<void *> init);
-    Ship(Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    Ship(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };
