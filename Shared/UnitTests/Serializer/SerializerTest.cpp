@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <ISerializable.hpp>
+#include <Serializer/ISerializable.hpp>
 #include <bitset>
 
 class Bullet : RType::ISerializable {

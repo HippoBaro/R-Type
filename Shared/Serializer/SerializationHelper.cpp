@@ -2,7 +2,7 @@
 // Created by aguado_e on 12/9/16.
 //
 
-#include "Include/SerializationHelper.hpp"
+#include "Serializer/SerializationHelper.hpp"
 
 bool RType::SerializationHelper::_IsBigEndian()
 {

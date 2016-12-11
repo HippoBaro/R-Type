@@ -8,10 +8,10 @@ set(SHARED_SOURCE_FILES
         EntityPool/EntityPool.cpp
         Include/EntityPool/EntityPool.hpp
 
-        Serializer/Include/Packer.hpp
-        Serializer/Include/ISerializable.hpp
-        Serializer/Include/SerializationHelper.hpp
-        Serializer/Helpers/SerializationHelper.cpp
+        Include/Serializer/Packer.hpp
+        Include/Serializer/ISerializable.hpp
+        Include/Serializer/SerializationHelper.hpp
+        Serializer/Packer.cpp
         Serializer/SerializationHelper.cpp
 
         Include/Entities/Trait.hpp
