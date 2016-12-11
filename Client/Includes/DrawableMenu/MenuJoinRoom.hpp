@@ -16,7 +16,7 @@ private:
     RType::EventListener _eventListener;
 
 public:
-    MenuJoinRoom(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager) {
+    MenuJoinRoom(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager.get()) {
         _eventManager = eventManager;
         _menuMap[0] = std::make_pair(true, "Back");
         _menuMap[1] = std::make_pair(false, "Join");
