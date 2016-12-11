@@ -39,7 +39,7 @@ public:
 
     virtual void specialDrawing(sf::RenderTexture &context, sf::Text &text) {}
 
-    virtual const std::string getChannelName() { return std::__cxx11::string(); }
+    virtual const std::string getChannelName() { return std::string(); }
 
     void moveSelection(UserEventType type) {
         if (_active && _menuName != "Music Volume" && _menuName != "Sound Volume") {
