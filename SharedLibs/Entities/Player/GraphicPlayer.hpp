@@ -5,17 +5,20 @@
 #ifndef R_TYPE_GRAPHICDUMMYMONSTER_HPP
 #define R_TYPE_GRAPHICDUMMYMONSTER_HPP
 
+#include <IDrawable.hpp>
 #include "Player.hpp"
 
-class GraphicPlayer : DrawableEntity, public Player {
+class GraphicPlayer : public Player, public IDrawable {
 
 public:
-    GraphicPlayer(Timer *timer);
+    GraphicPlayer(const std::initializer_list<void *> init);
 
 public:
-    void Draw(sf::RenderTexture &rect) override;
-    vec2<int> GetRenderRect() override;
-    vec2<int> GetPosition() override;
+    void Draw(sf::RenderTexture *rect, TextureBag &) override;
+    vec2<float> GetRenderRect() override;
+    vec2<float> GetPosition() override;
+
+    void Cycle() override;
 };
 
 #endif //R_TYPE_GRAPHICDUMMYMONSTER_HPP

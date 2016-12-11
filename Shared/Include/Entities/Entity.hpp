@@ -8,12 +8,20 @@
 #include <algorithm>
 #include "Trait.hpp"
 #include <vector>
+#include <Time/Timer.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 class Entity {
 protected:
+    uint16_t _id;
+    std::shared_ptr<Timer> _timer;
+    std::shared_ptr<RType::EventManager> _eventManager;
+
     std::vector<Trait> _traits = std::vector<Trait>();
 public:
     virtual ~Entity() { }
+
+    Entity(uint16_t _id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventMgr) : _id(_id), _timer(timer), _eventManager(eventMgr) {}
 
     virtual bool ImplementTrait(Trait trait) {
         for(auto x : _traits)
@@ -28,6 +36,10 @@ public:
 
     virtual void Destroy(){
         RegisterTrait(Garbage);
+    }
+
+    uint16_t getId() const {
+        return _id;
     }
 
     virtual void Cycle() = 0;

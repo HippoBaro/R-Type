@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <Messages/ProjectilePositionChangedMessage.hpp>
 #include "DrawableSimpleProjectile.hpp"
 
 DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {
