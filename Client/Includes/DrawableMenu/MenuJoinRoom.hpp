@@ -5,21 +5,11 @@
 #ifndef R_TYPE_MENUJOINROOM_HPP
 #define R_TYPE_MENUJOINROOM_HPP
 
-#include "DrawableMenu/ADrawableMenu.hpp"
+#include "DrawableMenu/ADrawableInputMenu.hpp"
 
-class MenuJoinRoom : public ADrawableMenu {
-private:
-    bool _blinkingCursor = true;
-    int _frame = 0;
-    std::string _drawableTextByUser = "_";
-    RType::EventListener _eventListener;
-
+class MenuJoinRoom : public ADrawableInputMenu {
 public:
     MenuJoinRoom(std::shared_ptr<RType::EventManager> &eventManager);
-
-    void specialDrawing(sf::RenderTexture &context, sf::Text &text) override;
-
-    const std::string getChannelName() override;
 };
 
 

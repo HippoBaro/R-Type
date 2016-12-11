@@ -43,6 +43,7 @@ set(CLIENT_SOURCE_FILES
         src/SoundManager.cpp
         Includes/SoundManager.hpp
         Includes/DrawableMenu/ADrawableMenu.hpp
+        Includes/DrawableMenu/ADrawableInputMenu.hpp
         Includes/DrawableMenu/MenuRoot.hpp
         Includes/DrawableMenu/MenuSettings.hpp
         Includes/DrawableMenu/MenuCreateRoom.hpp
@@ -53,6 +54,7 @@ set(CLIENT_SOURCE_FILES
         Includes/DrawableMenu/MenuSoundVolume.hpp
 
         src/DrawableMenu/ADrawableMenu.cpp
+        src/DrawableMenu/ADrawableInputMenu.cpp
         src/DrawableMenu/MenuRoot.cpp
         src/DrawableMenu/MenuSettings.cpp
         src/DrawableMenu/MenuCreateRoom.cpp
