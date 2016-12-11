@@ -51,12 +51,16 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
                 elem->moveSelection(message->getEventType());
             }
         } else if (message->getEventType() == USER_ENTER) {
-            std::string channelName;
+            std::string channelName = "";
+            bool check = false;
             for (auto &&elem : _menu) {
                 if (elem->getActive() && (elem->getMenuName() == "Create Room" || elem->getMenuName() == "Join Room"))
                     channelName = elem->getChannelName();
+                if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
+                    check = true;
             }
-            ADrawableMenu::moveIn(_menu, _eventManager);
+            if (ADrawableMenu::moveIn(_menu, _eventManager) == "Back" && check)
+                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_STOP_WAITING), nullptr);
             for (auto &&elem : _menu) {
                 if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
                     _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(channelName, USER_WAITING), nullptr);
@@ -81,3 +85,5 @@ void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     DrawMenu(context);
     context.display();
 }
+
+void RTypeMenuContext::Setup(std::string const &string) {}

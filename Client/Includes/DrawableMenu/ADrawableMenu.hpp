@@ -61,7 +61,7 @@ public:
         }
     }
 
-    static void moveIn(std::vector<std::unique_ptr<ADrawableMenu>> &_menu, std::shared_ptr<RType::EventManager> &_eventManager) {
+    static std::string moveIn(std::vector<std::unique_ptr<ADrawableMenu>> &_menu, std::shared_ptr<RType::EventManager> &_eventManager) {
         _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), nullptr);
         std::string nextMenu;
         for (auto &&elem : _menu) {
@@ -77,13 +77,14 @@ public:
                             if (tmpElem->_menuName == nextMenu) {
                                 tmpElem->_active = !tmpElem->_active;
                                 elem->_active = !elem->_active;
-                                return;
+                                return nextMenu;
                             }
                         }
                     }
                 }
             }
         }
+        return "";
     }
 
     void Draw(sf::RenderTexture &context, sf::Text &text) {
