@@ -10,14 +10,9 @@ class Player : RType::ISerializable {
 public:
   int life = 300;
   std::vector<int> position = {42, -24, 1, 2, 4, 5, 6};
-
   int score = 12000;
   std::vector<int> high = {1234, 2345};
-
-  std::vector<int> test = {1, 2, 3, 4, 5};
-
   float damage = 12.45f;
-
   char letter = 'a';
   std::string name = "this is my name";
 
@@ -26,7 +21,6 @@ public:
     packer.Pack(position);
     packer.Pack(score);
     packer.Pack(high);
-    packer.Pack(test);
     packer.Pack(damage);
     packer.Pack(letter);
     packer.Pack(name);
@@ -51,6 +45,7 @@ TEST(Tests_Serialization, SerializerTest) {
   toto.damage = 0.23f;
   toto.letter = 'T';
   toto.name = "Hello World !";
+  toto.name.resize(20);
 
   toto.Serialize(rpacker);
 
