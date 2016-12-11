@@ -28,12 +28,12 @@ DummyMonster::DummyMonster(uint16_t id, Timer *timer, RType::EventManager *event
             .Loop(3)*/
             .Build();
 
-    _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *, ProjectilePositionChangedMessage *message) {
+    _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *sender, ProjectilePositionChangedMessage *message) {
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
         if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), _id))
         {
+            message->DidHit(sender);
             this->Destroy();
-            //_eventListener->Unsubscribe(ProjectilePositionChangedMessage::EventType);
         }
     });
 }
