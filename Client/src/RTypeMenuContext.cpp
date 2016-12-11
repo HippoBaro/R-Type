@@ -6,6 +6,7 @@
 #include <Time/Timer.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
+#include <Messages/MenuLobbyMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
@@ -60,10 +61,10 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
                     check = true;
             }
             if (ADrawableMenu::moveIn(_menu, _eventManager) == "Back" && check)
-                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_STOP_WAITING), nullptr);
+                _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_STOP_WAITING), nullptr);
             for (auto &&elem : _menu) {
                 if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
-                    _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(channelName, USER_WAITING), nullptr);
+                    _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_WAITING, channelName), nullptr);
             }
         }
     });

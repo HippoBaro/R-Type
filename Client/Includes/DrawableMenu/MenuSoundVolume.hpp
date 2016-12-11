@@ -23,10 +23,10 @@ public:
                 if (_active) {
                     if (message->getEventType() == USER_RIGHT && _volume < 100) {
                         _volume++;
-                        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(_volume, VOLUME_SOUND), this);
+                        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_SOUND, _volume), this);
                     } else if (message->getEventType() == USER_LEFT && _volume > 0) {
                         _volume--;
-                        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(_volume, VOLUME_SOUND), this);
+                        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_SOUND, _volume), this);
                     }
 
                 }

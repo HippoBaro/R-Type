@@ -3,13 +3,13 @@
 //
 
 #include <EventDispatcher/EventManager.hpp>
-#include <Messages/UserInputMessage.hpp>
+#include <Messages/SoundSystemMessage.hpp>
 #include <iostream>
 #include <Entities/Entity.hpp>
 #include "SoundManager.hpp"
 
 SoundManager::SoundManager(std::shared_ptr<RType::EventManager> &eventManager) : _music(), _sound(), _cachedSound(), _eventManager(eventManager), _eventListener(eventManager.get()) {
-    _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+    _eventListener.Subscribe<Entity, SoundSystemMessage>(SoundSystemMessage::EventType, [&](Entity *, SoundSystemMessage *message) {
         if (message->getEventType() == VOLUME_MUSIC) {
             setMusicVolume(message->getVolume());
         } else if (message->getEventType() == VOLUME_SOUND) {

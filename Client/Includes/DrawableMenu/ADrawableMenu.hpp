@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 #include <thread>
 #include "Messages/UserInputMessage.hpp"
+#include <Messages/SoundSystemMessage.hpp>
 
 enum MenuType {
     VERTICAL,
@@ -48,12 +49,12 @@ public:
                     if (((_menuType == VERTICAL && type == USER_DOWN) || (_menuType == HORIZONTAL && type == USER_RIGHT)) && (unsigned long) elem.first < _menuMap.size() - 1) {
                         elem.second.first = !elem.second.first;
                         _menuMap[elem.first + 1] = std::make_pair(!_menuMap[elem.first + 1].first, _menuMap[elem.first + 1].second);
-                        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
                         break;
                     } else if (((_menuType == VERTICAL && type == USER_UP) || (_menuType == HORIZONTAL && type == USER_LEFT)) && elem.first > 0) {
                         elem.second.first = !elem.second.first;
                         _menuMap[elem.first - 1] = std::make_pair(!_menuMap[elem.first - 1].first, _menuMap[elem.first - 1].second);
-                        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
+                        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
                         break;
                     }
                 }
@@ -62,7 +63,7 @@ public:
     }
 
     static std::string moveIn(std::vector<std::unique_ptr<ADrawableMenu>> &_menu, std::shared_ptr<RType::EventManager> &_eventManager) {
-        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), nullptr);
+        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), nullptr);
         std::string nextMenu;
         for (auto &&elem : _menu) {
             if (elem->_active) {

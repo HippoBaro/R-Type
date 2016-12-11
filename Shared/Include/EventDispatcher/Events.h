@@ -11,7 +11,9 @@ namespace RType {
         BULLET_DAMAGE_CHANGE,
         BULLET_POS_CHANGE,
         NEW_ENTITY,
-        USER_INPUT
+        USER_INPUT,
+        SOUND_SYSTEM,
+        MENU_LOBBY
     };
 }
 
