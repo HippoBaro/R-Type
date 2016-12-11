@@ -13,7 +13,7 @@ namespace RType {
     bool _IsBigEndian();
 
     template <typename Ttype>
-    void Serialize(char *buffer, uint32_t index, Ttype & value)
+    void Serialize(char *buffer, uint16_t index, Ttype & value)
     {
       if (RType::SerializationHelper::_IsBigEndian()) {
         if (sizeof(Ttype) == 1) // 1 byte => no swap needed
@@ -33,7 +33,7 @@ namespace RType {
     }
 
     template <typename Ttype>
-    void Deserialize(char *buffer, uint32_t index, Ttype & value)
+    void Deserialize(char *buffer, uint16_t index, Ttype & value)
     {
       value = *((Ttype*)(buffer + index));
     }
