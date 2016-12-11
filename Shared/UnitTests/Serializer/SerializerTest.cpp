@@ -8,18 +8,18 @@
 
 class Player : RType::ISerializable {
 public:
+  int life = 300;
+  std::vector<int> position = {42, -24, 1, 2, 4, 5, 6};
+
   int score = 12000;
   std::vector<int> high = {1234, 2345};
 
-  int life = 300;
   std::vector<int> test = {1, 2, 3, 4, 5};
-
 
   float damage = 12.45f;
 
   char letter = 'a';
   std::string name = "this is my name";
-  std::vector<int> position = {42, -24, 1, 2, 4, 5, 6};
 
   virtual void Serialize(RType::Packer & packer) override {
     packer.Pack(life);
@@ -47,6 +47,7 @@ TEST(Tests_Serialization, SerializerTest) {
   toto.score = 0;
   toto.high[0] = 1;
   toto.high[1] = 2;
+  toto.high.push_back(980);
   toto.damage = 0.23f;
   toto.letter = 'T';
   toto.name = "Hello World !";
