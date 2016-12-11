@@ -6,7 +6,11 @@
 #define R_TYPE_IDRAWABLE_HPP
 
 #include <vec2.hpp>
-#include <SFML/Graphics.hpp>
+
+#pragma GCC diagnostic ignored "-Weffc++"
+#include <SFML/Graphics.hpp> //SFML is not Weffc++ compliant
+#pragma GCC diagnostic pop
+
 #include <TextureBag.hpp>
 
 class IDrawable {

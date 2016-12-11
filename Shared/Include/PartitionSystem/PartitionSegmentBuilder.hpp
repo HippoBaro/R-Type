@@ -13,7 +13,7 @@
 
 class PartitionSegmentBuilder {
 private:
-    ITweeningCurve *_curvingOption = nullptr;
+    std::shared_ptr<ITweeningCurve> _curvingOption = nullptr;
 
     TimeRef _start = TimeRef();
     std::chrono::milliseconds _duration = std::chrono::milliseconds();
@@ -64,7 +64,7 @@ public:
         return *this;
     }
 
-    PartitionSegmentBuilder &WithCurving(ITweeningCurve *curve){
+    PartitionSegmentBuilder &WithCurving(std::shared_ptr<ITweeningCurve> &curve){
         _curvingOption = curve;
         return *this;
     }
@@ -85,14 +85,14 @@ public:
 
     PartitionSegment Build(std::shared_ptr<Timer> timer){
         if (_curvingOption == nullptr)
-            _curvingOption = new LinearCurve();
+            _curvingOption = std::make_shared<LinearCurve>();
         return PartitionSegment(Tween<vec2<float>>(timer, _startValue, _start, _endValue,
                                                    TimeRef(_start.getMilliseconds() + _duration),
                                                    _curvingOption),
                                 _fireRate, _projectileType);
     }
 
-    ITweeningCurve *getCurvingOption() const{
+    std::shared_ptr<ITweeningCurve> getCurvingOption() const{
         return _curvingOption;
     }
 

@@ -10,7 +10,7 @@
 TEST(Tests_LinearTween, CreateTweenStartingFromCurrentTime) {
     auto timer = std::shared_ptr<Timer>(new Timer(std::chrono::steady_clock::now()));
 
-    Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getCurrent().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
+    Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getCurrent().GetRelative(std::chrono::milliseconds(1000)), std::make_shared<LinearCurve>());
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
     int now = tween.GetTweened();
     ASSERT_EQ(now > 20 && now < 40, true) << "Tween should be 50 but is " << now;
@@ -27,7 +27,7 @@ TEST(Tests_LinearTween, CreateTweenStartingFromFutureTime) {
 
     auto timer = std::shared_ptr<Timer>(new Timer(future));
 
-    Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getStart().GetRelative(std::chrono::milliseconds(1000)), new LinearCurve());
+    Tween<int> tween(timer, 0, timer->getStart(), 100, timer->getStart().GetRelative(std::chrono::milliseconds(1000)), std::make_shared<LinearCurve>());
     std::this_thread::sleep_for(std::chrono::milliseconds(490));
     int now = tween.GetTweened();
     ASSERT_EQ(now < 100, true) << "Tween should be 0 but is " << now;
