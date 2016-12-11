@@ -12,7 +12,7 @@
 
 class SimpleProjectile : public Entity {
 protected:
-    EntityPartition _partition = EntityPartition(_timer.get());
+    EntityPartition _partition = EntityPartition(_timer);
     uint16_t _emitterId = 0;
 
 public:
