@@ -14,7 +14,7 @@ private:
     std::shared_ptr<Timer> _timer = nullptr;
     std::shared_ptr<ClientEntityPool> _pool = nullptr;
 public:
-    RTypeGameContext(std::string const &partitionString);
+    void Setup(std::string const &partitionString);
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 

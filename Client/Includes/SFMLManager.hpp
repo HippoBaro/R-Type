@@ -26,6 +26,7 @@ private:
     TextureBag _textureBag = TextureBag();
     std::shared_ptr<RType::EventManager> _eventManager;
     sf::RenderWindow _window;
+    bool _switch = false;
 
 public:
     std::unique_ptr<SoundManager> _soundManager;
