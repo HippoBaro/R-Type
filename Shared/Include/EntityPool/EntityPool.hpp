@@ -19,8 +19,8 @@
 class EntityPool {
 protected:
     std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
-    RType::EventManager *_eventManager = new RType::EventManager();
-    RType::EventListener _eventListener = RType::EventListener(_eventManager);
+    std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
+    RType::EventListener _eventListener = RType::EventListener(_eventManager.get());
     std::shared_ptr<Timer> _timer;
 
 public:
@@ -35,7 +35,7 @@ public:
     void LoadPartition(std::string const &);
 
 public:
-    const RType::EventManager *getEventManager() const;
+    const std::shared_ptr<RType::EventManager> &getEventManager() const;
 
 private:
     void SpawnProjectile(FireProjectileMessage const &, const uint16_t emitterId);

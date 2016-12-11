@@ -8,13 +8,13 @@
 #include <Messages/ProjectilePositionChangedMessage.hpp>
 #include <iostream>
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0), GetParamFromInitializerList<Timer*>(init, 1), GetParamFromInitializerList<RType::EventManager*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
+DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0), *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1), *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2), *GetParamFromInitializerList<TimeRef*>(init, 3), *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-DummyMonster::DummyMonster(uint16_t id, Timer *timer, RType::EventManager *eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
+DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
         Entity(id, timer, eventManager)
 {
-    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager));
-    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
+    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager.get()));
+    _partition = EntityPartitionBuilder(timer.get(), timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))

@@ -16,7 +16,7 @@ protected:
 
 public:
     Player(const std::initializer_list<void *> init);
-    Player(uint16_t, Timer *, RType::EventManager *, TimeRef const &, vec2<float> const &);
+    Player(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
 };
