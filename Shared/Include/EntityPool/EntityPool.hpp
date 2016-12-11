@@ -14,6 +14,7 @@
 #include "EventDispatcher/EventListener.hpp"
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <Time/Timer.hpp>
+#include <initializer_list>
 
 class EntityPool {
 protected:
@@ -29,7 +30,7 @@ public:
     virtual ~EntityPool();
 
 public:
-    virtual void AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const & = TimeRef());
+    virtual void AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &, std::initializer_list<void *> * = nullptr);
     virtual void ProcessEntities();
     void LoadPartition(std::string const &);
 
@@ -37,7 +38,7 @@ public:
     const std::shared_ptr<RType::EventManager> &getEventManager() const;
 
 private:
-    void SpawnProjectile(FireProjectileMessage const &);
+    void SpawnProjectile(FireProjectileMessage const &, const uint16_t emitterId);
 
 private:
     bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);

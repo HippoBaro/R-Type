@@ -13,7 +13,7 @@ private:
     std::vector<PartitionSegment> _segments;
 
 public:
-    EntityPartition(Timer *timer) : _segments(std::vector<PartitionSegment>()) {};
+    EntityPartition(std::shared_ptr<Timer> timer) : _segments(std::vector<PartitionSegment>()) {};
 
 public:
     EntityPartition &AddSegment(PartitionSegment const &segment){
@@ -45,6 +45,8 @@ public:
     }
 
     bool ShouldFire(TimeRef const &timeRef) {
+        if (_segments.size() == 0)
+            return false;
         auto start = getStart();
         auto end = getEnd();
         if (timeRef < start || timeRef > end)

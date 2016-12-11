@@ -5,18 +5,18 @@
 #include <EntityPool/EntityPool.hpp>
 #include <Json/Json.hpp>
 
-void EntityPool::AddEntity(std::string const &entityName, vec2<float> const &initialPos, TimeRef const &timeRef) {
+void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &timeRef, std::initializer_list<void *> *params) {
     auto now = timeRef;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, {_timer.get() , _eventManager.get(), &now, &pos }, "create", "destroy"));
+    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &_timer , &_eventManager, &now, &pos, params }, "create", "destroy"));
     _pool.push_back(entity);
 }
 
 EntityPool::~EntityPool() { }
 
 EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
-    _eventListener.Subscribe<Entity, FireProjectileMessage>(FireProjectileMessage::EventType, [&](Entity *, FireProjectileMessage *message) {
-        SpawnProjectile(*message);
+    _eventListener.Subscribe<Entity, FireProjectileMessage>(FireProjectileMessage::EventType, [&](Entity *sender, FireProjectileMessage *message) {
+        SpawnProjectile(*message, sender->getId());
     });
 }
 
@@ -41,8 +41,9 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
     return true;
 }
 
-void EntityPool::SpawnProjectile(FireProjectileMessage const &message) {
-    AddEntity(message.getProjectileName(), message.getSpawnPosition(), _timer->getCurrent());
+void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
+    std::initializer_list<void *> params = { &emitterId };
+    AddEntity(message.getProjectileName(), 10, message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {
@@ -53,6 +54,7 @@ void EntityPool::LoadPartition(std::string const &partition) {
         std::string name = i["entityName"];
         vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
         TimeRef startTime((std::chrono::milliseconds(i["startTime"])));
-        AddEntity(name, startPos, startTime);
+        uint16_t id = i["id"];
+        AddEntity(name, id, startPos, startTime);
     }
 }

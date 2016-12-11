@@ -11,8 +11,6 @@ namespace RType {
     class Bullet {
     public:
         int a = 0;
-
-        Bullet() {};
     };
 }
 
@@ -20,7 +18,7 @@ TEST(Tests_EventDispatcher, EmitEventWithSubscribeAndUnsunbscribe) {
 
     RType::Bullet bulletEntity;
     std::shared_ptr<RType::EventManager> e = std::shared_ptr<RType::EventManager>(new RType::EventManager);
-    RType::EventListener listener(e.get());
+    RType::EventListener listener(e);
 
     listener.Subscribe<RType::Bullet, void>(RType::BULLET_POS_CHANGE, [](RType::Bullet *bullet, void *) {
         bullet->a = 42;
