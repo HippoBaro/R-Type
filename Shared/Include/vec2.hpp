@@ -126,9 +126,7 @@ public:
     }
 
     bool Intersect(vec2 first, vec2 second) {
-        if (x >= first.x && x <= second.x && y >= first.y && y <= second.y)
-            return true;
-        return false;
+        return x >= first.x && x <= second.x && y >= first.y && y <= second.y;
     }
 
     static float dot(vec2 v1, vec2 v2) {

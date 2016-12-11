@@ -26,8 +26,8 @@ namespace RType {
         }
 
         virtual ~EventListener() {
-            (*_callbacks).clear();
             _eventManager->EraseListener(_callbacks);
+            //(*_callbacks).clear();
         }
 
         template<typename EntityType, typename MessageType>

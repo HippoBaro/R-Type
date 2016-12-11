@@ -9,6 +9,7 @@
 #include <EventDispatcher/Events.h>
 #include <vec2.hpp>
 #include <string>
+#include <Entities/Entity.hpp>
 
 class ProjectilePositionChangedMessage : public IMessage {
 public:
@@ -17,10 +18,11 @@ public:
 private:
     vec2<float> _projectilePosition;
     const uint16_t _emitterId;
+    bool _shouldDestroyProjectileOnHit;
 
 public:
-    ProjectilePositionChangedMessage(const uint16_t emitterId, const vec2<float> &position) :
-            _projectilePosition(position), _emitterId(emitterId) {}
+    ProjectilePositionChangedMessage(const uint16_t emitterId, const vec2<float> &position, bool shouldDestroyOnHit) :
+            _projectilePosition(position), _emitterId(emitterId), _shouldDestroyProjectileOnHit(shouldDestroyOnHit) {}
 
     const uint16_t &getEmitterId() const {
         return _emitterId;
@@ -31,9 +33,12 @@ public:
     }
 
     bool TestHitBox(vec2<float> pos, vec2<float> size, uint16_t id) {
-        if (_projectilePosition.Intersect(pos, pos + size) && id != _emitterId)
-            return true;
-        return false;
+        return _projectilePosition.Intersect(pos, pos + size) && id != _emitterId;
+    }
+
+    void DidHit(Entity *sender){
+        if (_shouldDestroyProjectileOnHit)
+            sender->Destroy();
     }
 };
 

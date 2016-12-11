@@ -40,7 +40,7 @@ void SimpleProjectile::Cycle() {
     if (_partition.isPartitionPlayed(_timer->getCurrent()))
         this->Destroy();
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(_emitterId, pos), this);
+    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(_emitterId, pos, true), this);
 }
 
 SimpleProjectile::~SimpleProjectile() {
