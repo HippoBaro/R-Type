@@ -13,7 +13,7 @@ DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMons
 DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
         Entity(id, timer, eventManager)
 {
-    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager.get()));
+    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager));
     _partition = EntityPartitionBuilder(timer.get(), timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
