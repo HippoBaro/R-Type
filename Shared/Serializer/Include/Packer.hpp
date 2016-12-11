@@ -53,7 +53,7 @@ namespace RType {
         size_t len;
         RType::SerializationHelper::Deserialize(_buffer, _index, len);
         _index += sizeof(size_t);
-        assert(v.size() >= len); // Is the container big enough to hold the data ?
+        assert(v.size() >= len && "Container is not large enough. This would cause a SIGSEGV.");
 
         for (size_t i = 0; i < len; i++) {
           RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
@@ -85,11 +85,10 @@ namespace RType {
         }
       }
       else {
-
         size_t len = 0;
         RType::SerializationHelper::Deserialize(_buffer, _index, len);
         _index += sizeof(size_t);
-        assert(v.size() >= len); // Is the container big enough to hold the data ?
+        assert(v.length() >= len && "Container is not large enough. This would cause a SIGSEGV.");
 
         for (size_t i = 0; i < len; i++) {
           RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
