@@ -7,9 +7,12 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "IRtypeDrawingContext.hpp"
+#include "IRTypeDrawingContext.hpp"
 #include "RTypeInputListener.hpp"
+#include "SoundManager.hpp"
 #include "TextureBag.hpp"
+#include <Messages/UserInputMessage.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 constexpr int Width = 1280;
 constexpr int Height = 720;
@@ -17,12 +20,18 @@ constexpr int Height = 720;
 class SFMLManager {
 private:
     std::unique_ptr<RTypeInputListener> _inputListener;
-    std::unique_ptr<IRtypeDrawingContext> _gameContext;
-    std::unique_ptr<IRtypeDrawingContext> _menuContext;
+    std::unique_ptr<IRTypeDrawingContext> _gameContext;
+    std::unique_ptr<IRTypeDrawingContext> _menuContext;
+    IRTypeDrawingContext *_currentContext;
     TextureBag _textureBag = TextureBag();
+    std::shared_ptr<RType::EventManager> _eventManager;
+    std::unique_ptr<RType::EventListener> _eventListener;
+    sf::RenderWindow _window;
+    bool _switch = false;
 
 public:
-    SFMLManager();
+    std::unique_ptr<SoundManager> _soundManager;
+    SFMLManager(std::shared_ptr<RType::EventManager> &eventManager);
     void Run();
 };
 

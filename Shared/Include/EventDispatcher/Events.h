@@ -11,7 +11,10 @@ namespace RType {
         BULLET_DAMAGE_CHANGE,
         BULLET_POS_CHANGE,
         NEW_ENTITY,
-        POSITION_CHANGED_COLLISION
+        POSITION_CHANGED_COLLISION,
+        USER_INPUT,
+        SOUND_SYSTEM,
+        MENU_LOBBY
     };
 }
 

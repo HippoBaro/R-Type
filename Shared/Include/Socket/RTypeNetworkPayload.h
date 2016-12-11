@@ -13,7 +13,9 @@ public:
     char *Payload;
     int Length;
 
-    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {};
+    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {}
+    RTypeNetworkPayload(const RTypeNetworkPayload& payload) : Payload(payload.Payload), Length(payload.Length) {}
+    const RTypeNetworkPayload& operator=(const RTypeNetworkPayload& payload) { return *this; }
 };
 
 #endif //R_TYPE_RTYPENETWORKPAYLOAD_H

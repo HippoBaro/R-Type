@@ -3,23 +3,22 @@
 //
 
 #include <iostream>
+#include <Messages/UserInputMessage.hpp>
 #include "RTypeInputListener.hpp"
 
-//TODO : Remove all output and send event to NetworkClient by eventEmitter
+
+RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
+}
 
 void RTypeInputListener::CheckForInputs(sf::Window &window) {
     sf::Event event;
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
-                std::cout << "Close window event." << std::endl;
                 window.close();
                 break;
             case sf::Event::KeyPressed:
                 KeyBoardEvent(event.key.code);
-                break;
-            case sf::Event::MouseButtonPressed:
-                MouseEvent(event.mouseButton.button);
                 break;
             default:
                 break;
@@ -27,35 +26,35 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
     }
 }
 
-void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key key) {
+void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
     switch (key) {
         case sf::Keyboard::Left:
-            std::cout << "Press Left" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LEFT), this);
             break;
         case sf::Keyboard::Right:
-            std::cout << "Press Right" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_RIGHT), this);
             break;
         case sf::Keyboard::Up:
-            std::cout << "Press Up" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_UP), this);
             break;
         case sf::Keyboard::Down:
-            std::cout << "Press Down" << std::endl;
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_DOWN), this);
+            break;
+        case sf::Keyboard::Space:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_SPACE), this);
+            break;
+        case sf::Keyboard::Return:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ENTER), this);
+            break;
+        case sf::Keyboard::Escape:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ESCAPE), this);
+            break;
+        case sf::Keyboard::BackSpace:
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, '\b'), this);
             break;
         default:
+            if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
+                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, key + 65), this);
             break;
-    }
-}
-
-void RTypeInputListener::MouseEvent(sf::Mouse::Button button) {
-    switch (button) {
-        case sf::Mouse::Left:
-            std::cout << "Left Click" << std::endl;
-            break;
-        case sf::Mouse::Right:
-            std::cout << "Right Click" << std::endl;
-            break;
-        default:
-            break;
-
     }
 }

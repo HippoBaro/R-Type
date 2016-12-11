@@ -7,14 +7,20 @@
 
 #include <functional>
 #include <SFML/Window.hpp>
+#include <EventDispatcher/EventManager.hpp>
 
 class RTypeInputListener {
+private:
+    std::shared_ptr<RType::EventManager> _eventManager;
+
+    void KeyBoardEvent(sf::Keyboard::Key &);
+//    void MouseEvent(sf::Mouse::Button);
+
 public:
+    RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager);
+
     void CheckForInputs(sf::Window &window);
 
-private:
-    void KeyBoardEvent(sf::Keyboard::Key);
-    void MouseEvent(sf::Mouse::Button);
 };
 
 
