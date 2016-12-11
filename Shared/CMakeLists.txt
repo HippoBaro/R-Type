@@ -33,8 +33,6 @@ set(SHARED_SOURCE_FILES
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
         Include/Socket/Enum/RTypeSocketType.h
-        Include/Socket/UNIX/RTypeSocket.hpp
-        Include/Socket/Windows/RTypeSocket.hpp
 
         Include/Time/Timer.hpp
         Include/Time/TimeRef.hpp
@@ -44,8 +42,11 @@ set(SHARED_SOURCE_FILES
 
         Include/Messages/FireProjectileMessage.hpp
         Include/Messages/ProjectilePositionChangedMessage.hpp
-
-        Include/Json/Json.hpp)
+        Include/Messages/UserInputMessage.hpp
+        Include/Messages/MenuLobbyMessage.hpp
+        Include/Messages/SoundSystemMessage.hpp
+        Include/Json/Json.hpp
+        )
 
 include_directories(Libs/Interfaces
         ../SFML/include
@@ -55,9 +56,11 @@ include_directories(Libs/Interfaces
         ../SharedLibs/Interfaces)
 
 IF (MSVC)
+    set(SHARED_SOURCE_FILES ${SHARED_SOURCE_FILES} Include/Socket/Windows/RTypeSocket.hpp)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
+    set(SHARED_SOURCE_FILES ${SHARED_SOURCE_FILES} Include/Socket/UNIX/RTypeSocket.hpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 
