@@ -9,6 +9,7 @@
 #include <string>
 #include <vec2.hpp>
 #include <EventDispatcher/Events.h>
+#include <cdaudio.h>
 
 enum UserEventType {
     CLOSE_WINDOWS,
@@ -20,7 +21,11 @@ enum UserEventType {
     USER_ENTER,
     USER_ESCAPE,
     PLAY_SOUND,
-    USER_LETTER
+    USER_LETTER,
+    VOLUME_SOUND,
+    VOLUME_MUSIC,
+    USER_WAITING,
+    USER_STOP_WAITING
 };
 
 class UserInputMessage : public IMessage {
@@ -30,7 +35,9 @@ public:
 private:
     const UserEventType _event;
     std::string _playSound = "";
+    std::string _channelName = "";
     char _letter = ' ';
+    int _volume = 0;
 
 public:
     UserInputMessage(const UserEventType &event) : _event(event) {}
@@ -39,16 +46,32 @@ public:
         _playSound = sound;
     }
 
+    UserInputMessage(const std::string &channelName, const UserEventType &event) : _event(event) {
+        _channelName = channelName;
+    }
+
     UserInputMessage(const UserEventType &event, const char &letter) : _event(event) {
         _letter = letter;
+    }
+
+    UserInputMessage(const int &volume, const UserEventType &event) : _event(event) {
+        _volume = volume;
     }
 
     const std::string &getPlaySound() const {
         return _playSound;
     }
 
+    const std::string &getChannelName() const {
+        return _channelName;
+    }
+
     const char &getUserLetter() const {
         return _letter;
+    }
+
+    const int &getVolume() const {
+        return _volume;
     }
 
     const UserEventType &getEventType() const {

@@ -30,7 +30,7 @@ private:
     void DrawMenu(sf::RenderTexture &context);
 
 public:
-    RTypeMenuContext(std::shared_ptr<RType::EventManager> eventManager);
+    RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager);
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 

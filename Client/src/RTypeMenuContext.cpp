@@ -7,13 +7,17 @@
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
 #include "RTypeMenuContext.hpp"
-#include "DrawableMenu/MenuCreate.hpp"
-#include "DrawableMenu/MenuJoin.hpp"
+#include "DrawableMenu/MenuCreateRoom.hpp"
+#include "DrawableMenu/MenuJoinRoom.hpp"
 #include "DrawableMenu/MenuRoot.hpp"
 #include "DrawableMenu/MenuSettings.hpp"
+#include "DrawableMenu/MenuCreate.hpp"
+#include "DrawableMenu/MenuJoin.hpp"
+#include "DrawableMenu/MenuMusicVolume.hpp"
+#include "DrawableMenu/MenuSoundVolume.hpp"
 
 
-RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager), _eventListener(eventManager){
+RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer);
 
@@ -33,19 +37,30 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> eventMan
     _text.setCharacterSize(50);
 
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuRoot(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuCreateRoom(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuJoinRoom(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSettings(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuCreate(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuJoin(_eventManager)));
-    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSettings(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuMusicVolume(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSoundVolume(_eventManager)));
 
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == USER_UP || message->getEventType() == USER_DOWN || message->getEventType() == USER_LEFT || message->getEventType() == USER_RIGHT) {
             for (auto &&elem : _menu) {
-                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/changeMenu.ogg"), this);
                 elem->moveSelection(message->getEventType());
             }
         } else if (message->getEventType() == USER_ENTER) {
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(PLAY_SOUND, "sprites/menuValidate.ogg"), this);
+            std::string channelName;
+            for (auto &&elem : _menu) {
+                if (elem->getActive() && (elem->getMenuName() == "Create Room" || elem->getMenuName() == "Join Room"))
+                    channelName = elem->getChannelName();
+            }
             ADrawableMenu::moveIn(_menu, _eventManager);
+            for (auto &&elem : _menu) {
+                if (elem->getActive() && (elem->getMenuName() == "Create" || elem->getMenuName() == "Join"))
+                    _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(channelName, USER_WAITING), nullptr);
+            }
         }
     });
 }
