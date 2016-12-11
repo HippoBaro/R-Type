@@ -11,7 +11,7 @@
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
     _currentContext = std::move(_menuContext);
-    RType::EventListener eventListener(eventManager);
+    RType::EventListener eventListener(eventManager.get());
     eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == CLOSE_WINDOWS) {
             _window.close();
