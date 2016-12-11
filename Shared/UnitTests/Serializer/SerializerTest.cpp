@@ -56,7 +56,6 @@ TEST(Tests_Serialization, SerializerTest) {
   toto.damage = 0.23f;
   toto.letter = 'T';
   toto.name = "Hello World !";
-  toto.name.resize(20);
   toto.bullet.ammo = 0;
 
   toto.Serialize(rpacker);
