@@ -10,13 +10,13 @@ GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : D
 
 void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
-    auto texture = bag.getTexture("sprites/deathStar.png", sf::IntRect(0, 0, 500, 500));
+    auto texture = bag.getTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
         sf::Texture newtexture;
-        newtexture.loadFromFile("sprites/deathStar.png", sf::IntRect(0, 0, 500, 500));
-        texture = bag.AddTexture("sprites/deathStar.png", sf::IntRect(0, 0, 500, 500), newtexture);
+        newtexture.loadFromFile("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
+        texture = bag.AddTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500), newtexture);
     }
 
     sf::Sprite sprite;

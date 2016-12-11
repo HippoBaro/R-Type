@@ -11,13 +11,13 @@ DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<v
 }
 
 void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-    auto texture = bag.getTexture("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+    auto texture = bag.getTexture("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
         sf::Texture newtexture;
-        newtexture.loadFromFile("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
-        texture = bag.AddTexture("sprites/r-typesheet1.png", sf::IntRect(249, 105, 16, 8), newtexture);
+        newtexture.loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+        texture = bag.AddTexture("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8), newtexture);
     }
     sf::Sprite sprite;
     sprite.setTexture(*texture);

@@ -32,7 +32,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _
 }
 
 void SFMLManager::Run() {
-    _soundManager->PlayMusic(true, "sprites/menuBackground.ogg");
+    _soundManager->PlayMusic(true, "medias/sounds/menuBackground.ogg");
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
     glEnable(GL_TEXTURE_2D);
@@ -47,7 +47,7 @@ void SFMLManager::Run() {
     while (_window.isOpen()) {
         if (_switch) {
             _currentContext = _gameContext.get();
-            _currentContext->Setup("sprites/testPartition.partition");
+            _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
             _menuContext->ReleaseListener();
         }

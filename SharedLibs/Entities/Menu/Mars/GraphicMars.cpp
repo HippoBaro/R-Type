@@ -10,13 +10,13 @@ GraphicMars::GraphicMars(const std::initializer_list<void *> init) : Mars(init) 
 
 void GraphicMars::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
-    auto texture = bag.getTexture("sprites/mars.png", sf::IntRect(0, 0, 500, 500));
+    auto texture = bag.getTexture("medias/images/mars.png", sf::IntRect(0, 0, 500, 500));
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
         sf::Texture newtexture;
-        newtexture.loadFromFile("sprites/mars.png", sf::IntRect(0, 0, 500, 500));
-        texture = bag.AddTexture("sprites/mars.png", sf::IntRect(0, 0, 500, 500), newtexture);
+        newtexture.loadFromFile("medias/images/mars.png", sf::IntRect(0, 0, 500, 500));
+        texture = bag.AddTexture("medias/images/mars.png", sf::IntRect(0, 0, 500, 500), newtexture);
     }
 
     sf::Sprite sprite;
