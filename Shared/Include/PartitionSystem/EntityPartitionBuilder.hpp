@@ -12,12 +12,12 @@
 class EntityPartitionBuilder {
 private:
     std::vector<PartitionSegmentBuilder> _segments;
-    Timer *_timer;
+    std::shared_ptr<Timer> _timer;
     TimeRef _startTime;
     vec2<float> _initialPosition;
 
 public:
-    EntityPartitionBuilder(Timer *timer, TimeRef const &startTime, vec2<float> const &initialPos) : _segments(), _timer(timer), _startTime(startTime), _initialPosition(initialPos) {}
+    EntityPartitionBuilder(std::shared_ptr<Timer> timer, TimeRef const &startTime, vec2<float> const &initialPos) : _segments(), _timer(timer), _startTime(startTime), _initialPosition(initialPos) {}
 
 public:
     EntityPartitionBuilder &AddSegment(PartitionSegmentBuilder &segment){
