@@ -5,21 +5,11 @@
 #ifndef R_TYPE_MENUROOT_HPP
 #define R_TYPE_MENUROOT_HPP
 
-
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 class MenuRoot : public ADrawableMenu {
 public:
-    MenuRoot(std::shared_ptr<RType::EventManager> &eventManager) {
-        _eventManager = eventManager;
-        _menuMap[0] = std::make_pair(true, "Create Room");
-        _menuMap[1] = std::make_pair(false, "Join Room");
-        _menuMap[2] = std::make_pair(false, "Settings");
-        _menuMap[3] = std::make_pair(false, "Quit");
-        _menuName = "Back";
-        _menuType = VERTICAL;
-        _active = true;
-    }
+    MenuRoot(std::shared_ptr<RType::EventManager> &eventManager);
 };
 
 
