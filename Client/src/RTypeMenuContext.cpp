@@ -6,7 +6,6 @@
 #include <Time/Timer.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
-#include <Messages/MenuLobbyMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
