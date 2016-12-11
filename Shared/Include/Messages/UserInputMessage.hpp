@@ -9,7 +9,6 @@
 #include <string>
 #include <vec2.hpp>
 #include <EventDispatcher/Events.h>
-#include <cdaudio.h>
 
 enum UserEventType {
     CLOSE_WINDOWS,
