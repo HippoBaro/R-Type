@@ -8,7 +8,7 @@
 void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &timeRef, std::initializer_list<void *> *params) {
     auto now = timeRef;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, _timer.get() , _eventManager, &now, &pos, params }, "create", "destroy"));
+    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &_timer , &_eventManager, &now, &pos, params }, "create", "destroy"));
     _pool.push_back(entity);
 }
 
@@ -20,7 +20,7 @@ EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
     });
 }
 
-const RType::EventManager *EntityPool::getEventManager() const {
+const std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() const {
     return _eventManager;
 }
 

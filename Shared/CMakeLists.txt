@@ -41,9 +41,11 @@ set(SHARED_SOURCE_FILES
 
         Include/IService.hpp
         Include/vec2.hpp
-        Include/Messages/FireProjectileMessage.hpp
 
-        Include/Json/Json.hpp Include/Messages/ProjectilePositionChangedMessage.hpp)
+        Include/Messages/FireProjectileMessage.hpp
+        Include/Messages/ProjectilePositionChangedMessage.hpp
+
+        Include/Json/Json.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include
@@ -56,7 +58,7 @@ IF (MSVC)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Wno-unused-parameter -Wno-unused-private-field")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 
 add_library(RTypeShared STATIC ${SHARED_SOURCE_FILES})
