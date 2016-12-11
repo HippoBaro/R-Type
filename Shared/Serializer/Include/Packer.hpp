@@ -33,6 +33,11 @@ namespace RType {
       _buffer = to_serialize;
     };
 
+    ~Packer() {
+      if (_type == WRITE)
+        delete _buffer;
+    };
+
     char *getBuffer() { return _buffer; };
     uint16_t getLength() { return _index; };
 
