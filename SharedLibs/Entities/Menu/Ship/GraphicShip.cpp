@@ -10,13 +10,13 @@ GraphicShip::GraphicShip(const std::initializer_list<void *> init) : Ship(init) 
 
 void GraphicShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
-    auto texture = bag.getTexture("sprites/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
+    auto texture = bag.getTexture("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
         sf::Texture newtexture;
-        newtexture.loadFromFile("sprites/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
-        texture = bag.AddTexture("sprites/starwarsShip.png", sf::IntRect(0, 0, 390, 390), newtexture);
+        newtexture.loadFromFile("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
+        texture = bag.AddTexture("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390), newtexture);
     }
 
     sf::Sprite sprite;

@@ -30,9 +30,9 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     stratPos = vec2<float>(-100, -100);
     _pool->AddEntity("Ship", 3, stratPos, _timer->getCurrent());
 
-    _backgroundTexture.loadFromFile("sprites/spacebackground.jpg");
+    _backgroundTexture.loadFromFile("medias/images/spacebackground.jpg");
     _background.setTexture(_backgroundTexture);
-    _font.loadFromFile("sprites/mypdark.ttf");
+    _font.loadFromFile("medias/fonts/mypdark.ttf");
     _text.setFont(_font);
     _text.setCharacterSize(50);
 
