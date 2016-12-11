@@ -22,9 +22,10 @@ private:
     std::unique_ptr<RTypeInputListener> _inputListener;
     std::unique_ptr<IRTypeDrawingContext> _gameContext;
     std::unique_ptr<IRTypeDrawingContext> _menuContext;
-    std::unique_ptr<IRTypeDrawingContext> _currentContext;
+    IRTypeDrawingContext *_currentContext;
     TextureBag _textureBag = TextureBag();
     std::shared_ptr<RType::EventManager> _eventManager;
+    std::unique_ptr<RType::EventListener> _eventListener;
     sf::RenderWindow _window;
     bool _switch = false;
 

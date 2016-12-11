@@ -18,5 +18,4 @@ public:
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };
 
-
 #endif //R_TYPE_RTYPEGAMECONTEXT_HPP

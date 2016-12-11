@@ -8,6 +8,7 @@
 #include <PartitionSystem/EntityPartition.hpp>
 #include <EventDispatcher/EventManager.hpp>
 #include <Base.h>
+#include <Entities/Entity.hpp>
 
 class SimpleProjectile : public Entity {
 protected:

@@ -10,15 +10,13 @@
 #include <SFML/OpenGL.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext()), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
-    _currentContext = std::move(_menuContext);
-    RType::EventListener eventListener(eventManager.get());
-    eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+    _currentContext = _menuContext.get();
+    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager.get()));
+    _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (message->getEventType() == CLOSE_WINDOWS) {
             _window.close();
         }
-    });
-    eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->getEventType() == PLAY_SOUND) {
+        else if (message->getEventType() == PLAY_SOUND) {
             _soundManager->PlaySoundEffects(message->getPlaySound());
         } else if (message->getEventType() == USER_WAITING) {
             std::cout << "Room name is: " << message->getChannelName() << std::endl;
@@ -44,7 +42,7 @@ void SFMLManager::Run() {
     // Boucle de jeu.
     while (_window.isOpen()) {
         if (_switch) {
-            _currentContext = std::move(_gameContext);
+            _currentContext = _gameContext.get();
             _currentContext->Setup("sprites/testPartition.partition");
             _switch = !_switch;
         }
