@@ -27,17 +27,7 @@ DeathStar::DeathStar(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<
 void DeathStar::Cycle() {
 }
 
-vec2<float> DeathStar::GetRenderRect() {
-    return vec2<float>(500 * 0.3, 500 * 0.3);
-}
-
-vec2<float> DeathStar::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void DeathStar::Serialize(RType::Packer &packer) {
-    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(DeathStar)
