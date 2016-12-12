@@ -19,4 +19,8 @@ void Player::Cycle() {
 //    }
 }
 
+void Player::Serialize(RType::Packer &packer) {
+
+}
+
 RTYPE_ENTITY_REGISTER(Player)
