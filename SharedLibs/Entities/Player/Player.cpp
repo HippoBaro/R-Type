@@ -19,18 +19,8 @@ void Player::Cycle() {
 //    }
 }
 
-vec2<float> Player::GetRenderRect() {
-    return vec2<float>(32 * 5, 14 * 5);
-}
-
-vec2<float> Player::GetPosition() {
-    //auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    //return pos;
-    return vec2<float>(2, 2);
-}
-
 void Player::Serialize(RType::Packer &packer) {
-    Entity::Serialize(packer);
+
 }
 
 RTYPE_ENTITY_REGISTER(Player)
