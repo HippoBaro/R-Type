@@ -46,4 +46,8 @@ void SimpleProjectile::Cycle() {
 SimpleProjectile::~SimpleProjectile() {
 }
 
+void SimpleProjectile::Serialize(RType::Packer &packer) {
+
+}
+
 RTYPE_ENTITY_REGISTER(SimpleProjectile)

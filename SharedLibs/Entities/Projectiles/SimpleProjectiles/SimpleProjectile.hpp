@@ -23,6 +23,8 @@ public:
     SimpleProjectile(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &, const std::initializer_list<void *> *);
 
     void Cycle() override;
+
+    void Serialize(RType::Packer &packer) override;
 };
 
 
