@@ -31,8 +31,8 @@ namespace RType {
     Packer & operator=(const RType::Packer&);
     ~Packer();
 
-    char *getBuffer();
-    uint16_t getLength();
+    char *getBuffer() const;
+    uint16_t getLength() const;
 
     template <typename T>
     void Pack(std::vector<T> & v) {
