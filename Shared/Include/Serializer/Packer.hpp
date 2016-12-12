@@ -16,15 +16,19 @@ namespace RType {
       READ
     };
 
+  constexpr short int udpMtu = 1500;
+
   class Packer {
   private:
-    char *_buffer;
-    uint16_t _index = 0;
+    char *_buffer = nullptr;
     SerializationType _type;
+    uint16_t _index = 0;
 
   public:
     Packer(RType::SerializationType type);
     Packer(SerializationType type, char *to_serialize);
+    Packer(const RType::Packer&);
+    Packer & operator=(const RType::Packer&);
     ~Packer();
 
     char *getBuffer();
