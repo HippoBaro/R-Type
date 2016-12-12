@@ -9,94 +9,102 @@
 #include <vector>
 #include <stdexcept>
 #include "SerializationHelper.hpp"
+#include "ISerializable.hpp"
 
 namespace RType {
     enum SerializationType {
-      WRITE,
-      READ
+        WRITE,
+        READ
     };
 
-  constexpr short int udpMtu = 1500;
+    constexpr short int udpMtu = 1500;
 
-  class Packer {
-  private:
-    char *_buffer = nullptr;
-    SerializationType _type;
-    uint16_t _index = 0;
+    class Packer {
+    private:
+        char *_buffer = nullptr;
+        SerializationType _type;
+        uint16_t _index = 0;
 
-  public:
-    Packer(RType::SerializationType type);
-    Packer(SerializationType type, char *to_serialize);
-    Packer(const RType::Packer&);
-    Packer & operator=(const RType::Packer&);
-    ~Packer();
+    public:
+        Packer(RType::SerializationType type);
 
-    char *getBuffer() const;
-    uint16_t getLength() const;
+        Packer(SerializationType type, char *to_serialize);
 
-    template <typename T>
-    void Pack(std::vector<T> & v) {
-      if (_type == WRITE) {
+        Packer(const RType::Packer &);
 
-        // Serialize size so we can get it back later
-        size_t len = v.size();
-        RType::SerializationHelper::Serialize(_buffer, _index, len);
-        _index += sizeof(size_t);
+        Packer &operator=(const RType::Packer &);
 
-        for (auto&& it : v) {
-          RType::SerializationHelper::Serialize(_buffer, _index, it);
-          _index += sizeof(T);
+        ~Packer();
+
+        char *getBuffer() const;
+
+        uint16_t getLength() const;
+
+        template<typename T>
+        void Pack(std::vector<T> &v) {
+            if (_type == WRITE) {
+
+                // Serialize size so we can get it back later
+                size_t len = v.size();
+                RType::SerializationHelper::Serialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+
+                for (auto &&it : v) {
+                    RType::SerializationHelper::Serialize(_buffer, _index, it);
+                    _index += sizeof(T);
+                }
+            } else {
+                size_t len;
+                RType::SerializationHelper::Deserialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+                if (v.size() < len)
+                    v.resize(len);
+
+                for (size_t i = 0; i < len; i++) {
+                    RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
+                    _index += sizeof(T);
+                }
+            }
+        };
+
+        template<typename T>
+        void Pack(T &v) {
+            if (_type == WRITE)
+                RType::SerializationHelper::Serialize(_buffer, _index, v);
+            else
+                RType::SerializationHelper::Deserialize(_buffer, _index, v);
+            _index += sizeof(T);
+        };
+
+        void Pack(ISerializable *v) {
+            v->Serialize(*this);
+        };
+
+        void Pack(std::string &v) {
+            if (_type == WRITE) {
+
+                size_t len = v.length();
+                RType::SerializationHelper::Serialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+
+                for (auto &it : v) {
+                    RType::SerializationHelper::Serialize(_buffer, _index, it);
+                    _index += sizeof(char);
+                }
+            } else {
+                size_t len = 0;
+                RType::SerializationHelper::Deserialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+                if (v.length() < len)
+                    v.resize(len);
+
+                for (size_t i = 0; i < len; i++) {
+                    RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
+                    _index += sizeof(char);
+                }
+            }
         }
-      }
-      else {
-        size_t len;
-        RType::SerializationHelper::Deserialize(_buffer, _index, len);
-        _index += sizeof(size_t);
-        if (v.size() < len)
-          v.resize(len);
-
-        for (size_t i = 0; i < len; i++) {
-          RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
-          _index += sizeof(T);
-        }
-      }
     };
-
-    template <typename T>
-    void Pack(T & v) {
-      if (_type == WRITE)
-        RType::SerializationHelper::Serialize(_buffer, _index, v);
-      else
-        RType::SerializationHelper::Deserialize(_buffer, _index, v);
-      _index += sizeof(T);
-    };
-
-    void Pack(std::string & v) {
-      if (_type == WRITE) {
-
-        size_t len = v.length();
-        RType::SerializationHelper::Serialize(_buffer, _index, len);
-        _index += sizeof(size_t);
-
-        for (auto& it : v) {
-          RType::SerializationHelper::Serialize(_buffer, _index, it);
-          _index += sizeof(char);
-        }
-      }
-      else {
-        size_t len = 0;
-        RType::SerializationHelper::Deserialize(_buffer, _index, len);
-        _index += sizeof(size_t);
-        if (v.length() < len)
-          v.resize(len);
-
-        for (size_t i = 0; i < len; i++) {
-          RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
-          _index += sizeof(char);
-        }
-      }
-    }
-  };
 }
 
 #endif //R_TYPE_IPACKER_HPP
