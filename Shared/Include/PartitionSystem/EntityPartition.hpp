@@ -9,7 +9,7 @@
 #include <Serializer/ISerializable.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
-class EntityPartition : public RType::ISerializable {
+class EntityPartition : RType::ISerializable {
 private:
     std::vector<PartitionSegment> _segments;
 
@@ -57,7 +57,7 @@ public:
     }
 
     void Serialize(RType::Packer &packer) override {
-        packer.PackSerializables(_segments);
+
     }
 };
 
