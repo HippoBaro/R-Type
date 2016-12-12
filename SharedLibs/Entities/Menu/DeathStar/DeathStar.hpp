@@ -22,6 +22,8 @@ public:
     DeathStar(uint16_t id, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
+
+    void Serialize(RType::Packer &packer) override;
 };
 
 

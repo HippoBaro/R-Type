@@ -27,4 +27,7 @@ Mars::Mars(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::Eve
 void Mars::Cycle() {
 }
 
+void Mars::Serialize(RType::Packer &packer) {
+}
+
 RTYPE_ENTITY_REGISTER(Mars)
