@@ -27,4 +27,7 @@ DeathStar::DeathStar(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<
 void DeathStar::Cycle() {
 }
 
+void DeathStar::Serialize(RType::Packer &packer) {
+}
+
 RTYPE_ENTITY_REGISTER(DeathStar)
