@@ -22,12 +22,12 @@ RType::Packer::~Packer()
     delete[] _buffer;
 }
 
-char *RType::Packer::getBuffer()
+char *RType::Packer::getBuffer() const
 {
   return _buffer;
 }
 
-uint16_t RType::Packer::getLength()
+uint16_t RType::Packer::getLength() const
 {
   return _index;
 }
