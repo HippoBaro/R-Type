@@ -8,11 +8,10 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include <cstring>
 #include "SerializationHelper.hpp"
+#include "ISerializable.hpp"
 
 namespace RType {
-
     enum SerializationType {
         WRITE,
         READ
@@ -27,80 +26,22 @@ namespace RType {
         uint16_t _index = 0;
 
     public:
-        Packer(RType::SerializationType type) :
-                _buffer(new char[udpMtu]),
-                _type(type)
-        {}
+        Packer(RType::SerializationType type);
 
-        Packer(RType::SerializationType type, char *to_serialize) :
-                _type(type)
-        {
-            _buffer = to_serialize;
-        }
+        Packer(SerializationType type, char *to_serialize);
 
-        Packer(const RType::Packer & copy) :
-                _buffer(new char[udpMtu]),
-                _type(copy._type),
-                _index(copy._index)
-        {
-            std::memcpy(this->_buffer, copy._buffer, udpMtu);
-        }
+        Packer(const RType::Packer &);
 
-        Packer &operator=(const RType::Packer & rhs)
-        {
-            this->_type = rhs._type;
-            this->_index = rhs._index;
-            this->_buffer = new char[udpMtu];
-            std::memcpy(this->_buffer, rhs._buffer, udpMtu);
-            return *this;
-        }
+        Packer &operator=(const RType::Packer &);
 
-        ~Packer()
-        {
-            if (_type == WRITE)
-                delete[] _buffer;
-        }
+        ~Packer();
 
-        char *getBuffer() const
-        {
-            return _buffer;
-        }
+        char *getBuffer() const;
 
-        uint16_t getLength() const
-        {
-            return _index;
-        }
+        uint16_t getLength() const;
 
         template<typename T>
         void Pack(std::vector<T> &v) {
-            if (_type == WRITE) {
-
-                // Serialize size so we can get it back later
-                uint32_t len = (uint32_t) v.size();
-                RType::SerializationHelper::Serialize(_buffer, _index, len);
-                _index += sizeof(uint32_t);
-
-                for (auto &it : v) {
-                    RType::SerializationHelper::Serialize(_buffer, _index, it);
-                    _index += sizeof(T);
-                }
-            } else {
-                uint32_t len;
-                RType::SerializationHelper::Deserialize(_buffer, _index, len);
-                _index += sizeof(uint32_t);
-                if (v.size() < len)
-                    v.resize(len);
-
-                v.clear();
-                for (size_t i = 0; i < len; i++) {
-                    RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
-                    _index += sizeof(T);
-                }
-            }
-        };
-
-        template<typename T>
-        void PackSerializables(std::vector<T> &v) {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
@@ -108,8 +49,10 @@ namespace RType {
                 RType::SerializationHelper::Serialize(_buffer, _index, len);
                 _index += sizeof(size_t);
 
-                for (auto &&it : v)
-                    it.Serialize(*this);
+                for (auto &&it : v) {
+                    RType::SerializationHelper::Serialize(_buffer, _index, it);
+                    _index += sizeof(T);
+                }
             } else {
                 size_t len;
                 RType::SerializationHelper::Deserialize(_buffer, _index, len);
@@ -117,8 +60,10 @@ namespace RType {
                 if (v.size() < len)
                     v.resize(len);
 
-                for (size_t i = 0; i < len; i++)
-                    v[i].Serialize(*this);
+                for (size_t i = 0; i < len; i++) {
+                    RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
+                    _index += sizeof(T);
+                }
             }
         };
 
@@ -129,6 +74,10 @@ namespace RType {
             else
                 RType::SerializationHelper::Deserialize(_buffer, _index, v);
             _index += sizeof(T);
+        };
+
+        void Pack(ISerializable *v) {
+            v->Serialize(*this);
         };
 
         void Pack(std::string &v) {
