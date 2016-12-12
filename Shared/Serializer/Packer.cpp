@@ -19,7 +19,7 @@ RType::Packer::Packer(RType::SerializationType type, char *to_serialize) :
 RType::Packer::~Packer()
 {
   if (_type == WRITE)
-    delete _buffer;
+    delete[] _buffer;
 }
 
 char *RType::Packer::getBuffer()
