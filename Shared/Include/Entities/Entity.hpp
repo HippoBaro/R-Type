@@ -10,8 +10,9 @@
 #include <vector>
 #include <Time/Timer.hpp>
 #include <EventDispatcher/EventManager.hpp>
+#include <Serializer/ISerializable.hpp>
 
-class Entity {
+class Entity : public RType::ISerializable {
 protected:
     uint16_t _id;
     std::shared_ptr<Timer> _timer;
@@ -43,6 +44,8 @@ public:
     }
 
     virtual void Cycle() = 0;
+
+    virtual void Serialize(RType::Packer &packer) = 0;
 };
 
 #endif //R_TYPE_IENTITY_HPP
