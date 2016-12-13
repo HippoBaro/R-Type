@@ -15,8 +15,6 @@ public:
 
 public:
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
-    vec2<float> GetRenderRect() override;
-    vec2<float> GetPosition() override;
 
     void Cycle() override;
 };
