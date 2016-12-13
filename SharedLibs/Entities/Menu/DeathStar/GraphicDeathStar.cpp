@@ -25,15 +25,6 @@ void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> GraphicDeathStar::GetRenderRect() {
-    return vec2<float>(500 * 0.3, 500 * 0.3);
-}
-
-vec2<float> GraphicDeathStar::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void GraphicDeathStar::Cycle() {
     DeathStar::Cycle();
 }

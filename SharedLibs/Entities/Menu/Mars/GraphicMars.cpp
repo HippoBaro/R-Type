@@ -25,15 +25,6 @@ void GraphicMars::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> GraphicMars::GetRenderRect() {
-    return vec2<float>(500 * 0.6, 500 * 0.6);
-}
-
-vec2<float> GraphicMars::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void GraphicMars::Cycle() {
     Mars::Cycle();
 }

@@ -49,6 +49,15 @@ void DummyMonster::Cycle() {
     }
 }
 
+vec2<float> DummyMonster::GetRenderRect() {
+    return vec2<float>(32 * 5, 14 * 5);
+}
+
+vec2<float> DummyMonster::GetPosition() {
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    return pos;
+}
+
 void DummyMonster::Serialize(RType::Packer &packer) {
     std::cout << "Packing DummyMonster" << std::endl;
     Entity::Serialize(packer);
