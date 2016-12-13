@@ -45,7 +45,10 @@ public:
 
     virtual void Cycle() = 0;
 
-    virtual void Serialize(RType::Packer &packer) = 0;
+    virtual void Serialize(RType::Packer &packer){
+        packer.Pack(_id);
+        packer.Pack(_traits);
+    };
 };
 
 #endif //R_TYPE_IENTITY_HPP
