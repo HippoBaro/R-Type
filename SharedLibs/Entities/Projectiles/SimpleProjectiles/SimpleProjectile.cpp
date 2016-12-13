@@ -57,7 +57,7 @@ void SimpleProjectile::Serialize(RType::Packer &packer) {
 }
 
 void SimpleProjectile::Serialize(RType::Packer &packer) {
-
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(SimpleProjectile)
