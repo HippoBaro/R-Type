@@ -50,7 +50,7 @@ void DummyMonster::Cycle() {
 }
 
 void DummyMonster::Serialize(RType::Packer &packer) {
-    packer.Pack(&_partition);
+    _partition.Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(DummyMonster)
