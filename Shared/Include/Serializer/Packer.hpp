@@ -26,19 +26,49 @@ namespace RType {
         uint16_t _index = 0;
 
     public:
-        Packer(RType::SerializationType type);
+        Packer(RType::SerializationType type) :
+                _buffer(new char[udpMtu]),
+                _type(type)
+        {}
 
-        Packer(SerializationType type, char *to_serialize);
+        Packer(RType::SerializationType type, char *to_serialize) :
+                _type(type)
+        {
+            _buffer = to_serialize;
+        }
 
-        Packer(const RType::Packer &);
+        Packer(const RType::Packer & copy) :
+                _buffer(new char[udpMtu]),
+                _type(copy._type),
+                _index(copy._index)
+        {
+            std::memcpy(this->_buffer, copy._buffer, udpMtu);
+        }
 
-        Packer &operator=(const RType::Packer &);
+        Packer &operator=(const RType::Packer & rhs)
+        {
+            this->_type = rhs._type;
+            this->_index = rhs._index;
+            this->_buffer = new char[udpMtu];
+            std::memcpy(this->_buffer, rhs._buffer, udpMtu);
+            return *this;
+        }
 
-        ~Packer();
+        ~Packer()
+        {
+            if (_type == WRITE)
+                delete[] _buffer;
+        }
 
-        char *getBuffer() const;
+        char *getBuffer() const
+        {
+            return _buffer;
+        }
 
-        uint16_t getLength() const;
+        uint16_t getLength() const
+        {
+            return _index;
+        }
 
         template<typename T>
         void Pack(std::vector<T> &v) {

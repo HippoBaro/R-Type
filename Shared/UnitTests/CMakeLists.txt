@@ -17,7 +17,7 @@ ELSE()
     set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/UNIX)
 ENDIF()
 
-include_directories(../Include ../Libs/Interfaces ../Include/Socket/ ../Include/Socket/Enum ../Serializer/Include ${LIBRARY_SOCKET_HEADER_FOLDER})
+include_directories(../Include ../Libs/Interfaces ${LIBRARY_SOCKET_HEADER_FOLDER})
 
 foreach (_file ${SHARED_TEST_FILES})
     get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)
