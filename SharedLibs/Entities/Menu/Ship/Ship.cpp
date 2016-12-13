@@ -27,6 +27,7 @@ void Ship::Cycle() {
 }
 
 void Ship::Serialize(RType::Packer &packer) {
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(Ship)
