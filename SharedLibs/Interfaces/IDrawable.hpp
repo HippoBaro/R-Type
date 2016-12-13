@@ -23,8 +23,6 @@ public:
 
 public:
     virtual void Draw(sf::RenderTexture *, TextureBag &) = 0;
-    virtual vec2<float> GetRenderRect() = 0;
-    virtual vec2<float> GetPosition() = 0;
 
     sf::RenderTexture *getRenderTexture() {
         return _renderTexture.get();

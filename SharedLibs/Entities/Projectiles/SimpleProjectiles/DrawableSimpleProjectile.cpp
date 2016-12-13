@@ -25,15 +25,6 @@ void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> DrawableSimpleProjectile::GetRenderRect() {
-    return vec2<float>(16, 8);
-}
-
-vec2<float> DrawableSimpleProjectile::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void DrawableSimpleProjectile::Cycle() {
     SimpleProjectile::Cycle();
 }
