@@ -46,6 +46,7 @@ public:
     virtual void Cycle() = 0;
 
     virtual void Serialize(RType::Packer &packer){
+        std::cout << "Packing Entity base" << std::endl;
         packer.Pack(_id);
         packer.Pack(_traits);
     };

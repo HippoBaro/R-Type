@@ -33,4 +33,6 @@ TEST(Tests_Serialization, EntitySerialization)
     entity2->Serialize(unpacker);
 
     ASSERT_EQ(entity->getId() == entity2->getId(), true) << "Serialization failed";
+
+
 }
