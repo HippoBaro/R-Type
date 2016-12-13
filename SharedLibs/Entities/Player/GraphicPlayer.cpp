@@ -26,16 +26,6 @@ void GraphicPlayer::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> GraphicPlayer::GetRenderRect() {
-    return vec2<float>(32 * 5, 14 * 5);
-}
-
-vec2<float> GraphicPlayer::GetPosition() {
-    //auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    //return pos;
-    return vec2<float>(2, 2);
-}
-
 void GraphicPlayer::Cycle() {
     Player::Cycle();
 }

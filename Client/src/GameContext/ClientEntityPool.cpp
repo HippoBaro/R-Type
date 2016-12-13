@@ -11,12 +11,12 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
             IDrawable *entity = dynamic_cast<IDrawable*>(i.GetInstance());
             auto renderTarget = entity->getRenderTexture();
             if (renderTarget == nullptr)
-                renderTarget = entity->createRenderTexture((unsigned int) entity->GetRenderRect().x, (unsigned int) entity->GetRenderRect().y);
+                renderTarget = entity->createRenderTexture((unsigned int) i->GetRenderRect().x, (unsigned int) i->GetRenderRect().y);
             entity->Draw(renderTarget, bag);
             renderTarget->display();
             sf::Sprite sprite;
             sprite.setTexture(renderTarget->getTexture());
-            sprite.setPosition(entity->GetPosition().x, entity->GetPosition().y);
+            sprite.setPosition(i->GetPosition().x, i->GetPosition().y);
             target.draw(sprite);
         }
     }

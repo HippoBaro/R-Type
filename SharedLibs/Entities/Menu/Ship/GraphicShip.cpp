@@ -25,15 +25,6 @@ void GraphicShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> GraphicShip::GetRenderRect() {
-    return vec2<float>(500 * 0.3, 500 * 0.3);
-}
-
-vec2<float> GraphicShip::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void GraphicShip::Cycle() {
     Ship::Cycle();
 }
