@@ -28,6 +28,7 @@ void DeathStar::Cycle() {
 }
 
 void DeathStar::Serialize(RType::Packer &packer) {
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(DeathStar)
