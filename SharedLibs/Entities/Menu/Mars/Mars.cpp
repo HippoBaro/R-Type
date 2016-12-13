@@ -28,6 +28,7 @@ void Mars::Cycle() {
 }
 
 void Mars::Serialize(RType::Packer &packer) {
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(Mars)
