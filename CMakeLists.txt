@@ -29,5 +29,5 @@ add_subdirectory(Server)
 
 ucm_set_runtime(STATIC)
 
-#add_subdirectory(SharedLibs)
+add_subdirectory(SharedLibs)
 add_subdirectory(UnitTests)
