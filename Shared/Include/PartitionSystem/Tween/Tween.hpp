@@ -11,7 +11,7 @@
 #include "Time/Timer.hpp"
 
 template <typename TweenInnerType>
-class Tween {
+class Tween : public RType::ISerializable {
 
 private:
     std::shared_ptr<Timer> _timer = nullptr;
@@ -79,6 +79,15 @@ public:
 
     const TimeRef &getEnd() const {
         return _end;
+    }
+
+    void Serialize(RType::Packer &packer) override {
+        packer.Pack(_startValue);
+        packer.Pack(&_start);
+        packer.Pack(_endValue);
+        packer.Pack(&_end);
+        packer.Pack(_delta);
+        packer.Pack(_maxValue);
     }
 };
 

@@ -65,7 +65,11 @@ public:
     }
 
     void Serialize(RType::Packer &packer) override {
-
+        packer.Pack(&_locationVector);
+        packer.Pack(_projectileType);
+        packer.Pack(_lastShot);
+        packer.Pack(&_lastShot);
+        packer.Pack(_timeBeetweenShot);
     }
 };
 
