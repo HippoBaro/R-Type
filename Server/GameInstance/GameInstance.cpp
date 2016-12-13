@@ -3,6 +3,6 @@
 //
 
 #include <cstdint>
-#include "GameInstance.hpp"
+#include "GameInstance/GameInstance.hpp"
 
 GameInstance::GameInstance(uint16_t id) : _id(id) { }
