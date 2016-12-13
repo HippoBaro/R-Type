@@ -11,8 +11,6 @@ set(SHARED_SOURCE_FILES
         Include/Serializer/Packer.hpp
         Include/Serializer/ISerializable.hpp
         Include/Serializer/SerializationHelper.hpp
-        Serializer/Packer.cpp
-        Serializer/SerializationHelper.cpp
 
         Include/Entities/Trait.hpp
         Include/Entities/Entity.hpp

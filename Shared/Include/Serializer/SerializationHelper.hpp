@@ -10,11 +10,19 @@
 #include <climits>
 
 namespace RType {
-    namespace SerializationHelper {
-        bool _IsBigEndian();
+    class SerializationHelper {
+    public:
+
+        static bool _IsBigEndian()
+        {
+            short int i = 0x0102;
+            char b[2];
+            *(short int *) (b) = i;
+            return b[0] == 1;
+        }
 
         template<typename T>
-        T SwapEndian(T u) {
+        static T SwapEndian(T u) {
             static_assert(CHAR_BIT == 8, "Char size != 8. Can't perform serialization.");
             union {
                 T u;
@@ -27,7 +35,7 @@ namespace RType {
         }
 
         template<typename Ttype>
-        void Serialize(char *buffer, uint16_t index, Ttype &value) {
+        static void Serialize(char *buffer, uint16_t index, Ttype &value) {
             if (RType::SerializationHelper::_IsBigEndian()) {
                 if (sizeof(Ttype) == 1) // 1 byte => no swap needed
                     *((Ttype *) (buffer + index)) = value;
@@ -45,10 +53,10 @@ namespace RType {
         }
 
         template<typename Ttype>
-        void Deserialize(char *buffer, uint16_t index, Ttype &value) {
+        static void Deserialize(char *buffer, uint16_t index, Ttype &value) {
             value = *((Ttype *) (buffer + index));
         }
-    }
+    };
 }
 
 
