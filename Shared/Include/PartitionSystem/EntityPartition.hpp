@@ -57,7 +57,7 @@ public:
     }
 
     void Serialize(RType::Packer &packer) override {
-        packer.Pack(_segments);
+        packer.PackSerializables(_segments);
     }
 };
 
