@@ -20,7 +20,7 @@ void Player::Cycle() {
 }
 
 void Player::Serialize(RType::Packer &packer) {
-
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(Player)
