@@ -27,6 +27,15 @@ Mars::Mars(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::Eve
 void Mars::Cycle() {
 }
 
+vec2<float> Mars::GetRenderRect() {
+    return vec2<float>(500 * 0.6, 500 * 0.6);
+}
+
+vec2<float> Mars::GetPosition() {
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    return pos;
+}
+
 void Mars::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
