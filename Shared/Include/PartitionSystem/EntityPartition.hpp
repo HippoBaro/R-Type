@@ -9,7 +9,7 @@
 #include <Serializer/ISerializable.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
-class EntityPartition : RType::ISerializable {
+class EntityPartition : public RType::ISerializable {
 private:
     std::vector<PartitionSegment> _segments;
 
