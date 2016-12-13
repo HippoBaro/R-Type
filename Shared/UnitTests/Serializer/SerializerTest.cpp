@@ -4,7 +4,6 @@
 
 #include <gtest/gtest.h>
 #include <Serializer/ISerializable.hpp>
-#include <bitset>
 
 class Bullet : RType::ISerializable {
 public:
