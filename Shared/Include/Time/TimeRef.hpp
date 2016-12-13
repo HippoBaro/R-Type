@@ -18,7 +18,7 @@ public:
     TimeRef(const std::chrono::milliseconds &milliseconds) : _current(milliseconds.count()) {}
     TimeRef(const long milliseconds) : _current(milliseconds) {}
 
-    const std::chrono::milliseconds &getMilliseconds() const {
+    const std::chrono::milliseconds getMilliseconds() const {
         return std::chrono::milliseconds(_current);
     }
 

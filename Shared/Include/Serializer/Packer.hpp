@@ -12,6 +12,7 @@
 #include "ISerializable.hpp"
 
 namespace RType {
+
     enum SerializationType {
         WRITE,
         READ
@@ -67,28 +68,6 @@ namespace RType {
             }
         };
 
-        void Pack(std::vector<ISerializable> &v) {
-            if (_type == WRITE) {
-
-                // Serialize size so we can get it back later
-                size_t len = v.size();
-                RType::SerializationHelper::Serialize(_buffer, _index, len);
-                _index += sizeof(size_t);
-
-                for (ISerializable &&it : v)
-                    it.Serialize(*this);
-            } else {
-                size_t len;
-                RType::SerializationHelper::Deserialize(_buffer, _index, len);
-                _index += sizeof(size_t);
-                if (v.size() < len)
-                    v.resize(len);
-
-                for (size_t i = 0; i < len; i++)
-                    v[i].Serialize(*this);
-            }
-        };
-
         template<typename T>
         void Pack(T &v) {
             if (_type == WRITE)
@@ -96,10 +75,6 @@ namespace RType {
             else
                 RType::SerializationHelper::Deserialize(_buffer, _index, v);
             _index += sizeof(T);
-        };
-
-        void Pack(ISerializable *v) {
-            v->Serialize(*this);
         };
 
         void Pack(std::string &v) {
