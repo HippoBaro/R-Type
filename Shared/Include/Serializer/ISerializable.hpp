@@ -5,9 +5,9 @@
 #ifndef R_TYPE_ISERIALIZABLE_HPP
 #define R_TYPE_ISERIALIZABLE_HPP
 
-#include "Packer.hpp"
-
 namespace RType {
+
+    class Packer;
 
     class ISerializable {
     public:
@@ -16,5 +16,7 @@ namespace RType {
         virtual void Serialize(RType::Packer &packer) = 0;
     };
 }
+
+#include "Packer.hpp"
 
 #endif //R_TYPE_ISERIALIZABLE_HPP
