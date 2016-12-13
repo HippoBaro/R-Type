@@ -9,7 +9,7 @@ set(SHARED_TEST_FILES
         PartitionSystem/EntityPartition.cpp
         EventDispatcher/EventDispatcherTest.cpp
         Serializer/SerializerTest.cpp
-        Socket/SocketTest.cpp)
+        Socket/SocketTest.cpp Serializer/EntitySerialization.cpp)
 
 IF (MSVC)
     set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/Windows)
