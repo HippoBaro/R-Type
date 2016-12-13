@@ -8,7 +8,6 @@
 #include <iostream>
 #include <assert.h>
 #include <climits>
-#include "ISerializable.hpp"
 
 namespace RType {
     namespace SerializationHelper {
