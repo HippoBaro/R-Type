@@ -9,7 +9,6 @@
 #include <vector>
 #include <stdexcept>
 #include "SerializationHelper.hpp"
-#include "ISerializable.hpp"
 
 namespace RType {
 
@@ -64,6 +63,31 @@ namespace RType {
                 for (size_t i = 0; i < len; i++) {
                     RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
                     _index += sizeof(T);
+                }
+            }
+        };
+
+        template<typename T>
+        void PackSerializables(std::vector<T> &v) {
+            if (_type == WRITE) {
+
+                // Serialize size so we can get it back later
+                size_t len = v.size();
+                RType::SerializationHelper::Serialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+
+                for (auto &&it : v) {
+                    it.Serialize(*this);
+                }
+            } else {
+                size_t len;
+                RType::SerializationHelper::Deserialize(_buffer, _index, len);
+                _index += sizeof(size_t);
+                if (v.size() < len)
+                    v.resize(len);
+
+                for (size_t i = 0; i < len; i++) {
+                    v[i].Serialize(*this);
                 }
             }
         };
