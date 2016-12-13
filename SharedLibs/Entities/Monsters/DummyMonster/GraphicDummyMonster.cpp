@@ -25,15 +25,6 @@ void GrahicDummyMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-vec2<float> GrahicDummyMonster::GetRenderRect() {
-    return vec2<float>(32 * 5, 14 * 5);
-}
-
-vec2<float> GrahicDummyMonster::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
 void GrahicDummyMonster::Cycle() {
     DummyMonster::Cycle();
 }
