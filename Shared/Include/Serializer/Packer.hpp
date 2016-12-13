@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <cstring>
 #include "SerializationHelper.hpp"
 
 namespace RType {
@@ -106,9 +107,8 @@ namespace RType {
                 RType::SerializationHelper::Serialize(_buffer, _index, len);
                 _index += sizeof(size_t);
 
-                for (auto &&it : v) {
+                for (auto &&it : v)
                     it.Serialize(*this);
-                }
             } else {
                 size_t len;
                 RType::SerializationHelper::Deserialize(_buffer, _index, len);
@@ -116,9 +116,8 @@ namespace RType {
                 if (v.size() < len)
                     v.resize(len);
 
-                for (size_t i = 0; i < len; i++) {
+                for (size_t i = 0; i < len; i++)
                     v[i].Serialize(*this);
-                }
             }
         };
 
