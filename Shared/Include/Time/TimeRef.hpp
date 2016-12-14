@@ -10,13 +10,13 @@
 
 class TimeRef : public RType::ISerializable {
 private:
-    long _current;
+    uint32_t _current;
 public:
 
     TimeRef() : _current(0) {}
 
-    TimeRef(const std::chrono::milliseconds &milliseconds) : _current(milliseconds.count()) {}
-    TimeRef(const long milliseconds) : _current(milliseconds) {}
+    TimeRef(const std::chrono::milliseconds &milliseconds) : _current((uint32_t) milliseconds.count()) {}
+    TimeRef(const long milliseconds) : _current((uint32_t) milliseconds) {}
 
     const std::chrono::milliseconds getMilliseconds() const {
         return std::chrono::milliseconds(_current);
