@@ -76,21 +76,22 @@ namespace RType {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
-                size_t len = v.size();
+                uint32_t len = (uint32_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer, _index, len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint32_t);
 
-                for (auto &&it : v) {
+                for (auto &it : v) {
                     RType::SerializationHelper::Serialize(_buffer, _index, it);
                     _index += sizeof(T);
                 }
             } else {
-                size_t len;
+                uint32_t len;
                 RType::SerializationHelper::Deserialize(_buffer, _index, len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint32_t);
                 if (v.size() < len)
                     v.resize(len);
 
+                v.clear();
                 for (size_t i = 0; i < len; i++) {
                     RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
                     _index += sizeof(T);
