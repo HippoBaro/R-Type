@@ -7,6 +7,5 @@
 
 GameInstance::GameInstance(uint16_t id, std::string const &partition, std::chrono::steady_clock::time_point const &origin) : _id(id) {
     _timer = std::make_shared<Timer>(origin);
-    _pool = std::unique_ptr<EntityPool>(new EntityPool(_timer));
-    _pool->LoadPartition(partition);
+
 }
