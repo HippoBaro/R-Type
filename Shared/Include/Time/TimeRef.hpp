@@ -6,22 +6,24 @@
 #define R_TYPE_TIMEREF_HPP
 
 #include <chrono>
+#include <Serializer/ISerializable.hpp>
 
-class TimeRef {
+class TimeRef : public RType::ISerializable {
 private:
-    std::chrono::milliseconds _current;
+    long _current;
 public:
 
-    TimeRef() : _current(std::chrono::milliseconds()) {}
+    TimeRef() : _current(0) {}
 
-    TimeRef(const std::chrono::milliseconds &milliseconds) : _current(milliseconds) {}
+    TimeRef(const std::chrono::milliseconds &milliseconds) : _current(milliseconds.count()) {}
+    TimeRef(const long milliseconds) : _current(milliseconds) {}
 
-    const std::chrono::milliseconds &getMilliseconds() const {
-        return _current;
+    const std::chrono::milliseconds getMilliseconds() const {
+        return std::chrono::milliseconds(_current);
     }
 
     TimeRef GetRelative(const std::chrono::milliseconds &milliseconds) {
-        return TimeRef(_current + milliseconds);
+        return TimeRef(_current + milliseconds.count());
     }
 
     friend bool operator<(const TimeRef &lhs, const TimeRef &rhs) {
@@ -46,6 +48,10 @@ public:
 
     friend bool operator!=(const TimeRef &lhs, const TimeRef &rhs) {
         return !(rhs == lhs);
+    }
+
+    void Serialize(RType::Packer &packer) override {
+        packer.Pack(_current);
     }
 };
 

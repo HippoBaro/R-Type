@@ -6,9 +6,10 @@
 #define R_TYPE_VEC2_HPP
 
 #include <cmath>
+#include <Serializer/ISerializable.hpp>
 
 template <class T>
-class vec2 {
+class vec2 : public RType::ISerializable {
 public:
     T x, y;
 
@@ -135,6 +136,11 @@ public:
 
     static float cross(vec2 v1, vec2 v2) {
         return (v1.x * v2.y) - (v1.y * v2.x);
+    }
+
+    void Serialize(RType::Packer &packer) override {
+        packer.Pack(x);
+        packer.Pack(y);
     }
 
 };

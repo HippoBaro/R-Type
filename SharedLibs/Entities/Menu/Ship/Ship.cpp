@@ -26,4 +26,17 @@ Ship::Ship(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::Eve
 void Ship::Cycle() {
 }
 
+vec2<float> Ship::GetRenderRect() {
+    return vec2<float>(500 * 0.3, 500 * 0.3);
+}
+
+vec2<float> Ship::GetPosition() {
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    return pos;
+}
+
+void Ship::Serialize(RType::Packer &packer) {
+    Entity::Serialize(packer);
+}
+
 RTYPE_ENTITY_REGISTER(Ship)
