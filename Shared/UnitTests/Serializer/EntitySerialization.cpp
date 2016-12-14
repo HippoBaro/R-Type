@@ -20,6 +20,8 @@ TEST(Tests_Serialization, EntitySerialization)
 
     auto packer = RType::Packer(RType::WRITE);
 
+    std::cout << "Empty size : " << packer.getLength() << " bytes." << std::endl;
+    
     entity->Serialize(packer);
 
     std::cout << "Serialized size : " << packer.getLength() << " bytes." << std::endl;
