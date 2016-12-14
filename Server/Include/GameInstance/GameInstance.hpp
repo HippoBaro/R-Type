@@ -12,10 +12,11 @@ class GameInstance {
 private:
     uint16_t _id;
     std::unique_ptr<EntityPool> _pool = nullptr;
+    std::shared_ptr<Timer> _timer = nullptr;
     RType::EventManager _eventManager = RType::EventManager();
 
 public:
-    GameInstance(uint16_t id);
+    GameInstance(uint16_t id, std::string const &partition, std::chrono::steady_clock::time_point const&);
 };
 
 

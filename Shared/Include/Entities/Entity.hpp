@@ -49,8 +49,7 @@ public:
     virtual vec2<float> GetRenderRect() = 0;
     virtual vec2<float> GetPosition() = 0;
 
-    virtual void Serialize(RType::Packer &packer){
-        std::cout << "Packing Entity base" << std::endl;
+    virtual void Serialize(RType::Packer &packer) {
         packer.Pack(_id);
         packer.Pack(_traits);
     };
