@@ -6,6 +6,7 @@
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <Entities/Entity.hpp>
 #include <vec2.hpp>
+#include <thread>
 
 TEST(Tests_Serialization, EntitySerialization)
 {
@@ -29,10 +30,14 @@ TEST(Tests_Serialization, EntitySerialization)
 
     ManagedExternalInstance<Entity> entity2(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DummyMonster", { &id2, &timer , &eventManager, &now2, &pos2 }, "create", "destroy"));
 
+    ASSERT_EQ(entity->GetPosition().x != entity2->GetPosition().x, true) << "Serialization failed";
+
     auto unpacker = RType::Packer(RType::READ, packer.getBuffer());
     entity2->Serialize(unpacker);
 
     ASSERT_EQ(entity->getId() == entity2->getId(), true) << "Serialization failed";
 
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
+    ASSERT_EQ(entity->GetPosition().x == entity2->GetPosition().x, true) << "Serialization failed";
 }
