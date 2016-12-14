@@ -65,7 +65,6 @@ public:
     }
 
     void Serialize(RType::Packer &packer) override {
-        std::cout << "Packing Partition segment" << std::endl;
         _locationVector.Serialize(packer);
         packer.Pack(_projectileType);
         packer.Pack(_shootNumber);
