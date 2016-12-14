@@ -21,6 +21,10 @@ public:
     Mars(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
     void Cycle() override;
+    vec2<float> GetRenderRect() override;
+    vec2<float> GetPosition() override;
+
+    void Serialize(RType::Packer &packer) override;
 };
 
 #endif //R_TYPE_MARS_HPP

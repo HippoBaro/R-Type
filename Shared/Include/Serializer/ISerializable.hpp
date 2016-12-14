@@ -9,12 +9,12 @@
 
 namespace RType {
 
-  class ISerializable {
-  public:
-    virtual ~ISerializable() {};
+    class ISerializable {
+    public:
+        virtual ~ISerializable() {};
 
-    virtual void Serialize(RType::Packer & packer) = 0;
-  };
+        virtual void Serialize(RType::Packer &packer) = 0;
+    };
 }
 
 #endif //R_TYPE_ISERIALIZABLE_HPP

@@ -43,7 +43,17 @@ void SimpleProjectile::Cycle() {
     _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(_emitterId, pos, true), this);
 }
 
-SimpleProjectile::~SimpleProjectile() {
+vec2<float> SimpleProjectile::GetRenderRect() {
+    return vec2<float>(16, 8);
+}
+
+vec2<float> SimpleProjectile::GetPosition() {
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    return pos;
+}
+
+void SimpleProjectile::Serialize(RType::Packer &packer) {
+    Entity::Serialize(packer);
 }
 
 RTYPE_ENTITY_REGISTER(SimpleProjectile)

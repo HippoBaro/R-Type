@@ -9,7 +9,7 @@
 #include <PartitionSystem/Tween/Tween.hpp>
 #include <string>
 
-class PartitionSegment {
+class PartitionSegment : public RType::ISerializable {
 private:
     Tween<vec2<float>> _locationVector;
     std::string _projectileType = "";
@@ -62,6 +62,14 @@ public:
 
     std::string getCurrentProjectile() {
         return _projectileType;
+    }
+
+    void Serialize(RType::Packer &packer) override {
+        _locationVector.Serialize(packer);
+        packer.Pack(_projectileType);
+        packer.Pack(_shootNumber);
+        _locationVector.Serialize(packer);
+        packer.Pack(_timeBeetweenShot);
     }
 };
 

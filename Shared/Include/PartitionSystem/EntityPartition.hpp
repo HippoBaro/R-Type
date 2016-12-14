@@ -6,9 +6,10 @@
 #define R_TYPE_ENTITYPARTITION_HPP
 
 #include <vector>
+#include <Serializer/ISerializable.hpp>
 #include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
-class EntityPartition {
+class EntityPartition : public RType::ISerializable {
 private:
     std::vector<PartitionSegment> _segments;
 
@@ -53,6 +54,10 @@ public:
             return false;
         auto segment = GetCurrentSegment(timeRef);
         return segment->ShouldFireNow(timeRef);
+    }
+
+    void Serialize(RType::Packer &packer) override {
+        packer.PackSerializables(_segments);
     }
 };
 

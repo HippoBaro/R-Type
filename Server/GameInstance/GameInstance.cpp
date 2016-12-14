@@ -5,4 +5,7 @@
 #include <cstdint>
 #include "GameInstance/GameInstance.hpp"
 
-GameInstance::GameInstance(uint16_t id) : _id(id) { }
+GameInstance::GameInstance(uint16_t id, std::string const &partition, std::chrono::steady_clock::time_point const &origin) : _id(id) {
+    _timer = std::make_shared<Timer>(origin);
+
+}
