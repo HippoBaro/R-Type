@@ -57,7 +57,6 @@ public:
     }
 
     void Serialize(RType::Packer &packer) override {
-        std::cout << "Packing Partition" << std::endl;
         packer.PackSerializables(_segments);
     }
 };
