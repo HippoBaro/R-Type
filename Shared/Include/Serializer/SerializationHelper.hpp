@@ -36,24 +36,35 @@ namespace RType {
 
         template<typename Ttype>
         static void Serialize(char *buffer, uint16_t index, Ttype &value) {
-            if (RType::SerializationHelper::_IsBigEndian()) {
+            if (RType::SerializationHelper::_IsBigEndian())
+            {
                 if (sizeof(Ttype) == 1) // 1 byte => no swap needed
                     *((Ttype *) (buffer + index)) = value;
-
                 else if (sizeof(Ttype) == 2) // 2 bytes
                     *((Ttype *) (buffer + index)) = SwapEndian(value);
-
                 else if (sizeof(Ttype) == 4) // 4 bytes
                     *((Ttype *) (buffer + index)) = SwapEndian(value);
-
                 else if (sizeof(Ttype) == 8) // 8 bytes
                     *((Ttype *) (buffer + index)) = SwapEndian(value);
-            } else
+            }
+            else
                 *((Ttype *) (buffer + index)) = value;
         }
 
         template<typename Ttype>
         static void Deserialize(char *buffer, uint16_t index, Ttype &value) {
+          if (RType::SerializationHelper::_IsBigEndian())
+          {
+            if (sizeof(Ttype) == 1) // 1 byte => no swap needed
+              value = value;
+            else if (sizeof(Ttype) == 2) // 2 bytes
+              value = SwapEndian(*((Ttype *) (buffer + index)));
+            else if (sizeof(Ttype) == 4) // 4 bytes
+              value = SwapEndian(*((Ttype *) (buffer + index)));
+            else if (sizeof(Ttype) == 8) // 8 bytes
+              value = SwapEndian(*((Ttype *) (buffer + index)));
+          }
+          else
             value = *((Ttype *) (buffer + index));
         }
     };
