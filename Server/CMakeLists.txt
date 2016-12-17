@@ -11,7 +11,21 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SERVER_SOURCE_FILES
         main.cpp
-        GameInstance/GameInstanceManager.cpp GameInstance/GameInstance.cpp Include/GameInstance/GameInstance.hpp GameManager/GameManager.cpp Include/GameManager/GameManager.hpp NetworkManager/NetworkManager.cpp Include/NetworkManager/NetworkManager.hpp)
+
+        GameInstance/GameInstanceManager.cpp
+        GameInstance/GameInstance.cpp
+        GameManager/GameManager.cpp
+        NetworkManager/NetworkManager.cpp
+        LobbyManager/LobbyManager.cpp
+        LobbyInstance/LobbyInstance.cpp
+
+        Include/GameInstance/GameInstanceManager.hpp
+        Include/GameInstance/GameInstance.hpp
+        Include/GameManager/GameManager.hpp
+        Include/NetworkManager/NetworkManager.hpp
+        Include/LobbyManager/LobbyManager.hpp
+        Include/LobbyInstance/LobbyInstance.hpp
+        )
 
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
