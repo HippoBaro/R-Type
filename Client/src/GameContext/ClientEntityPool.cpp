@@ -2,6 +2,7 @@
 // Created by hippolyteb on 11/29/16.
 //
 
+#include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
@@ -22,11 +23,18 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
     }
 }
 
-ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer) : EntityPool(timer) {}
-
 void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &startTime, std::initializer_list<void *> *params) {
     auto now = startTime;
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "createDrawable", "destroyDrawable"));
     _pool.push_back(entity);
+}
+
+ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
+                                   const std::shared_ptr<RType::EventManager> &eventManager) : EntityPool(timer),
+                                                                                               _globalEventManager(eventManager),
+                                                                                               _globalEventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
+    _globalEventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
+
+    });
 }
