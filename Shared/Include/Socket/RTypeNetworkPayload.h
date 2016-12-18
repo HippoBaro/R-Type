@@ -13,6 +13,7 @@ public:
     char *Payload;
     int Length;
 
+    RTypeNetworkPayload() : Payload(), Length() {}
     RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {}
     RTypeNetworkPayload(char *payload, int length, std::string const &destination) : Ip(destination), Payload(payload), Length(length) {}
     RTypeNetworkPayload(const RTypeNetworkPayload& payload) : Ip(payload.Ip), Payload(payload.Payload), Length(payload.Length) {}
