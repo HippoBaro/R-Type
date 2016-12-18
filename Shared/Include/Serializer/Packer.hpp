@@ -61,6 +61,10 @@ namespace RType {
                 delete[] _buffer;
         }
 
+        SerializationType getType() const {
+            return _type;
+        }
+
         char *getBuffer() const
         {
             return _buffer;
@@ -97,7 +101,7 @@ namespace RType {
                     _index += sizeof(T);
                 }
             }
-        };
+        }
 
         template<typename T>
         void PackSerializables(std::vector<T> &v) {
@@ -120,7 +124,7 @@ namespace RType {
                 for (size_t i = 0; i < len; i++)
                     v[i].Serialize(*this);
             }
-        };
+        }
 
         template<typename T>
         void Pack(T &v) {
@@ -129,7 +133,7 @@ namespace RType {
             else
                 RType::SerializationHelper::Deserialize(_buffer, _index, v);
             _index += sizeof(T);
-        };
+        }
 
         void Pack(std::string &v) {
             if (_type == WRITE) {
