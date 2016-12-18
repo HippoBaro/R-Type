@@ -14,7 +14,8 @@ namespace RType {
         POSITION_CHANGED_COLLISION,
         USER_INPUT,
         SOUND_SYSTEM,
-        MENU_LOBBY
+        MENU_LOBBY,
+        SEND_NET_MESSAGE
     };
 }
 

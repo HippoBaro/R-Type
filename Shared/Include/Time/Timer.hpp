@@ -28,7 +28,7 @@ public:
     }
 
     TimeRef getStart() {
-        return TimeRef(std::chrono::milliseconds(0));
+        return TimeRef(0);
     }
 };
 

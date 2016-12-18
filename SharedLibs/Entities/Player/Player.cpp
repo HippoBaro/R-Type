@@ -29,6 +29,10 @@ vec2<float> Player::GetPosition() {
     return vec2<float>(2, 2);
 }
 
+uint16_t Player::getTypeId() const {
+    return 5;
+}
+
 void Player::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
