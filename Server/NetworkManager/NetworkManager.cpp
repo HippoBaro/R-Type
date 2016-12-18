@@ -26,7 +26,7 @@ NetworkManager::NetworkManager(const std::shared_ptr<RType::EventManager> &event
 
 void NetworkManager::Send(RTypeNetworkPayload const &payload) {
     if (_clients.find(payload.Ip) == _clients.end() ) {
-        _clients[payload.Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload.Ip, 8765));
+        _clients[payload.Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload.Ip, 9876));
     } else {
         _clients[payload.Ip]->Send(payload);
     }

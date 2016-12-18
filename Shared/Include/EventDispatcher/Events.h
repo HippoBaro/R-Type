@@ -15,7 +15,8 @@ namespace RType {
         USER_INPUT,
         SOUND_SYSTEM,
         MENU_LOBBY,
-        SEND_NET_MESSAGE
+        SEND_NET_MESSAGE,
+        RECEIVE_NET_MESSAGE
     };
 }
 

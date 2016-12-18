@@ -4,10 +4,19 @@
 
 #include <Messages/UserInputMessage.hpp>
 #include <Entities/Entity.hpp>
+#include <Messages/ReceiveNetworkPayloadMessage.hpp>
 #include "RTypeNetworkClient.hpp"
 
 RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
+    _networkGameClient->Bind();
+
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
 
+    });
+    _eventListener.Subscribe<Entity, ReceiveNetworkPayloadMessage>(ReceiveNetworkPayloadMessage::EventType, [&](Entity *, ReceiveNetworkPayloadMessage *message) {
+        RTypeNetworkPayload payload;
+        while (_networkGameClient->Receive(payload)) {
+            std::cout << "Received stuff" << std::endl;
+        }
     });
 }
