@@ -12,8 +12,12 @@
 
 class ClientEntityPool : public EntityPool {
 
+private:
+    std::shared_ptr<RType::EventManager> _globalEventManager;
+    std::unique_ptr<RType::EventListener> _globalEventListener;
+
 public:
-    ClientEntityPool(const std::shared_ptr<Timer> &);
+    ClientEntityPool(const std::shared_ptr<Timer> &, const std::shared_ptr<RType::EventManager> &eventManager);
 
 public :
     virtual void Draw(sf::RenderTexture &, TextureBag &);

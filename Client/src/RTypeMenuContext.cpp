@@ -19,7 +19,7 @@
 
 RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
-    _pool = std::make_shared<ClientEntityPool>(_timer);
+    _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
     auto stratPos = vec2<float>(1500, 100);
     _pool->AddEntity("DeathStar", 1, stratPos, _timer->getCurrent());
