@@ -23,7 +23,7 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
     if (data.empty())
         throw new std::runtime_error("Invalid partition file");
 
-    _pool->LoadPartition(data);
+    //_pool->LoadPartition(data);
 }
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
