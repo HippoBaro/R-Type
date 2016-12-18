@@ -7,6 +7,7 @@
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include "RTypeGameContext.hpp"
 #include <fstream>
+#include <Messages/ReceiveNetworkPayloadMessage.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(5));
@@ -27,6 +28,7 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
+    _eventManager->Emit(ReceiveNetworkPayloadMessage::EventType, new ReceiveNetworkPayloadMessage(), this);
     _pool->ProcessEntities();
     _pool->Draw(context, bag);
     context.display();
@@ -35,3 +37,5 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
 void RTypeGameContext::ReleaseListener() {
 
 }
+
+RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager) {}

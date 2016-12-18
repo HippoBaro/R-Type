@@ -49,7 +49,7 @@ set(SHARED_SOURCE_FILES
         Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
         Include/Json/Json.hpp
-        Include/Socket/RTypeSocket.hpp Include/Messages/SendNetworkPayloadMessage.hpp Include/Queue/SingleReaderWriterQueue.hpp Include/Queue/atomicops.hpp)
+        Include/Socket/RTypeSocket.hpp Include/Messages/SendNetworkPayloadMessage.hpp Include/Queue/SingleReaderWriterQueue.hpp Include/Queue/atomicops.hpp Include/Messages/ReceiveNetworkPayloadMessage.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include
