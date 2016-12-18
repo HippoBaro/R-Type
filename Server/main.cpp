@@ -6,7 +6,6 @@
 
 int main()
 {
-    GameManager gameManager;
-    gameManager.Start();
+    GameManager().Start();
     return (0);
 }

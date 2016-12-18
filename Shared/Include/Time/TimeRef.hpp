@@ -10,7 +10,7 @@
 
 class TimeRef : public RType::ISerializable {
 private:
-    uint32_t _current;
+    int32_t _current;
 public:
 
     TimeRef() : _current(0) {}
