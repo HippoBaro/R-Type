@@ -63,4 +63,8 @@ void DummyMonster::Serialize(RType::Packer &packer) {
     _partition.Serialize(packer);
 }
 
+uint16_t DummyMonster::getTypeId() const {
+    return 4;
+}
+
 RTYPE_ENTITY_REGISTER(DummyMonster)

@@ -44,6 +44,8 @@ public:
         return _id;
     }
 
+    virtual uint16_t getTypeId() const = 0;
+
     virtual void Cycle() = 0;
 
     virtual vec2<float> GetRenderRect() = 0;

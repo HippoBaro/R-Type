@@ -9,12 +9,13 @@
 
 class RTypeNetworkPayload {
 public:
-    std::string Ip = "";
+    std::string Ip = std::string();
     char *Payload;
     int Length;
 
     RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {}
-    RTypeNetworkPayload(const RTypeNetworkPayload& payload) : Payload(payload.Payload), Length(payload.Length) {}
+    RTypeNetworkPayload(char *payload, int length, std::string const &destination) : Ip(destination), Payload(payload), Length(length) {}
+    RTypeNetworkPayload(const RTypeNetworkPayload& payload) : Ip(payload.Ip), Payload(payload.Payload), Length(payload.Length) {}
     const RTypeNetworkPayload& operator=(const RTypeNetworkPayload& payload) { return *this; }
 };
 

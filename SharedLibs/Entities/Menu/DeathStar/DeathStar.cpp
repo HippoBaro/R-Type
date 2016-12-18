@@ -40,4 +40,9 @@ void DeathStar::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
+uint16_t DeathStar::getTypeId() const {
+    return 1;
+}
+
+
 RTYPE_ENTITY_REGISTER(DeathStar)

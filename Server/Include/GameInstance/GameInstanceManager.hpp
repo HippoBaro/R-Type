@@ -12,7 +12,11 @@
 
 class GameInstanceManager {
 private:
-    std::vector<GameInstance> _instances;
+    std::vector<std::unique_ptr<GameInstance>> _instances = std::vector<std::unique_ptr<GameInstance>>();
+    std::shared_ptr<RType::EventManager> _eventManager;
+
+public:
+    GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager);
 
 public:
     void CreateInstance(std::vector<PlayerRef> &players);
