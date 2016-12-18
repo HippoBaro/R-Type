@@ -11,7 +11,7 @@
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(5));
-    _pool = std::make_shared<ClientEntityPool>(_timer);
+    _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
     std::ifstream infile;
     infile.open(partitionFile);
