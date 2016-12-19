@@ -40,11 +40,7 @@ namespace RType {
             {
                 if (sizeof(Ttype) == 1) // 1 byte => no swap needed
                     *((Ttype *) (buffer + index)) = value;
-                else if (sizeof(Ttype) == 2) // 2 bytes
-                    *((Ttype *) (buffer + index)) = SwapEndian(value);
-                else if (sizeof(Ttype) == 4) // 4 bytes
-                    *((Ttype *) (buffer + index)) = SwapEndian(value);
-                else if (sizeof(Ttype) == 8) // 8 bytes
+                else
                     *((Ttype *) (buffer + index)) = SwapEndian(value);
             }
             else
@@ -57,11 +53,7 @@ namespace RType {
           {
             if (sizeof(Ttype) == 1) // 1 byte => no swap needed
               value = value;
-            else if (sizeof(Ttype) == 2) // 2 bytes
-              value = SwapEndian(*((Ttype *) (buffer + index)));
-            else if (sizeof(Ttype) == 4) // 4 bytes
-              value = SwapEndian(*((Ttype *) (buffer + index)));
-            else if (sizeof(Ttype) == 8) // 8 bytes
+            else
               value = SwapEndian(*((Ttype *) (buffer + index)));
           }
           else
