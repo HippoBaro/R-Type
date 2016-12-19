@@ -15,6 +15,7 @@
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <Time/Timer.hpp>
 #include <initializer_list>
+#include <EntityFactory/EntityFactory.hpp>
 
 class EntityPool {
 protected:
@@ -22,6 +23,7 @@ protected:
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     RType::EventListener _eventListener = RType::EventListener(_eventManager);
     std::shared_ptr<Timer> _timer;
+    EntityFactory _factory = EntityFactory();
 
 public:
     EntityPool(std::shared_ptr<Timer> const &);
