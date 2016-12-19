@@ -6,6 +6,7 @@
 #define R_TYPE_EVENTLISTENER_HPP
 
 #include <EventDispatcher/EventManager.hpp>
+#include <type_traits>
 
 // For templating reasons, we put the code in the header directly
 
@@ -32,7 +33,7 @@ namespace RType {
 
         template<typename EntityType, typename MessageType>
         void Subscribe(RType::Event event, std::function<void(EntityType *, MessageType *message)> callback) {
-
+          static_assert(std::is_same<MessageType, void>::value || std::is_base_of<IMessage, MessageType>::value, "MessageType is not derived from IMessage");
             // Add the callback relative to the given event
             (*_callbacks)[event].push_back([=](void *entity, IMessage *message){
                 callback((EntityType *)entity, (MessageType *)message);
