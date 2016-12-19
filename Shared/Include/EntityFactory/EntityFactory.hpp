@@ -11,10 +11,13 @@
 class EntityFactory {
 
 private:
-    std::map<uint16_t, std::string> _typesRef = std::map<uint16_t, std::string>();
+    std::map<uint16_t, std::string> _typesRef ;
 
 public:
-    ManagedExternalInstance<Entity> CreateFromPayload(RType::Packer &packer, std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) const {
+    EntityFactory() : _typesRef() {}
+
+public:
+    ManagedExternalInstance<Entity> CreateFromPayload(RType::Packer &packer, std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
         uint16_t entityType;
         packer.Pack(entityType);
 
