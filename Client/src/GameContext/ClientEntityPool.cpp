@@ -27,6 +27,7 @@ void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec
     auto now = startTime;
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "createDrawable", "destroyDrawable"));
+    _factory.RegisterEntityType(entity->getTypeId(), "Drawable" + entityName);
     _pool.push_back(entity);
 }
 
@@ -34,6 +35,7 @@ ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
                                    const std::shared_ptr<RType::EventManager> &eventManager) : EntityPool(timer),
                                                                                                _globalEventManager(eventManager),
                                                                                                _globalEventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
+
     _globalEventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
 
     });
