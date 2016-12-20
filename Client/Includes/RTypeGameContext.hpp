@@ -14,6 +14,7 @@ private:
     std::shared_ptr<Timer> _timer = nullptr;
     std::shared_ptr<ClientEntityPool> _pool = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager;
+    std::unique_ptr<RType::EventListener> _eventListener;
 public:
     RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager);
 

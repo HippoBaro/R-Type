@@ -12,6 +12,10 @@ void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<floa
     _pool.push_back(entity);
 }
 
+void EntityPool::AddEntity(const ManagedExternalInstance<Entity> &entity) {
+    _pool.push_back(entity);
+}
+
 EntityPool::~EntityPool() { }
 
 EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
@@ -57,4 +61,8 @@ void EntityPool::LoadPartition(std::string const &partition) {
         uint16_t id = i["id"];
         AddEntity(name, id, startPos, startTime);
     }
+}
+
+EntityFactory &EntityPool::getFactory() {
+    return _factory;
 }
