@@ -8,6 +8,7 @@
 #include "RTypeGameContext.hpp"
 #include <fstream>
 #include <Messages/ReceiveNetworkPayloadMessage.hpp>
+#include <Messages/ReceivedNetworkPayloadMessage.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(5));
@@ -28,6 +29,7 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
+    std::cout << "sent receive command" << std::endl;
     _eventManager->Emit(ReceiveNetworkPayloadMessage::EventType, new ReceiveNetworkPayloadMessage(), this);
     _pool->ProcessEntities();
     _pool->Draw(context, bag);
@@ -38,4 +40,11 @@ void RTypeGameContext::ReleaseListener() {
 
 }
 
-RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager) {}
+RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
+    _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
+        std::cout << "deserializing" << std::endl;
+        auto packet = RType::Packer(RType::READ, message->getPayload().Payload);
+        auto entity = _pool->getFactory().CreateFromPayload(packet, _timer, _eventManager);
+        _pool->AddEntity(entity);
+    });
+}

@@ -8,16 +8,16 @@
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
     for (const auto& i : _pool)
     {
-        if (i->ImplementTrait(Trait::Drawable)) {
-            IDrawable *entity = dynamic_cast<IDrawable*>(i.GetInstance());
+        if (i.second->ImplementTrait(Trait::Drawable)) {
+            IDrawable *entity = dynamic_cast<IDrawable*>(i.second.GetInstance());
             auto renderTarget = entity->getRenderTexture();
             if (renderTarget == nullptr)
-                renderTarget = entity->createRenderTexture((unsigned int) i->GetRenderRect().x, (unsigned int) i->GetRenderRect().y);
+                renderTarget = entity->createRenderTexture((unsigned int) i.second->GetRenderRect().x, (unsigned int) i.second->GetRenderRect().y);
             entity->Draw(renderTarget, bag);
             renderTarget->display();
             sf::Sprite sprite;
             sprite.setTexture(renderTarget->getTexture());
-            sprite.setPosition(i->GetPosition().x, i->GetPosition().y);
+            sprite.setPosition(i.second->GetPosition().x, i.second->GetPosition().y);
             target.draw(sprite);
         }
     }
@@ -28,7 +28,7 @@ void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "createDrawable", "destroyDrawable"));
     _factory.RegisterEntityType(entity->getTypeId(), "Drawable" + entityName);
-    //_pool.push_back(entity);
+    //EntityPool::AddEntity(entity);
 }
 
 ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
@@ -36,8 +36,8 @@ ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
                                                                                                _globalEventManager(eventManager),
                                                                                                _globalEventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
 
-    _globalEventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        auto packet = RType::Packer(RType::READ, message->getPayload().Payload);
-        _pool.push_back(_factory.CreateFromPayload(packet, _timer, _eventManager));
-    });
+}
+
+void ClientEntityPool::AddEntity(const ManagedExternalInstance<Entity> &instance) {
+    EntityPool::AddEntity(instance);
 }
