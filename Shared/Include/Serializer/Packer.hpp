@@ -9,6 +9,7 @@
 #include <vector>
 #include <stdexcept>
 #include <cstring>
+#include <set>
 #include "SerializationHelper.hpp"
 
 namespace RType {
@@ -76,7 +77,7 @@ namespace RType {
         }
 
         template<typename T>
-        void Pack(std::vector<T> &v) {
+        void Pack(std::set<T> &v, bool append = false) {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
@@ -92,12 +93,15 @@ namespace RType {
                 uint32_t len;
                 RType::SerializationHelper::Deserialize(_buffer, _index, len);
                 _index += sizeof(uint32_t);
-                if (v.size() < len)
-                    v.resize(len);
 
-                v.clear();
+                if (!append)
+                    v.clear();
+
                 for (size_t i = 0; i < len; i++) {
-                    RType::SerializationHelper::Deserialize(_buffer, _index, v[i]);
+                    T val;
+
+                    RType::SerializationHelper::Deserialize(_buffer, _index, val);
+                    v.insert(val);
                     _index += sizeof(T);
                 }
             }
