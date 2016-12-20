@@ -11,8 +11,8 @@
 
 class LobbyInstance {
 private:
-    uint16_t _id;
-    std::string _roomName;
+    uint16_t _id = 0;
+    std::string _roomName = "toto";
     std::vector<PlayerRef> _players = std::vector<PlayerRef>();
     RType::EventManager _eventManager = RType::EventManager();
 
