@@ -116,7 +116,7 @@ namespace RType {
                 RType::SerializationHelper::Serialize(_buffer, _index, len);
                 _index += sizeof(uint32_t);
 
-                for (auto &it : v) {
+                for (auto it : v) {
                     RType::SerializationHelper::Serialize(_buffer, _index, it);
                     _index += sizeof(T);
                 }
