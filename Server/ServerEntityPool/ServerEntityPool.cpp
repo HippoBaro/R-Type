@@ -10,15 +10,15 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer, const st
 void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager) {
     int count = 0;
     for(auto &i : _pool) {
-        if (i->getTypeId() == 6)
+        if (i.second->getTypeId() == 6)
             continue;
         auto packer = RType::Packer(RType::WRITE);
 
-        auto type = i->getTypeId();
+        auto type = i.second->getTypeId();
         packer.Pack(type);
-        auto id = i->getId();
+        auto id = i.second->getId();
         packer.Pack(id);
-        i->Serialize(packer);
+        i.second->Serialize(packer);
         eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this); //todo : send to all clients from the instance
         count++;
     }

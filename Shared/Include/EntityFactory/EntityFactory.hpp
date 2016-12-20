@@ -30,7 +30,9 @@ public:
         TimeRef now;
         vec2<float> pos;
 
-        return ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _typesRef[entityType], { &id, &timer , &eventManager, &now, &pos }, "createDrawable", "destroyDrawable"));
+        auto entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _typesRef[entityType], { &id, &timer , &eventManager, &now, &pos }, "createDrawable", "destroyDrawable"));
+        entity->Serialize(packer);
+        return entity;
     }
 
     void RegisterEntityType(uint16_t const &typeId, std::string const &entityName){
