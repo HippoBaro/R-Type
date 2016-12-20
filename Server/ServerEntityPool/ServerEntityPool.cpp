@@ -10,8 +10,6 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer, const st
 void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager) {
     int count = 0;
     for(auto &i : _pool) {
-        if (i.second->getTypeId() == 6)
-            continue;
         auto packer = RType::Packer(RType::WRITE);
 
         auto type = i.second->getTypeId();
