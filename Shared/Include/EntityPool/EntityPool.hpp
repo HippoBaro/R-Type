@@ -19,7 +19,7 @@
 
 class EntityPool {
 protected:
-    std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
+    std::map<uint16_t, ManagedExternalInstance<Entity>> _pool = std::map<uint16_t, ManagedExternalInstance<Entity>>();
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     RType::EventListener _eventListener = RType::EventListener(_eventManager);
     std::shared_ptr<Timer> _timer;
@@ -33,6 +33,7 @@ public:
 
 public:
     virtual void AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &, std::initializer_list<void *> * = nullptr);
+    virtual void AddEntity(const ManagedExternalInstance<Entity> &);
     virtual void ProcessEntities();
     void LoadPartition(std::string const &);
 
@@ -44,6 +45,9 @@ private:
 
 private:
     bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);
+
+public:
+    EntityFactory &getFactory();
 };
 
 
