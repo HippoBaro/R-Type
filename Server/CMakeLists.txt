@@ -18,6 +18,7 @@ set(SERVER_SOURCE_FILES
         NetworkManager/NetworkManager.cpp
         LobbyManager/LobbyManager.cpp
         LobbyInstance/LobbyInstance.cpp
+        ServerEntityPool/ServerEntityPool.cpp
 
         Include/GameInstance/GameInstanceManager.hpp
         Include/GameInstance/GameInstance.hpp
@@ -25,6 +26,7 @@ set(SERVER_SOURCE_FILES
         Include/NetworkManager/NetworkManager.hpp
         Include/LobbyManager/LobbyManager.hpp
         Include/LobbyInstance/LobbyInstance.hpp
+        Include/ServerEntityPool/ServerEntityPool.hpp
         )
 
 IF (MSVC)

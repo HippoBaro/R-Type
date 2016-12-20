@@ -6,6 +6,7 @@ add_subdirectory(LibraryLoader)
 set(SHARED_SOURCE_FILES
         src/main.cpp
         EntityPool/EntityPool.cpp
+        EntityFactory/EntityFactory.cpp
         Include/EntityPool/EntityPool.hpp
 
         Include/Serializer/Packer.hpp
@@ -15,6 +16,7 @@ set(SHARED_SOURCE_FILES
         Include/Entities/Trait.hpp
         Include/Entities/Entity.hpp
         Include/Entities/PlayerRef.hpp
+        Include/EntityFactory/EntityFactory.hpp
 
         Include/EventDispatcher/EventListener.hpp
         Include/EventDispatcher/EventManager.hpp
@@ -36,20 +38,29 @@ set(SHARED_SOURCE_FILES
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
         Include/Socket/Enum/RTypeSocketType.h
+        Include/Socket/RTypeSocket.hpp
 
         Include/Time/Timer.hpp
         Include/Time/TimeRef.hpp
 
-        Include/IService.hpp
-        Include/vec2.hpp
+        Include/Queue/SingleReaderWriterQueue.hpp
+        Include/Queue/atomicops.hpp
 
         Include/Messages/FireProjectileMessage.hpp
         Include/Messages/ProjectilePositionChangedMessage.hpp
         Include/Messages/UserInputMessage.hpp
         Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
+        Include/Messages/SendNetworkPayloadMessage.hpp
+        Include/Messages/ReceiveNetworkPayloadMessage.hpp
+        Include/Messages/ReceivedNetworkPayloadMessage.hpp
+        Include/Messages/ReceivedTCPNetworkPayloadMessage.hpp
+        Include/Messages/SendTCPNetworkPayloadMessage.hpp
+
+        Include/IService.hpp
+        Include/vec2.hpp
         Include/Json/Json.hpp
-        Include/Socket/RTypeSocket.hpp Include/Messages/SendNetworkPayloadMessage.hpp Include/Queue/SingleReaderWriterQueue.hpp Include/Queue/atomicops.hpp Include/Messages/ReceiveNetworkPayloadMessage.hpp Include/Messages/ReceivedNetworkPayloadMessage.hpp EntityFactory/EntityFactory.cpp Include/EntityFactory/EntityFactory.hpp)
+        Include/Messages/NewClientConnectionMessage.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include

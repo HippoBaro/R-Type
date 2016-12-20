@@ -3,9 +3,11 @@
 //
 
 #include <GameManager/GameManager.hpp>
+#include <LobbyManager/LobbyManager.hpp>
 
 int main()
 {
-    GameManager().Start();
+    LobbyManager().Start();
+    //GameManager().Start();
     return (0);
 }

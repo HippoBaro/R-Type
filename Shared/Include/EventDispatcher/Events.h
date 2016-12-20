@@ -17,7 +17,10 @@ namespace RType {
         MENU_LOBBY,
         SEND_NET_MESSAGE,
         RECEIVE_NET_MESSAGE,
-        RECEIVED_NET_MESSAGE
+        RECEIVED_NET_MESSAGE,
+        SEND_NET_TCP_MESSAGE,
+        RECEIVED_NET_TCP_MESSAGE,
+        NEW_CLIENT_CONNECTION
     };
 }
 
