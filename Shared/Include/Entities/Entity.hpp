@@ -19,7 +19,7 @@ protected:
     std::shared_ptr<Timer> _timer;
     std::shared_ptr<RType::EventManager> _eventManager;
 
-    std::vector<Trait> _traits = std::vector<Trait>();
+    std::set<Trait> _traits = std::set<Trait>();
 public:
     virtual ~Entity() { }
 
@@ -33,7 +33,7 @@ public:
     }
 
     virtual void RegisterTrait(Trait trait) {
-        _traits.push_back(trait);
+        _traits.insert(trait);
     }
 
     virtual void Destroy(){
@@ -53,7 +53,7 @@ public:
 
     virtual void Serialize(RType::Packer &packer) {
         packer.Pack(_id);
-        packer.Pack(_traits);
+        packer.Pack(_traits, true);
     };
 };
 
