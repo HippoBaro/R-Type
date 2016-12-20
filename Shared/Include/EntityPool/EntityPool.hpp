@@ -19,7 +19,7 @@
 
 class EntityPool {
 protected:
-    std::vector<ManagedExternalInstance<Entity>> _pool = std::vector<ManagedExternalInstance<Entity>>();
+    std::map<uint16_t, ManagedExternalInstance<Entity>> _pool = std::map<uint16_t, ManagedExternalInstance<Entity>>();
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     RType::EventListener _eventListener = RType::EventListener(_eventManager);
     std::shared_ptr<Timer> _timer;
