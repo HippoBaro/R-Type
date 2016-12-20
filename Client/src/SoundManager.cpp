@@ -16,7 +16,6 @@ SoundManager::SoundManager(std::shared_ptr<RType::EventManager> &eventManager) :
             setSoundVolume(message->getVolume());
         }
     });
-
 }
 
 void SoundManager::PlayMusic(bool loop, const std::string &path) {
