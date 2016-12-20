@@ -15,9 +15,11 @@ RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eve
 
     });
     _eventListener.Subscribe<Entity, ReceiveNetworkPayloadMessage>(ReceiveNetworkPayloadMessage::EventType, [&](Entity *, ReceiveNetworkPayloadMessage *message) {
-        RTypeNetworkPayload payload;
+        char data[1500];
+
+        RTypeNetworkPayload payload(data, 1500);
         while (_networkGameClient->Receive(payload)) {
-            //std::cout << "Received stuff" << std::endl;
+            std::cout << "Received stuff " << _eventManager << std::endl;
             _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
         }
     });
