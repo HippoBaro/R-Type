@@ -36,8 +36,8 @@ ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
                                                                                                _globalEventManager(eventManager),
                                                                                                _globalEventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
 
-    _globalEventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        auto packet = RType::Packer(RType::READ, message->getPayload().Payload);
-        _pool.push_back(_factory.CreateFromPayload(packet, _timer, _eventManager));
-    });
+}
+
+void ClientEntityPool::AddEntity(const ManagedExternalInstance<Entity> &instance) {
+    EntityPool::AddEntity(instance);
 }

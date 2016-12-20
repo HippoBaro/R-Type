@@ -34,7 +34,7 @@ namespace RType {
         void Subscribe(RType::Event event, std::function<void(EntityType *, MessageType *message)> callback) {
 
             // Add the callback relative to the given event
-            (*_callbacks)[event].push_back([=](void *entity, IMessage *message){
+            (*_callbacks)[event].push_back([=](void *entity, IMessage *message) {
                 callback((EntityType *)entity, (MessageType *)message);
             });
         }

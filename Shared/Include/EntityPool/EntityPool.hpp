@@ -33,6 +33,7 @@ public:
 
 public:
     virtual void AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &, std::initializer_list<void *> * = nullptr);
+    virtual void AddEntity(const ManagedExternalInstance<Entity> &);
     virtual void ProcessEntities();
     void LoadPartition(std::string const &);
 
@@ -44,6 +45,9 @@ private:
 
 private:
     bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);
+
+public:
+    EntityFactory &getFactory();
 };
 
 
