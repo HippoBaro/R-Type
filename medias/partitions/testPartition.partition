@@ -1,4 +1,8 @@
 {
+    "entityTypes":{
+        "DummyMonster",
+        "SimpleProjectile"
+    },
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
 	"backgroundEntity":

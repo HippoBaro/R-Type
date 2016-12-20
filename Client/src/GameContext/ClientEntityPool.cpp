@@ -28,7 +28,7 @@ void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "createDrawable", "destroyDrawable"));
     _factory.RegisterEntityType(entity->getTypeId(), "Drawable" + entityName);
-    //EntityPool::AddEntity(entity);
+    EntityPool::AddEntity(entity);
 }
 
 ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
