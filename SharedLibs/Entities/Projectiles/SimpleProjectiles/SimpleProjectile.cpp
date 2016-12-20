@@ -27,7 +27,8 @@ SimpleProjectile::SimpleProjectile(uint16_t id,
                                    TimeRef const &timeRef,
                                    vec2<float> const &startPosition,
                                    const std::initializer_list<void *> *params) : Entity(id, timer, eventManager) {
-    _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
+    if (params != nullptr)
+        _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)

@@ -54,6 +54,10 @@ void EntityPool::LoadPartition(std::string const &partition) {
     RType::json j;
 
     j = RType::json::parse(partition);
+
+    for (auto const &i : j["entityTypes"])
+        _factory.RegisterEntityType(_timer, _eventManager, i);
+
     for (auto const &i : j["entities"]) {
         std::string name = i["entityName"];
         vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
