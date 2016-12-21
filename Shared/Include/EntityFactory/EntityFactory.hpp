@@ -18,20 +18,20 @@ public:
 
 public:
     ManagedExternalInstance<Entity> CreateFromPayload(RType::Packer &packer, std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
-        long time;
+        long time = 0;
         packer.Pack(time);
 
-        uint16_t entityType;
+        uint16_t entityType = 0;
         packer.Pack(entityType);
 
-        if (_typesRef.count(entityType) == 0)
-            throw new std::runtime_error("Requested entity type is not registered.");
-
-        uint16_t id;
+        uint16_t id = 0;
         packer.Pack(id);
 
-        TimeRef now;
+        TimeRef now = 0;
         vec2<float> pos;
+
+		if (_typesRef.count(entityType) == 0)
+			throw new std::runtime_error("Requested entity type is not registered.");
 
         timer->RecalibrateOrigin(time);
         auto entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _typesRef[entityType], { &id, &timer , &eventManager, &now, &pos }, "create", "destroy"));

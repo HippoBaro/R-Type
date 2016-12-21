@@ -24,8 +24,8 @@ public:
     const RTypeNetworkPayload& operator=(const RTypeNetworkPayload& payload) { return *this; }
 
     virtual ~RTypeNetworkPayload() {
-//todo dealloc
-
+		//if (_alloc)
+		//	delete[] Payload;
     }
 };
 
