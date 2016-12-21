@@ -8,8 +8,6 @@
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
-#include <Messages/SoundSystemMessage.hpp>
-#include <Messages/MenuLobbyMessage.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
