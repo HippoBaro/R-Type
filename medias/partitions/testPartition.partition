@@ -22,42 +22,6 @@
 			},
 			"startTime":0,
 			"id":1
-		},
-		{
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":0,
-                "y":0
-            },
-            "startTime":0,
-            "id":2
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":0,
-                "y":200
-            },
-            "startTime":0,
-            "id":3
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":0,
-                "y":600
-            },
-            "startTime":0,
-            "id":4
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":0,
-                "y":800
-            },
-            "startTime":0,
-            "id":5
-        }
+		}
 	]
 }
