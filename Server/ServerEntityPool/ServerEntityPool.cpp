@@ -10,6 +10,13 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer, const st
 void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager) {
     int count = 0;
     for(auto &i : _pool) {
+        if (i.second->getCyclesSinceLastSynch() < 30 && i.second->getCyclesSinceLastSynch() > 0) {
+            i.second->DidCycleNoSynch();
+            continue;
+        }
+        else
+            i.second->DidSynch();
+
         auto packer = RType::Packer(RType::WRITE);
 
         auto time = _timer->getCurrent().getMilliseconds().count();
