@@ -42,7 +42,6 @@ void SFMLManager::Run() {
     sf::RenderTexture context;
     sf::Sprite renderSprite;
     context.create(Width, Height);
-    _switch = true;
 
     // Boucle de jeu.
     while (_window.isOpen()) {
