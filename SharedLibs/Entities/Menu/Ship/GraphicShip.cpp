@@ -29,4 +29,6 @@ void GraphicShip::Cycle() {
     Ship::Cycle();
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicShip)
+#endif

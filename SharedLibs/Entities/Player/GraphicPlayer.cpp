@@ -30,4 +30,6 @@ void GraphicPlayer::Cycle() {
     Player::Cycle();
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicPlayer)
+#endif

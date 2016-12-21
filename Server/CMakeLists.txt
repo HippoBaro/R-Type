@@ -21,3 +21,4 @@ ENDIF()
 
 add_executable(R_Type_Server ${SERVER_SOURCE_FILES})
 target_link_libraries(R_Type_Server RTypeShared ${CMAKE_THREAD_LIBS_INIT})
+target_compile_definitions(R_Type_Server PRIVATE -DRTYPE_SERVER)
