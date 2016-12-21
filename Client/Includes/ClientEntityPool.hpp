@@ -27,6 +27,8 @@ public :
     void AddEntity(const ManagedExternalInstance<Entity> &instance) override;
 
     void RegisterType(std::string const &string) override;
+
+    void LoadPartition(std::string const &string) override;
 };
 
 
