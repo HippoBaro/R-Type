@@ -8,25 +8,23 @@
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
 #endif
 
-GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init) {
+GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init), AAnimable() {
     this->RegisterTrait(Trait::Drawable);
 }
 
 void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
-    auto texture = bag.getTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
+//  auto texture = bag.getTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
 
-    rect->clear(sf::Color::Transparent);
-    if (texture == nullptr) {
-        sf::Texture newtexture;
-        newtexture.loadFromFile("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
-        texture = bag.AddTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500), newtexture);
-    }
+  if (!isTextureSetInit) {
+    isTextureSetInit = true;
+    std::vector<sf::IntRect> framePos;
+    framePos.push_back(sf::IntRect(0, 0, 150, 150));
+    framePos.push_back(sf::IntRect(150, 150, 150, 150));
+    this->setAnimation("medias/images/deathStar.png", framePos, bag);
+  }
 
-    sf::Sprite sprite;
-    sprite.setTexture(*texture);
-    sprite.setScale(sf::Vector2f(0.3f, 0.3f));
-    rect->draw(sprite);
+  this->updateAnimation(rect, bag);
 }
 
 bool GraphicDeathStar::NeedRedraw(){

@@ -6,19 +6,19 @@
 #define R_TYPE_DRAWABLEPLANET_HPP
 
 #include <IDrawable.hpp>
+#include <AAnimable.hpp>
 #include "DeathStar.hpp"
 
-class GraphicDeathStar : public DeathStar, public IDrawable {
+class GraphicDeathStar : public DeathStar, public AAnimable {
 
 public:
     GraphicDeathStar(const std::initializer_list<void *> init);
 
 public:
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
+    void Cycle() override;
 
     virtual bool NeedRedraw() override ;
-
-    void Cycle() override;
 };
 
 #endif //R_TYPE_DRAWABLEPLANET_HPP
