@@ -23,11 +23,11 @@ RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eve
             payload = std::make_shared<RTypeNetworkPayload>(1500);
         }
 
-        uint i;
+        uint8_t i;
         if (payloads.size() < 10)
             i = 0;
         else
-            i = (uint) (payloads.size() - 10);
+            i = static_cast<uint8_t>(payloads.size() - 10);
 
         while (i < payloads.size()) {
             std::cout << "Received stuff " << _eventManager << std::endl;
