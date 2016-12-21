@@ -45,4 +45,6 @@ uint16_t DeathStar::getTypeId() const {
 }
 
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(DeathStar)
+#endif

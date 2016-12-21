@@ -37,4 +37,6 @@ void Player::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(Player)
+#endif

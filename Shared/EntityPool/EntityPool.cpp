@@ -37,7 +37,6 @@ void EntityPool::ProcessEntities() {
             break;
         }
         outer_iter->second->Cycle();
-        //GarbageEntities(_pool[*outer_iter]);
     }
 }
 
@@ -47,16 +46,15 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
     std::initializer_list<void *> params = { &emitterId };
-    AddEntity(message.getProjectileName(), 10, message.getSpawnPosition(), _timer->getCurrent(), &params);
+    AddEntity(message.getProjectileName(), (uint16_t) (emitterId + _timer->getCurrent().getMilliseconds().count()), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {
     RType::json j;
 
     j = RType::json::parse(partition);
-
     for (auto const &i : j["entityTypes"])
-        _factory.RegisterEntityType(_timer, _eventManager, i);
+        RegisterType(i);
 
     for (auto const &i : j["entities"]) {
         std::string name = i["entityName"];
@@ -69,4 +67,12 @@ void EntityPool::LoadPartition(std::string const &partition) {
 
 EntityFactory &EntityPool::getFactory() {
     return _factory;
+}
+
+void EntityPool::RegisterType(std::string const &type) {
+    _factory.RegisterEntityType(_timer, _eventManager, type);
+}
+
+uint16_t EntityPool::getEntityCount() {
+    return (uint16_t) _pool.size();
 }

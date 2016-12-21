@@ -12,6 +12,9 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
     for(auto &i : _pool) {
         auto packer = RType::Packer(RType::WRITE);
 
+        auto time = _timer->getCurrent().getMilliseconds().count();
+        packer.Pack(time);
+
         auto type = i.second->getTypeId();
         packer.Pack(type);
         auto id = i.second->getId();
