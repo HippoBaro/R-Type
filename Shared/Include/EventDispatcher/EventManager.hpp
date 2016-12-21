@@ -44,7 +44,7 @@ namespace RType {
         }
 
         void EraseListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
-            auto index = 0;
+            size_t index = 0;
 			for ( index = 0; index < _listeners.size(); index++) {
 				if (_listeners[index] == callbacks) {
 					_listeners.erase(_listeners.begin() + index);
