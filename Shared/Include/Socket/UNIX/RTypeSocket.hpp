@@ -28,13 +28,13 @@ private:
 private:
     void CreateSocket() {
         _socket = socket(AF_INET, SOCK_DGRAM, 0);
-        int n = 250;
+/*        int n = 250;
         if (setsockopt(_socket, SOL_SOCKET, SO_RCVBUF, &n, sizeof(n)) == -1) {
             // deal with failure, or ignore if you can live with the default size
         }
         if (setsockopt(_socket, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)) == -1) {
             // deal with failure, or ignore if you can live with the default size
-        }
+        }*/
         if (_socket < 0) {
             throw std::runtime_error(std::string("Create socket failed !"));
         }
