@@ -22,7 +22,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))
                             .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 0.5))
+                            .Fire("SimpleProjectile", 5))
             /*.AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
