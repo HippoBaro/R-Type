@@ -3,6 +3,7 @@
 //
 
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
+#include <Json/Json.hpp>
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
@@ -43,4 +44,12 @@ void ClientEntityPool::AddEntity(const ManagedExternalInstance<Entity> &instance
 
 void ClientEntityPool::RegisterType(std::string const &string) {
     EntityPool::RegisterType("Drawable" + string);
+}
+
+void ClientEntityPool::LoadPartition(std::string const &partition) {
+    RType::json j;
+
+    j = RType::json::parse(partition);
+    for (auto const &i : j["entityTypes"])
+        RegisterType(i);
 }
