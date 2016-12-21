@@ -22,7 +22,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))
                             .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 1))
+                            .Fire("SimpleProjectile", 5))
             /*.AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
@@ -67,4 +67,6 @@ uint16_t DummyMonster::getTypeId() const {
     return 4;
 }
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(DummyMonster)
+#endif
