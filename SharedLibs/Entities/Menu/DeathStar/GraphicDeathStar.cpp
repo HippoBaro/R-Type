@@ -13,17 +13,20 @@ GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : D
 }
 
 void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-
-//  auto texture = bag.getTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
-
   if (!isTextureSetInit) {
     isTextureSetInit = true;
-    std::vector<sf::IntRect> framePos;
-    framePos.push_back(sf::IntRect(0, 0, 150, 150));
-    framePos.push_back(sf::IntRect(150, 150, 150, 150));
-    this->setAnimation("medias/images/deathStar.png", framePos, bag);
-  }
 
+    std::vector<sf::IntRect> framePos;
+    framePos.push_back(sf::IntRect(256 * 1, 142 * 0, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 0, 142 * 0, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 1, 142 * 1, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 0, 142 * 1, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 1, 142 * 2, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 0, 142 * 2, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 1, 142 * 3, 256, 142));
+    framePos.push_back(sf::IntRect(256 * 0, 142 * 3, 256, 142));
+    this->setAnimation("medias/images/r-typesheet34.png", framePos, bag, 1000);
+  }
   this->updateAnimation(rect, bag);
 }
 

@@ -12,8 +12,11 @@ class AAnimable : public IDrawable {
 protected:
   sf::Clock _clock;
   uint8_t _currentFrame = 0;
+  int _loopDuration = 0;
   bool isTextureSetInit = false;
   std::vector<sf::IntRect> _frames;
+  std::string _pathToFile = "";
+  bool _backAndForth = true;
 
   ////////////////////////////////////////////////////
   //// Set animations frames and store them into the texture bag
@@ -28,24 +31,44 @@ protected:
     bool shouldLoop = true,
     bool backAndForth = true)
   {
+    this->_loopDuration = duration;
+    this->_pathToFile = FilePath;
+    this->_backAndForth = backAndForth;
+
+    // Init textures
     for (auto it = Frames.begin() ; it != Frames.end() ; it++)
     {
       _frames.push_back(*it);
       sf::Texture newtexture;
-      newtexture.loadFromFile("medias/images/deathStar.png", *it);
-      bag.AddTexture("medias/images/deathStar.png", *it, newtexture);
+      newtexture.loadFromFile(_pathToFile, *it);
+      bag.AddTexture(_pathToFile, *it, newtexture);
     }
   };
 
 
   // Determines if should draw the next frame
   void updateAnimation(sf::RenderTexture *rect, TextureBag &bag) {
-    sf::Texture *texture = bag.getTexture("medias/images/deathStar.png", _frames[0]);
+    sf::Texture *texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
     sf::Sprite sprite;
 
-    sprite.setTexture(*texture);
-    sprite.setScale(sf::Vector2f(0.3f, 0.3f));
-    rect->draw(sprite);
+    int timeElapsed = _clock.getElapsedTime().asMilliseconds();
+    // Time has come, refresh the texture
+    if ((size_t)timeElapsed > (this->_loopDuration / this->_frames.size()))
+    {
+      _currentFrame++;
+      if (_currentFrame >= this->_frames.size())
+      {
+        if (_backAndForth)
+          std::reverse(_frames.begin(), _frames.end());
+        _currentFrame = 0;
+      }
+      _clock.restart();
+
+      rect->clear(sf::Color::Transparent);
+      sprite.setTexture(*texture);
+      sprite.setScale(sf::Vector2f(0.7f, 0.7f));
+      rect->draw(sprite);
+    }
   };
 
 
@@ -56,9 +79,8 @@ protected:
 
   void stopAnimation() {};
   // True if last frame is reached. Usefull for callbacks
-//  bool reachedLastFrame() {};
+  bool reachedLastFrame() { return true; };
   // Returns the texture associated with the current frame to draw it
-//  sf::Texture *GetCurrentFrameTexture() {};
 
   void toto() {
 
