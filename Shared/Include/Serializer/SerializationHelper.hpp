@@ -21,46 +21,35 @@ namespace RType {
             return b[0] == 1;
         }
 
-    template <typename T>
-    T SwapEndian(T u)
-    {
-      static_assert (CHAR_BIT == 8, "Char size != 8. Can't perform serialization.");
-      union {
-        T u;
-        unsigned char u8[sizeof(T)];
-      } source, dest;
-      source.u = u;
-      for (size_t k = 0; k < sizeof(T); k++)
-        dest.u8[k] = source.u8[sizeof(T) - k - 1];
-      return dest.u;
-    }
+        template<typename T>
+        static T SwapEndian(T u) {
+            static_assert(CHAR_BIT == 8, "Char size != 8. Can't perform serialization.");
+            union {
+                T u;
+                unsigned char u8[sizeof(T)];
+            } source, dest;
+            source.u = u;
+            for (size_t k = 0; k < sizeof(T); k++)
+                dest.u8[k] = source.u8[sizeof(T) - k - 1];
+            return dest.u;
+        }
 
-    template <typename Ttype>
-    void Serialize(char *buffer, uint16_t index, Ttype & value)
-    {
-      if (RType::SerializationHelper::_IsBigEndian()) {
-        if (sizeof(Ttype) == 1) // 1 byte => no swap needed
-          *((Ttype*)(buffer + index)) = value;
+        template<typename Ttype>
+        static void Serialize(char *buffer, uint16_t index, Ttype *value) {
+            if (RType::SerializationHelper::_IsBigEndian()) {
+                if (sizeof(Ttype) == 1) // 1 byte => no swap needed
+                    *reinterpret_cast<Ttype *>(buffer + index) = *value;
+				else
+                    *reinterpret_cast<Ttype *>(buffer + index) = SwapEndian(*value);
+            } else
+                *reinterpret_cast<Ttype *>(buffer + index) = *value;
+        }
 
-        else if (sizeof(Ttype) == 2) // 2 bytes
-          *((Ttype*)(buffer + index)) = SwapEndian(value);
-
-        else if (sizeof(Ttype) == 4) // 4 bytes
-          *((Ttype*)(buffer + index)) = SwapEndian(value);
-
-        else if (sizeof(Ttype) == 8) // 8 bytes
-          *((Ttype*)(buffer + index)) = SwapEndian(value);
-      }
-      else
-        *((Ttype*)(buffer + index)) = value;
-    }
-
-    template <typename Ttype>
-    void Deserialize(char *buffer, uint16_t index, Ttype & value)
-    {
-      value = *((Ttype*)(buffer + index));
-    }
-  }
+        template<typename Ttype>
+        static void Deserialize(char *buffer, uint16_t index, Ttype *value) {
+            *value = *reinterpret_cast<Ttype *>(buffer + index);
+        }
+    };
 }
 
 
