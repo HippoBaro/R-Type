@@ -19,12 +19,12 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         auto packer = RType::Packer(RType::WRITE);
 
-        auto time = _timer->getCurrent().getMilliseconds().count();
+        long time = _timer->getCurrent().getMilliseconds().count();
         packer.Pack(time);
 
-        auto type = i.second->getTypeId();
+        uint16_t type = i.second->getTypeId();
         packer.Pack(type);
-        auto id = i.second->getId();
+        uint16_t id = i.second->getId();
         packer.Pack(id);
         i.second->Serialize(packer);
         eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this); //todo : send to all clients from the instance
