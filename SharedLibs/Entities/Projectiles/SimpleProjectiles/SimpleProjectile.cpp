@@ -55,10 +55,14 @@ vec2<float> SimpleProjectile::GetPosition() {
 
 void SimpleProjectile::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
+    _partition.Serialize(packer);
+    packer.Pack(_emitterId);
 }
 
 uint16_t SimpleProjectile::getTypeId() const {
     return 6;
 }
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(SimpleProjectile)
+#endif

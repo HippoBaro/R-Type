@@ -15,12 +15,26 @@ RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eve
 
     });
     _eventListener.Subscribe<Entity, ReceiveNetworkPayloadMessage>(ReceiveNetworkPayloadMessage::EventType, [&](Entity *, ReceiveNetworkPayloadMessage *message) {
-        char data[1500];
+        std::vector<std::shared_ptr<RTypeNetworkPayload>> payloads;
 
-        RTypeNetworkPayload payload(data, 1500);
-        while (_networkGameClient->Receive(payload)) {
-            std::cout << "Received stuff " << _eventManager << std::endl;
-            _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
+        auto payload = std::make_shared<RTypeNetworkPayload>(1500);
+        while (_networkGameClient->Receive(*payload)) {
+            payloads.push_back(payload);
+            payload = std::make_shared<RTypeNetworkPayload>(1500);
         }
+
+        uint i;
+        if (payloads.size() < 10)
+            i = 0;
+        else
+            i = (uint) (payloads.size() - 10);
+
+        while (i < payloads.size()) {
+            std::cout << "Received stuff " << _eventManager << std::endl;
+            _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(*payloads[i]), this);
+            i++;
+        }
+
+        std::cout << "Drawing" << std::endl;
     });
 }

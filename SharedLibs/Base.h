@@ -24,11 +24,11 @@ extern "C" DLLEXPORT void destroy(Entity *p) {                                  
 
 
 #define RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableEntity)                                          \
-extern "C" DLLEXPORT DrawableEntity *createDrawable(const std::initializer_list<void *> init) { \
+extern "C" DLLEXPORT DrawableEntity *create(const std::initializer_list<void *> init) {         \
     return new DrawableEntity(init);                                                            \
 }                                                                                               \
                                                                                                 \
-extern "C" DLLEXPORT void destroyDrawable(DrawableEntity *p) {                                  \
+extern "C" DLLEXPORT void destroy(DrawableEntity *p) {                                          \
     delete p;                                                                                   \
 }
 
