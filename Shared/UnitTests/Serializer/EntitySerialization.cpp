@@ -16,7 +16,7 @@ TEST(Tests_Serialization, EntitySerialization)
     uint16_t id = 99;
     auto eventManager = std::make_shared<RType::EventManager>();
 
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id, &timer , &eventManager, &now, &pos }, "createDrawable", "destroyDrawable"));
+    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id, &timer , &eventManager, &now, &pos }, "create", "destroy"));
 
     auto packer = RType::Packer(RType::WRITE);
 
@@ -32,7 +32,7 @@ TEST(Tests_Serialization, EntitySerialization)
     auto pos2 = vec2<float>(500, 500);
     uint16_t id2 = 78;
 
-    ManagedExternalInstance<Entity> entity2(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id2, &timer , &eventManager, &now2, &pos2 }, "createDrawable", "destroyDrawable"));
+    ManagedExternalInstance<Entity> entity2(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id2, &timer , &eventManager, &now2, &pos2 }, "create", "destroy"));
 
     ASSERT_EQ(entity->GetPosition().x != entity2->GetPosition().x, true) << "Serialization failed";
 

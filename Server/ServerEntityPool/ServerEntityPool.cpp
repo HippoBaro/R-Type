@@ -10,13 +10,21 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer, const st
 void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager) {
     int count = 0;
     for(auto &i : _pool) {
-        if (i.second->getTypeId() == 6)
+        if (i.second->getCyclesSinceLastSynch() < 100 && i.second->getCyclesSinceLastSynch() > 0) {
+            i.second->DidCycleNoSynch();
             continue;
+        }
+        else
+            i.second->DidSynch();
+
         auto packer = RType::Packer(RType::WRITE);
 
-        auto type = i.second->getTypeId();
+        long time = _timer->getCurrent().getMilliseconds().count();
+        packer.Pack(time);
+
+        uint16_t type = i.second->getTypeId();
         packer.Pack(type);
-        auto id = i.second->getId();
+        uint16_t id = i.second->getId();
         packer.Pack(id);
         i.second->Serialize(packer);
         eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this); //todo : send to all clients from the instance

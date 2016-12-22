@@ -8,6 +8,8 @@
 #include "TimeRef.hpp"
 #include "IService.hpp"
 
+constexpr long time_point = 2129409968317;
+
 class Timer : public IService {
 private:
     std::chrono::time_point<std::chrono::steady_clock> _origin;
@@ -25,6 +27,11 @@ public:
         auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now());
         auto test = now - std::chrono::time_point_cast<std::chrono::milliseconds>(_origin);
         return TimeRef(test);
+    }
+
+    void RecalibrateOrigin(const long &current) {
+        auto now = std::chrono::steady_clock::now();
+        _origin = now - std::chrono::milliseconds(current);
     }
 
     TimeRef getStart() {

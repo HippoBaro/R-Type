@@ -29,4 +29,6 @@ void GraphicMars::Cycle() {
     Mars::Cycle();
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicMars)
+#endif

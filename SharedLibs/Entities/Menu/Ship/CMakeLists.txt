@@ -12,8 +12,9 @@ add_library(Ship SHARED
 target_link_libraries(Ship)
 
 add_library(DrawableShip SHARED
-        Ship.hpp
-        Ship.cpp
         GraphicShip.cpp
-        GraphicShip.hpp)
+        GraphicShip.hpp
+        Ship.hpp
+        Ship.cpp)
 target_link_libraries(DrawableShip sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableShip PRIVATE ENTITY_DRW_CTOR=1)

@@ -17,7 +17,9 @@ void GameInstanceManager::CreateInstance(std::vector<PlayerRef> &) {
     if (data.empty())
         throw new std::runtime_error("Invalid partition file");
 
-    _instances.push_back(std::unique_ptr<GameInstance>(new GameInstance(10, _eventManager, data, std::chrono::steady_clock::now() + std::chrono::seconds(5))));
+    //auto timestamp = std::chrono::time_point<std::chrono::steady_clock>() + std::chrono::milliseconds(time_point);
+
+    _instances.push_back(std::unique_ptr<GameInstance>(new GameInstance(10, _eventManager, data, std::chrono::steady_clock::now())));
 }
 
 GameInstanceManager::GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(

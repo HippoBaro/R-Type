@@ -29,4 +29,6 @@ void GraphicDeathStar::Cycle() {
     DeathStar::Cycle();
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
+#endif

@@ -12,8 +12,9 @@ add_library(DummyMonster SHARED
 target_link_libraries(DummyMonster)
 
 add_library(DrawableDummyMonster SHARED
-        DummyMonster.hpp
-        DummyMonster.cpp
         GraphicDummyMonster.cpp
-        GraphicDummyMonster.hpp)
+        GraphicDummyMonster.hpp
+        DummyMonster.hpp
+        DummyMonster.cpp)
 target_link_libraries(DrawableDummyMonster sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableDummyMonster PRIVATE ENTITY_DRW_CTOR=1)
