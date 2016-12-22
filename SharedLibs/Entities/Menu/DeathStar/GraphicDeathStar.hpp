@@ -6,10 +6,9 @@
 #define R_TYPE_DRAWABLEPLANET_HPP
 
 #include <IDrawable.hpp>
-#include <AAnimable.hpp>
 #include "DeathStar.hpp"
 
-class GraphicDeathStar : public DeathStar, public AAnimable {
+class GraphicDeathStar : public DeathStar, public IDrawable {
 
 public:
     GraphicDeathStar(const std::initializer_list<void *> init);

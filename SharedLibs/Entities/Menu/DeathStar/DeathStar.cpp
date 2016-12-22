@@ -18,7 +18,7 @@ DeathStar::DeathStar(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(_timer->getCurrent())
-                            .For(std::chrono::seconds(10))
+                            .For(std::chrono::seconds(80))
                             .Translate(vec2<float>(-2500, 0)))
             .Loop(99)
             .Build();

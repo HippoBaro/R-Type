@@ -2,6 +2,7 @@
 // Created by pasteu_e on 07/12/16.
 //
 
+#include <AAnimable.hpp>
 #include "GraphicDeathStar.hpp"
 
 #ifdef ENTITY_DRW_CTOR
@@ -13,21 +14,20 @@ GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : D
 }
 
 void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-  if (!isTextureSetInit) {
-    isTextureSetInit = true;
 
-    std::vector<sf::IntRect> framePos;
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 0, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 0, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 1, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 1, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 2, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 2, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 3, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 3, 256, 142));
-    this->setAnimation("medias/images/r-typesheet34.png", framePos, bag, 1000);
-  }
-  this->updateAnimation(rect, bag);
+    auto texture = bag.getTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
+
+    rect->clear(sf::Color::Transparent);
+    if (texture == nullptr) {
+        sf::Texture newtexture;
+        newtexture.loadFromFile("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500));
+        texture = bag.AddTexture("medias/images/deathStar.png", sf::IntRect(0, 0, 500, 500), newtexture);
+    }
+
+    sf::Sprite sprite;
+    sprite.setTexture(*texture);
+    sprite.setScale(sf::Vector2f(0.3f, 0.3f));
+    rect->draw(sprite);
 }
 
 bool GraphicDeathStar::NeedRedraw(){
