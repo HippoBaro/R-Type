@@ -18,7 +18,6 @@ void LobbyManager::Run() {
     while (true) {
         _networkManager.IsThereNewClient();
         _networkManager.CheckForIncomingMessage(_clients);
-        std::cout << _clients.size() << std::endl;
     }
 }
 
