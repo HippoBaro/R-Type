@@ -38,11 +38,7 @@ void NetworkManager::Send(RTypeNetworkPayload const &payload) {
 
 
 void NetworkManager::IsThereNewClient() {
-
-}
-
-void NetworkManager::RunTCP() {
-    while (true) {
+    if (_socketTCP->PoolEventOnSocket(DATA_INCOMING, 500)) {
         std::shared_ptr<IRTypeSocket> newClient = _socketTCP->Accept();
         if (newClient != nullptr) {
             std::cout << "Accepting New Client connection !" << std::endl;
@@ -51,19 +47,24 @@ void NetworkManager::RunTCP() {
     }
 }
 
-void NetworkManager::SendTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &_client) {
+
+void NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &_client) {
 
 }
 
-void NetworkManager::AskClientForRoomName(std::shared_ptr<IRTypeSocket> client) {
-    std::thread(&NetworkManager::ThreadAskingRoomName, this, client).detach();
-}
-
-void NetworkManager::ThreadAskingRoomName(std::shared_ptr<IRTypeSocket> client) {
+void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &clients) {
     char data[1500];
 
     RTypeNetworkPayload payload(data, 1500);
-    client->Receive(payload);
-    std::cout << "Room name : " << payload.Payload << std::endl;
-    _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(payload), this);
+    for (auto it = clients.cbegin(); it != clients.cend();) {
+        if ((*it->second).PoolEventOnSocket(SOCKET_CLOSED, 0)) {
+            clients.erase(it++);
+        } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
+            (*it->second).Receive(payload);
+            std::cout << "Receiving: " << payload.Payload << std::endl;
+            ++it;
+        } else {
+            ++it;
+        }
+    }
 }

@@ -23,15 +23,13 @@ public:
 
 private:
     void Run();
-    void RunTCP();
     void Send(RTypeNetworkPayload const &payload);
-    void SendTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &_client);
-    void ThreadAskingRoomName(std::shared_ptr<IRTypeSocket> client);
+    void SendOverTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &_client);
 
 public:
     void Start();
     void IsThereNewClient();
-    void AskClientForRoomName(std::shared_ptr<IRTypeSocket> client);
+    void CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &);
 };
 
 
