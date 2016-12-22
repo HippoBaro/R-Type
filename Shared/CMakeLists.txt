@@ -6,7 +6,6 @@ add_subdirectory(LibraryLoader)
 set(SHARED_SOURCE_FILES
         src/main.cpp
         EntityPool/EntityPool.cpp
-        EntityFactory/EntityFactory.cpp
         Include/EntityPool/EntityPool.hpp
 
         Include/Serializer/Packer.hpp

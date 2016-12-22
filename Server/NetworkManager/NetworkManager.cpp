@@ -41,7 +41,6 @@ void NetworkManager::IsThereNewClient() {
     if (_socketTCP->PoolEventOnSocket(DATA_INCOMING, 500)) {
         std::shared_ptr<IRTypeSocket> newClient = _socketTCP->Accept();
         if (newClient != nullptr) {
-            std::cout << "Accepting New Client connection !" << std::endl;
             _eventManager->Emit(NewClientConnectionMessage::EventType, new NewClientConnectionMessage(newClient), this);
         }
     }
@@ -61,7 +60,6 @@ void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<I
             clients.erase(it++);
         } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
             (*it->second).Receive(payload);
-            std::cout << "Receiving: " << payload.Payload << std::endl;
             ++it;
         } else {
             ++it;
