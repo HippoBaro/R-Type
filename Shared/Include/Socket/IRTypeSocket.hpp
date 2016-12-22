@@ -28,8 +28,6 @@ public:
     virtual void *GetNativeSocket() = 0;
 
     virtual bool PoolEventOnSocket(SocketEvent, int) = 0;
-
-    virtual std::vector<std::shared_ptr<IRTypeSocket>> PoolEventOnSocket(std::vector<std::shared_ptr<IRTypeSocket>> &, SocketEvent, int) = 0;
-    };
+};
 
 #endif //R_TYPE_IRTYPESOCKET_HPP

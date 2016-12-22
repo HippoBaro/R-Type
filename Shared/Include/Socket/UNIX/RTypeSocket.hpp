@@ -88,10 +88,6 @@ public:
         return false;
     }
 
-    std::vector<std::shared_ptr<IRTypeSocket>> PoolEventOnSocket(std::vector<std::shared_ptr<IRTypeSocket>> &sockets, SocketEvent evt, int timeout) {
-        return std::vector<std::shared_ptr<IRTypeSocket>>();
-    }
-
     bool Receive(RTypeNetworkPayload &payload) override final {
         struct sockaddr_in clientAddr;
         socklen_t lengthSockAddr = sizeof(clientAddr);
@@ -230,51 +226,6 @@ public:
             }
         }
         return  false;
-    }
-
-    std::vector<std::shared_ptr<IRTypeSocket>> PoolEventOnSocket(std::vector<std::shared_ptr<IRTypeSocket>> &sockets, SocketEvent evt, int timeout) {
-        struct pollfd *pfds;
-        pfds = (pollfd *) malloc(sizeof(struct pollfd) * sockets.size());
-        int i = 0;
-        for (auto const &socket: sockets) {
-            pfds[i].fd = *((int *) socket->GetNativeSocket());
-            switch (evt) {
-                case SOCKET_CLOSED:
-                    pfds[i].events = POLLRDHUP;
-                    break;
-                case DATA_INCOMING:
-                    pfds[i].events = POLLIN;
-                    break;
-                case SOMEONE_LISTENING:
-                    pfds[i].events = POLLOUT;
-                    break;
-            }
-            i++;
-        }
-        if (poll(pfds, sockets.size(), timeout) > 0) {
-            std::vector<std::shared_ptr<IRTypeSocket>> somethingAppend;
-            for (unsigned long j = 0; j < sockets.size(); ++j) {
-                switch (evt) {
-                    case SOCKET_CLOSED:
-                        if (pfds[j].revents == POLLRDHUP)
-                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
-                        break;
-                    case DATA_INCOMING:
-                        if (pfds[j].revents == POLLIN)
-                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
-                        break;
-                    case SOMEONE_LISTENING:
-                        if (pfds[j].revents == POLLOUT)
-                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
-                        break;
-                }
-            }
-            free(pfds);
-            return somethingAppend;
-        } else {
-            free(pfds);
-            return std::vector<std::shared_ptr<IRTypeSocket>>();
-        }
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
