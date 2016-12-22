@@ -14,6 +14,7 @@ class NetworkManager {
 private:
     std::unique_ptr<std::thread> _thread = nullptr;
     std::unique_ptr<IRTypeSocket> _socketUDP = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9876));
+    std::unique_ptr<IRTypeSocket> _socketTCP = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(6789));
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
     std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>> _clients = std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>>();
 
@@ -29,7 +30,7 @@ private:
 
 public:
     void Start();
-    void StartTCP();
+    void IsThereNewClient();
     void AskClientForRoomName(std::shared_ptr<IRTypeSocket> client);
 };
 

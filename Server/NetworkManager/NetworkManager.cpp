@@ -10,7 +10,7 @@
 #include "NetworkManager/NetworkManager.hpp"
 
 NetworkManager::NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager) {
-
+    _socketTCP->Bind();
 }
 
 void NetworkManager::Start() {
@@ -37,21 +37,13 @@ void NetworkManager::Send(RTypeNetworkPayload const &payload) {
 }
 
 
-void NetworkManager::StartTCP() {
-    auto sub = RType::EventListener(_eventManager);
+void NetworkManager::IsThereNewClient() {
 
-    sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
-        //SendTCP(message->ConvertToSocketMessage());
-    });
-
-    _thread = std::unique_ptr<std::thread>(new std::thread(std::bind(&NetworkManager::RunTCP, this)));
 }
 
 void NetworkManager::RunTCP() {
-    std::unique_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(6789));
-    server->Bind();
     while (true) {
-        std::shared_ptr<IRTypeSocket> newClient = server->Accept();
+        std::shared_ptr<IRTypeSocket> newClient = _socketTCP->Accept();
         if (newClient != nullptr) {
             std::cout << "Accepting New Client connection !" << std::endl;
             _eventManager->Emit(NewClientConnectionMessage::EventType, new NewClientConnectionMessage(newClient), this);
@@ -64,7 +56,7 @@ void NetworkManager::SendTCP(RTypeNetworkPayload const &payload, std::unique_ptr
 }
 
 void NetworkManager::AskClientForRoomName(std::shared_ptr<IRTypeSocket> client) {
-    std::thread (&NetworkManager::ThreadAskingRoomName, this, client).detach();
+    std::thread(&NetworkManager::ThreadAskingRoomName, this, client).detach();
 }
 
 void NetworkManager::ThreadAskingRoomName(std::shared_ptr<IRTypeSocket> client) {

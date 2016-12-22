@@ -13,6 +13,8 @@
 #include <Socket/RTypeNetworkPayload.h>
 #include <cstring>
 #include <unistd.h>
+#include <poll.h>
+#include <malloc.h>
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {
@@ -54,6 +56,10 @@ public:
         close(_socket);
     }
 
+    void *GetNativeSocket() {
+        return (void *) &_socket;
+    }
+
     void Bind() override final {
         if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
             throw std::runtime_error(std::string("Binding port failed !"));
@@ -67,8 +73,16 @@ public:
         return false;
     }
 
-    std::unique_ptr<IRTypeSocket> Accept() override {
+    std::shared_ptr<IRTypeSocket> Accept() override {
         return nullptr;
+    }
+
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) {
+        return false;
+    }
+
+    std::vector<std::shared_ptr<IRTypeSocket>> PoolEventOnSocket(std::vector<std::shared_ptr<IRTypeSocket>> &sockets, SocketEvent evt, int timeout) {
+        return std::vector<std::shared_ptr<IRTypeSocket>>();
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
@@ -102,7 +116,7 @@ private:
 private:
     void CreateSocket() {
         if (_identity == Server) {
-            _socket = socket(PF_INET, SOCK_STREAM, 0);
+            _socket = socket(AF_INET, SOCK_STREAM, 0);
             if (_socket < 0) {
                 throw std::runtime_error(std::string("Create socket failed !"));
             } else {
@@ -135,6 +149,7 @@ public:
         _addrClient.sin_family = AF_INET;
         _addrClient.sin_addr.s_addr = htons(INADDR_ANY);
         _addrClient.sin_port = htons(0);
+
         bzero(&_addrServer, sizeof(_addrServer));
         _addrServer.sin_family = AF_INET;
         if (inet_aton(addr.c_str(), &_addrServer.sin_addr) == 0) {
@@ -148,6 +163,10 @@ public:
         close(_socket);
     }
 
+    void *GetNativeSocket() {
+        return (void *) &_socket;
+    }
+
     void Bind() override final {
         if (_identity == Server) {
             if (bind(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer))) {
@@ -156,10 +175,6 @@ public:
             if (listen(_socket, 20)) {
                 throw std::runtime_error(std::string("Server Listen Failed !"));
             }
-        } else if (_identity == Client) {
-            if (bind(_socket, (struct sockaddr *) &_addrClient, sizeof(_addrClient))) {
-                throw std::runtime_error(std::string("Binding port failed !"));
-            }
         }
     }
 
@@ -167,14 +182,92 @@ public:
         return connect(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer)) >= 0;
     }
 
-    std::unique_ptr<IRTypeSocket> Accept() override final {
+    std::shared_ptr<IRTypeSocket> Accept() override final {
         struct sockaddr_in clientAddr;
         socklen_t length = sizeof(clientAddr);
         int client = accept(_socket, (struct sockaddr *) &clientAddr, &length);
         if (client < 0) {
             return nullptr;
         }
-        return std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
+        return std::shared_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
+    }
+
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) {
+        struct pollfd pfds[1];
+        pfds[0].fd = *((int *) GetNativeSocket());
+        switch (evt) {
+            case SOCKET_CLOSED:
+                pfds[0].events = POLLRDHUP;
+                break;
+            case DATA_INCOMING:
+                pfds[0].events = POLLIN;
+                break;
+            case SOMEONE_LISTENING:
+                pfds[0].events = POLLOUT;
+                break;
+        }
+        if (poll(pfds, 1, timeout) > 0) {
+            switch (evt) {
+                case SOCKET_CLOSED:
+                    if (pfds[0].revents == POLLRDHUP)
+                        return true;
+                    break;
+                case DATA_INCOMING:
+                    if (pfds[0].revents == POLLIN)
+                        return true;
+                    break;
+                case SOMEONE_LISTENING:
+                    if (pfds[0].revents == POLLOUT)
+                        return true;
+                    break;
+            }
+        }
+        return  false;
+    }
+
+    std::vector<std::shared_ptr<IRTypeSocket>> PoolEventOnSocket(std::vector<std::shared_ptr<IRTypeSocket>> &sockets, SocketEvent evt, int timeout) {
+        struct pollfd *pfds;
+        pfds = (pollfd *) malloc(sizeof(struct pollfd) * sockets.size());
+        int i = 0;
+        for (auto const &socket: sockets) {
+            pfds[i].fd = *((int *) socket->GetNativeSocket());
+            switch (evt) {
+                case SOCKET_CLOSED:
+                    pfds[i].events = POLLRDHUP;
+                    break;
+                case DATA_INCOMING:
+                    pfds[i].events = POLLIN;
+                    break;
+                case SOMEONE_LISTENING:
+                    pfds[i].events = POLLOUT;
+                    break;
+            }
+            i++;
+        }
+        if (poll(pfds, sockets.size(), timeout) > 0) {
+            std::vector<std::shared_ptr<IRTypeSocket>> somethingAppend;
+            for (unsigned long j = 0; j < sockets.size(); ++j) {
+                switch (evt) {
+                    case SOCKET_CLOSED:
+                        if (pfds[j].revents == POLLRDHUP)
+                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
+                        break;
+                    case DATA_INCOMING:
+                        if (pfds[j].revents == POLLIN)
+                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
+                        break;
+                    case SOMEONE_LISTENING:
+                        if (pfds[j].revents == POLLOUT)
+                            somethingAppend.push_back((std::shared_ptr<IRTypeSocket> &&) sockets.at(j));
+                        break;
+                }
+            }
+            free(pfds);
+            return somethingAppend;
+        } else {
+            free(pfds);
+            return std::vector<std::shared_ptr<IRTypeSocket>>();
+        }
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
@@ -191,6 +284,7 @@ public:
     bool Send(const RTypeNetworkPayload &payload) override final {
         return send(_socket, payload.Payload, (size_t) payload.Length, 0) >= 0;
     }
+
 };
 
 #endif //R_TYPE_RTYPESOCKETLINUX_HPP
