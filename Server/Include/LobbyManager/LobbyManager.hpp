@@ -16,10 +16,9 @@ class LobbyManager {
 private:
     std::unique_ptr<std::thread> _thread = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
-    std::vector<LobbyInstance> _instances = std::vector<LobbyInstance>();
     NetworkManager _networkManager = NetworkManager(_eventManager);
-    RType::ReaderWriterQueue<std::shared_ptr<IRTypeSocket>> _clients;
-    RType::ReaderWriterQueue<std::shared_ptr<IRTypeSocket>> _clientsContacted;
+    std::vector<std::shared_ptr<IRTypeSocket>> _clients;
+    std::map<std::string, LobbyInstance> _instances = std::map<std::string, LobbyInstance>();
 
 public:
     LobbyManager();

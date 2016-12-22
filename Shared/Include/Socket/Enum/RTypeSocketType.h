@@ -15,4 +15,10 @@ enum SocketIdentity {
     Client = 1
 };
 
+enum SocketEvent {
+    SOCKET_CLOSED,
+    DATA_INCOMING,
+    SOMEONE_LISTENING
+};
+
 #endif //R_TYPE_RTYPESOCKETTYPE_H
