@@ -17,10 +17,11 @@ public:
 private:
     const std::string _projectileName;
     const vec2<float> _spawnPosition;
+    const uint16_t _id;
 
 public:
-    FireProjectileMessage(const std::string &projectileName, const vec2<float> &spawnPosition) :
-            _projectileName(projectileName), _spawnPosition(spawnPosition) {}
+    FireProjectileMessage(const uint16_t id, const std::string &projectileName, const vec2<float> &spawnPosition) :
+            _projectileName(projectileName), _spawnPosition(spawnPosition), _id(id) {}
 
     const std::string &getProjectileName() const {
         return _projectileName;
@@ -28,6 +29,10 @@ public:
 
     const vec2<float> &getSpawnPosition() const {
         return _spawnPosition;
+    }
+
+    const uint16_t &getId() const {
+        return _id;
     }
 };
 

@@ -22,7 +22,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))
                             .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 1))
+                            .Fire("SimpleProjectile", 5))
             /*.AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
@@ -45,7 +45,8 @@ void DummyMonster::Cycle() {
     auto now = _timer->getCurrent();
     if (_partition.ShouldFire(now)) {
         auto segment = _partition.GetCurrentSegment(now);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
     }
 }
 
@@ -67,4 +68,6 @@ uint16_t DummyMonster::getTypeId() const {
     return 4;
 }
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(DummyMonster)
+#endif

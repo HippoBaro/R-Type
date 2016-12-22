@@ -31,4 +31,6 @@ void DrawableSimpleProjectile::Cycle() {
 
 DrawableSimpleProjectile::~DrawableSimpleProjectile() {}
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
+#endif

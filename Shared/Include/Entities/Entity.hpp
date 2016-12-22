@@ -12,18 +12,22 @@
 #include <EventDispatcher/EventManager.hpp>
 #include <Serializer/ISerializable.hpp>
 #include <vec2.hpp>
+#include <random>
 
 class Entity : public RType::ISerializable {
 protected:
     uint16_t _id;
     std::shared_ptr<Timer> _timer;
     std::shared_ptr<RType::EventManager> _eventManager;
+    std::default_random_engine _ramdomGeneratorSeed;
+    std::mt19937 _ramdomGenerator;
+    uint8_t _cycleSinceLastSynch = 0;
 
-    std::vector<Trait> _traits = std::vector<Trait>();
+    std::set<Trait> _traits = std::set<Trait>();
 public:
     virtual ~Entity() { }
 
-    Entity(uint16_t _id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventMgr) : _id(_id), _timer(timer), _eventManager(eventMgr) {}
+    Entity(uint16_t _id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventMgr) : _id(_id), _timer(timer), _eventManager(eventMgr), _ramdomGeneratorSeed(_id), _ramdomGenerator(std::mt19937(_ramdomGeneratorSeed())) {}
 
     virtual bool ImplementTrait(Trait trait) {
         for(auto x : _traits)
@@ -33,7 +37,7 @@ public:
     }
 
     virtual void RegisterTrait(Trait trait) {
-        _traits.push_back(trait);
+        _traits.insert(trait);
     }
 
     virtual void Destroy(){
@@ -53,8 +57,20 @@ public:
 
     virtual void Serialize(RType::Packer &packer) {
         packer.Pack(_id);
-        packer.Pack(_traits);
+        packer.Pack(_traits, true);
     };
+
+    uint8_t getCyclesSinceLastSynch() const {
+        return _cycleSinceLastSynch;
+    }
+
+    void DidSynch() {
+        _cycleSinceLastSynch = 1;
+    }
+
+    void DidCycleNoSynch() {
+        _cycleSinceLastSynch++;
+    }
 };
 
 #endif //R_TYPE_IENTITY_HPP

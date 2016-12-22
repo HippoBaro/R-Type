@@ -3,6 +3,7 @@
 //
 
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
+#include <Json/Json.hpp>
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
@@ -26,9 +27,8 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
 void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &startTime, std::initializer_list<void *> *params) {
     auto now = startTime;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "createDrawable", "destroyDrawable"));
-    _factory.RegisterEntityType(entity->getTypeId(), "Drawable" + entityName);
-    //EntityPool::AddEntity(entity);
+    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "create", "destroy"));
+    EntityPool::AddEntity(entity);
 }
 
 ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
@@ -40,4 +40,16 @@ ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
 
 void ClientEntityPool::AddEntity(const ManagedExternalInstance<Entity> &instance) {
     EntityPool::AddEntity(instance);
+}
+
+void ClientEntityPool::RegisterType(std::string const &string) {
+    EntityPool::RegisterType("Drawable" + string);
+}
+
+void ClientEntityPool::LoadPartition(std::string const &partition) {
+    RType::json j;
+
+    j = RType::json::parse(partition);
+    for (auto const &i : j["entityTypes"])
+        RegisterType(i);
 }

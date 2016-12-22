@@ -27,7 +27,8 @@ SimpleProjectile::SimpleProjectile(uint16_t id,
                                    TimeRef const &timeRef,
                                    vec2<float> const &startPosition,
                                    const std::initializer_list<void *> *params) : Entity(id, timer, eventManager) {
-    _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
+    if (params != nullptr)
+        _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
@@ -54,10 +55,14 @@ vec2<float> SimpleProjectile::GetPosition() {
 
 void SimpleProjectile::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
+    _partition.Serialize(packer);
+    packer.Pack(_emitterId);
 }
 
 uint16_t SimpleProjectile::getTypeId() const {
     return 6;
 }
 
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(SimpleProjectile)
+#endif

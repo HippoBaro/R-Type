@@ -29,4 +29,6 @@ void GrahicDummyMonster::Cycle() {
     DummyMonster::Cycle();
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GrahicDummyMonster)
+#endif

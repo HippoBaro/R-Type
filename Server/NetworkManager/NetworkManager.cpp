@@ -25,7 +25,7 @@ void NetworkManager::Run() {
         Send(message->ConvertToSocketMessage());
     });
 
-    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::hours(std::numeric_limits<int>::max()));
+    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::hours((std::numeric_limits<int>::max)()));
 }
 
 void NetworkManager::Send(RTypeNetworkPayload const &payload) {

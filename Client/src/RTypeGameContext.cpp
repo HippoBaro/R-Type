@@ -11,7 +11,8 @@
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
-    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now() + std::chrono::seconds(5));
+    //auto timestamp = std::chrono::time_point<std::chrono::steady_clock>() + std::chrono::milliseconds(time_point);
+    _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
     std::ifstream infile;
@@ -30,7 +31,8 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
     std::cout << "sent receive command" << std::endl;
-    _eventManager->Emit(ReceiveNetworkPayloadMessage::EventType, new ReceiveNetworkPayloadMessage(), this);
+    _eventManager->Emit(ReceiveNetworkPayloadMessage::EventType, new ReceiveNetworkPayloadMessage(
+            (uint16_t) (_pool->getEntityCount() + 10)), this);
     _pool->ProcessEntities();
     _pool->Draw(context, bag);
     context.display();

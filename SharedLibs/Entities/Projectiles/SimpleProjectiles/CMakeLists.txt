@@ -15,8 +15,9 @@ add_library(SimpleProjectile SHARED
 target_link_libraries(SimpleProjectile)
 
 add_library(DrawableSimpleProjectile SHARED
-        SimpleProjectile.cpp
-        SimpleProjectile.hpp
         DrawableSimpleProjectile.cpp
-        DrawableSimpleProjectile.hpp)
+        DrawableSimpleProjectile.hpp
+        SimpleProjectile.cpp
+        SimpleProjectile.hpp)
 target_link_libraries(DrawableSimpleProjectile sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableSimpleProjectile PRIVATE ENTITY_DRW_CTOR=1)
