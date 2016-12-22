@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <SFML/System/Clock.hpp>
+#include "IDrawable.hpp"
 
 class AAnimable : public IDrawable {
 private:

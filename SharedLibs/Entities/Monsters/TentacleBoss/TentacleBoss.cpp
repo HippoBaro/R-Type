@@ -1,66 +1,43 @@
 //
-// Created by hippolyteb on 11/25/16.
+// Created by aguado_e on 12/21/16.
 //
 
-#include "DummyMonster.hpp"
+#include "TentacleBoss.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 #include <Messages/FireProjectileMessage.hpp>
 #include <Messages/ProjectilePositionChangedMessage.hpp>
-#include <iostream>
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
+TentacleBoss::TentacleBoss(const std::initializer_list<void *> init) : TentacleBoss(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),
                                                                                     *GetParamFromInitializerList<TimeRef*>(init, 3),
                                                                                     *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
-        Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))
+TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
+  Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))
 {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))
-                            .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 1))
-            /*.AddSegment(PartitionSegmentBuilder()
-                                .For(std::chrono::seconds(5))
-                                .Translate(vec2<float>(-400, -400))
-                                .WithCurving(new EaseOutCurve())
-                                .Fire("SimpleProjectile", 3))
-            .Loop(3)*/
+                            .Translate(vec2<float>(0, 0)))
             .Build();
-
-    _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *sender, ProjectilePositionChangedMessage *message) {
-        auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
-        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), _id))
-        {
-            message->DidHit(sender);
-            this->Destroy();
-        }
-    });
 }
 
-void DummyMonster::Cycle() {
-    auto now = _timer->getCurrent();
-    if (_partition.ShouldFire(now)) {
-        auto segment = _partition.GetCurrentSegment(now);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
-    }
+void TentacleBoss::Cycle() {
 }
 
-vec2<float> DummyMonster::GetRenderRect() {
-    return vec2<float>(32 * 5, 14 * 5);
+vec2<float> TentacleBoss::GetRenderRect() {
+    return vec2<float>(256, 141);
 }
 
-vec2<float> DummyMonster::GetPosition() {
+vec2<float> TentacleBoss::GetPosition() {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
 
-void DummyMonster::Serialize(RType::Packer &packer) {
+void TentacleBoss::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
-    _partition.Serialize(packer);
 }
 
-RTYPE_ENTITY_REGISTER(DummyMonster)
+RTYPE_ENTITY_REGISTER(TentacleBoss)

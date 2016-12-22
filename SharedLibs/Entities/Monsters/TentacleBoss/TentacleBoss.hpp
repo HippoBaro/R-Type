@@ -1,66 +1,32 @@
 //
-// Created by hippolyteb on 11/25/16.
+// Created by aguado_e on 12/21/16.
 //
 
-#include "DummyMonster.hpp"
-#include <PartitionSystem/EntityPartitionBuilder.hpp>
-#include <Messages/FireProjectileMessage.hpp>
-#include <Messages/ProjectilePositionChangedMessage.hpp>
-#include <iostream>
+#ifndef R_TYPE_TENTACLEBOSS_HPP
+#define R_TYPE_TENTACLEBOSS_HPP
 
-DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
-                                                                                    *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
-                                                                                    *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),
-                                                                                    *GetParamFromInitializerList<TimeRef*>(init, 3),
-                                                                                    *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
+#include "PartitionSystem/EntityPartition.hpp"
+#include <Time/Timer.hpp>
+#include <Base.h>
+#include <Entities/Entity.hpp>
+#include <EventDispatcher/EventManager.hpp>
+#include <EventDispatcher/EventListener.hpp>
+#include "PartitionSystem/PartitionSegmentBuilder.hpp"
 
-DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
-        Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))
-{
-    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
-                    PartitionSegmentBuilder()
-                            .Begins(timeRef)
-                            .For(std::chrono::seconds(10000))
-                            .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 1))
-            /*.AddSegment(PartitionSegmentBuilder()
-                                .For(std::chrono::seconds(5))
-                                .Translate(vec2<float>(-400, -400))
-                                .WithCurving(new EaseOutCurve())
-                                .Fire("SimpleProjectile", 3))
-            .Loop(3)*/
-            .Build();
+class TentacleBoss : public Entity {
+protected:
+  EntityPartition _partition = EntityPartition(_timer);
+  std::unique_ptr<RType::EventListener> _eventListener;
 
-    _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *sender, ProjectilePositionChangedMessage *message) {
-        auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
-        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), _id))
-        {
-            message->DidHit(sender);
-            this->Destroy();
-        }
-    });
-}
+public:
+  TentacleBoss(const std::initializer_list<void *> init);
+  TentacleBoss(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
-void DummyMonster::Cycle() {
-    auto now = _timer->getCurrent();
-    if (_partition.ShouldFire(now)) {
-        auto segment = _partition.GetCurrentSegment(now);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
-    }
-}
+  void Cycle() override;
+  vec2<float> GetRenderRect() override;
+  vec2<float> GetPosition() override;
 
-vec2<float> DummyMonster::GetRenderRect() {
-    return vec2<float>(32 * 5, 14 * 5);
-}
+  void Serialize(RType::Packer &packer) override;
+};
 
-vec2<float> DummyMonster::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
-}
-
-void DummyMonster::Serialize(RType::Packer &packer) {
-    Entity::Serialize(packer);
-    _partition.Serialize(packer);
-}
-
-RTYPE_ENTITY_REGISTER(DummyMonster)
+#endif //R_TYPE_TENTACLEBOSS_HPP
