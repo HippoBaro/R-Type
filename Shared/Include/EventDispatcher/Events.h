@@ -16,7 +16,8 @@ namespace RType {
         SOUND_SYSTEM,
         MENU_LOBBY,
         SEND_NET_MESSAGE,
-        RECEIVE_NET_MESSAGE,
+        START_RECEIVE_NET_MESSAGE,
+        STOP_RECEIVE_NET_MESSAGE,
         RECEIVED_NET_MESSAGE
     };
 }
