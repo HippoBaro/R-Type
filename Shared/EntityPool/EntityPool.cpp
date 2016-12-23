@@ -79,3 +79,7 @@ void EntityPool::RegisterType(std::string const &type) {
 uint16_t EntityPool::getEntityCount() {
     return (uint16_t) _pool.size();
 }
+
+bool EntityPool::Exist(const uint16_t id) {
+    return _pool.count(id) > 0;
+}

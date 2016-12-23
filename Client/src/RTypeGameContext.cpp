@@ -9,6 +9,7 @@
 #include <fstream>
 #include <Messages/ReceiveNetworkPayloadMessage.hpp>
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
+#include <EntityPacker/EntityPacker.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     //auto timestamp = std::chrono::time_point<std::chrono::steady_clock>() + std::chrono::milliseconds(time_point);
@@ -44,9 +45,15 @@ void RTypeGameContext::ReleaseListener() {
 
 RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
     _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        std::cout << "deserializing" << std::endl;
         auto packet = RType::Packer(RType::READ, message->getPayload().Payload);
-        auto entity = _pool->getFactory().CreateFromPayload(packet, _timer, _eventManager);
+        EntityPacker entityPacker(packet, _pool->getFactory());
+        std::cout << "deserializing" << std::endl;
+
+        _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
+        if (_pool->Exist(entityPacker.getEntityId()))
+            return; //Drop the packet
+
+        auto entity = entityPacker.GetEntity(_timer, _eventManager);
         _pool->AddEntity(entity);
     });
 }
