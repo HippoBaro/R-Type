@@ -37,6 +37,7 @@ public:
     virtual void ProcessEntities();
     virtual void LoadPartition(std::string const &);
     virtual void RegisterType(std::string const &);
+    bool Exist(const uint16_t);
     uint16_t getEntityCount();
 
 public:
