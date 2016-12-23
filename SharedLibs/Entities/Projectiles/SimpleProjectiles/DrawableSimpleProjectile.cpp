@@ -6,6 +6,10 @@
 #include <Messages/ProjectilePositionChangedMessage.hpp>
 #include "DrawableSimpleProjectile.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
+#endif
+
 DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -31,6 +35,6 @@ void DrawableSimpleProjectile::Cycle() {
 
 DrawableSimpleProjectile::~DrawableSimpleProjectile() {}
 
-#ifdef ENTITY_DRW_CTOR
-RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
-#endif
+bool DrawableSimpleProjectile::DidChangeDraw() {
+    return false;
+}
