@@ -33,6 +33,6 @@ void GrahicDummyMonster::Cycle() {
     DummyMonster::Cycle();
 }
 
-bool GrahicDummyMonster::DidChangeDraw() {
+bool GrahicDummyMonster::NeedRedraw() {
     return false;
 }

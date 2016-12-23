@@ -35,6 +35,6 @@ void DrawableSimpleProjectile::Cycle() {
 
 DrawableSimpleProjectile::~DrawableSimpleProjectile() {}
 
-bool DrawableSimpleProjectile::DidChangeDraw() {
+bool DrawableSimpleProjectile::NeedRedraw() {
     return false;
 }

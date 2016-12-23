@@ -34,6 +34,6 @@ void GraphicPlayer::Cycle() {
     Player::Cycle();
 }
 
-bool GraphicPlayer::DidChangeDraw() {
+bool GraphicPlayer::NeedRedraw() {
     return false;
 }
