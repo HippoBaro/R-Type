@@ -33,6 +33,6 @@ void GraphicShip::Cycle() {
     Ship::Cycle();
 }
 
-bool GraphicShip::DidChangeDraw() {
+bool GraphicShip::NeedRedraw() {
     return false;
 }
