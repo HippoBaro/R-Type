@@ -4,6 +4,10 @@
 
 #include "GraphicMars.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicMars)
+#endif
+
 GraphicMars::GraphicMars(const std::initializer_list<void *> init) : Mars(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -25,10 +29,10 @@ void GraphicMars::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
+bool GraphicMars::DidChangeDraw(){
+    return false;
+}
+
 void GraphicMars::Cycle() {
     Mars::Cycle();
 }
-
-#ifdef ENTITY_DRW_CTOR
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicMars)
-#endif

@@ -25,7 +25,7 @@ EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
     });
 }
 
-const std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() const {
+std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() {
     return _eventManager;
 }
 
