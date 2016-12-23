@@ -17,7 +17,7 @@ public:
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
 
 
-    virtual bool DidChangeDraw() override final;
+    virtual bool NeedRedraw() override final;
 
     void Cycle() override;
 };

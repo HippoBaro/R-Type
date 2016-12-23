@@ -29,7 +29,7 @@ void GraphicMars::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-bool GraphicMars::DidChangeDraw(){
+bool GraphicMars::NeedRedraw(){
     return false;
 }
 

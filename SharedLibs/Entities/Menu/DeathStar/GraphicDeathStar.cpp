@@ -29,7 +29,7 @@ void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
-bool GraphicDeathStar::DidChangeDraw(){
+bool GraphicDeathStar::NeedRedraw(){
     return false;
 }
 
