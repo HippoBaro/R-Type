@@ -17,6 +17,7 @@
 class IDrawable {
 private:
     std::unique_ptr<sf::RenderTexture> _renderTexture = nullptr;
+    std::unique_ptr<sf::Sprite> _sprite = nullptr;
 
 public:
     virtual ~IDrawable() {}
@@ -32,6 +33,14 @@ public:
         _renderTexture = std::unique_ptr<sf::RenderTexture>(new sf::RenderTexture());
         _renderTexture->create(width, height);
         return _renderTexture.get();
+    };
+
+    sf::Sprite *getSprite() {
+        return _sprite.get();
+    };
+    sf::Sprite *createSprite() {
+        _sprite = std::unique_ptr<sf::Sprite>(new sf::Sprite());
+        return _sprite.get();
     };
 };
 
