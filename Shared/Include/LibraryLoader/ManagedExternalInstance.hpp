@@ -19,6 +19,9 @@ public:
         _externalInstance = std::shared_ptr<Type>((Type *)_factory.getCreate()(args), _factory.getDestroy());
     }
 
+
+    ManagedExternalInstance() : _factory() { }
+
     ManagedExternalInstance(ManagedExternalInstance const &ref) : _externalInstance(ref._externalInstance), _factory(ref._factory) { }
 
     ManagedExternalInstance & operator = (ManagedExternalInstance const &ref){

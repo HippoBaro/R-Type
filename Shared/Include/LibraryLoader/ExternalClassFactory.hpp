@@ -18,6 +18,10 @@ private:
     std::function<void(void *)> _factoryDestroy = nullptr;
 
 public:
+
+
+    ExternalClassFactory() { }
+
     ExternalClassFactory(const std::function<void *(std::initializer_list<void *>)> &create,
                          const std::function<void(void *)> &_destroy,
                          void *libRef, std::string const &libName,
@@ -28,9 +32,7 @@ public:
             _libName(libName),
             _factoryDestroy(factoryDestroy) {}
 
-    ExternalClassFactory(ExternalClassFactory const &ref) : _create(ref._create), _destroy(ref._destroy), _libRef(ref._libRef), _libName(ref._libName), _factoryDestroy(ref._factoryDestroy) {
-
-    }
+    ExternalClassFactory(ExternalClassFactory const &ref) : _create(ref._create), _destroy(ref._destroy), _libRef(ref._libRef), _libName(ref._libName), _factoryDestroy(ref._factoryDestroy) {}
 
     ExternalClassFactory &operator=(ExternalClassFactory const &ref) {
         this->_create = ref._create;

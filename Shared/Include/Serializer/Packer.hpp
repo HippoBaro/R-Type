@@ -28,6 +28,8 @@ namespace RType {
         uint16_t _index = 0;
 
     public:
+        Packer() : _type(RType::READ) {}
+
         Packer(RType::SerializationType type) :
                 _buffer(new char[udpMtu]),
                 _type(type)
