@@ -40,6 +40,10 @@ void SFMLManager::Run() {
     sf::RenderTexture context;
     sf::Sprite renderSprite;
     context.create(Width, Height);
+    sf::Clock clock;
+
+    int minFPS = 60;
+    int maxFPS = 0;
 
     // Boucle de jeu.
     while (_window.isOpen()) {
@@ -48,12 +52,25 @@ void SFMLManager::Run() {
             _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
             _menuContext->ReleaseListener();
+            minFPS = 60;
+            maxFPS = 0;
         }
         _inputListener->CheckForInputs(_window);
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);
         _window.display();
+
+        sf::Time frameTime = clock.restart();
+        std::stringstream stream;
+        int current = 1000 / frameTime.asMilliseconds();
+        if (maxFPS < current)
+            maxFPS = current;
+        else if (minFPS > current)
+            minFPS = current;
+        stream << "RTYPE | " << "[CURRENT = " << current << " MIN = " << minFPS << " MAX = " << maxFPS << "]";
+
+        _window.setTitle(stream.str());
     }
     _soundManager->StopMusic();
     _soundManager->StopSound();

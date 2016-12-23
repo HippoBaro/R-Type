@@ -23,7 +23,7 @@ public:
 
 public:
     virtual void Draw(sf::RenderTexture *, TextureBag &) = 0;
-    virtual bool DidChangeDraw() = 0;
+    virtual bool NeedRedraw() = 0;
 
     sf::RenderTexture *getRenderTexture() {
         return _renderTexture.get();
