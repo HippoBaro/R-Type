@@ -14,12 +14,12 @@ public:
     static constexpr RType::Event EventType = RType::RECEIVED_NET_MESSAGE;
 
 private:
-    const RTypeNetworkPayload _payload;
+    const std::shared_ptr<RTypeNetworkPayload> _payload;
 
 public:
-    ReceivedNetworkPayloadMessage(const RTypeNetworkPayload &payload) : _payload(payload) {}
+    ReceivedNetworkPayloadMessage(const std::shared_ptr<RTypeNetworkPayload> &payload) : _payload(payload) {}
 
-    const RTypeNetworkPayload &getPayload() const {
+    const std::shared_ptr<RTypeNetworkPayload> &getPayload() const {
         return _payload;
     }
 };
