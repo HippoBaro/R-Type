@@ -41,10 +41,10 @@ public:
     uint16_t getEntityCount();
 
 public:
-    const std::shared_ptr<RType::EventManager> &getEventManager() const;
+    std::shared_ptr<RType::EventManager> &getEventManager();
 
-private:
-    void SpawnProjectile(FireProjectileMessage const &, const uint16_t emitterId);
+protected:
+    virtual void SpawnProjectile(FireProjectileMessage const &, const uint16_t emitterId);
 
 private:
     bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);

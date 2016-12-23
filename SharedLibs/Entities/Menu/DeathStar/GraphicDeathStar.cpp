@@ -4,6 +4,10 @@
 
 #include "GraphicDeathStar.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
+#endif
+
 GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -25,10 +29,10 @@ void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
+bool GraphicDeathStar::DidChangeDraw(){
+    return false;
+}
+
 void GraphicDeathStar::Cycle() {
     DeathStar::Cycle();
 }
-
-#ifdef ENTITY_DRW_CTOR
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
-#endif
