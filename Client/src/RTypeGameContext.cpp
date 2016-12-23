@@ -12,7 +12,6 @@
 #include <EntityPacker/EntityPacker.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
-    //auto timestamp = std::chrono::time_point<std::chrono::steady_clock>() + std::chrono::milliseconds(time_point);
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
@@ -29,9 +28,12 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
     _pool->LoadPartition(data);
 }
 
+std::chrono::time_point<std::chrono::system_clock> point = std::chrono::system_clock::now();
+
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
     std::cout << "sent receive command" << std::endl;
+
     _eventManager->Emit(ReceiveNetworkPayloadMessage::EventType, new ReceiveNetworkPayloadMessage(
             (uint16_t) (_pool->getEntityCount() + 10)), this);
     _pool->ProcessEntities();
@@ -45,15 +47,15 @@ void RTypeGameContext::ReleaseListener() {
 
 RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))) {
     _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        auto packet = RType::Packer(RType::READ, message->getPayload().Payload);
+        auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
         EntityPacker entityPacker(packet, _pool->getFactory());
         std::cout << "deserializing" << std::endl;
 
-        _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
-        if (_pool->Exist(entityPacker.getEntityId()))
-            return; //Drop the packet
+            _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
+            if (_pool->Exist(entityPacker.getEntityId()))
+                return; //Drop the packet
 
-        auto entity = entityPacker.GetEntity(_timer, _eventManager);
-        _pool->AddEntity(entity);
+            auto entity = entityPacker.GetEntity(_timer, _pool->getEventManager());
+            _pool->AddEntity(entity);
     });
 }
