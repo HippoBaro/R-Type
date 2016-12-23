@@ -8,6 +8,7 @@
 #include <EventDispatcher/IMessage.hpp>
 #include <EventDispatcher/Events.h>
 #include <Socket/RTypeNetworkPayload.h>
+#include <memory>
 
 class ReceivedNetworkPayloadMessage : public IMessage {
 public:
