@@ -9,6 +9,7 @@
 #include <ServerEntityPool/ServerEntityPool.hpp>
 #include <Queue/SingleReaderWriterQueue.hpp>
 #include <Messages/SendNetworkPayloadMessage.hpp>
+#include <IUserControlled.hpp>
 
 class GameInstance {
 private:
@@ -18,8 +19,8 @@ private:
     std::shared_ptr<Timer> _timer = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());
     std::shared_ptr<RType::EventManager> _globalEventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());
-    std::unique_ptr<RType::ReaderWriterQueue<IMessage *>> _inbox = std::unique_ptr<RType::ReaderWriterQueue<IMessage *>>(new RType::ReaderWriterQueue<IMessage *>(100));
-    std::unique_ptr<RType::ReaderWriterQueue<SendNetworkPayloadMessage *>> _outbox = std::unique_ptr<RType::ReaderWriterQueue<SendNetworkPayloadMessage *>>(new RType::ReaderWriterQueue<SendNetworkPayloadMessage *>(100));
+    std::unique_ptr<RType::ReaderWriterQueue<UserEventType>> _inbox = std::unique_ptr<RType::ReaderWriterQueue<UserEventType>>(new RType::ReaderWriterQueue<UserEventType>(100));
+    std::unique_ptr<RType::EventListener> _sub;
 
 public:
     GameInstance(uint16_t id, const std::shared_ptr<RType::EventManager> &globalEventManager, std::string const &partition, std::chrono::steady_clock::time_point const&);
@@ -27,6 +28,5 @@ public:
 private:
     void Start();
 };
-
 
 #endif //R_TYPE_GAMEINSTANCE_HPP
