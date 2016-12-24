@@ -11,6 +11,8 @@
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include <EntityPacker/EntityPacker.hpp>
 #include <future>
+#include <Messages/SendNetworkPayloadMessage.hpp>
+#include <Messages/UserInputMessage.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
@@ -27,6 +29,24 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
         throw new std::runtime_error("Invalid partition file");
 
     _pool->LoadPartition(data);
+
+    _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
+        auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
+        EntityPacker entityPacker(packet, _pool->getFactory());
+
+        if (_pool->Exist(entityPacker.getEntityId()))
+            return; //Drop the packet
+
+        entityPacker.UnpackEntity(_timer, _pool->getEventManager());
+        _mailbox.enqueue(entityPacker);
+    });
+
+    _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+        RType::Packer packer(RType::WRITE);
+        message->Serialize(packer);
+        _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this);
+    });
+
     _eventManager->Emit(StartReceiveNetworkGamePayload::EventType, new StartReceiveNetworkGamePayload(), this);
 }
 
@@ -54,14 +74,4 @@ void RTypeGameContext::ReleaseListener() { }
 RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager),
                                                                                                _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))),
                                                                                                _mailbox(100){
-    _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
-        EntityPacker entityPacker(packet, _pool->getFactory());
-
-        if (_pool->Exist(entityPacker.getEntityId()))
-            return; //Drop the packet
-
-        entityPacker.UnpackEntity(_timer, _pool->getEventManager());
-        _mailbox.enqueue(entityPacker);
-    });
 }
