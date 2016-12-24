@@ -10,6 +10,7 @@
 #include <Messages/StartReceiveNetworkGamePayload.hpp>
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include <EntityPacker/EntityPacker.hpp>
+#include <future>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
@@ -29,14 +30,19 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
     _eventManager->Emit(StartReceiveNetworkGamePayload::EventType, new StartReceiveNetworkGamePayload(), this);
 }
 
+bool didSyncTime = false;
+
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
 
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))
         _pool->AddEntity(entityPacker.GetEntity(_timer, _pool->getEventManager()));
-    if (entityPacker.getTimeStamp() != -1)
+    if (entityPacker.getTimeStamp() != -1 && didSyncTime == false)
+    {
         _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
+        didSyncTime = true;
+    }
 
     _pool->ProcessEntities();
     _pool->Draw(context, bag);
@@ -55,7 +61,6 @@ RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &e
         if (_pool->Exist(entityPacker.getEntityId()))
             return; //Drop the packet
 
-        std::cout << "deserializing" << std::endl;
         entityPacker.UnpackEntity(_timer, _pool->getEventManager());
         _mailbox.enqueue(entityPacker);
     });
