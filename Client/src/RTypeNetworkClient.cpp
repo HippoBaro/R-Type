@@ -12,9 +12,6 @@
 RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _networkGameClient->Bind();
 
-    _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-
-    });
     _eventListener.Subscribe<Entity, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](Entity *, StartReceiveNetworkGamePayload *message) {
         _receiverThread = std::unique_ptr<std::thread>(new std::thread(std::bind(&RTypeNetworkClient::StartReceive, this)));
     });
@@ -33,7 +30,6 @@ void RTypeNetworkClient::StartReceive() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
-
 
 void RTypeNetworkClient::StopReceive() {
     _poisonPill = true;
