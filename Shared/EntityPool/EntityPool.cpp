@@ -83,3 +83,11 @@ uint16_t EntityPool::getEntityCount() {
 bool EntityPool::Exist(const uint16_t id) {
     return _pool.count(id) > 0;
 }
+
+bool EntityPool::isPlayer(const uint16_t id) {
+    return _pool.count(id) > 0 && getEntityById(id)->getTypeId() == 5;
+}
+
+ManagedExternalInstance<Entity> &EntityPool::getEntityById(uint16_t id) {
+    return _pool[id];
+}
