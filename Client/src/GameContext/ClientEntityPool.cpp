@@ -12,14 +12,20 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
         if (i.second->ImplementTrait(Trait::Drawable)) {
             IDrawable *entity = dynamic_cast<IDrawable*>(i.second.GetInstance());
             auto renderTarget = entity->getRenderTexture();
-            if (renderTarget == nullptr)
-                renderTarget = entity->createRenderTexture((unsigned int) i.second->GetRenderRect().x, (unsigned int) i.second->GetRenderRect().y);
-            entity->Draw(renderTarget, bag);
-            renderTarget->display();
-            sf::Sprite sprite;
-            sprite.setTexture(renderTarget->getTexture());
-            sprite.setPosition(i.second->GetPosition().x, i.second->GetPosition().y);
-            target.draw(sprite);
+            auto sprite = entity->getSprite();
+            if (sprite == nullptr)
+                sprite = entity->createSprite();
+            if (renderTarget == nullptr || entity->NeedRedraw())
+            {
+                if (renderTarget == nullptr)
+                    renderTarget = entity->createRenderTexture((unsigned int) i.second->GetRenderRect().x, (unsigned int) i.second->GetRenderRect().y);
+                entity->Draw(renderTarget, bag);
+                renderTarget->display();
+                sprite->setTexture(renderTarget->getTexture());
+            }
+            sprite->setPosition(i.second->GetPosition().x, i.second->GetPosition().y);
+
+            target.draw(*sprite);
         }
     }
 }
@@ -53,3 +59,5 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
     for (auto const &i : j["entityTypes"])
         RegisterType(i);
 }
+
+void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) { }

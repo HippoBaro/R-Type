@@ -6,6 +6,10 @@
 #include <Messages/ProjectilePositionChangedMessage.hpp>
 #include "DrawableSimpleProjectile.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
+#endif
+
 DrawableSimpleProjectile::DrawableSimpleProjectile(const std::initializer_list<void *> init) : SimpleProjectile(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -21,7 +25,6 @@ void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     }
     sf::Sprite sprite;
     sprite.setTexture(*texture);
-    //sprite.setScale(sf::Vector2f(5.f, 5.f));
     rect->draw(sprite);
 }
 
@@ -31,6 +34,6 @@ void DrawableSimpleProjectile::Cycle() {
 
 DrawableSimpleProjectile::~DrawableSimpleProjectile() {}
 
-#ifdef ENTITY_DRW_CTOR
-RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableSimpleProjectile)
-#endif
+bool DrawableSimpleProjectile::NeedRedraw() {
+    return false;
+}
