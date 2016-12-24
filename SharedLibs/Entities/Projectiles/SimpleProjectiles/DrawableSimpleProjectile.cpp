@@ -25,7 +25,6 @@ void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     }
     sf::Sprite sprite;
     sprite.setTexture(*texture);
-    //sprite.setScale(sf::Vector2f(5.f, 5.f));
     rect->draw(sprite);
 }
 
