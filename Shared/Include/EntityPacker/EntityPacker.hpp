@@ -39,12 +39,11 @@ public:
         TimeRef now = 0;
         vec2<float> pos;
 
-        auto entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy"));
-        entity->Serialize(_packer);
-        _entity = entity;
+        _entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy"));
+        _entity->Serialize(_packer);
     }
 
-    ManagedExternalInstance<Entity> GetEntity(std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
+    ManagedExternalInstance<Entity> &GetEntity(std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
         if (_entity.GetInstance() == nullptr)
             UnpackEntity(timer, eventManager);
         return _entity;
