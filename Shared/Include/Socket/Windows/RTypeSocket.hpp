@@ -8,7 +8,8 @@
 #include <Socket/IRTypeSocket.hpp>
 #include <fcntl.h>
 #include <cstdlib>
-#include <winsock.h>
+#include <winsock2.h>
+#include <Mswsock.h>
 #include <stdexcept>
 #include <Socket/RTypeNetworkPayload.h>
 #include <Socket/Enum/RTypeSocketType.h>
@@ -59,6 +60,10 @@ public:
         WSACleanup();
     }
 
+    void *GetNativeSocket() override {
+        return (void *) &_socket;
+    }
+
     void Bind() override final {
         if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
             throw std::runtime_error(std::string("Binding port failed !"));
@@ -73,8 +78,12 @@ public:
         return false;
     }
 
-    std::unique_ptr<IRTypeSocket> Accept() override {
+    std::shared_ptr<IRTypeSocket> Accept() override {
         return nullptr;
+    }
+
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
+        return false;
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
@@ -113,7 +122,7 @@ private:
             throw std::runtime_error(std::string("WSAStartup failed !"));
         }
         if (_identity == Server) {
-            _socket = socket(PF_INET, SOCK_STREAM, 0);
+            _socket = socket(AF_INET, SOCK_STREAM, 0);
             if (_socket < 0) {
                 throw std::runtime_error(std::string("Create socket failed !"));
             } else {
@@ -158,6 +167,10 @@ public:
         WSACleanup();
     }
 
+    void *GetNativeSocket() override {
+        return (void *) &_socket;
+    }
+
     void Bind() override final {
         if (_identity == Server) {
             if (bind(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer))) {
@@ -177,14 +190,47 @@ public:
         return connect(_socket, (struct sockaddr *) &_addrServer, sizeof(_addrServer)) >= 0;
     }
 
-    std::unique_ptr<IRTypeSocket> Accept() override final {
+    std::shared_ptr<IRTypeSocket> Accept() override final {
         struct sockaddr_in clientAddr;
         int length = sizeof(clientAddr);
         SOCKET client = accept(_socket, (struct sockaddr *) &clientAddr, &length);
         if (client < 0) {
             return nullptr;
         }
-        return std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
+        return std::shared_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
+    }
+
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
+		WSAPOLLFD pfds = {0};
+        pfds.fd = *((SOCKET *) GetNativeSocket());
+        switch (evt) {
+            case SOCKET_CLOSED:
+                pfds.events = POLLHUP;
+                break;
+            case DATA_INCOMING:
+                pfds.events = POLLIN;
+                break;
+            case SOMEONE_LISTENING:
+                pfds.events = POLLOUT;
+                break;
+        }
+        if (WSAPoll(&pfds, 1, timeout) > 0) {
+            switch (evt) {
+                case SOCKET_CLOSED:
+                    if (pfds.revents & POLLHUP)
+                        return true;
+                    break;
+                case DATA_INCOMING:
+                    if (pfds.revents & POLLIN)
+                        return true;
+                    break;
+                case SOMEONE_LISTENING:
+                    if (pfds.revents & POLLOUT)
+                        return true;
+                    break;
+            }
+        }
+        return  false;
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
