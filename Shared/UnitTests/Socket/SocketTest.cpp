@@ -37,10 +37,11 @@ void TcpCreateServer() {
     server->Bind();
     std::shared_ptr<IRTypeSocket> client;
     client = server->Accept();
-    if (client->PoolEventOnSocket(DATA_INCOMING, -1))
-        client->Receive(payload);
+	if (client->PoolEventOnSocket(DATA_INCOMING, -1))
+		client->Receive(payload);
     if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
         client->Send(payload);
+    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(500));
 }
 
 void TcpCreateClient() {
