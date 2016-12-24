@@ -38,7 +38,9 @@ public:
     virtual void LoadPartition(std::string const &);
     virtual void RegisterType(std::string const &);
     bool Exist(const uint16_t);
+    bool isPlayer(const uint16_t);
     uint16_t getEntityCount();
+    virtual ManagedExternalInstance<Entity> &getEntityById(uint16_t);
 
 public:
     std::shared_ptr<RType::EventManager> &getEventManager();

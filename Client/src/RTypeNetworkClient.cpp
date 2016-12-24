@@ -7,17 +7,22 @@
 #include <Messages/StartReceiveNetworkGamePayload.hpp>
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include <Messages/StopReceiveNetworkGamePayload.hpp>
+#include <Messages/SendNetworkPayloadMessage.hpp>
 #include "RTypeNetworkClient.hpp"
 
 RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _networkGameClient->Bind();
 
-    _eventListener.Subscribe<Entity, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](Entity *, StartReceiveNetworkGamePayload *message) {
+    _eventListener.Subscribe<void, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](void *, StartReceiveNetworkGamePayload *message) {
         _receiverThread = std::unique_ptr<std::thread>(new std::thread(std::bind(&RTypeNetworkClient::StartReceive, this)));
     });
 
-    _eventListener.Subscribe<Entity, StopReceiveNetworkGamePayload>(StopReceiveNetworkGamePayload::EventType, [&](Entity *, StopReceiveNetworkGamePayload *message) {
+    _eventListener.Subscribe<void, StopReceiveNetworkGamePayload>(StopReceiveNetworkGamePayload::EventType, [&](void *, StopReceiveNetworkGamePayload *message) {
         StopReceive();
+    });
+
+    _eventListener.Subscribe<void, SendNetworkPayloadMessage>(SendNetworkPayloadMessage::EventType, [&](void *, SendNetworkPayloadMessage *message) {
+        _networkGameUpClient->Send(message->ConvertToSocketMessage());
     });
 }
 
@@ -33,5 +38,6 @@ void RTypeNetworkClient::StartReceive() {
 
 void RTypeNetworkClient::StopReceive() {
     _poisonPill = true;
-    _receiverThread->join();
+    if (_receiverThread != nullptr)
+        _receiverThread->join();
 }

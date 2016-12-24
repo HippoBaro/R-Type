@@ -34,7 +34,7 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
         auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
         EntityPacker entityPacker(packet, _pool->getFactory());
 
-        if (_pool->Exist(entityPacker.getEntityId()))
+        if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
             return; //Drop the packet
 
         entityPacker.UnpackEntity(_timer, _pool->getEventManager());
