@@ -14,7 +14,6 @@
 #include <cstring>
 #include <unistd.h>
 #include <poll.h>
-#include <malloc.h>
 
 template<SocketType type>
 class RTypeSocket : public IRTypeSocket {
@@ -63,7 +62,7 @@ public:
         close(_socket);
     }
 
-    void *GetNativeSocket() {
+    void *GetNativeSocket() override {
         return (void *) &_socket;
     }
 
@@ -84,7 +83,7 @@ public:
         return nullptr;
     }
 
-    bool PoolEventOnSocket(SocketEvent evt, int timeout) {
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
         return false;
     }
 
@@ -166,7 +165,7 @@ public:
         close(_socket);
     }
 
-    void *GetNativeSocket() {
+    void *GetNativeSocket() override {
         return (void *) &_socket;
     }
 
@@ -195,12 +194,12 @@ public:
         return std::shared_ptr<IRTypeSocket>(new RTypeSocket<TCP>(client, clientAddr));
     }
 
-    bool PoolEventOnSocket(SocketEvent evt, int timeout) {
+    bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
         struct pollfd pfds[1];
         pfds[0].fd = *((int *) GetNativeSocket());
         switch (evt) {
             case SOCKET_CLOSED:
-                pfds[0].events = POLLRDHUP;
+                pfds[0].events = POLLHUP;
                 break;
             case DATA_INCOMING:
                 pfds[0].events = POLLIN;
@@ -212,7 +211,7 @@ public:
         if (poll(pfds, 1, timeout) > 0) {
             switch (evt) {
                 case SOCKET_CLOSED:
-                    if (pfds[0].revents == POLLRDHUP)
+                    if (pfds[0].revents == POLLHUP)
                         return true;
                     break;
                 case DATA_INCOMING:
