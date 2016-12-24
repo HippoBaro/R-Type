@@ -29,6 +29,10 @@ public :
     void RegisterType(std::string const &string) override;
 
     void LoadPartition(std::string const &string) override;
+
+
+protected:
+    virtual void SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) override;
 };
 
 

@@ -8,6 +8,7 @@
 #include "SFMLManager.hpp"
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
+#include <Messages/StopReceiveNetworkGamePayload.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
@@ -35,11 +36,15 @@ void SFMLManager::Run() {
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
     glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
-    _window.setFramerateLimit(60);
+    _window.setFramerateLimit(30);
 
     sf::RenderTexture context;
     sf::Sprite renderSprite;
     context.create(Width, Height);
+    sf::Clock clock;
+
+    int minFPS = 60;
+    int maxFPS = 0;
 
     // Boucle de jeu.
     while (_window.isOpen()) {
@@ -48,13 +53,27 @@ void SFMLManager::Run() {
             _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
             _menuContext->ReleaseListener();
+            minFPS = 60;
+            maxFPS = 0;
         }
         _inputListener->CheckForInputs(_window);
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);
         _window.display();
+
+        sf::Time frameTime = clock.restart();
+        std::stringstream stream;
+        int current = 1000 / frameTime.asMilliseconds();
+        if (maxFPS < current)
+            maxFPS = current;
+        else if (minFPS > current)
+            minFPS = current;
+        stream << "RTYPE | " << "[CURRENT = " << current << " MIN = " << minFPS << " MAX = " << maxFPS << "]";
+
+        _window.setTitle(stream.str());
     }
+    _eventManager->Emit(StopReceiveNetworkGamePayload::EventType, new StopReceiveNetworkGamePayload(), this);
     _soundManager->StopMusic();
     _soundManager->StopSound();
 }

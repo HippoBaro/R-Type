@@ -3,12 +3,12 @@
 //
 
 #include "SimpleProjectile.hpp"
-
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
-#include <PartitionSystem/Tween/Curve/EaseInOutCurve.hpp>
-#include <PartitionSystem/Tween/Curve/EaseOutCurve.hpp>
-#include <iostream>
 #include <Messages/ProjectilePositionChangedMessage.hpp>
+
+#ifndef ENTITY_DRW_CTOR
+RTYPE_ENTITY_REGISTER(SimpleProjectile)
+#endif
 
 SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) :
         SimpleProjectile(*GetParamFromInitializerList<uint16_t *>(init, 0),
@@ -17,9 +17,7 @@ SimpleProjectile::SimpleProjectile(const std::initializer_list<void *> init) :
                          *GetParamFromInitializerList<TimeRef*>(init, 3),
                          *GetParamFromInitializerList<vec2<float>*>(init, 4),
                          GetParamFromInitializerList<std::initializer_list<void *>*>(init, 5))
-{
-
-}
+{ }
 
 SimpleProjectile::SimpleProjectile(uint16_t id,
                                    std::shared_ptr<Timer> timer,
@@ -62,7 +60,3 @@ void SimpleProjectile::Serialize(RType::Packer &packer) {
 uint16_t SimpleProjectile::getTypeId() const {
     return 6;
 }
-
-#ifndef ENTITY_DRW_CTOR
-RTYPE_ENTITY_REGISTER(SimpleProjectile)
-#endif

@@ -7,6 +7,7 @@
 
 
 #include <memory>
+#include <thread>
 #include <Socket/IRTypeSocket.hpp>
 #include <RTypeSocket.hpp>
 #include <Socket/Enum/RTypeSocketType.h>
@@ -18,9 +19,18 @@ private:
     std::unique_ptr<IRTypeSocket> _networkGameClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9876));
     std::shared_ptr<RType::EventManager> _eventManager;
     RType::EventListener _eventListener;
+    std::unique_ptr<std::thread> _receiverThread = nullptr;
+
+    bool _poisonPill = false;
 
 public:
     RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager);
+
+private:
+    void StartReceive();
+
+public:
+    void StopReceive();
 };
 
 

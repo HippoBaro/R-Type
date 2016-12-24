@@ -22,12 +22,12 @@ enum UserEventType {
     CLOSE_WINDOWS
 };
 
-class UserInputMessage : public IMessage {
+class UserInputMessage : public IMessage, RType::ISerializable {
 public:
     static constexpr RType::Event EventType = RType::USER_INPUT;
 
 private:
-    const UserEventType _event;
+    UserEventType _event;
     char _letter = ' ';
 
 public:
@@ -43,6 +43,10 @@ public:
 
     const UserEventType &getEventType() const {
         return _event;
+    }
+
+    virtual void Serialize(RType::Packer &packer) {
+        packer.Pack(_event);
     }
 };
 
