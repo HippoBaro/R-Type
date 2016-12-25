@@ -16,15 +16,6 @@
 	},
 	"entities":[
 		{
-			"entityName":"DummyMonster",
-			"startPosition": {
-				"x":600,
-				"y":400
-			},
-			"startTime":0,
-			"id":1
-		},
-		{
             "entityName":"Player",
             "startPosition": {
                 "x":0,
@@ -32,33 +23,6 @@
             },
             "startTime":0,
             "id":2
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":600,
-                "y":200
-            },
-            "startTime":0,
-            "id":3
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":600,
-                "y":600
-            },
-            "startTime":0,
-            "id":4
-        },
-        {
-            "entityName":"DummyMonster",
-            "startPosition": {
-                "x":600,
-                "y":800
-            },
-            "startTime":0,
-            "id":5
         }
 	]
 }

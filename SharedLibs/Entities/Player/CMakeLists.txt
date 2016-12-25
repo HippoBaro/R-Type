@@ -8,7 +8,7 @@ ENDIF()
 
 add_library(Player SHARED
         Player.hpp
-        Player.cpp)
+        Player.cpp ../../Interfaces/IUserControlled.hpp)
 
 add_library(DrawablePlayer SHARED
         GraphicPlayer.cpp
