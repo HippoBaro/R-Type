@@ -13,8 +13,8 @@ void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<floa
 }
 
 void EntityPool::AddEntity(const ManagedExternalInstance<Entity> &entity) {
-    if (_pool.count(entity->getId()) <= 0)
-        _pool.insert(std::make_pair(entity->getId(), entity));
+    _pool.erase(entity->getId());
+    _pool.insert(std::make_pair(entity->getId(), entity));
 }
 
 EntityPool::~EntityPool() { }

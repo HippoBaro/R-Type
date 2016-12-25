@@ -4,6 +4,8 @@
 
 #include "Player.hpp"
 #include <Messages/FireProjectileMessage.hpp>
+#include <PartitionSystem/EntityPartition.hpp>
+#include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(Player)
@@ -33,26 +35,31 @@ uint16_t Player::getTypeId() const {
 }
 
 void Player::Action(UserEventType event){
+
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    auto now = _timer->getCurrent();
+    _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(
+                    PartitionSegmentBuilder()
+                            .For(std::chrono::milliseconds(50))
+                            .Translate(vec2<float>(0, 0)))
+            .Build();
+
+
+    NeedSynch();
+}
+
+vec2<float> Player::getVectorFromInput(UserEventType event) {
     switch (event) {
         case USER_UP:
-            _currentPosition = vec2<float>(_currentPosition.x, _currentPosition.y - 5);
-            break;
+            return vec2<float>(_currentPosition.x, _currentPosition.y - 5);
         case USER_DOWN:
-            _currentPosition = vec2<float>(_currentPosition.x, _currentPosition.y + 5);
-            break;
+            return vec2<float>(_currentPosition.x, _currentPosition.y + 5);
         case USER_RIGHT:
-            _currentPosition = vec2<float>(_currentPosition.x + 5, _currentPosition.y);
-            break;
+            return vec2<float>(_currentPosition.x + 5, _currentPosition.y);
         case USER_LEFT:
-            _currentPosition = vec2<float>(_currentPosition.x - 5, _currentPosition.y);
-            break;
-        case USER_SPACE:
-            break;
-
-        default:
-            break;
+            return vec2<float>(_currentPosition.x - 5, _currentPosition.y);
     }
-    NeedSynch();
+    return vec2<float>();
 }
 
 void Player::Serialize(RType::Packer &packer) {
