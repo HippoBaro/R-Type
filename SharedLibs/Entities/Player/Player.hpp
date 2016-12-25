@@ -11,9 +11,11 @@
 #include <Time/Timer.hpp>
 #include <vec2.hpp>
 #include <IUserControlled.hpp>
+#include <PartitionSystem/EntityPartition.hpp>
 
 class Player : public Entity, public IUserControlled {
 protected:
+    EntityPartition _partition = EntityPartition(_timer);
     vec2<float> _currentPosition;
 
 public:
@@ -29,6 +31,8 @@ public:
     virtual void Action(UserEventType event) override ;
 
     void Serialize(RType::Packer &packer) override;
+
+    vec2<float> getVectorFromInput(UserEventType event);
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

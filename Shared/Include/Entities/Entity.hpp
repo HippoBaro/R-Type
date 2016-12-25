@@ -21,7 +21,7 @@ protected:
     std::shared_ptr<RType::EventManager> _eventManager;
     std::default_random_engine _ramdomGeneratorSeed;
     std::mt19937 _ramdomGenerator;
-    uint8_t _cycleSinceLastSynch = 0;
+    uint16_t _cycleSinceLastSynch = 0;
 
     std::set<Trait> _traits = std::set<Trait>();
 public:
@@ -60,7 +60,7 @@ public:
         packer.Pack(_traits, true);
     };
 
-    uint8_t getCyclesSinceLastSynch() const {
+    uint16_t getCyclesSinceLastSynch() const {
         return _cycleSinceLastSynch;
     }
 
