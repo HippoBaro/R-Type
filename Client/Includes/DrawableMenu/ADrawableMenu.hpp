@@ -12,7 +12,6 @@
 #include <thread>
 #include "Messages/UserInputMessage.hpp"
 #include <Messages/SoundSystemMessage.hpp>
-#include <Messages/MenuLobbyMessage.hpp>
 #include <EventDispatcher/EventManager.hpp>
 #include <Entities/Entity.hpp>
 #include <EventDispatcher/EventListener.hpp>

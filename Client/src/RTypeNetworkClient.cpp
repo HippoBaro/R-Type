@@ -35,3 +35,23 @@ void RTypeNetworkClient::StopReceive() {
     _poisonPill = true;
     _receiverThread->join();
 }
+
+bool RTypeNetworkClient::TryToConnect() {
+    return (_networkClient->Connect());
+}
+
+bool RTypeNetworkClient::TrytoReceive(int timeout, RTypeNetworkPayload &payload) {
+    if (_networkClient->PoolEventOnSocket(DATA_INCOMING, timeout)) {
+        _networkClient->Receive(payload);
+        return true;
+    }
+    return false;
+}
+
+bool RTypeNetworkClient::TryToSend(int timeout, RTypeNetworkPayload &payload) {
+    if (_networkClient->PoolEventOnSocket(SOMEONE_LISTENING, timeout)) {
+        _networkClient->Send(payload);
+        return true;
+    }
+    return false;
+}

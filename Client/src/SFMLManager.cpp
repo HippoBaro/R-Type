@@ -9,8 +9,11 @@
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 #include <Messages/StopReceiveNetworkGamePayload.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
 
-SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
+SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
+                                                                                                                                   _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(),
+                                                                                                                                   _networkClient(networkClient), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
@@ -21,13 +24,54 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _
         if (message->getEventType() == PLAY_SOUND)
             _soundManager->PlaySoundEffects(message->getPlaySound());
     });
-    _eventListener->Subscribe<Entity, MenuLobbyMessage>(MenuLobbyMessage::EventType, [&](Entity *, MenuLobbyMessage *message) {
-        if (message->getEventType() == USER_WAITING) {
-            std::cout << "Room name is: " << message->getChannelName() << std::endl;
-            _switch = true;
-        } else if (message->getEventType() == USER_STOP_WAITING)
-            std::cout << "Stop Waiting" << std::endl;
+    _eventListener->Subscribe<Entity, ClientWaitForServerMessage>(ClientWaitForServerMessage::EventType, [&](Entity *, ClientWaitForServerMessage *message) {
+        if (message->getEventType() == USER_CREATE) {
+            _tryToCreate = true;
+            _roomName = message->getChannelName();
+        } else if (message->getEventType() == USER_JOIN) {
+            _tryToJoin = true;
+            _roomName = message->getChannelName();
+        } else if (message->getEventType() == USER_QUIT) {
+            _tryToCreate = false;
+            _tryToJoin = false;
+            _tryToQuit = true;
+        }
     });
+}
+
+void SFMLManager::CheckForNetwork() {
+    if (!_isConnected)
+        _isConnected = _networkClient->TryToConnect();
+
+    if (_isConnected) {
+        char data[1500];
+        auto payload = RTypeNetworkPayload(data, 1500);
+        if (_networkClient->TrytoReceive(0, payload))
+            std::cout << "Client receive: " << payload.Payload << std::endl;
+    }
+    if (_tryToCreate) {
+        std::string toSend = "[CREATE]";
+        toSend += _roomName;
+        char *data = strdup(toSend.c_str());
+        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
+        _tryToCreate = !_networkClient->TryToSend(0, payload);
+        free(data);
+    }
+    if (_tryToJoin) {
+        std::string toSend = "[JOIN]";
+        toSend += _roomName;
+        char *data = strdup(toSend.c_str());
+        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
+        _tryToJoin = !_networkClient->TryToSend(0, payload);
+        free(data);
+    }
+    if (_tryToQuit) {
+        std::string toSend = "[QUIT]";
+        char *data = strdup(toSend.c_str());
+        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
+        _tryToQuit = !_networkClient->TryToSend(0, payload);
+        free(data);
+    }
 }
 
 void SFMLManager::Run() {
@@ -48,6 +92,7 @@ void SFMLManager::Run() {
 
     // Boucle de jeu.
     while (_window.isOpen()) {
+        CheckForNetwork();
         if (_switch) {
             _currentContext = _gameContext.get();
             _currentContext->Setup("medias/partitions/testPartition.partition");
