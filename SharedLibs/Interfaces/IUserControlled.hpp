@@ -9,6 +9,7 @@
 
 class IUserControlled {
 public:
+    virtual ~IUserControlled() {}
     virtual void Action(UserEventType event) = 0;
 };
 

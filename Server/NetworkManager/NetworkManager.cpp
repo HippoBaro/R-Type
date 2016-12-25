@@ -71,7 +71,7 @@ void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<I
             std::cout << "Client disconnect !" << std::endl;
         } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
             (*it->second).Receive(payload);
-            std::cout << "Server receive: " << payload.Payload << std::endl;
+            std::cout << "Server receive: " << payload.Payload << "\tFrom: " << payload.Ip << std::endl;
             ++it;
         } else {
             ++it;
