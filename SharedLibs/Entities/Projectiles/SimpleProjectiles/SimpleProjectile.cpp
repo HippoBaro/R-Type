@@ -53,10 +53,6 @@ vec2<float> SimpleProjectile::GetPosition() {
 
 void SimpleProjectile::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
-}
-
-void SimpleProjectile::Serialize(RType::Packer &packer) {
-    Entity::Serialize(packer);
     _partition.Serialize(packer);
     packer.Pack(_emitterId);
 }
