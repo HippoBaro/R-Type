@@ -5,6 +5,10 @@
 #ifndef R_TYPE_RTYPESOCKETLINUX_HPP
 #define R_TYPE_RTYPESOCKETLINUX_HPP
 
+#if APPLE
+#define POLLRDHUP POLLHUP
+#endif
+
 #include <Socket/IRTypeSocket.hpp>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -192,7 +196,7 @@ public:
         pfds[0].fd = *((int *) GetNativeSocket());
         switch (evt) {
             case SOCKET_CLOSED:
-                pfds[0].events = POLLHUP;
+                pfds[0].events = POLLRDHUP;
                 break;
             case DATA_INCOMING:
                 pfds[0].events = POLLIN;
@@ -204,7 +208,7 @@ public:
         if (poll(pfds, 1, timeout) > 0) {
             switch (evt) {
                 case SOCKET_CLOSED:
-                    if (pfds[0].revents == POLLHUP)
+                    if (pfds[0].revents == POLLRDHUP)
                         return true;
                     break;
                 case DATA_INCOMING:
