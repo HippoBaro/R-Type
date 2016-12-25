@@ -71,6 +71,10 @@ public:
     void DidCycleNoSynch() {
         _cycleSinceLastSynch++;
     }
+
+    void NeedSynch() {
+        _cycleSinceLastSynch = 0;
+    }
 };
 
 #endif //R_TYPE_IENTITY_HPP

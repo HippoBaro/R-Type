@@ -10,9 +10,11 @@
 #include <EventDispatcher/EventManager.hpp>
 #include <Time/Timer.hpp>
 #include <vec2.hpp>
+#include <IUserControlled.hpp>
 
-class Player : public Entity {
+class Player : public Entity, public IUserControlled {
 protected:
+    vec2<float> _currentPosition;
 
 public:
     Player(const std::initializer_list<void *> init);
@@ -23,6 +25,8 @@ public:
     void Cycle() override;
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
+
+    virtual void Action(UserEventType event) override ;
 
     void Serialize(RType::Packer &packer) override;
 };
