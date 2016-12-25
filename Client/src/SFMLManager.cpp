@@ -42,7 +42,6 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
 void SFMLManager::CheckForNetwork() {
     if (!_isConnected)
         _isConnected = _networkClient->TryToConnect();
-
     if (_isConnected) {
         char data[1500];
         auto payload = RTypeNetworkPayload(data, 1500);
