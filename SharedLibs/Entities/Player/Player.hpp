@@ -5,11 +5,7 @@
 #ifndef R_TYPE_DUMMYMONSTER_HPP
 #define R_TYPE_DUMMYMONSTER_HPP
 
-#include <Base.h>
 #include <Entities/Entity.hpp>
-#include <EventDispatcher/EventManager.hpp>
-#include <Time/Timer.hpp>
-#include <vec2.hpp>
 #include <IUserControlled.hpp>
 #include <PartitionSystem/EntityPartition.hpp>
 
