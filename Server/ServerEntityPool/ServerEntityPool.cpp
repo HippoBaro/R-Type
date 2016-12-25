@@ -30,7 +30,8 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
         eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this); //todo : send to all clients from the instance
         count++;
     }
-    std::cout << "Sent " << count << std::endl;
+    if (count > 0)
+        std::cout << "Sent " << count << std::endl;
 }
 
 ServerEntityPool::~ServerEntityPool() {
