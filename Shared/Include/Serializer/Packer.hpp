@@ -81,6 +81,7 @@ namespace RType {
         template<typename T>
         void Pack(std::vector<T> &v, bool append = false) {
             if (_type == WRITE) {
+
                 // Serialize size so we can get it back later
                 uint32_t len = (uint32_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer, _index, &len);
