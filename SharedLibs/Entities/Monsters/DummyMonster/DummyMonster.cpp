@@ -55,8 +55,7 @@ vec2<float> DummyMonster::GetRenderRect() {
 }
 
 vec2<float> DummyMonster::GetPosition() {
-    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    return pos;
+    return _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
 }
 
 void DummyMonster::Serialize(RType::Packer &packer) {
