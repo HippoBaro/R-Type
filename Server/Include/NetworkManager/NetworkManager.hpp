@@ -24,7 +24,7 @@ public:
 private:
     void Run();
     void Send(RTypeNetworkPayload const &payload);
-    void SendOverTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &_client);
+    void SendOverTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &client);
 
 public:
     void Start();

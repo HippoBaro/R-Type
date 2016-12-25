@@ -2,6 +2,7 @@
 // Created by pasteu_e on 08/12/16.
 //
 
+#include <Messages/ClientWaitForServerMessage.hpp>
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 ADrawableMenu::ADrawableMenu() {
@@ -26,7 +27,10 @@ bool ADrawableMenu::isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem) {
     if (elem->_menuName == "Create" || elem->_menuName == "Join") {
         if (getChannelName() == std::string())
             return false;
-        _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_WAITING, getChannelName()), nullptr);
+        if (elem->_menuName == "Create")
+            _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_CREATE, getChannelName()), nullptr);
+        else if (elem->_menuName == "Join")
+            _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_JOIN, getChannelName()), nullptr);
     }
     return true;
 }
@@ -34,7 +38,7 @@ bool ADrawableMenu::isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem) {
 void ADrawableMenu::checkIfUserStopWaiting() {
     //Si jamais l'utilistateur quitte l'écran Waiting, alors on envoie un signal
     if ((_menuName == "Create" || _menuName == "Join") && getSelection() == "Back")
-        _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_STOP_WAITING, getChannelName()), nullptr);
+        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_QUIT, getChannelName()), nullptr);
 }
 
 void ADrawableMenu::moveUp() {

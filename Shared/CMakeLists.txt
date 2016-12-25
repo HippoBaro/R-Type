@@ -47,7 +47,6 @@ set(SHARED_SOURCE_FILES
         Include/Messages/FireProjectileMessage.hpp
         Include/Messages/ProjectilePositionChangedMessage.hpp
         Include/Messages/UserInputMessage.hpp
-        Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
         Include/Messages/SendNetworkPayloadMessage.hpp
         Include/Messages/StartReceiveNetworkGamePayload.hpp
@@ -56,6 +55,7 @@ set(SHARED_SOURCE_FILES
         Include/Messages/NewClientConnectionMessage.hpp
         Include/Messages/ReceivedTCPNetworkPayloadMessage.hpp
         Include/Messages/SendTCPNetworkPayloadMessage.hpp
+        Include/Messages/ClientWaitForServerMessage.hpp
 
         Include/Queue/SingleReaderWriterQueue.hpp
         Include/Queue/atomicops.hpp
