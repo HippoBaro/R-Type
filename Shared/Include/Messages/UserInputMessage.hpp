@@ -27,66 +27,66 @@ public:
     static constexpr RType::Event EventType = RType::USER_INPUT;
 
 private:
-    std::set<UserEventType> keyPressed;
-    std::set<UserEventType> keyReleased;
+    std::set<UserEventType> _keyPressed;
+    std::set<UserEventType> _keyReleased;
 
 public:
-    UserInputMessage() : keyPressed() {}
+    UserInputMessage() : _keyPressed(), _keyReleased() {}
 
-    UserInputMessage(UserEventType event) : keyPressed() {
-        keyPressed.insert(event);
+    UserInputMessage(UserEventType event) : _keyPressed(), _keyReleased() {
+        _keyPressed.insert(event);
     }
 
     virtual void Serialize(RType::Packer &packer) {
-        packer.Pack(keyPressed);
+        packer.Pack(_keyPressed);
     }
 
     const std::set<UserEventType> &getPressed() const {
-        return keyPressed;
+        return _keyPressed;
     }
 
     bool PressedContains(UserEventType event) {
-        return keyPressed.count(event) > 0;
+        return _keyPressed.count(event) > 0;
     }
 
     bool PressedContainsOnly(UserEventType event) {
-        return keyPressed.count(event) == 1 && keyPressed.size() == 1;
+        return _keyPressed.count(event) == 1 && _keyPressed.size() == 1;
     }
 
     UserEventType FirstPressed() {
-        return *keyPressed.begin();
+        return *_keyPressed.begin();
     }
 
     void AddPressedEvent(UserEventType event) {
-        keyPressed.insert(event);
+        _keyPressed.insert(event);
     }
 
     bool AnyPressed() {
-        return keyPressed.size() > 0;
+        return _keyPressed.size() > 0;
     }
 
     const std::set<UserEventType> &getReleased() const {
-        return keyReleased;
+        return _keyReleased;
     }
 
     bool ReleasedContains(UserEventType event) {
-        return keyReleased.count(event) > 0;
+        return _keyReleased.count(event) > 0;
     }
 
     bool ReleasedContainsOnly(UserEventType event) {
-        return keyReleased.count(event) == 1 && keyReleased.size() == 1;
+        return _keyReleased.count(event) == 1 && _keyReleased.size() == 1;
     }
 
     UserEventType FirstReleased() {
-        return *keyReleased.begin();
+        return *_keyReleased.begin();
     }
 
     void AddReleasedEvent(UserEventType event) {
-        keyReleased.insert(event);
+        _keyReleased.insert(event);
     }
 
     bool AnyReleased() {
-        return keyReleased.size() > 0;
+        return _keyReleased.size() > 0;
     }
 };
 
