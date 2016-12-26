@@ -36,6 +36,7 @@ set(SHARED_SOURCE_FILES
         Include/Socket/IRTypeSocket.hpp
         Include/Socket/RTypeNetworkPayload.h
         Include/Socket/Enum/RTypeSocketType.h
+        Include/Socket/RTypeSocket.hpp
 
         Include/Time/Timer.hpp
         Include/Time/TimeRef.hpp
@@ -49,8 +50,17 @@ set(SHARED_SOURCE_FILES
         Include/Messages/UserInputEntryMessage.hpp
         Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
+        Include/Messages/StopReceiveNetworkGamePayload.hpp
+        Include/Messages/StartReceiveNetworkGamePayload.hpp
+        Include/Messages/ReceivedNetworkPayloadMessage.hpp
+        Include/Messages/SendNetworkPayloadMessage.hpp
+
         Include/Json/Json.hpp
-        Include/Socket/RTypeSocket.hpp Include/Messages/SendNetworkPayloadMessage.hpp Include/Queue/SingleReaderWriterQueue.hpp Include/Queue/atomicops.hpp Include/Messages/StartReceiveNetworkGamePayload.hpp Include/Messages/ReceivedNetworkPayloadMessage.hpp Include/EntityFactory/EntityFactory.hpp Include/EntityPacker/EntityPacker.hpp Include/Messages/StopReceiveNetworkGamePayload.hpp)
+        Include/Queue/SingleReaderWriterQueue.hpp
+        Include/Queue/atomicops.hpp
+        Include/EntityFactory/EntityFactory.hpp
+        Include/EntityPacker/EntityPacker.hpp
+        )
 
 include_directories(Libs/Interfaces
         ../SFML/include
