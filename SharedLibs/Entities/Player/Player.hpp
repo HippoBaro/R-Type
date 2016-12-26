@@ -5,16 +5,16 @@
 #ifndef R_TYPE_DUMMYMONSTER_HPP
 #define R_TYPE_DUMMYMONSTER_HPP
 
-#include <Base.h>
 #include <Entities/Entity.hpp>
-#include <EventDispatcher/EventManager.hpp>
-#include <Time/Timer.hpp>
-#include <vec2.hpp>
 #include <IUserControlled.hpp>
+#include <PartitionSystem/EntityPartition.hpp>
+#include <Base.h>
 
 class Player : public Entity, public IUserControlled {
 protected:
+    EntityPartition _partition = EntityPartition(_timer);
     vec2<float> _currentPosition;
+    bool _shouldFire = false;
 
 public:
     Player(const std::initializer_list<void *> init);
@@ -26,9 +26,11 @@ public:
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
 
-    virtual void Action(UserEventType event) override ;
+    virtual void Action(std::set<UserEventType> events) override ;
 
     void Serialize(RType::Packer &packer) override;
+
+    vec2<float> getVectorFromInput(std::set<UserEventType> &events);
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

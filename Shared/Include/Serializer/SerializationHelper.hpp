@@ -47,7 +47,14 @@ namespace RType {
 
         template<typename Ttype>
         static void Deserialize(char *buffer, uint16_t index, Ttype *value) {
-            *value = *reinterpret_cast<Ttype *>(buffer + index);
+            if (RType::SerializationHelper::_IsBigEndian()) {
+                if (sizeof(Ttype) == 1) // 1 byte => no swap needed
+                    *value = *reinterpret_cast<Ttype *>(buffer + index);
+                else
+                    *value = SwapEndian(*reinterpret_cast<Ttype *>(buffer + index));
+            }
+            else
+                *value = *reinterpret_cast<Ttype *>(buffer + index);
         }
     };
 }

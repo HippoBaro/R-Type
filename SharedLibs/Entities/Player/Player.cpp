@@ -4,6 +4,7 @@
 
 #include "Player.hpp"
 #include <Messages/FireProjectileMessage.hpp>
+#include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(Player)
@@ -16,46 +17,67 @@ Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromI
                                                                   *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
 Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager),
-                                                                                                                                                                         _currentPosition(startPosition) {}
+                                                                                                                                                                         _currentPosition(startPosition) {
+    auto now = _timer->getCurrent();
+    _partition = EntityPartitionBuilder(_timer, now, startPosition).AddSegment(
+                    PartitionSegmentBuilder()
+                            .For(std::chrono::milliseconds(50))
+                            .Translate(vec2<float>()))
+            .Build();
+}
 
-void Player::Cycle() { }
+void Player::Cycle() {
+    if (_shouldFire) {
+        _shouldFire = false;
+        auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), "SimpleProjectile", segment->getLocationVector().GetTweened()), this);
+    }
+}
 
 vec2<float> Player::GetRenderRect() {
     return vec2<float>(32 * 5, 14 * 5);
 }
 
 vec2<float> Player::GetPosition() {
-    return _currentPosition;
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    return pos;
 }
 
 uint16_t Player::getTypeId() const {
     return 5;
 }
 
-void Player::Action(UserEventType event){
-    switch (event) {
-        case USER_UP:
-            _currentPosition = vec2<float>(_currentPosition.x, _currentPosition.y - 5);
-            break;
-        case USER_DOWN:
-            _currentPosition = vec2<float>(_currentPosition.x, _currentPosition.y + 5);
-            break;
-        case USER_RIGHT:
-            _currentPosition = vec2<float>(_currentPosition.x + 5, _currentPosition.y);
-            break;
-        case USER_LEFT:
-            _currentPosition = vec2<float>(_currentPosition.x - 5, _currentPosition.y);
-            break;
-        case USER_SPACE:
-            break;
-
-        default:
-            break;
-    }
+void Player::Action(std::set<UserEventType> events) {
+    auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
+    auto now = _timer->getCurrent();
+    _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(
+                    PartitionSegmentBuilder()
+                            .For(std::chrono::milliseconds(50))
+                            .Translate(getVectorFromInput(events)))
+            .Build();
     NeedSynch();
+}
+
+vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
+    constexpr float velocity = 15;
+    vec2<float> direction;
+
+    if (events.count(USER_UP) > 0)
+        direction = vec2<float>(direction.x, direction.y - velocity);
+    if (events.count(USER_DOWN) > 0)
+        direction = vec2<float>(direction.x, direction.y + velocity);
+    if (events.count(USER_RIGHT) > 0)
+        direction =  vec2<float>(direction.x + velocity, direction.y);
+    if (events.count(USER_LEFT) > 0)
+        direction = vec2<float>(direction.x - velocity,direction.y);
+    if (events.count(USER_SPACE) > 0)
+        _shouldFire = true;
+
+    return direction;
 }
 
 void Player::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
-    _currentPosition.Serialize(packer);
+    _partition.Serialize(packer);
 }

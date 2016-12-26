@@ -13,6 +13,7 @@
 #include <future>
 #include <Messages/SendNetworkPayloadMessage.hpp>
 #include <Messages/UserInputMessage.hpp>
+#include <IUserControlled.hpp>
 
 void RTypeGameContext::Setup(std::string const &partitionFile) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
@@ -45,6 +46,8 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
         RType::Packer packer(RType::WRITE);
         message->Serialize(packer);
         _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this);
+        //if (_pool->Exist(2))
+        //    dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(message->getEvents());
     });
 
     _eventManager->Emit(StartReceiveNetworkGamePayload::EventType, new StartReceiveNetworkGamePayload(), this);

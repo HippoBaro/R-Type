@@ -18,7 +18,6 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    USER_LETTER,
     CLOSE_WINDOWS
 };
 
@@ -27,26 +26,41 @@ public:
     static constexpr RType::Event EventType = RType::USER_INPUT;
 
 private:
-    UserEventType _event;
-    char _letter = ' ';
+    std::set<UserEventType> _events;
 
 public:
-    UserInputMessage(const UserEventType &event) : _event(event) {}
+    UserInputMessage() : _events() {}
 
-    UserInputMessage(const UserEventType &event, const char &letter) : _event(event) {
-        _letter = letter;
+    UserInputMessage(UserEventType event) : _events() {
+        _events.insert(event);
     }
 
-    const char &getUserLetter() const {
-        return _letter;
+    const std::set<UserEventType> &getEvents() const {
+        return _events;
     }
 
-    const UserEventType &getEventType() const {
-        return _event;
+    bool Contains(UserEventType event) {
+        return _events.count(event) > 0;
+    }
+
+    bool ContainsOnly(UserEventType event) {
+        return _events.count(event) == 1 && _events.size() == 1;
+    }
+
+    UserEventType First() {
+        return *_events.begin();
+    }
+
+    void AddEvent(UserEventType event) {
+        _events.insert(event);
     }
 
     virtual void Serialize(RType::Packer &packer) {
-        packer.Pack(_event);
+        packer.Pack(_events);
+    }
+
+    bool Any() {
+        return _events.size() > 0;
     }
 };
 

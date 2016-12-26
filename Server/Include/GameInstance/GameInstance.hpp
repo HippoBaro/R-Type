@@ -19,7 +19,7 @@ private:
     std::shared_ptr<Timer> _timer = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());
     std::shared_ptr<RType::EventManager> _globalEventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());
-    std::unique_ptr<RType::ReaderWriterQueue<UserEventType>> _inbox = std::unique_ptr<RType::ReaderWriterQueue<UserEventType>>(new RType::ReaderWriterQueue<UserEventType>(100));
+    std::unique_ptr<RType::ReaderWriterQueue<std::set<UserEventType>>> _inbox = std::unique_ptr<RType::ReaderWriterQueue<std::set<UserEventType>>>(new RType::ReaderWriterQueue<std::set<UserEventType>>(100));
     std::unique_ptr<RType::EventListener> _sub;
 
 public:

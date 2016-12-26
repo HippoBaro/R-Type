@@ -18,9 +18,9 @@ GameInstance::GameInstance(uint16_t id, const std::shared_ptr<RType::EventManage
     _sub->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
         std::cout << "Received User Input" << std::endl;
         RType::Packer packer(RType::READ, message->getPayload()->Payload);
-        UserEventType event;
-        packer.Pack(event);
-        _inbox->enqueue(event);
+        std::set<UserEventType> events;
+        packer.Pack(events);
+        _inbox->enqueue(events);
     });
 }
 
@@ -29,9 +29,9 @@ void GameInstance::Start() {
 
     while (true) //todo : loop must break when game is over
     {
-        UserEventType event;
-        while (_inbox->try_dequeue(event)) {
-            dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(event);
+        std::set<UserEventType> events;
+        while (_inbox->try_dequeue(events)) {
+            dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(events);
         }
 
         _pool->ProcessEntities();

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <Messages/UserInputMessage.hpp>
+#include <Messages/UserInputEntryMessage.hpp>
 #include "RTypeInputListener.hpp"
 
 
@@ -18,43 +19,41 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
                 window.close();
                 break;
             case sf::Event::KeyPressed:
-                KeyBoardEvent(event.key.code);
+                KeyBoardInputEvent(event.key.code);
                 break;
             default:
                 break;
         }
     }
+    EmitPressedKey();
 }
 
-void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
-    switch (key) {
-        case sf::Keyboard::Left:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LEFT), this);
-            break;
-        case sf::Keyboard::Right:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_RIGHT), this);
-            break;
-        case sf::Keyboard::Up:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_UP), this);
-            break;
-        case sf::Keyboard::Down:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_DOWN), this);
-            break;
-        case sf::Keyboard::Space:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_SPACE), this);
-            break;
-        case sf::Keyboard::Return:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ENTER), this);
-            break;
-        case sf::Keyboard::Escape:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ESCAPE), this);
-            break;
-        case sf::Keyboard::BackSpace:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, '\b'), this);
-            break;
-        default:
-            if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
-                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, key + 65), this);
-            break;
+void RTypeInputListener::KeyBoardInputEvent(sf::Keyboard::Key &key) {
+    if (key == sf::Keyboard::BackSpace)
+        _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage('\b'), this);
+    else if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
+        _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage(key + 65), this);
+}
+
+void RTypeInputListener::EmitPressedKey() {
+    auto eventKey = new UserInputMessage();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        eventKey->AddEvent(USER_LEFT);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        eventKey->AddEvent(USER_RIGHT);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        eventKey->AddEvent(USER_UP);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        eventKey->AddEvent(USER_DOWN);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        eventKey->AddEvent(USER_SPACE);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+        eventKey->AddEvent(USER_ENTER);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        eventKey->AddEvent(USER_ESCAPE);
+
+    if (eventKey->Any()) {
+        _eventManager->Emit(UserInputMessage::EventType, eventKey, this);
+        return;
     }
 }
