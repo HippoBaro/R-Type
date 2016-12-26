@@ -98,6 +98,7 @@ protected:
   ////////////////////////////////////////////////////
   /// \brief Determines if should draw the next frame
   ///
+  /// Should be called every frame !
   /// Automatically updates the animation frames according to
   /// time and options (Back&Forth ? Loop ?)
   ////////////////////////////////////////////////////
