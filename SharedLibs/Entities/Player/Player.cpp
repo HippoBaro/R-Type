@@ -4,7 +4,6 @@
 
 #include "Player.hpp"
 #include <Messages/FireProjectileMessage.hpp>
-#include <PartitionSystem/EntityPartition.hpp>
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
@@ -57,7 +56,6 @@ void Player::Action(std::set<UserEventType> events) {
                             .For(std::chrono::milliseconds(50))
                             .Translate(getVectorFromInput(events)))
             .Build();
-
     NeedSynch();
 }
 

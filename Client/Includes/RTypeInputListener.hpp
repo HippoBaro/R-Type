@@ -13,8 +13,8 @@ class RTypeInputListener {
 private:
     std::shared_ptr<RType::EventManager> _eventManager;
 
-    void KeyBoardEvent(sf::Keyboard::Key &);
-//    void MouseEvent(sf::Mouse::Button);
+    void KeyBoardInputEvent(sf::Keyboard::Key &);
+    void EmitPressedKey();
 
 public:
     RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager);
