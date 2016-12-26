@@ -63,10 +63,10 @@ set(CLIENT_SOURCE_FILES
         src/DrawableMenu/MenuCreate.cpp
         src/DrawableMenu/MenuMusicVolume.cpp
         src/DrawableMenu/MenuSoundVolume.cpp
-
         )
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
+target_compile_definitions(R_Type_Client INTERFACE -DRTYPE_CLIENT)
 target_link_libraries(R_Type_Client RTypeShared sfml-graphics sfml-window sfml-system sfml-audio)
 
 add_custom_command(TARGET R_Type_Client PRE_BUILD

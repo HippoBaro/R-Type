@@ -16,6 +16,9 @@ public:
 public:
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
 
+
+    virtual bool NeedRedraw() override ;
+
 public:
     virtual ~DrawableSimpleProjectile();
 

@@ -9,7 +9,7 @@
 
 class MenuSoundVolume : public ADrawableMenu {
 private:
-    int _volume = 50;
+    uint8_t _volume = 50;
     RType::EventListener _eventListener;
 
 public:

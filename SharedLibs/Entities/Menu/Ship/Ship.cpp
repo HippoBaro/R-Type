@@ -39,4 +39,10 @@ void Ship::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
+uint16_t Ship::getTypeId() const {
+    return 3;
+}
+
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(Ship)
+#endif

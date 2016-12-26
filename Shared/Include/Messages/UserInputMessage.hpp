@@ -18,31 +18,75 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    USER_LETTER,
-    CLOSE_WINDOWS
+    CLOSE_WINDOWS,
+    OTHER
 };
 
-class UserInputMessage : public IMessage {
+class UserInputMessage : public IMessage, RType::ISerializable {
 public:
     static constexpr RType::Event EventType = RType::USER_INPUT;
 
 private:
-    const UserEventType _event;
-    char _letter = ' ';
+    std::set<UserEventType> _keyPressed;
+    std::set<UserEventType> _keyReleased;
 
 public:
-    UserInputMessage(const UserEventType &event) : _event(event) {}
+    UserInputMessage() : _keyPressed(), _keyReleased() {}
 
-    UserInputMessage(const UserEventType &event, const char &letter) : _event(event) {
-        _letter = letter;
+    UserInputMessage(UserEventType event) : _keyPressed(), _keyReleased() {
+        _keyPressed.insert(event);
     }
 
-    const char &getUserLetter() const {
-        return _letter;
+    virtual void Serialize(RType::Packer &packer) {
+        packer.Pack(_keyPressed);
     }
 
-    const UserEventType &getEventType() const {
-        return _event;
+    const std::set<UserEventType> &getPressed() const {
+        return _keyPressed;
+    }
+
+    bool PressedContains(UserEventType event) {
+        return _keyPressed.count(event) > 0;
+    }
+
+    bool PressedContainsOnly(UserEventType event) {
+        return _keyPressed.count(event) == 1 && _keyPressed.size() == 1;
+    }
+
+    UserEventType FirstPressed() {
+        return *_keyPressed.begin();
+    }
+
+    void AddPressedEvent(UserEventType event) {
+        _keyPressed.insert(event);
+    }
+
+    bool AnyPressed() {
+        return _keyPressed.size() > 0;
+    }
+
+    const std::set<UserEventType> &getReleased() const {
+        return _keyReleased;
+    }
+
+    bool ReleasedContains(UserEventType event) {
+        return _keyReleased.count(event) > 0;
+    }
+
+    bool ReleasedContainsOnly(UserEventType event) {
+        return _keyReleased.count(event) == 1 && _keyReleased.size() == 1;
+    }
+
+    UserEventType FirstReleased() {
+        return *_keyReleased.begin();
+    }
+
+    void AddReleasedEvent(UserEventType event) {
+        _keyReleased.insert(event);
+    }
+
+    bool AnyReleased() {
+        return _keyReleased.size() > 0;
     }
 };
 

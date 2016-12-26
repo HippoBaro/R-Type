@@ -19,7 +19,7 @@
 
 RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
-    _pool = std::make_shared<ClientEntityPool>(_timer);
+    _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
     auto stratPos = vec2<float>(1500, 100);
     _pool->AddEntity("DeathStar", 1, stratPos, _timer->getCurrent());
@@ -46,11 +46,13 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSoundVolume(_eventManager)));
 
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->getEventType() == USER_UP || message->getEventType() == USER_DOWN || message->getEventType() == USER_LEFT || message->getEventType() == USER_RIGHT) {
+        if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
+            message->ReleasedContainsOnly(USER_LEFT) ||
+            message->ReleasedContainsOnly(USER_RIGHT)) {
             for (auto &&elem : _menu) {
-                elem->moveSelection(message->getEventType());
+                elem->moveSelection(message->FirstReleased());
             }
-        } else if (message->getEventType() == USER_ENTER) {
+        } else if (message->ReleasedContainsOnly(USER_ENTER)) {
             for (auto &&elem : _menu) {
                 if (elem->moveInSubMenu(_menu))
                     break;

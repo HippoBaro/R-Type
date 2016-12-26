@@ -1,4 +1,9 @@
 {
+    "entityTypes":[
+        "DummyMonster",
+        "SimpleProjectile",
+        "Player"
+    ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
 	"backgroundEntity":
@@ -11,22 +16,13 @@
 	},
 	"entities":[
 		{
-			"entityName":"DummyMonster",
-			"startPosition": {
-				"x":0,
-				"y":400
-			},
-			"startTime":0,
-			"id":1
-		},
-		{
-			"entityName":"DummyMonster",
-			"startPosition": {
-				"x":500,
-				"y":400
-			},
-			"startTime":0,
-			"id":2
-		}
+            "entityName":"Player",
+            "startPosition": {
+                "x":0,
+                "y":0
+            },
+            "startTime":0,
+            "id":2
+        }
 	]
 }
