@@ -26,7 +26,10 @@ void LobbyManager::Start() {
         } else if (data.find("[READY]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
             _instances[roomName]->SetReady(message->getId(), true);
-        } else if ()
+        } else if (data.find("[QUIT]") != std::string::npos) {
+            std::string roomName = data.substr(data.find("]") + 1);
+            LeftInstance(roomName, message->getId());
+        }
     });
     Run();
 }
@@ -35,6 +38,7 @@ void LobbyManager::Run() {
     while (true) {
         _networkManager.IsThereNewClient();
         _networkManager.CheckForIncomingMessage(_clients);
+        CheckInstance();
     }
 }
 
@@ -52,4 +56,22 @@ bool LobbyManager::JoinInstance(std::string roomName, std::shared_ptr<PlayerRef>
         return _instances[roomName]->AddPlayerToInstance(ref->GetId(), ref);
     }
     return false;
+}
+
+void LobbyManager::LeftInstance(std::string roomName, uint8_t id) {
+    if (_instances.find(roomName) != _instances.end()) {
+        _instances[roomName]->PlayerLeft(id);
+    }
+}
+
+void LobbyManager::CheckInstance() {
+    for (auto const &instance : _instances) {
+        if (!instance.second->IsThereAnyone()) {
+            _instances.erase(instance.first);
+            break;
+        }
+        if (instance.second->IsReady()) {
+            std::cout << "Instance :" << instance.first << " is ready !" << std::endl;
+        }
+    }
 }

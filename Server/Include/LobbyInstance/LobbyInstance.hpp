@@ -19,6 +19,9 @@ public:
     LobbyInstance(std::string roomName);
     bool AddPlayerToInstance(uint8_t id, std::shared_ptr<PlayerRef> ref);
     void SetReady(uint8_t id, bool ready);
+    void PlayerLeft(uint8_t id);
+    bool IsReady();
+    bool IsThereAnyone();
 };
 
 

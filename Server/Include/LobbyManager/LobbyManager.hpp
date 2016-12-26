@@ -15,7 +15,6 @@
 class LobbyManager {
 private:
     uint8_t _i = 0;
-    std::unique_ptr<std::thread> _thread = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     NetworkManager _networkManager = NetworkManager(_eventManager);
     std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
@@ -24,7 +23,8 @@ private:
 private:
     bool CreateInstance(std::string roomName);
     bool JoinInstance(std::string roomName, std::shared_ptr<PlayerRef> ref);
-
+    void LeftInstance(std::string roomName, uint8_t id);
+    void CheckInstance();
 public:
     void Start();
     void Run();

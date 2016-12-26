@@ -21,3 +21,21 @@ bool LobbyInstance::AddPlayerToInstance(uint8_t id, std::shared_ptr<PlayerRef> r
 void LobbyInstance::SetReady(uint8_t id, bool ready) {
     _players[id]->SetReady(ready);
 }
+
+void LobbyInstance::PlayerLeft(uint8_t id) {
+    if (_players.find(id) != _players.end()) {
+        _players.erase(id);
+    }
+}
+
+bool LobbyInstance::IsReady() {
+    for(auto const& player : _players) {
+        if (!player.second->IsReady())
+            return false;
+    }
+    return true;
+}
+
+bool LobbyInstance::IsThereAnyone() {
+    return _players.size() != 0;
+}
