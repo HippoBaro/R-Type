@@ -18,7 +18,8 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    CLOSE_WINDOWS
+    CLOSE_WINDOWS,
+    OTHER
 };
 
 class UserInputMessage : public IMessage, RType::ISerializable {
@@ -26,41 +27,66 @@ public:
     static constexpr RType::Event EventType = RType::USER_INPUT;
 
 private:
-    std::set<UserEventType> _events;
+    std::set<UserEventType> keyPressed;
+    std::set<UserEventType> keyReleased;
 
 public:
-    UserInputMessage() : _events() {}
+    UserInputMessage() : keyPressed() {}
 
-    UserInputMessage(UserEventType event) : _events() {
-        _events.insert(event);
-    }
-
-    const std::set<UserEventType> &getEvents() const {
-        return _events;
-    }
-
-    bool Contains(UserEventType event) {
-        return _events.count(event) > 0;
-    }
-
-    bool ContainsOnly(UserEventType event) {
-        return _events.count(event) == 1 && _events.size() == 1;
-    }
-
-    UserEventType First() {
-        return *_events.begin();
-    }
-
-    void AddEvent(UserEventType event) {
-        _events.insert(event);
+    UserInputMessage(UserEventType event) : keyPressed() {
+        keyPressed.insert(event);
     }
 
     virtual void Serialize(RType::Packer &packer) {
-        packer.Pack(_events);
+        packer.Pack(keyPressed);
     }
 
-    bool Any() {
-        return _events.size() > 0;
+    const std::set<UserEventType> &getPressed() const {
+        return keyPressed;
+    }
+
+    bool PressedContains(UserEventType event) {
+        return keyPressed.count(event) > 0;
+    }
+
+    bool PressedContainsOnly(UserEventType event) {
+        return keyPressed.count(event) == 1 && keyPressed.size() == 1;
+    }
+
+    UserEventType FirstPressed() {
+        return *keyPressed.begin();
+    }
+
+    void AddPressedEvent(UserEventType event) {
+        keyPressed.insert(event);
+    }
+
+    bool AnyPressed() {
+        return keyPressed.size() > 0;
+    }
+
+    const std::set<UserEventType> &getReleased() const {
+        return keyReleased;
+    }
+
+    bool ReleasedContains(UserEventType event) {
+        return keyReleased.count(event) > 0;
+    }
+
+    bool ReleasedContainsOnly(UserEventType event) {
+        return keyReleased.count(event) == 1 && keyReleased.size() == 1;
+    }
+
+    UserEventType FirstReleased() {
+        return *keyReleased.begin();
+    }
+
+    void AddReleasedEvent(UserEventType event) {
+        keyReleased.insert(event);
+    }
+
+    bool AnyReleased() {
+        return keyReleased.size() > 0;
     }
 };
 

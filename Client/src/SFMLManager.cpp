@@ -14,7 +14,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->Contains(CLOSE_WINDOWS))
+        if (message->ReleasedContains(CLOSE_WINDOWS))
             _window.close();
     });
     _eventListener->Subscribe<Entity, SoundSystemMessage>(SoundSystemMessage::EventType, [&](Entity *, SoundSystemMessage *message) {
@@ -57,7 +57,7 @@ void SFMLManager::Run() {
             minFPS = 60;
             maxFPS = 0;
         }
-        _inputListener->CheckForInputs(_window, _currentContext == _menuContext.get());
+        _inputListener->CheckForInputs(_window);
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);

@@ -2,34 +2,36 @@
 // Created by pasteu_e on 27/11/16.
 //
 
-#include <iostream>
-#include <Messages/UserInputMessage.hpp>
-#include <Messages/UserInputEntryMessage.hpp>
 #include "RTypeInputListener.hpp"
 
 
-RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
-}
+RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) { }
 
-void RTypeInputListener::CheckForInputs(sf::Window &window, bool singleInput) {
+void RTypeInputListener::CheckForInputs(sf::Window &window) {
+    auto eventKey = new UserInputMessage();
+
     sf::Event event;
-
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
                 window.close();
                 break;
             case sf::Event::KeyPressed:
+                _keyPressed.insert(event.key.code);
                 KeyBoardInputEvent(event.key.code);
-                if (singleInput)
-                    EmitPressedKey();
                 break;
+            case sf::Event::KeyReleased:
+                _keyPressed.erase(event.key.code);
+                SubscribeReleasedKeys(eventKey, event.key.code);
             default:
                 break;
         }
     }
-    if (!singleInput)
-        EmitPressedKey();
+    SubscribePressedKeys(eventKey);
+    if (eventKey->AnyPressed() || eventKey->AnyReleased())
+        _eventManager->Emit(UserInputMessage::EventType, eventKey, this);
+    else
+        delete eventKey;
 }
 
 void RTypeInputListener::KeyBoardInputEvent(sf::Keyboard::Key &key) {
@@ -39,25 +41,30 @@ void RTypeInputListener::KeyBoardInputEvent(sf::Keyboard::Key &key) {
         _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage(key + 65), this);
 }
 
-void RTypeInputListener::EmitPressedKey() {
-    auto eventKey = new UserInputMessage();
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        eventKey->AddEvent(USER_LEFT);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        eventKey->AddEvent(USER_RIGHT);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        eventKey->AddEvent(USER_UP);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        eventKey->AddEvent(USER_DOWN);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        eventKey->AddEvent(USER_SPACE);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-        eventKey->AddEvent(USER_ENTER);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-        eventKey->AddEvent(USER_ESCAPE);
-
-    if (eventKey->Any()) {
-        _eventManager->Emit(UserInputMessage::EventType, eventKey, this);
-        return;
+void RTypeInputListener::SubscribePressedKeys(UserInputMessage *event) {
+    for (auto &key : _keyPressed) {
+        event->AddPressedEvent(ConvertSfmlEvent(key));
     }
+}
+
+void RTypeInputListener::SubscribeReleasedKeys(UserInputMessage *event, const sf::Keyboard::Key &releasedKey) {
+    event->AddReleasedEvent(ConvertSfmlEvent(releasedKey));
+}
+
+UserEventType RTypeInputListener::ConvertSfmlEvent(const sf::Keyboard::Key &key) {
+    if (key == sf::Keyboard::Left)
+        return USER_LEFT;
+    if (key == sf::Keyboard::Right)
+        return USER_RIGHT;
+    if (key == sf::Keyboard::Up)
+        return USER_UP;
+    if (key == sf::Keyboard::Down)
+        return USER_DOWN;
+    if (key == sf::Keyboard::Space)
+        return USER_SPACE;
+    if (key == sf::Keyboard::Return)
+        return USER_ENTER;
+    if (key == sf::Keyboard::Escape)
+       return USER_ESCAPE;
+    return OTHER;
 }
