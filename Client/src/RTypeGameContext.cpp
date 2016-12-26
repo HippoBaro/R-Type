@@ -47,13 +47,12 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
         message->Serialize(packer);
         _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this);
         //if (_pool->Exist(2))
-        //    dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(message->getEvents());
+        //    dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(message->getPressed());
     });
 
     _eventManager->Emit(StartReceiveNetworkGamePayload::EventType, new StartReceiveNetworkGamePayload(), this);
 }
 
-bool didSyncTime = false;
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
@@ -61,10 +60,10 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))
         _pool->AddEntity(entityPacker.GetEntity(_timer, _pool->getEventManager()));
-    if (entityPacker.getTimeStamp() != -1 && didSyncTime == false)
+    if (entityPacker.getTimeStamp() != -1)
     {
         _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
-        didSyncTime = true;
+        //didSyncTime = true;
     }
 
     _pool->ProcessEntities();
