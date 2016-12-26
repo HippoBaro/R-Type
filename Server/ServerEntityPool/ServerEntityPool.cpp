@@ -11,7 +11,7 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
     int count = 0;
     for(auto &i : _pool) {
         if (i.second->getCyclesSinceLastSynch() < 100 && i.second->getCyclesSinceLastSynch() > 0) {
-            //i.second->DidCycleNoSynch();
+            i.second->DidCycleNoSynch();
             continue;
         }
         else

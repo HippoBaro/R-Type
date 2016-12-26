@@ -46,6 +46,7 @@ set(SHARED_SOURCE_FILES
         Include/Messages/FireProjectileMessage.hpp
         Include/Messages/ProjectilePositionChangedMessage.hpp
         Include/Messages/UserInputMessage.hpp
+        Include/Messages/UserInputEntryMessage.hpp
         Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
         Include/Json/Json.hpp

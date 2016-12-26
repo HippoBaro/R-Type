@@ -8,6 +8,7 @@
 #include <Entities/Entity.hpp>
 #include <IUserControlled.hpp>
 #include <PartitionSystem/EntityPartition.hpp>
+#include <Base.h>
 
 class Player : public Entity, public IUserControlled {
 protected:
@@ -24,11 +25,11 @@ public:
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
 
-    virtual void Action(UserEventType event) override ;
+    virtual void Action(std::set<UserEventType> events) override ;
 
     void Serialize(RType::Packer &packer) override;
 
-    vec2<float> getVectorFromInput(UserEventType event);
+    vec2<float> getVectorFromInput(std::set<UserEventType> &events);
 };
 
 #endif //R_TYPE_DUMMYMONSTER_HPP

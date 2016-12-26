@@ -2,34 +2,33 @@
 // Created by pasteu_e on 11/12/16.
 //
 
+#include <Messages/UserInputEntryMessage.hpp>
 #include "DrawableMenu/ADrawableInputMenu.hpp"
 
 ADrawableInputMenu::ADrawableInputMenu(std::shared_ptr<RType::EventManager> &eventManager) : _eventListener(eventManager) {
-    _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (_active && message->getEventType() == USER_LETTER) {
-            _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/keyboard_key.ogg"), this);
-            if (message->getUserLetter() != '\b') {
-                if (_blinkingCursor) {
-                    if (_drawableTextByUser.size() < 12) {
-                        _drawableTextByUser.pop_back();
-                        _drawableTextByUser += message->getUserLetter();
-                        _drawableTextByUser += "_";
-                    }
-                } else {
-                    if (_drawableTextByUser.size() < 11)
-                        _drawableTextByUser += message->getUserLetter();
+    _eventListener.Subscribe<Entity, UserInputEntryMessage>(UserInputEntryMessage::EventType, [&](Entity *, UserInputEntryMessage *message) {
+        _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(PLAY_SOUND, "medias/sounds/keyboard_key.ogg"), this);
+        if (message->getUserLetter() != '\b') {
+            if (_blinkingCursor) {
+                if (_drawableTextByUser.size() < 12) {
+                    _drawableTextByUser.pop_back();
+                    _drawableTextByUser += message->getUserLetter();
+                    _drawableTextByUser += "_";
                 }
-            } else if (_drawableTextByUser.size() > 0) {
-                if (_blinkingCursor && _drawableTextByUser.size() > 1) {
-                    _drawableTextByUser.pop_back();
-                    _drawableTextByUser.pop_back();
-                    _drawableTextByUser += "_";
-                } else if (_blinkingCursor) {
-                    _drawableTextByUser.pop_back();
-                    _drawableTextByUser += "_";
-                } else
-                    _drawableTextByUser.pop_back();
+            } else {
+                if (_drawableTextByUser.size() < 11)
+                    _drawableTextByUser += message->getUserLetter();
             }
+        } else if (_drawableTextByUser.size() > 0) {
+            if (_blinkingCursor && _drawableTextByUser.size() > 1) {
+                _drawableTextByUser.pop_back();
+                _drawableTextByUser.pop_back();
+                _drawableTextByUser += "_";
+            } else if (_blinkingCursor) {
+                _drawableTextByUser.pop_back();
+                _drawableTextByUser += "_";
+            } else
+                _drawableTextByUser.pop_back();
         }
     });
 }
