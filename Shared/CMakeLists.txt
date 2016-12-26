@@ -49,20 +49,18 @@ set(SHARED_SOURCE_FILES
         Include/Messages/UserInputMessage.hpp
         Include/Messages/UserInputEntryMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
-        Include/Messages/SendNetworkPayloadMessage.hpp
+        Include/Messages/StopReceiveNetworkGamePayload.hpp
         Include/Messages/StartReceiveNetworkGamePayload.hpp
         Include/Messages/ReceivedNetworkPayloadMessage.hpp
-        Include/Messages/StopReceiveNetworkGamePayload.hpp
+        Include/Messages/SendNetworkPayloadMessage.hpp
         Include/Messages/NewClientConnectionMessage.hpp
         Include/Messages/ReceivedTCPNetworkPayloadMessage.hpp
         Include/Messages/SendTCPNetworkPayloadMessage.hpp
         Include/Messages/ClientWaitForServerMessage.hpp
 
+        Include/Json/Json.hpp
         Include/Queue/SingleReaderWriterQueue.hpp
         Include/Queue/atomicops.hpp
-
-        Include/Json/Json.hpp
-
         Include/EntityFactory/EntityFactory.hpp
         Include/EntityPacker/EntityPacker.hpp
         )
