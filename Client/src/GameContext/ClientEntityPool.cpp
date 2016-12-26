@@ -60,4 +60,6 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
         RegisterType(i);
 }
 
-void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) { }
+void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) {
+    //EntityPool::SpawnProjectile(message, emitterId);
+}

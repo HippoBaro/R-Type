@@ -14,7 +14,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->Contains(CLOSE_WINDOWS))
+        if (message->ReleasedContains(CLOSE_WINDOWS))
             _window.close();
     });
     _eventListener->Subscribe<Entity, SoundSystemMessage>(SoundSystemMessage::EventType, [&](Entity *, SoundSystemMessage *message) {
@@ -37,6 +37,7 @@ void SFMLManager::Run() {
     glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(30);
+    _window.setKeyRepeatEnabled(false);
 
     sf::RenderTexture context;
     sf::Sprite renderSprite;

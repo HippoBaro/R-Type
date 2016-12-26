@@ -46,11 +46,13 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSoundVolume(_eventManager)));
 
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->ContainsOnly(USER_UP) || message->ContainsOnly(USER_DOWN) || message->ContainsOnly(USER_LEFT) || message->ContainsOnly(USER_RIGHT)) {
+        if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
+            message->ReleasedContainsOnly(USER_LEFT) ||
+            message->ReleasedContainsOnly(USER_RIGHT)) {
             for (auto &&elem : _menu) {
-                elem->moveSelection(message->First());
+                elem->moveSelection(message->FirstReleased());
             }
-        } else if (message->ContainsOnly(USER_ENTER)) {
+        } else if (message->ReleasedContainsOnly(USER_ENTER)) {
             for (auto &&elem : _menu) {
                 if (elem->moveInSubMenu(_menu))
                     break;
