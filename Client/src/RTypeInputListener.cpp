@@ -11,8 +11,9 @@
 RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
 }
 
-void RTypeInputListener::CheckForInputs(sf::Window &window) {
+void RTypeInputListener::CheckForInputs(sf::Window &window, bool singleInput) {
     sf::Event event;
+
     while (window.pollEvent(event)) {
         switch (event.type) {
             case sf::Event::Closed:
@@ -20,12 +21,15 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
                 break;
             case sf::Event::KeyPressed:
                 KeyBoardInputEvent(event.key.code);
+                if (singleInput)
+                    EmitPressedKey();
                 break;
             default:
                 break;
         }
     }
-    EmitPressedKey();
+    if (!singleInput)
+        EmitPressedKey();
 }
 
 void RTypeInputListener::KeyBoardInputEvent(sf::Keyboard::Key &key) {
