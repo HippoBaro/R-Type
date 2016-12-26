@@ -4,6 +4,10 @@
 
 #include "GraphicTentacleBoss.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTentacleBoss)
+#endif
+
 GraphicTentacleBoss::GraphicTentacleBoss(const std::initializer_list<void *> init) :
   TentacleBoss(init),
   AAnimable()
@@ -32,5 +36,3 @@ void GraphicTentacleBoss::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 void GraphicTentacleBoss::Cycle() {
   TentacleBoss::Cycle();
 }
-
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTentacleBoss)

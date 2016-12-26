@@ -8,7 +8,7 @@
 #include <IDrawable.hpp>
 #include "DeathStar.hpp"
 
-class GraphicDeathStar : public DeathStar, public IDrawable {
+class GraphicDeathStar : public DeathStar, public AAnimable {
 
 public:
     GraphicDeathStar(const std::initializer_list<void *> init);

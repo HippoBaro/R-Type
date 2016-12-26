@@ -40,4 +40,6 @@ void TentacleBoss::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
+#ifdef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(TentacleBoss)
+#endif
