@@ -13,11 +13,11 @@ class LobbyInstance {
 private:
     std::string _roomName;
     std::map<uint8_t, std::shared_ptr<PlayerRef>> _players = std::map<uint8_t, std::shared_ptr<PlayerRef>>();
-    RType::EventManager _eventManager = RType::EventManager();
+    std::shared_ptr<RType::EventManager> _eventManager;
 
 public:
-    LobbyInstance(std::string roomName);
-    bool AddPlayerToInstance(uint8_t id, std::shared_ptr<PlayerRef> ref);
+    LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName);
+    bool AddPlayerToInstance(uint8_t id, std::shared_ptr<PlayerRef> &ref);
     void SetReady(uint8_t id, bool ready);
     void PlayerLeft(uint8_t id);
     bool IsReady();

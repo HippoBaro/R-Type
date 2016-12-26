@@ -5,11 +5,15 @@
 #include <Messages/NewClientConnectionMessage.hpp>
 #include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
 #include "LobbyManager/LobbyManager.hpp"
+#include <Messages/SendTCPNetworkPayloadMessage.hpp>
 
 void LobbyManager::Start() {
     auto sub = RType::EventListener(_eventManager);
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
         _clients[_i++] = message->getClient();
+    });
+    sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
+
     });
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
         std::string data = std::string(message->getPayload()->Payload);
@@ -42,23 +46,23 @@ void LobbyManager::Run() {
     }
 }
 
-bool LobbyManager::CreateInstance(std::string roomName) {
+bool LobbyManager::CreateInstance(std::string &roomName) {
     if (_instances.find(roomName) == _instances.end()) {
-        auto lobby = std::make_shared<LobbyInstance>(roomName);
+        auto lobby = std::make_shared<LobbyInstance>(_eventManager, roomName);
         _instances[roomName] = lobby;
         return true;
     }
     return false;
 }
 
-bool LobbyManager::JoinInstance(std::string roomName, std::shared_ptr<PlayerRef> ref) {
+bool LobbyManager::JoinInstance(std::string &roomName, std::shared_ptr<PlayerRef> &ref) {
     if (_instances.find(roomName) != _instances.end()) {
         return _instances[roomName]->AddPlayerToInstance(ref->GetId(), ref);
     }
     return false;
 }
 
-void LobbyManager::LeftInstance(std::string roomName, uint8_t id) {
+void LobbyManager::LeftInstance(std::string &roomName, uint8_t id) {
     if (_instances.find(roomName) != _instances.end()) {
         _instances[roomName]->PlayerLeft(id);
     }
@@ -71,7 +75,13 @@ void LobbyManager::CheckInstance() {
             break;
         }
         if (instance.second->IsReady()) {
-            std::cout << "Instance :" << instance.first << " is ready !" << std::endl;
+            //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
         }
+    }
+}
+
+void LobbyManager::NotifyClients() {
+    for (auto const &instance : _instances) {
+
     }
 }

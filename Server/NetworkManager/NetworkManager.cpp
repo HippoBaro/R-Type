@@ -5,7 +5,6 @@
 #include <EventDispatcher/EventListener.hpp>
 #include <Messages/SendNetworkPayloadMessage.hpp>
 #include <Messages/NewClientConnectionMessage.hpp>
-#include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include "NetworkManager/NetworkManager.hpp"
@@ -56,8 +55,9 @@ void NetworkManager::IsThereNewClient() {
 }
 
 
-void NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::unique_ptr<IRTypeSocket> &client) {
-
+void NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client) {
+    if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
+        client->Send(payload);
 }
 
 void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &clients) {
