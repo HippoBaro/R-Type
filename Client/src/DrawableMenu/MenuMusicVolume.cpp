@@ -13,10 +13,10 @@ MenuMusicVolume::MenuMusicVolume(std::shared_ptr<RType::EventManager> &eventMana
 
     _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         if (_active) {
-            if (message->getEventType() == USER_RIGHT && _volume < 100) {
+            if (message->ContainsOnly(USER_RIGHT) && _volume < 100) {
                 _volume++;
                 _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_MUSIC, _volume), this);
-            } else if (message->getEventType() == USER_LEFT && _volume > 0) {
+            } else if (message->ContainsOnly(USER_LEFT) && _volume > 0) {
                 _volume--;
                 _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_MUSIC, _volume), this);
             }

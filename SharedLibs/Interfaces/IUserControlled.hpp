@@ -9,7 +9,7 @@
 
 class IUserControlled {
 public:
-    virtual void Action(UserEventType event) = 0;
+    virtual void Action(std::set<UserEventType> events) = 0;
 };
 
 #endif //R_TYPE_IUSERCONTROLLED_HPP

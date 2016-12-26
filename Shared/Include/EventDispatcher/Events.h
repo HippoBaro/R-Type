@@ -13,6 +13,7 @@ namespace RType {
         NEW_ENTITY,
         POSITION_CHANGED_COLLISION,
         USER_INPUT,
+        USER_INPUT_ENTRY,
         SOUND_SYSTEM,
         MENU_LOBBY,
         SEND_NET_MESSAGE,

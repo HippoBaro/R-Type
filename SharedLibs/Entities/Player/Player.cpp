@@ -42,33 +42,32 @@ uint16_t Player::getTypeId() const {
     return 5;
 }
 
-void Player::Action(UserEventType event){
+void Player::Action(std::set<UserEventType> events) {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(
                     PartitionSegmentBuilder()
                             .For(std::chrono::milliseconds(50))
-                            .Translate(getVectorFromInput(event)))
+                            .Translate(getVectorFromInput(events)))
             .Build();
 
     NeedSynch();
 }
 
-vec2<float> Player::getVectorFromInput(UserEventType event) {
+vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     constexpr float velocity = 15;
+    vec2<float> direction;
 
-    switch (event) {
-        case USER_UP:
-            return vec2<float>(0, -velocity);
-        case USER_DOWN:
-            return vec2<float>(0, velocity);
-        case USER_RIGHT:
-            return vec2<float>(velocity, 0);
-        case USER_LEFT:
-            return vec2<float>(-velocity, 0);
-        default:
-            return vec2<float>();
-    }
+    if (events.count(USER_UP) > 0)
+        direction = vec2<float>(direction.x, direction.y - velocity);
+    if (events.count(USER_DOWN) > 0)
+        direction = vec2<float>(direction.x, direction.y + velocity);
+    if (events.count(USER_RIGHT) > 0)
+        direction =  vec2<float>(direction.x + velocity, direction.y);
+    if (events.count(USER_LEFT) > 0)
+        direction = vec2<float>(direction.x - velocity,direction.y);
+
+    return direction;
 }
 
 void Player::Serialize(RType::Packer &packer) {
