@@ -37,6 +37,7 @@ void SFMLManager::Run() {
     glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
     _window.setFramerateLimit(30);
+    _window.setKeyRepeatEnabled(false);
 
     sf::RenderTexture context;
     sf::Sprite renderSprite;
