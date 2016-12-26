@@ -53,7 +53,7 @@ void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
 
     switch (key) {
         case sf::Keyboard::BackSpace:
-            _eventManager->Emit(UserInputEntryMessage::EventType,new UserInputEntryMessage('\b'), this);
+            _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage('\b'), this);
             break;
         default:
             if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)

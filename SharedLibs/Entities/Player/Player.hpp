@@ -14,6 +14,7 @@ class Player : public Entity, public IUserControlled {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
     vec2<float> _currentPosition;
+    bool _shouldFire = false;
 
 public:
     Player(const std::initializer_list<void *> init);

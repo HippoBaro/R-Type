@@ -27,13 +27,20 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
             .Build();
 }
 
-void Player::Cycle() { }
+void Player::Cycle() {
+    if (_shouldFire) {
+        _shouldFire = false;
+        auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), "SimpleProjectile", segment->getLocationVector().GetTweened()), this);
+    }
+}
 
 vec2<float> Player::GetRenderRect() {
     return vec2<float>(32 * 5, 14 * 5);
 }
 
-vec2<float> Player::GetPosition() {
+vec2<float> Player::GetPosition()
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
@@ -66,6 +73,8 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
         direction =  vec2<float>(direction.x + velocity, direction.y);
     if (events.count(USER_LEFT) > 0)
         direction = vec2<float>(direction.x - velocity,direction.y);
+    if (events.count(USER_SPACE) > 0)
+        _shouldFire = true;
 
     return direction;
 }
