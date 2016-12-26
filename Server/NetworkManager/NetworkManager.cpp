@@ -55,9 +55,12 @@ void NetworkManager::IsThereNewClient() {
 }
 
 
-void NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client) {
-    if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
+bool NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client, int timeout) {
+    if (client->PoolEventOnSocket(SOMEONE_LISTENING, timeout)) {
         client->Send(payload);
+        return true;
+    }
+    return false;
 }
 
 void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &clients) {

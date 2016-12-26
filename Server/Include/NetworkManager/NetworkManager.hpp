@@ -20,15 +20,13 @@ private:
     std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>> _clients = std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>>();
     bool _poisonPill = false;
 
-public:
-    NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager);
-
 private:
     void Run();
     void Send(RTypeNetworkPayload const &payload);
-    void SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client);
 
 public:
+    NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager);
+    bool SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client, int timeout);
     void Start();
     void IsThereNewClient();
     void CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &);

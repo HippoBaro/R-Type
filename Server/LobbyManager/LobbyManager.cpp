@@ -13,7 +13,7 @@ void LobbyManager::Start() {
         _clients[_i++] = message->getClient();
     });
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
-
+        _toSend.push_back(std::make_pair(message->getDestination(), message->ConvertToSocketMessage()));
     });
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
         std::string data = std::string(message->getPayload()->Payload);
@@ -29,7 +29,9 @@ void LobbyManager::Start() {
             JoinInstance(roomName, player);
         } else if (data.find("[READY]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
-            _instances[roomName]->SetReady(message->getId(), true);
+            if (_instances.find(roomName) != _instances.end()) {
+                _instances[roomName]->SetReady(message->getId(), true);
+            }
         } else if (data.find("[QUIT]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
             LeftInstance(roomName, message->getId());
@@ -43,6 +45,7 @@ void LobbyManager::Run() {
         _networkManager.IsThereNewClient();
         _networkManager.CheckForIncomingMessage(_clients);
         CheckInstance();
+        SendToClients();
     }
 }
 
@@ -57,7 +60,7 @@ bool LobbyManager::CreateInstance(std::string &roomName) {
 
 bool LobbyManager::JoinInstance(std::string &roomName, std::shared_ptr<PlayerRef> &ref) {
     if (_instances.find(roomName) != _instances.end()) {
-        return _instances[roomName]->AddPlayerToInstance(ref->GetId(), ref);
+        return _instances[roomName]->AddPlayerToInstance(ref->GetId(), _clients[ref->GetId()], ref);
     }
     return false;
 }
@@ -80,8 +83,14 @@ void LobbyManager::CheckInstance() {
     }
 }
 
-void LobbyManager::NotifyClients() {
-    for (auto const &instance : _instances) {
-
+void LobbyManager::SendToClients() {
+    if (_toSend.size() != 0) {
+        for (auto it = _toSend.begin(); it != _toSend.end();) {
+            if (_networkManager.SendOverTCP(it->second, it->first, 100)) {
+                it = _toSend.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@
 
 #include <EventDispatcher/IMessage.hpp>
 #include <EventDispatcher/Events.h>
+#include <Socket/IRTypeSocket.hpp>
 #include <Socket/RTypeNetworkPayload.h>
 #include <Serializer/Packer.hpp>
 
@@ -16,21 +17,22 @@ public:
 
 private:
     const RType::Packer _packer;
-    const std::string _destination;
+    const std::shared_ptr<IRTypeSocket> _destination;
 
 public:
-    SendTCPNetworkPayloadMessage(const RType::Packer &packer, std::string const &destination) : _packer(packer), _destination(destination) {}
+    SendTCPNetworkPayloadMessage(const RType::Packer &packer, std::shared_ptr<IRTypeSocket> const &destination) : _packer(packer), _destination(destination) {}
 
     const RType::Packer &getPacker() const {
         return _packer;
     }
 
-    const std::string &getDestination() const {
+    const std::shared_ptr<IRTypeSocket> &getDestination() const {
         return _destination;
     }
 
     const RTypeNetworkPayload ConvertToSocketMessage() const {
-        return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength(), _destination);
+        std::cout << _packer.getLength() << std::endl;
+        return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength());
     }
 };
 

@@ -8,16 +8,23 @@
 #include <EventDispatcher/EventManager.hpp>
 #include <chrono>
 #include <Entities/PlayerRef.hpp>
+#include <Socket/IRTypeSocket.hpp>
+#include <Serializer/Packer.hpp>
 
 class LobbyInstance {
 private:
     std::string _roomName;
     std::map<uint8_t, std::shared_ptr<PlayerRef>> _players = std::map<uint8_t, std::shared_ptr<PlayerRef>>();
+    std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
     std::shared_ptr<RType::EventManager> _eventManager;
+
+private:
+    RType::Packer Serialize(std::shared_ptr<PlayerRef> &player);
+    void NotifyClients();
 
 public:
     LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName);
-    bool AddPlayerToInstance(uint8_t id, std::shared_ptr<PlayerRef> &ref);
+    bool AddPlayerToInstance(uint8_t id, std::shared_ptr<IRTypeSocket> &client, std::shared_ptr<PlayerRef> &ref);
     void SetReady(uint8_t id, bool ready);
     void PlayerLeft(uint8_t id);
     bool IsReady();

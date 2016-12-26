@@ -7,6 +7,8 @@
 
 #include <thread>
 #include <vector>
+#include <map>
+#include <utility>
 #include <LobbyInstance/LobbyInstance.hpp>
 #include <NetworkManager/NetworkManager.hpp>
 #include <EventDispatcher/EventListener.hpp>
@@ -19,13 +21,15 @@ private:
     NetworkManager _networkManager = NetworkManager(_eventManager);
     std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
     std::map<std::string, std::shared_ptr<LobbyInstance>> _instances = std::map<std::string, std::shared_ptr<LobbyInstance>>();
+    std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>> _toSend = std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>>();
 
 private:
     bool CreateInstance(std::string &roomName);
     bool JoinInstance(std::string &roomName, std::shared_ptr<PlayerRef> &ref);
     void LeftInstance(std::string &roomName, uint8_t id);
     void CheckInstance();
-    void NotifyClients();
+    void SendToClients();
+
 public:
     void Start();
     void Run();
