@@ -23,6 +23,15 @@
             },
             "startTime":0,
             "id":2
+		},
+        {
+            "entityName":"TentacleBoss",
+            "startPosition": {
+                "x":300,
+                "y":300
+            },
+            "startTime":0,
+            "id":3
         }
 	]
 }
