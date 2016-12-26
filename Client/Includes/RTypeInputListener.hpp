@@ -19,7 +19,7 @@ private:
 public:
     RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager);
 
-    void CheckForInputs(sf::Window &window);
+    void CheckForInputs(sf::Window &window, bool singleInput = true);
 
 };
 

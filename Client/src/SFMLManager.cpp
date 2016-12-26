@@ -57,7 +57,7 @@ void SFMLManager::Run() {
             minFPS = 60;
             maxFPS = 0;
         }
-        _inputListener->CheckForInputs(_window);
+        _inputListener->CheckForInputs(_window, _currentContext == _menuContext.get());
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);
