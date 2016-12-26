@@ -18,11 +18,14 @@ private:
     std::unique_ptr<std::thread> _thread = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     NetworkManager _networkManager = NetworkManager(_eventManager);
-    std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients;
-    //std::map<std::string, LobbyInstance> _instances = std::map<std::string, LobbyInstance>();
+    std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
+    std::map<std::string, std::shared_ptr<LobbyInstance>> _instances = std::map<std::string, std::shared_ptr<LobbyInstance>>();
+
+private:
+    bool CreateInstance(std::string roomName);
+    bool JoinInstance(std::string roomName, std::shared_ptr<PlayerRef> ref);
 
 public:
-    LobbyManager();
     void Start();
     void Run();
 };

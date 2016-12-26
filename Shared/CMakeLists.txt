@@ -48,7 +48,6 @@ set(SHARED_SOURCE_FILES
         Include/Messages/ProjectilePositionChangedMessage.hpp
         Include/Messages/UserInputMessage.hpp
         Include/Messages/UserInputEntryMessage.hpp
-        Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
         Include/Messages/SendNetworkPayloadMessage.hpp
         Include/Messages/StartReceiveNetworkGamePayload.hpp

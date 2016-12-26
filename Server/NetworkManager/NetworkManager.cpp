@@ -51,7 +51,6 @@ void NetworkManager::IsThereNewClient() {
         std::shared_ptr<IRTypeSocket> newClient = _socketTCP->Accept();
         if (newClient != nullptr) {
             _eventManager->Emit(NewClientConnectionMessage::EventType, new NewClientConnectionMessage(newClient), this);
-            std::cout << "New Client connection !" << std::endl;
         }
     }
 }
@@ -64,15 +63,14 @@ void NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::unique
 void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &clients) {
     char data[1500];
 
-    RTypeNetworkPayload payload(data, 1500);
+    auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
     for (auto it = clients.cbegin(); it != clients.cend();) {
         if ((*it->second).PoolEventOnSocket(SOCKET_CLOSED, 0)) {
             clients.erase(it++);
-            std::cout << "Client disconnect !" << std::endl;
         } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
-            (*it->second).Receive(payload);
-            std::cout << "Server receive: " << payload.Payload << "\tFrom: " << payload.Ip << std::endl;
-            ++it;
+            (*it->second).Receive(*payload);
+            _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(it->first, payload), this);
+            break;
         } else {
             ++it;
         }
