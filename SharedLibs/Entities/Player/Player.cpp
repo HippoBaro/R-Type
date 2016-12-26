@@ -40,7 +40,7 @@ vec2<float> Player::GetRenderRect() {
     return vec2<float>(32 * 5, 14 * 5);
 }
 
-vec2<float> Player::GetPosition()
+vec2<float> Player::GetPosition() {
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     return pos;
 }
