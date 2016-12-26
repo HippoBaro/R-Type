@@ -5,6 +5,10 @@
 #include <Entities/Trait.hpp>
 #include "GraphicPlayer.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicPlayer)
+#endif
+
 GraphicPlayer::GraphicPlayer(const std::initializer_list<void *> init) : Player(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -30,4 +34,6 @@ void GraphicPlayer::Cycle() {
     Player::Cycle();
 }
 
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicPlayer)
+bool GraphicPlayer::NeedRedraw() {
+    return false;
+}

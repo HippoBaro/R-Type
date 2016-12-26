@@ -2,9 +2,14 @@
 // Created by pasteu_e on 07/12/16.
 //
 
+#include <AAnimable.hpp>
 #include "GraphicDeathStar.hpp"
 
-GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init) {
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
+#endif
+
+GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init), AAnimable() {
     this->RegisterTrait(Trait::Drawable);
 }
 
@@ -25,8 +30,10 @@ void GraphicDeathStar::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     rect->draw(sprite);
 }
 
+bool GraphicDeathStar::NeedRedraw(){
+    return false;
+}
+
 void GraphicDeathStar::Cycle() {
     DeathStar::Cycle();
 }
-
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)

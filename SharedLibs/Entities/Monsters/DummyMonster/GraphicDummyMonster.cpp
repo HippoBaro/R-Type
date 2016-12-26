@@ -4,6 +4,10 @@
 
 #include "GraphicDummyMonster.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GrahicDummyMonster)
+#endif
+
 GrahicDummyMonster::GrahicDummyMonster(const std::initializer_list<void *> init) : DummyMonster(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -29,4 +33,6 @@ void GrahicDummyMonster::Cycle() {
     DummyMonster::Cycle();
 }
 
-RTYPE_DRAWABLE_ENTITY_REGISTER(GrahicDummyMonster)
+bool GrahicDummyMonster::NeedRedraw() {
+    return false;
+}

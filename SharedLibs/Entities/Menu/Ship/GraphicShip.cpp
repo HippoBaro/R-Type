@@ -4,6 +4,10 @@
 
 #include "GraphicShip.hpp"
 
+#ifdef ENTITY_DRW_CTOR
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicShip)
+#endif
+
 GraphicShip::GraphicShip(const std::initializer_list<void *> init) : Ship(init) {
     this->RegisterTrait(Trait::Drawable);
 }
@@ -29,4 +33,6 @@ void GraphicShip::Cycle() {
     Ship::Cycle();
 }
 
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicShip)
+bool GraphicShip::NeedRedraw() {
+    return false;
+}

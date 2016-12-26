@@ -8,13 +8,14 @@
 
 #include <thread>
 #include <vector>
-#include <GameInstance/GameInstance.hpp>
 #include <NetworkManager/NetworkManager.hpp>
+#include <GameInstance/GameInstanceManager.hpp>
 
 class GameManager {
 private:
-    std::vector<GameInstance> _instances = std::vector<GameInstance>();
-    NetworkManager _networkManager = NetworkManager();
+    std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
+    NetworkManager _networkManager = NetworkManager(_eventManager);
+    GameInstanceManager _gameInstanceManager = GameInstanceManager(_eventManager);
 
 public:
     void Start();

@@ -35,29 +35,26 @@ namespace RType {
         }
 
         template<typename Ttype>
-        static void Serialize(char *buffer, uint16_t index, Ttype &value) {
-            if (RType::SerializationHelper::_IsBigEndian())
-            {
+        static void Serialize(char *buffer, uint16_t index, Ttype *value) {
+            if (RType::SerializationHelper::_IsBigEndian()) {
                 if (sizeof(Ttype) == 1) // 1 byte => no swap needed
-                    *((Ttype *) (buffer + index)) = value;
-                else
-                    *((Ttype *) (buffer + index)) = SwapEndian(value);
-            }
-            else
-                *((Ttype *) (buffer + index)) = value;
+                    *reinterpret_cast<Ttype *>(buffer + index) = *value;
+				else
+                    *reinterpret_cast<Ttype *>(buffer + index) = SwapEndian(*value);
+            } else
+                *reinterpret_cast<Ttype *>(buffer + index) = *value;
         }
 
         template<typename Ttype>
-        static void Deserialize(char *buffer, uint16_t index, Ttype &value) {
-          if (RType::SerializationHelper::_IsBigEndian())
-          {
-            if (sizeof(Ttype) == 1) // 1 byte => no swap needed
-              value = value;
+        static void Deserialize(char *buffer, uint16_t index, Ttype *value) {
+            if (RType::SerializationHelper::_IsBigEndian()) {
+                if (sizeof(Ttype) == 1) // 1 byte => no swap needed
+                    *value = *reinterpret_cast<Ttype *>(buffer + index);
+                else
+                    *value = SwapEndian(*reinterpret_cast<Ttype *>(buffer + index));
+            }
             else
-              value = SwapEndian(*((Ttype *) (buffer + index)));
-          }
-          else
-            value = *((Ttype *) (buffer + index));
+                *value = *reinterpret_cast<Ttype *>(buffer + index);
         }
     };
 }

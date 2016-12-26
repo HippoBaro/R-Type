@@ -2,15 +2,14 @@
 // Created by pasteu_e on 27/11/16.
 //
 
-#include <iostream>
-#include <Messages/UserInputMessage.hpp>
 #include "RTypeInputListener.hpp"
 
 
-RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) {
-}
+RTypeInputListener::RTypeInputListener(std::shared_ptr<RType::EventManager> eventManager) : _eventManager(eventManager) { }
 
 void RTypeInputListener::CheckForInputs(sf::Window &window) {
+    auto eventKey = new UserInputMessage();
+
     sf::Event event;
     while (window.pollEvent(event)) {
         switch (event.type) {
@@ -18,43 +17,54 @@ void RTypeInputListener::CheckForInputs(sf::Window &window) {
                 window.close();
                 break;
             case sf::Event::KeyPressed:
-                KeyBoardEvent(event.key.code);
+                _keyPressed.insert(event.key.code);
+                KeyBoardInputEvent(event.key.code);
                 break;
+            case sf::Event::KeyReleased:
+                _keyPressed.erase(event.key.code);
+                SubscribeReleasedKeys(eventKey, event.key.code);
             default:
                 break;
         }
     }
+    SubscribePressedKeys(eventKey);
+    if (eventKey->AnyPressed() || eventKey->AnyReleased())
+        _eventManager->Emit(UserInputMessage::EventType, eventKey, this);
+    else
+        delete eventKey;
 }
 
-void RTypeInputListener::KeyBoardEvent(sf::Keyboard::Key &key) {
-    switch (key) {
-        case sf::Keyboard::Left:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LEFT), this);
-            break;
-        case sf::Keyboard::Right:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_RIGHT), this);
-            break;
-        case sf::Keyboard::Up:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_UP), this);
-            break;
-        case sf::Keyboard::Down:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_DOWN), this);
-            break;
-        case sf::Keyboard::Space:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_SPACE), this);
-            break;
-        case sf::Keyboard::Return:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ENTER), this);
-            break;
-        case sf::Keyboard::Escape:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_ESCAPE), this);
-            break;
-        case sf::Keyboard::BackSpace:
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, '\b'), this);
-            break;
-        default:
-            if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
-                _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(USER_LETTER, key + 65), this);
-            break;
+void RTypeInputListener::KeyBoardInputEvent(sf::Keyboard::Key &key) {
+    if (key == sf::Keyboard::BackSpace)
+        _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage('\b'), this);
+    else if (key >= sf::Keyboard::A && key <= sf::Keyboard::Z)
+        _eventManager->Emit(UserInputEntryMessage::EventType, new UserInputEntryMessage(key + 65), this);
+}
+
+void RTypeInputListener::SubscribePressedKeys(UserInputMessage *event) {
+    for (auto &key : _keyPressed) {
+        event->AddPressedEvent(ConvertSfmlEvent(key));
     }
+}
+
+void RTypeInputListener::SubscribeReleasedKeys(UserInputMessage *event, const sf::Keyboard::Key &releasedKey) {
+    event->AddReleasedEvent(ConvertSfmlEvent(releasedKey));
+}
+
+UserEventType RTypeInputListener::ConvertSfmlEvent(const sf::Keyboard::Key &key) {
+    if (key == sf::Keyboard::Left)
+        return USER_LEFT;
+    if (key == sf::Keyboard::Right)
+        return USER_RIGHT;
+    if (key == sf::Keyboard::Up)
+        return USER_UP;
+    if (key == sf::Keyboard::Down)
+        return USER_DOWN;
+    if (key == sf::Keyboard::Space)
+        return USER_SPACE;
+    if (key == sf::Keyboard::Return)
+        return USER_ENTER;
+    if (key == sf::Keyboard::Escape)
+       return USER_ESCAPE;
+    return OTHER;
 }

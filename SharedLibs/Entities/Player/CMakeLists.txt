@@ -8,11 +8,12 @@ ENDIF()
 
 add_library(Player SHARED
         Player.hpp
-        Player.cpp)
+        Player.cpp ../../Interfaces/IUserControlled.hpp)
 
 add_library(DrawablePlayer SHARED
-        Player.hpp
-        Player.cpp
         GraphicPlayer.cpp
-        GraphicPlayer.hpp)
+        GraphicPlayer.hpp
+        Player.hpp
+        Player.cpp)
 target_link_libraries(DrawablePlayer sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawablePlayer PRIVATE ENTITY_DRW_CTOR=1)

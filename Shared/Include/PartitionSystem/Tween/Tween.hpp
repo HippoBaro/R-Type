@@ -86,8 +86,8 @@ public:
         _start.Serialize(packer);
         _endValue.Serialize(packer);
         _end.Serialize(packer);
-        _delta.Serialize(packer);
-        _maxValue.Serialize(packer);
+        if (packer.getType() == RType::READ)
+            _delta = _endValue - _startValue;
     }
 };
 

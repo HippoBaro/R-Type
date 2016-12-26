@@ -40,4 +40,10 @@ void Mars::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
+uint16_t Mars::getTypeId() const {
+    return 2;
+}
+
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(Mars)
+#endif

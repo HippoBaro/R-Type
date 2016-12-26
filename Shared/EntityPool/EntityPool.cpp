@@ -9,7 +9,12 @@ void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<floa
     auto now = timeRef;
     auto pos = initialPos;
     ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &_timer , &_eventManager, &now, &pos, params }, "create", "destroy"));
-    _pool.push_back(entity);
+    _pool.insert(std::make_pair( id, entity ));
+}
+
+void EntityPool::AddEntity(const ManagedExternalInstance<Entity> &entity) {
+    _pool.erase(entity->getId());
+    _pool.insert(std::make_pair(entity->getId(), entity));
 }
 
 EntityPool::~EntityPool() { }
@@ -20,20 +25,19 @@ EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
     });
 }
 
-const std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() const {
+std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() {
     return _eventManager;
 }
 
 void EntityPool::ProcessEntities() {
-    for (unsigned int i = 0; i < _pool.size(); ++i) {
-        if (_pool[i]->ImplementTrait(Garbage))
+    for(auto outer_iter=_pool.begin(); outer_iter!=_pool.end(); ++outer_iter) {
+        if (outer_iter->second->ImplementTrait(Garbage))
         {
-            _pool.erase(_pool.begin() + i);
+            _pool.erase(outer_iter->first);
             ProcessEntities();
             break;
         }
-        _pool[i]->Cycle();
-        GarbageEntities(_pool[i]);
+        outer_iter->second->Cycle();
     }
 }
 
@@ -42,14 +46,19 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
 }
 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
+    if (_pool.count(message.getId()) > 0)
+        return;
     std::initializer_list<void *> params = { &emitterId };
-    AddEntity(message.getProjectileName(), 10, message.getSpawnPosition(), _timer->getCurrent(), &params);
+    AddEntity(message.getProjectileName(), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {
     RType::json j;
 
     j = RType::json::parse(partition);
+    for (auto const &i : j["entityTypes"])
+        RegisterType(i);
+
     for (auto const &i : j["entities"]) {
         std::string name = i["entityName"];
         vec2<float> startPos(i["startPosition"]["x"], i["startPosition"]["y"]);
@@ -57,4 +66,28 @@ void EntityPool::LoadPartition(std::string const &partition) {
         uint16_t id = i["id"];
         AddEntity(name, id, startPos, startTime);
     }
+}
+
+EntityFactory &EntityPool::getFactory() {
+    return _factory;
+}
+
+void EntityPool::RegisterType(std::string const &type) {
+    _factory.RegisterEntityType(_timer, _eventManager, type);
+}
+
+uint16_t EntityPool::getEntityCount() {
+    return (uint16_t) _pool.size();
+}
+
+bool EntityPool::Exist(const uint16_t id) {
+    return _pool.count(id) > 0;
+}
+
+bool EntityPool::isPlayer(const uint16_t id) {
+    return _pool.count(id) > 0 && getEntityById(id)->getTypeId() == 5;
+}
+
+ManagedExternalInstance<Entity> &EntityPool::getEntityById(uint16_t id) {
+    return _pool[id];
 }

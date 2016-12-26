@@ -19,6 +19,8 @@ public:
     SimpleProjectile(const std::initializer_list<void *> init);
     SimpleProjectile(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &, const std::initializer_list<void *> *);
 
+    uint16_t getTypeId() const override;
+
     void Cycle() override;
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;

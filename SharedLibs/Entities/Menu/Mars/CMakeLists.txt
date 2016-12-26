@@ -12,8 +12,9 @@ add_library(Mars SHARED
 target_link_libraries(Mars)
 
 add_library(DrawableMars SHARED
-        Mars.hpp
-        Mars.cpp
         GraphicMars.cpp
-        GraphicMars.hpp)
+        GraphicMars.hpp
+        Mars.hpp
+        Mars.cpp)
 target_link_libraries(DrawableMars sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableMars PRIVATE ENTITY_DRW_CTOR=1)

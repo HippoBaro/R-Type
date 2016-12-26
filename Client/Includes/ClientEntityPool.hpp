@@ -12,13 +12,27 @@
 
 class ClientEntityPool : public EntityPool {
 
+private:
+    std::shared_ptr<RType::EventManager> _globalEventManager;
+    std::unique_ptr<RType::EventListener> _globalEventListener;
+
 public:
-    ClientEntityPool(const std::shared_ptr<Timer> &);
+    ClientEntityPool(const std::shared_ptr<Timer> &, const std::shared_ptr<RType::EventManager> &eventManager);
 
 public :
     virtual void Draw(sf::RenderTexture &, TextureBag &);
 
     virtual void AddEntity(std::string const &entityName, uint16_t, vec2<float> const &initialPos, TimeRef const &, std::initializer_list<void *> * = nullptr) override;
+
+    void AddEntity(const ManagedExternalInstance<Entity> &instance) override;
+
+    void RegisterType(std::string const &string) override;
+
+    void LoadPartition(std::string const &string) override;
+
+
+protected:
+    virtual void SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) override;
 };
 
 
