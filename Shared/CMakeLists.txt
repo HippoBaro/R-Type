@@ -64,7 +64,7 @@ set(SHARED_SOURCE_FILES
         Include/Queue/atomicops.hpp
         Include/EntityFactory/EntityFactory.hpp
         Include/EntityPacker/EntityPacker.hpp
-        )
+        Include/Messages/ClientSendLobbyCommandMessage.hpp)
 
 include_directories(Libs/Interfaces
         ../SFML/include

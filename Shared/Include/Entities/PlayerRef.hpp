@@ -7,23 +7,26 @@
 
 #include <cstdint>
 #include <string>
+#include <Serializer/ISerializable.hpp>
 
-class PlayerRef {
+class PlayerRef : public RType::ISerializable {
 private:
-    const uint8_t _id;
-    const std::string _address;
+    uint8_t _id;
+    std::string _address;
     bool _isReady = false;
 
 public:
+    PlayerRef() : _id(0), _address() {};
+
     PlayerRef(const uint8_t id, const std::string &address) : _id(id), _address(address) {}
 
     PlayerRef(const uint8_t _id, const std::string &_address, bool _isReady) : _id(_id), _address(_address), _isReady(_isReady) {}
 
-    bool IsReady() const {
+    bool isReady() const {
         return _isReady;
     }
 
-    void SetReady(bool isReady) {
+    void setReady(const bool isReady) {
         _isReady = isReady;
     }
 
@@ -35,6 +38,11 @@ public:
         return _id;
     }
 
+    virtual void Serialize(RType::Packer &packer) override final {
+        packer.Pack(_id);
+        packer.Pack(_address);
+        packer.Pack(_isReady);
+    }
 };
 
 #endif //R_TYPE_PLAYERREF_HPP

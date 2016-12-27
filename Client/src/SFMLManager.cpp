@@ -53,11 +53,13 @@ void SFMLManager::CheckForNetwork() {
     if (_isConnected) {
         char data[1500];
         auto payload = RTypeNetworkPayload(data, 1500);
-        if (_networkClient->TrytoReceive(0, payload)) {
+        if (_networkClient->TryReceive(0, payload)) {
 
-            //TODO: Normallement il faut depack ici mais vue que sa marche pas j'envoie une string en raw
+            auto state = new MenuStateUpdateMessage();
+            auto packer = RType::Packer(RType::READ, payload.Payload);
+            packer.PackSerializables(state->getPlayers());
 
-            _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(payload.Payload), this);
+            _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
         }
     }
     if (_tryToCreate) {

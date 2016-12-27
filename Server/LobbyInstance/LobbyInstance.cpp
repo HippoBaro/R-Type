@@ -22,7 +22,7 @@ bool LobbyInstance::AddPlayerToInstance(uint8_t id, std::shared_ptr<IRTypeSocket
 
 void LobbyInstance::SetReady(uint8_t id, bool ready) {
     if (_players.find(id) != _players.end()) {
-        _players[id]->SetReady(ready);
+        _players[id]->setReady(ready);
         NotifyClients();
     }
 }
@@ -37,7 +37,7 @@ void LobbyInstance::PlayerLeft(uint8_t id) {
 
 bool LobbyInstance::IsReady() {
     for (auto const &player : _players) {
-        if (!player.second->IsReady())
+        if (!player.second->isReady())
             return false;
     }
     return true;
@@ -51,18 +51,26 @@ void LobbyInstance::NotifyClients() {
     //TODO: Trouver une meilleure façon de faire ça
     //Le premier qui fait un commentaire sur cette fonction aura le droit de la refaire xD
     std::string _textToSend = "Waiting\n";
-    for (auto const &player : _players) {
+    auto packer = RType::Packer(RType::WRITE);
+
+    auto players = std::vector<std::shared_ptr<PlayerRef>>();
+    for (const auto &i : _players)
+        players.push_back(i.second);
+    packer.PackSerializables(players);
+
+    /*for (auto const &player : _players) {
         _textToSend += "Player ";
         _textToSend += (player.second->GetId() + 48);
         if (player.second->IsReady())
             _textToSend += "\tReady";
-        else if (!player.second->IsReady())
+        else if (!player.second->isReady())
             _textToSend += "\tNot Ready";
         _textToSend += "\n";
     }
 
     auto packer = RType::Packer(RType::WRITE);
     packer.Pack(_textToSend);
+     */
 
     for (auto const &cli : _clients)
         _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(packer, cli.second), this);

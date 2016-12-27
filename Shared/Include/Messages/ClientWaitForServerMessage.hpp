@@ -10,14 +10,14 @@
 #include <vec2.hpp>
 #include <EventDispatcher/Events.h>
 
-enum ClientType {
+enum ClientType : uint8_t {
     USER_CREATE,
     USER_JOIN,
     USER_READY,
     USER_QUIT
 };
 
-class ClientWaitForServerMessage : public IMessage {
+class ClientWaitForServerMessage : public IMessage, RType::ISerializable {
 public:
     static constexpr RType::Event EventType = RType::MENU_LOBBY;
 
@@ -36,6 +36,11 @@ public:
 
     const ClientType &getEventType() const {
         return _event;
+    }
+
+    virtual void Serialize(RType::Packer &packer) override final {
+        packer.Pack(_event);
+        packer.Pack(_channelName);
     }
 };
 

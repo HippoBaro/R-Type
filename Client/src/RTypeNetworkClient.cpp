@@ -46,7 +46,7 @@ bool RTypeNetworkClient::TryToConnect() {
     return (_networkClient->Connect());
 }
 
-bool RTypeNetworkClient::TrytoReceive(int timeout, RTypeNetworkPayload &payload) {
+bool RTypeNetworkClient::TryReceive(int timeout, RTypeNetworkPayload &payload) {
     if (_networkClient->PoolEventOnSocket(DATA_INCOMING, timeout)) {
         _networkClient->Receive(payload);
         return true;

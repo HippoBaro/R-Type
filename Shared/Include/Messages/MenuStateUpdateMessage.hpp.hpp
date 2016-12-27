@@ -17,15 +17,16 @@ public:
     static constexpr RType::Event EventType = RType::LOBBY_STATE_CHANGE;
 
 private:
-    std::string _textToWrite;
+    std::vector<PlayerRef> _players;
 
 public:
-    MenuStateUpdateMessage(const std::string &textToWrite) : _textToWrite(textToWrite) {}
 
-    const std::string &GetTextToWrite() const {
-        return _textToWrite;
+    MenuStateUpdateMessage() : _players() { }
+    MenuStateUpdateMessage(const std::vector<PlayerRef> &players) : _players(players) {}
+
+    std::vector<PlayerRef> &getPlayers() {
+        return _players;
     }
-
 };
 
 #endif //R_TYPE_MENUSTATESUPDATEMESSAGE_HPP_HPP
