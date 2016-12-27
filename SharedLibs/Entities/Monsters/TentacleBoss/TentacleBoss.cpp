@@ -38,8 +38,13 @@ vec2<float> TentacleBoss::GetPosition() {
 
 void TentacleBoss::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
+    _partition.Serialize(packer);
 }
 
-#ifdef ENTITY_DRW_CTOR
+uint16_t TentacleBoss::getTypeId() const {
+    return this->TENTACLE_BOSS;
+}
+
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(TentacleBoss)
 #endif
