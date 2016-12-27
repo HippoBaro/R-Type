@@ -19,7 +19,7 @@
 
 class EntityPool {
 protected:
-    std::map<uint16_t, ManagedExternalInstance<Entity>> _pool = std::map<uint16_t, ManagedExternalInstance<Entity>>();
+    std::map<uint16_t, std::shared_ptr<ManagedExternalInstance<Entity>>> _pool = std::map<uint16_t, std::shared_ptr<ManagedExternalInstance<Entity>>> ();
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     RType::EventListener _eventListener = RType::EventListener(_eventManager);
     std::shared_ptr<Timer> _timer;
@@ -33,14 +33,14 @@ public:
 
 public:
     virtual void AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &, std::initializer_list<void *> * = nullptr);
-    virtual void AddEntity(const ManagedExternalInstance<Entity> &);
+    virtual void AddEntity(const std::shared_ptr<ManagedExternalInstance<Entity>> &);
     virtual void ProcessEntities();
     virtual void LoadPartition(std::string const &);
     virtual void RegisterType(std::string const &);
     bool Exist(const uint16_t);
     bool isPlayer(const uint16_t);
     uint16_t getEntityCount();
-    virtual ManagedExternalInstance<Entity> &getEntityById(uint16_t);
+    virtual std::shared_ptr<ManagedExternalInstance<Entity>> &getEntityById(uint16_t);
 
 public:
     std::shared_ptr<RType::EventManager> &getEventManager();

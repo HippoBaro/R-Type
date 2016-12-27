@@ -4,7 +4,7 @@
 
 #include "LibraryLoader/InternalLinuxLibraryLoader.hpp"
 
-ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
+std::shared_ptr<ExternalClassFactory> InternalLibraryLoader::GetFactoryForClass(std::string libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
     // load the triangle library
 
 #if(APPLE)
@@ -27,7 +27,7 @@ ExternalClassFactory InternalLibraryLoader::GetFactoryForClass(std::string libra
     dlsym_error = dlerror();
     if (dlsym_error)
         throw std::runtime_error("Unable to load library");
-    return ExternalClassFactory(create_triangle, destroy_triangle, factory, libName, [&](void *ptr) { this->DestroyFactory(ptr); });
+    return std::make_shared<ExternalClassFactory>(create_triangle, destroy_triangle, factory, libName, [&](void *ptr) { this->DestroyFactory(ptr); });
 }
 
 void InternalLibraryLoader::DestroyFactory(void *factory) {
