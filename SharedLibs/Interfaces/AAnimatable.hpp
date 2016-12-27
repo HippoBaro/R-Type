@@ -73,10 +73,10 @@ private:
 
 protected:
     // Customize animation
-    void setScale(sf::Vector2f s) { this->_scale = s; }
-    void setLoopDuration(int duration) { this->_loopDuration = duration; }
-    void setLoop(bool v = true) { this->_shouldLoop = v; }
-    void setLoopBackAndForth(bool v = true) { this->_backAndForth = v; }
+    void setScale(const sf::Vector2f s) { this->_scale = s; }
+    void setLoopDuration(const int duration) { this->_loopDuration = duration; }
+    void setLoop(const bool v = true) { this->_shouldLoop = v; }
+    void setLoopBackAndForth(const bool v = true) { this->_backAndForth = v; }
 
     ////////////////////////////////////////////////////
     /// \brief Set animations frames and store them into the texture bag
@@ -88,7 +88,7 @@ protected:
     ///
     ////////////////////////////////////////////////////
     void setAnimation(
-            std::string filePath,
+            const std::string filePath,
             std::vector<sf::IntRect> &frames,
             TextureBag &bag)
     {
