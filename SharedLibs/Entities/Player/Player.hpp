@@ -2,8 +2,8 @@
 // Created by hippolyteb on 11/25/16.
 //
 
-#ifndef R_TYPE_DUMMYMONSTER_HPP
-#define R_TYPE_DUMMYMONSTER_HPP
+#ifndef R_TYPE_PLAYER_HPP
+#define R_TYPE_PLAYER_HPP
 
 #include <Entities/Entity.hpp>
 #include <IUserControlled.hpp>
@@ -33,4 +33,4 @@ public:
     vec2<float> getVectorFromInput(std::set<UserEventType> &events);
 };
 
-#endif //R_TYPE_DUMMYMONSTER_HPP
+#endif //R_TYPE_PLAYER_HPP

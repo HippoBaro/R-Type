@@ -2,14 +2,14 @@
 // Created by pasteu_e on 07/12/16.
 //
 
-#include <AAnimable.hpp>
+#include <AAnimatable.hpp>
 #include "GraphicDeathStar.hpp"
 
 #ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicDeathStar)
 #endif
 
-GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init), AAnimable() {
+GraphicDeathStar::GraphicDeathStar(const std::initializer_list<void *> init) : DeathStar(init) {
     this->RegisterTrait(Trait::Drawable);
 }
 

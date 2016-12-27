@@ -16,6 +16,16 @@
 
 class Entity : public RType::ISerializable {
 protected:
+    enum EntityTypeId {
+        PLAYER,
+        DUMMY_MONSTER,
+        TENTACLE_BOSS,
+        SIMPLE_PROJECTILE,
+        DEATH_STAR,
+        MARS,
+        SHIP
+    };
+
     uint16_t _id;
     std::shared_ptr<Timer> _timer;
     std::shared_ptr<RType::EventManager> _eventManager;

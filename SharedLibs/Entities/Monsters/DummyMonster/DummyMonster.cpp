@@ -6,7 +6,6 @@
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 #include <Messages/FireProjectileMessage.hpp>
 #include <Messages/ProjectilePositionChangedMessage.hpp>
-#include <iostream>
 
 DummyMonster::DummyMonster(const std::initializer_list<void *> init) : DummyMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
@@ -64,7 +63,7 @@ void DummyMonster::Serialize(RType::Packer &packer) {
 }
 
 uint16_t DummyMonster::getTypeId() const {
-    return 4;
+    return this->DUMMY_MONSTER;
 }
 
 #ifndef ENTITY_DRW_CTOR
