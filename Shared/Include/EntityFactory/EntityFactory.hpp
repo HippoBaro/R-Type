@@ -22,15 +22,15 @@ public:
         _typesRef[typeId] = entityName;
     }
 
-    void RegisterEntityType(const ManagedExternalInstance<Entity> &entity, std::string const &entityName){
-        _typesRef[entity->getTypeId()] = entityName;
+    void RegisterEntityType(const std::shared_ptr<ManagedExternalInstance<Entity>> &entity, std::string const &entityName){
+        _typesRef[entity->GetInstance()->getTypeId()] = entityName;
     }
 
     void RegisterEntityType(std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager, std::string const &entityName){
         TimeRef now;
         vec2<float> pos;
         uint16_t id;
-        auto entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &timer , &eventManager, &now, &pos }, "create", "destroy"));
+        auto entity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &timer , &eventManager, &now, &pos }, "create", "destroy");
         RegisterEntityType(entity, entityName);
     }
 
