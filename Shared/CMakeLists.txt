@@ -4,7 +4,6 @@ add_subdirectory(UnitTests)
 add_subdirectory(LibraryLoader)
 
 set(SHARED_SOURCE_FILES
-        src/main.cpp
         EntityPool/EntityPool.cpp
         Include/EntityPool/EntityPool.hpp
 
