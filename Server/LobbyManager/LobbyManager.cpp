@@ -8,12 +8,20 @@
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 
 void LobbyManager::Start() {
-    auto sub = RType::EventListener(_eventManager);
+    RType::EventListener sub = RType::EventListener(_eventManager);
+
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
         _clients[_i++] = message->getClient();
     });
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
-        _toSend.push_back(std::make_pair(message->getDestination(), message->ConvertToSocketMessage()));
+        //Je sait pas pourquoi mais si je depack pas ici dans le network manager message->getPacker().getBuffer() pointera sur \0
+
+        auto depacker = RType::Packer(RType::READ, message->getPacker().getBuffer());
+        std::string toSend;
+        depacker.Pack(toSend);
+        RTypeNetworkPayload payload(strdup(toSend.c_str()), (int) toSend.size());
+
+        _toSend.push_back(std::make_pair(message->getDestination(), payload));
     });
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
         std::string data = std::string(message->getPayload()->Payload);

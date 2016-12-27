@@ -26,6 +26,7 @@ protected:
     std::map<unsigned int, std::pair<bool, std::string>> _menuMap = std::map<unsigned int, std::pair<bool, std::string>>();
     std::map<UserEventType, std::function<void()>> _move = std::map<UserEventType, std::function<void()>>();
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
+    std::unique_ptr<RType::EventListener> _eventListener = nullptr;
 
     std::string _menuName = std::string();
     MenuType _menuType = VERTICAL;
@@ -38,6 +39,8 @@ private:
     bool isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem);
 
     void checkIfUserStopWaiting();
+
+    void checkIfUserIsReady();
 
     void moveUp();
 

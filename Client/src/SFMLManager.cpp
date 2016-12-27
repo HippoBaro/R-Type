@@ -33,9 +33,12 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
         } else if (message->getEventType() == USER_JOIN) {
             _tryToJoin = true;
             _roomName = message->getChannelName();
+        } else if (message->getEventType() == USER_READY) {
+            _tryToReady = true;
         } else if (message->getEventType() == USER_QUIT) {
             _tryToCreate = false;
             _tryToJoin = false;
+            _tryToReady = false;
             _tryToQuit = true;
         }
     });
@@ -50,23 +53,10 @@ void SFMLManager::CheckForNetwork() {
         char data[1500];
         auto payload = RTypeNetworkPayload(data, 1500);
         if (_networkClient->TrytoReceive(0, payload)) {
-            std::cout << "Payload length: " << payload.Length << std::endl;
-            std::vector<PlayerRef> players;
-            auto unpacker = RType::Packer(RType::READ, payload.Payload);
-            unsigned long length;
-            unpacker.Pack(length);
-            std::cout << length << std::endl;
-            for (unsigned long i = 0; i < length; ++i) {
-                uint8_t tmp1;
-                std::string tmp2;
-                bool tmp3;
-                unpacker.Pack(tmp1);
-                unpacker.Pack(tmp2);
-                unpacker.Pack(tmp3);
-                PlayerRef player(tmp1, tmp2, tmp3);
-                players.push_back(player);
-            }
-            _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(players), this);
+
+            //Normallement il faut depack ici mais vue que sa marche pas j'envoie une string en raw
+
+            _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(payload.Payload), this);
         }
     }
     if (_tryToCreate) {
@@ -83,6 +73,14 @@ void SFMLManager::CheckForNetwork() {
         char *data = strdup(toSend.c_str());
         auto payload = RTypeNetworkPayload(data, (int) strlen(data));
         _tryToJoin = !_networkClient->TryToSend(0, payload);
+        free(data);
+    }
+    if (_tryToReady) {
+        std::string toSend = "[READY]";
+        toSend += _roomName;
+        char *data = strdup(toSend.c_str());
+        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
+        _tryToReady = !_networkClient->TryToSend(0, payload);
         free(data);
     }
     if (_tryToQuit) {

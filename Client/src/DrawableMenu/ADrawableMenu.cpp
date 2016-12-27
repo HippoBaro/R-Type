@@ -41,6 +41,11 @@ void ADrawableMenu::checkIfUserStopWaiting() {
         _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_QUIT, getChannelName()), nullptr);
 }
 
+void ADrawableMenu::checkIfUserIsReady() {
+    if (getSelection() == "Ready")
+        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_READY), nullptr);
+}
+
 void ADrawableMenu::moveUp() {
     if (_canMove && _menuType == VERTICAL) {
         for (auto &elem : _menuMap) {
@@ -109,6 +114,7 @@ void ADrawableMenu::moveSelection(UserEventType type) {
 bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &allMenu) {
     if (_active) {
         checkIfUserStopWaiting();
+        checkIfUserIsReady();
         for (auto &&elem : allMenu) {
             if (elem->_menuName == getSelection()) {
                 if (!isCreateOrJoin(elem))

@@ -13,6 +13,7 @@
 enum ClientType {
     USER_CREATE,
     USER_JOIN,
+    USER_READY,
     USER_QUIT
 };
 
@@ -26,6 +27,8 @@ private:
 
 public:
     ClientWaitForServerMessage(const ClientType &event, const std::string &channelName) : _event(event), _channelName(channelName) {}
+
+    ClientWaitForServerMessage(const ClientType &event) : _event(event), _channelName() {}
 
     const std::string &getChannelName() const {
         return _channelName;

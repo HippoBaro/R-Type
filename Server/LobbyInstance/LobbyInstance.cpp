@@ -48,24 +48,22 @@ bool LobbyInstance::IsThereAnyone() {
 }
 
 void LobbyInstance::NotifyClients() {
-    RType::Packer pack = Serialize();
-    for (auto const &cli : _clients)
-        _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(pack, cli.second), this);
-}
-
-RType::Packer LobbyInstance::Serialize() {
-    auto packer = RType::Packer(RType::WRITE);
-    unsigned long tmp0 = _players.size();
-    std::cout << tmp0 << std::endl;
-    packer.Pack(tmp0);
+    //Le premier qui fait un commentaire sur cette fonction aura le droit de la refaire xD
+    std::string _textToSend = "Waiting\n";
     for (auto const &player : _players) {
-        uint8_t tmp1 = player.second->GetId();
-        std::string tmp2 = player.second->GetAddress();
-        bool tmp3 = player.second->IsReady();
-        packer.Pack(tmp1);
-        packer.Pack(tmp2);
-        packer.Pack(tmp3);
+        _textToSend += "Player ";
+        _textToSend += (player.second->GetId() + 48);
+        if (player.second->IsReady())
+            _textToSend += "\tReady";
+        else if (!player.second->IsReady())
+            _textToSend += "\tNot Ready";
+        _textToSend += "\n";
     }
-    std::cout << packer.getBuffer() << std::endl;
-    return packer;
+    std::cout << _textToSend << std::endl;
+
+    auto packer = RType::Packer(RType::WRITE);
+    packer.Pack(_textToSend);
+
+    for (auto const &cli : _clients)
+        _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(packer, cli.second), this);
 }

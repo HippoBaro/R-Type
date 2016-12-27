@@ -29,10 +29,6 @@ public:
     const std::shared_ptr<IRTypeSocket> &getDestination() const {
         return _destination;
     }
-
-    const RTypeNetworkPayload ConvertToSocketMessage() const {
-        return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength());
-    }
 };
 
 #endif //R_TYPE_SENDTCPNETWORKPAYLOADMESSAGE_HPP

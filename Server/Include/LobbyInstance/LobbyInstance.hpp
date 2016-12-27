@@ -10,6 +10,7 @@
 #include <Entities/PlayerRef.hpp>
 #include <Socket/IRTypeSocket.hpp>
 #include <Serializer/Packer.hpp>
+#include <Serializer/ISerializable.hpp>
 
 class LobbyInstance {
 private:
@@ -19,7 +20,6 @@ private:
     std::shared_ptr<RType::EventManager> _eventManager;
 
 private:
-    RType::Packer Serialize();
     void NotifyClients();
 
 public:
