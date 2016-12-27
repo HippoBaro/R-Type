@@ -40,7 +40,7 @@ void Ship::Serialize(RType::Packer &packer) {
 }
 
 uint16_t Ship::getTypeId() const {
-    return 3;
+    return this->SHIP;
 }
 
 #ifndef ENTITY_DRW_CTOR

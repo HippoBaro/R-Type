@@ -22,6 +22,7 @@ public:
         std::stringstream ss;
 
         ss << textureFile << rect.height << rect.left << rect.top << rect.width;
+
         auto key = ss.str();
         if (_textures.count(key))
             return &_textures[key];
