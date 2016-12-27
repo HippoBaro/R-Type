@@ -15,18 +15,20 @@
 
 class OrbMonster : public Entity {
 protected:
-  EntityPartition _partition = EntityPartition(_timer);
-  std::unique_ptr<RType::EventListener> _eventListener;
+    EntityPartition _partition = EntityPartition(_timer);
+    std::unique_ptr<RType::EventListener> _eventListener;
 
 public:
-  OrbMonster(const std::initializer_list<void *> init);
-  OrbMonster(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
+    OrbMonster(const std::initializer_list<void *> init);
+    OrbMonster(uint16_t, std::shared_ptr<Timer>, std::shared_ptr<RType::EventManager>, TimeRef const &, vec2<float> const &);
 
-  void Cycle() override;
-  vec2<float> GetRenderRect() override;
-  vec2<float> GetPosition() override;
+    uint16_t getTypeId() const override;
 
-  void Serialize(RType::Packer &packer) override;
+    void Cycle() override;
+    vec2<float> GetRenderRect() override;
+    vec2<float> GetPosition() override;
+
+    void Serialize(RType::Packer &packer) override;
 };
 
 #endif //R_TYPE_ORBMONSTER_HPP

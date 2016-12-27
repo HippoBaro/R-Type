@@ -40,6 +40,12 @@ void OrbMonster::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
 }
 
-#ifdef ENTITY_DRW_CTOR
+
+uint16_t OrbMonster::getTypeId() const
+{
+    return this->ORB_MONSTER;
+}
+
+#ifndef ENTITY_DRW_CTOR
 RTYPE_ENTITY_REGISTER(OrbMonster)
 #endif

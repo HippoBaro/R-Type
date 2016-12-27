@@ -17,3 +17,4 @@ add_library(DrawableOrbMonster SHARED
         GraphicOrbMonster.cpp
         GraphicOrbMonster.hpp)
 target_link_libraries(DrawableOrbMonster sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableOrbMonster PRIVATE ENTITY_DRW_CTOR=1)
