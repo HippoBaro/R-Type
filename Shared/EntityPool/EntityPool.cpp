@@ -49,7 +49,7 @@ void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t 
     if (_pool.count(message.getId()) > 0)
         return;
     std::initializer_list<void *> params = { &emitterId };
-    AddEntity(message.getProjectileName(), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
+    AddEntity(_factory.getTypeFromTypeId(message.getProjectileName()), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {

@@ -15,23 +15,23 @@ public:
     static constexpr RType::Event EventType = RType::NEW_ENTITY;
 
 private:
-    const std::string _projectileName;
+    const uint16_t _projectileType;
     const vec2<float> _spawnPosition;
     const uint16_t _id;
 
 public:
-    FireProjectileMessage(const uint16_t id, const std::string &projectileName, const vec2<float> &spawnPosition) :
-            _projectileName(projectileName), _spawnPosition(spawnPosition), _id(id) {}
+    FireProjectileMessage(const uint16_t id, const uint16_t projectileType, const vec2<float> &spawnPosition) :
+            _projectileType(projectileType), _spawnPosition(spawnPosition), _id(id) {}
 
-    const std::string &getProjectileName() const {
-        return _projectileName;
+    uint16_t getProjectileName() const {
+        return _projectileType;
     }
 
     const vec2<float> &getSpawnPosition() const {
         return _spawnPosition;
     }
 
-    const uint16_t &getId() const {
+    uint16_t getId() const {
         return _id;
     }
 };
