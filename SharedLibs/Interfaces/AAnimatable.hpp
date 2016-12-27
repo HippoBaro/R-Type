@@ -2,14 +2,14 @@
 // Created by aguado_e on 12/21/16.
 //
 
-#ifndef R_TYPE_AANIMABLE_HPP
-#define R_TYPE_AANIMABLE_HPP
+#ifndef R_TYPE_ANIMATABLE_HPP
+#define R_TYPE_ANIMATABLE_HPP
 
 #include <cstdint>
 #include <SFML/System/Clock.hpp>
 #include "IDrawable.hpp"
 
-class AAnimable : public IDrawable {
+class AAnimatable : public IDrawable {
 private:
     sf::Clock _clock;
     std::vector<sf::IntRect> _frames;
@@ -150,10 +150,10 @@ public:
     // TODO: this should be done in the constructor
     bool isTextureSetInit = false;
 
-    AAnimable() :
+    AAnimatable() :
             _clock(),
             _frames()
     {}
 };
 
-#endif //R_TYPE_AANIMABLE_HPP
+#endif //R_TYPE_ANIMATABLE_HPP

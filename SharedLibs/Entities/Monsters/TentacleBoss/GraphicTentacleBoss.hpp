@@ -5,11 +5,11 @@
 #ifndef R_TYPE_GRAPHICTENTACLEBOSS_HPP
 #define R_TYPE_GRAPHICTENTACLEBOSS_HPP
 
-#include <AAnimable.hpp>
+#include <AAnimatable.hpp>
 #include <TextureBag.hpp>
 #include "TentacleBoss.hpp"
 
-class GraphicTentacleBoss : public TentacleBoss, public AAnimable {
+class GraphicTentacleBoss : public TentacleBoss, public AAnimatable {
 
 public:
     GraphicTentacleBoss(const std::initializer_list<void *> init);

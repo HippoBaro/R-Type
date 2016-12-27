@@ -10,7 +10,7 @@ RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTentacleBoss)
 
 GraphicTentacleBoss::GraphicTentacleBoss(const std::initializer_list<void *> init) :
         TentacleBoss(init),
-        AAnimable()
+        AAnimatable()
 {
     this->RegisterTrait(Trait::Drawable);
 }
