@@ -36,7 +36,7 @@ void SFMLManager::Run() {
     _window.create(sf::VideoMode(Width, Height, desktop.bitsPerPixel), "R-Type");
     glEnable(GL_TEXTURE_2D);
     _window.setVerticalSyncEnabled(true);
-    _window.setFramerateLimit(30);
+    _window.setFramerateLimit(60);
     _window.setKeyRepeatEnabled(false);
 
     sf::RenderTexture context;
