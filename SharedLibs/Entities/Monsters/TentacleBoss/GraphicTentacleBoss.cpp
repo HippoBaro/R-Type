@@ -30,7 +30,6 @@ void GraphicTentacleBoss::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         framePos.push_back(sf::IntRect(256 * 0, 142 * 3, 256, 142));
         this->setAnimation("medias/images/r-typesheet34.png", framePos, bag);
         this->setLoopDuration(1500);
-        this->setTimeoutAtEnd(1000);
         this->setScale(sf::Vector2f(4.0f, 4.0f));
     }
     this->updateAnimation(rect, bag);
