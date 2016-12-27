@@ -9,8 +9,8 @@
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
     for (const auto& i : _pool)
     {
-        if (i.second->ImplementTrait(Trait::Drawable)) {
-            IDrawable *entity = dynamic_cast<IDrawable*>(i.second.GetInstance());
+        if (i.second->GetInstance()->ImplementTrait(Trait::Drawable)) {
+            IDrawable *entity = dynamic_cast<IDrawable*>(i.second->GetInstance());
             auto renderTarget = entity->getRenderTexture();
             auto sprite = entity->getSprite();
             if (sprite == nullptr)
@@ -18,12 +18,12 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
             if (renderTarget == nullptr || entity->NeedRedraw())
             {
                 if (renderTarget == nullptr)
-                    renderTarget = entity->createRenderTexture((unsigned int) i.second->GetRenderRect().x, (unsigned int) i.second->GetRenderRect().y);
+                    renderTarget = entity->createRenderTexture((unsigned int) i.second->GetInstance()->GetRenderRect().x, (unsigned int) i.second->GetInstance()->GetRenderRect().y);
                 entity->Draw(renderTarget, bag);
                 renderTarget->display();
                 sprite->setTexture(renderTarget->getTexture());
             }
-            sprite->setPosition(i.second->GetPosition().x, i.second->GetPosition().y);
+            sprite->setPosition(i.second->GetInstance()->GetPosition().x, i.second->GetInstance()->GetPosition().y);
 
             target.draw(*sprite);
         }
@@ -33,7 +33,7 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
 void ClientEntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &startTime, std::initializer_list<void *> *params) {
     auto now = startTime;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "create", "destroy"));
+    auto entity = std::make_shared<ManagedExternalInstance<Entity>>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "create", "destroy"));
     EntityPool::AddEntity(entity);
 }
 
@@ -44,7 +44,7 @@ ClientEntityPool::ClientEntityPool(const std::shared_ptr<Timer> &timer,
 
 }
 
-void ClientEntityPool::AddEntity(const ManagedExternalInstance<Entity> &instance) {
+void ClientEntityPool::AddEntity(const std::shared_ptr<ManagedExternalInstance<Entity>> &instance) {
     EntityPool::AddEntity(instance);
 }
 
