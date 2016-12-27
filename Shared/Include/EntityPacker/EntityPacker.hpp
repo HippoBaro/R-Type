@@ -39,7 +39,7 @@ public:
         TimeRef now = 0;
         vec2<float> pos;
 
-        _entity = std::make_shared<ManagedExternalInstance<Entity>>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy"));
+        _entity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy");
         _entity->GetInstance()->Serialize(_packer);
     }
 

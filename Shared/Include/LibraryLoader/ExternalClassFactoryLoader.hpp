@@ -19,12 +19,12 @@
 class ExternalClassFactoryLoader {
 private:
     std::unique_ptr<IInternalLibraryLoader> _dynLoader = std::unique_ptr<IInternalLibraryLoader>(new InternalLibraryLoader());
-    std::vector<ExternalClassFactory> _factories = std::vector<ExternalClassFactory>();
+    std::vector<std::shared_ptr<ExternalClassFactory>> _factories = std::vector<std::shared_ptr<ExternalClassFactory>>();
 
 private:
-    ExternalClassFactory GetFactoryOf(std::string const &libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
-        for (const ExternalClassFactory& i : _factories) // access by const reference
-            if (i.getLibName() == libName)
+    std::shared_ptr<ExternalClassFactory> GetFactoryOf(std::string const &libraryPath, std::string const &libName, std::string const &constructor, std::string const &destructor) {
+        for (const auto &i : _factories) // access by const reference
+            if (i->getLibName() == libName)
                 return i;
         auto newRef = _dynLoader->GetFactoryForClass(libraryPath, libName, constructor, destructor);
         _factories.push_back(newRef);
@@ -32,8 +32,8 @@ private:
     }
 
 public:
-    template<class Type> ManagedExternalInstance<Type> GetInstanceOf(std::string libraryPath, std::string const &libName, std::initializer_list<void *> args, std::string const &constructor = "create", std::string const &destructor = "destroy") {
-        return ManagedExternalInstance<Type>(GetFactoryOf(libraryPath, libName, constructor, destructor), args);
+    template<class Type> std::shared_ptr<ManagedExternalInstance<Type>> GetInstanceOf(std::string libraryPath, std::string const &libName, std::initializer_list<void *> args, std::string const &constructor = "create", std::string const &destructor = "destroy") {
+        return std::make_shared<ManagedExternalInstance<Type>>(GetFactoryOf(libraryPath, libName, constructor, destructor), args);
     }
 
     virtual ~ExternalClassFactoryLoader();
