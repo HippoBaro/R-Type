@@ -16,10 +16,14 @@ private:
     std::string _pathToFile = "";
     uint8_t _currentFrame = 0;
 
-    // Options
+    // SMFL Options
+    sf::Vector2f _scale = sf::Vector2f(1.0f, 1.0f);
+
+    // Animation options
     int _loopDuration = 0;
     bool _backAndForth = true;
     bool _inPause = false;
+    bool _shouldLoop = true;
 
 
     ////////////////////////////////////////////////////
@@ -32,17 +36,19 @@ private:
     ///
     ////////////////////////////////////////////////////
     bool shouldUpdateFrame() const {
-      // Enough time spent
-      const size_t timeElapsed = static_cast<const size_t>(_clock.getElapsedTime().asMilliseconds());
-      const size_t timeToNextFrame = this->_loopDuration / this->_frames.size();
+        // Enough time spent
+        const size_t timeElapsed = static_cast<const size_t>(_clock.getElapsedTime().asMilliseconds());
+        const size_t timeToNextFrame = this->_loopDuration / this->_frames.size();
 
-      // Is the animation in pause ?
-      const bool loopIsOver = this->isLoopOver();
+        // Is the animation in pause ?
+        const bool loopEndReached = this->isLastFrame() && !this->_shouldLoop;
 
-      return
-              timeElapsed > timeToNextFrame &&
-              !_inPause &&
-              !loopIsOver;
+        return (
+                _shouldLoop &&
+                (timeElapsed > timeToNextFrame) &&
+                !_inPause &&
+                !loopEndReached
+        );
     }
 
     ////////////////////////////////////////////////////
@@ -50,17 +56,28 @@ private:
     ///
     ////////////////////////////////////////////////////
     void updateCurrentFrame() {
-      _currentFrame++;
-      if (this->isLoopOver())
-      {
-        if (_backAndForth)
-          std::reverse(_frames.begin(), _frames.end());
-        _currentFrame = 0;
-      }
-      _clock.restart();
+        _currentFrame++;
+        if (this->isLastFrame())
+        {
+            if (_backAndForth)
+                std::reverse(_frames.begin(), _frames.end());
+            _currentFrame = 0;
+        }
+        _clock.restart();
+    }
+
+
+    bool NeedRedraw() override {
+        return this->shouldUpdateFrame();
     }
 
 protected:
+    // Customize animation
+    void setScale(sf::Vector2f s) { this->_scale = s; }
+    void setLoopDuration(int duration) { this->_loopDuration = duration; }
+    void setLoop(bool v = true) { this->_shouldLoop = v; }
+    void setLoopBackAndForth(bool v = true) { this->_backAndForth = v; }
+
     ////////////////////////////////////////////////////
     /// \brief Set animations frames and store them into the texture bag
     ///
@@ -68,31 +85,23 @@ protected:
     /// \param frames        A vector of sf::IntRect. Represents every frame
     ///                      of the animation
     /// \param bag           A reference to a TextureBag
-    /// \param duration      Time necessary for a loop to occur in milliseconds
-    /// \param shouldLoop    Should the animation loop or not
-    /// \param backAndForth  means the animation will go 1>2>3>2>1 instead of 1>2>3>1>2>3
     ///
     ////////////////////////////////////////////////////
     void setAnimation(
             std::string filePath,
             std::vector<sf::IntRect> &frames,
-            TextureBag &bag,
-            int duration = 100,
-            bool shouldLoop = true,
-            bool backAndForth = true)
+            TextureBag &bag)
     {
-      this->_loopDuration = duration;
-      this->_pathToFile = filePath;
-      this->_backAndForth = backAndForth;
+        this->_pathToFile = filePath;
 
-      // Init textures
-      for (auto it = frames.begin() ; it != frames.end() ; it++)
-      {
-        _frames.push_back(*it);
-        sf::Texture newtexture;
-        newtexture.loadFromFile(_pathToFile, *it);
-        bag.AddTexture(_pathToFile, *it, newtexture);
-      }
+        // Init textures
+        for (auto it = frames.begin() ; it != frames.end() ; it++)
+        {
+            _frames.push_back(*it);
+            sf::Texture newtexture;
+            newtexture.loadFromFile(_pathToFile, *it);
+            bag.AddTexture(_pathToFile, *it, newtexture);
+        }
     };
 
     ////////////////////////////////////////////////////
@@ -103,27 +112,27 @@ protected:
     /// time and options (Back&Forth ? Loop ?)
     ////////////////////////////////////////////////////
     void updateAnimation(sf::RenderTexture *rect, TextureBag &bag) {
-      if (this->shouldUpdateFrame())
-      {
-        this->updateCurrentFrame();
+        if (this->shouldUpdateFrame())
+        {
+            this->updateCurrentFrame();
 
-        // Replace old texture by a new one
-        rect->clear(sf::Color::Transparent);
-        sf::Sprite sprite;
-        sf::Texture *texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
-        sprite.setTexture(*texture);
-        sprite.setScale(sf::Vector2f(0.7f, 0.7f));
-        rect->draw(sprite);
-      }
+            // Replace old texture by a new one
+            rect->clear(sf::Color::Transparent);
+            sf::Sprite sprite;
+            sf::Texture *texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
+            sprite.setTexture(*texture);
+            sprite.setScale(sf::Vector2f(4.0f, 4.0f));
+            rect->draw(sprite);
+        }
     };
 
     ////////////////////////////////////////////////////
-    /// \brief Tells if the loop is over
+    /// \brief Tells if last frame has been reached
     ///
     /// \return True if loop is over. False otherwise
     ///
     ////////////////////////////////////////////////////
-    bool isLoopOver() const { return this->_currentFrame == this->_frames.size() - 1; };
+    bool isLastFrame() const { return this->_currentFrame == this->_frames.size() - 1; };
 
     ////////////////////////////////////////////////////
     /// \brief Pause the animation in the current frame
