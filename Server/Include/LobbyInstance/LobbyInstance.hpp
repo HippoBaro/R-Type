@@ -19,7 +19,7 @@ private:
     std::shared_ptr<RType::EventManager> _eventManager;
 
 private:
-    RType::Packer Serialize(std::shared_ptr<PlayerRef> &player);
+    RType::Packer Serialize();
     void NotifyClients();
 
 public:

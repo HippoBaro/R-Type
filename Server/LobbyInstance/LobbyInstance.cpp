@@ -48,15 +48,18 @@ bool LobbyInstance::IsThereAnyone() {
 }
 
 void LobbyInstance::NotifyClients() {
+    RType::Packer pack = Serialize();
     for (auto const &cli : _clients)
-        _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(Serialize(_players[cli.first]), cli.second), this);
+        _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(pack, cli.second), this);
 }
 
-RType::Packer LobbyInstance::Serialize(std::shared_ptr<PlayerRef> &player) {
+RType::Packer LobbyInstance::Serialize() {
     auto packer = RType::Packer(RType::WRITE);
-    auto tmp1 = player->GetId();
-    auto tmp2 = player->IsReady();
-    packer.Pack(tmp1);
-    packer.Pack(tmp2);
+    for (auto const &player : _players) {
+        auto tmp1 = player.second->GetId();
+        auto tmp2 = player.second->IsReady();
+        packer.Pack(tmp1);
+        packer.Pack(tmp2);
+    }
     return packer;
 }
