@@ -18,10 +18,11 @@ private:
     const uint16_t _projectileType;
     const vec2<float> _spawnPosition;
     const uint16_t _id;
+    const float _direction;
 
 public:
-    FireProjectileMessage(const uint16_t id, const uint16_t projectileType, const vec2<float> &spawnPosition) :
-            _projectileType(projectileType), _spawnPosition(spawnPosition), _id(id) {}
+    FireProjectileMessage(const uint16_t id, const uint16_t projectileType, const vec2<float> &spawnPosition, const float direction) :
+            _projectileType(projectileType), _spawnPosition(spawnPosition), _id(id), _direction(direction) {}
 
     uint16_t getProjectileName() const {
         return _projectileType;
@@ -33,6 +34,10 @@ public:
 
     uint16_t getId() const {
         return _id;
+    }
+
+    float getDirection() const {
+        return _direction;
     }
 };
 

@@ -48,7 +48,8 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
     if (_pool.count(message.getId()) > 0)
         return;
-    std::initializer_list<void *> params = { &emitterId };
+    auto direction = message.getDirection();
+    std::initializer_list<void *> params = { &emitterId, &direction };
     AddEntity(_factory.getTypeFromTypeId(message.getProjectileName()), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
