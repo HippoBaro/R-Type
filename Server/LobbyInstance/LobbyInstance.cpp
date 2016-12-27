@@ -59,7 +59,6 @@ void LobbyInstance::NotifyClients() {
             _textToSend += "\tNot Ready";
         _textToSend += "\n";
     }
-    std::cout << _textToSend << std::endl;
 
     auto packer = RType::Packer(RType::WRITE);
     packer.Pack(_textToSend);

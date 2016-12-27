@@ -9,7 +9,7 @@
 
 class MenuCreate : public ADrawableMenu {
 private:
-    std::string _textToWrite = std::string();
+    std::string _textToWrite;
 public:
     MenuCreate(std::shared_ptr<RType::EventManager> &eventManager);
 

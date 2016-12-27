@@ -8,10 +8,10 @@
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 
 void LobbyManager::Start() {
-    RType::EventListener sub = RType::EventListener(_eventManager);
+    auto sub = RType::EventListener(_eventManager);
 
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
-        _clients[_i++] = message->getClient();
+        _clients[_nextClientId++] = message->getClient();
     });
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
         //Je sait pas pourquoi mais si je depack pas ici dans le network manager message->getPacker().getBuffer() pointera sur \0

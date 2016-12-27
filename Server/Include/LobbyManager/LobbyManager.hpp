@@ -16,11 +16,11 @@
 
 class LobbyManager {
 private:
-    uint8_t _i = 0;
+    uint8_t _nextClientId = 0;
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
     NetworkManager _networkManager = NetworkManager(_eventManager);
-    std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
-    std::map<std::string, std::shared_ptr<LobbyInstance>> _instances = std::map<std::string, std::shared_ptr<LobbyInstance>>();
+    std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients {};
+    std::map<std::string, std::shared_ptr<LobbyInstance>> _instances {};
     std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>> _toSend {};
 
 private:

@@ -25,7 +25,7 @@ std::string ADrawableMenu::getSelection() {
 bool ADrawableMenu::isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem) {
     //Si jamais l'utilistateur n'entre pas de ChannelName alors on l'empeche de passer a la suite
     if (elem->_menuName == "Create" || elem->_menuName == "Join") {
-        if (getChannelName() == std::string())
+        if (getChannelName() == "")
             return false;
         if (elem->_menuName == "Create")
             _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_CREATE, getChannelName()), nullptr);

@@ -13,9 +13,10 @@
 #include <Entities/PlayerRef.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp.hpp>
 
-SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
-                                                                                                                                   _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(),
-                                                                                                                                   _networkClient(networkClient), _soundManager(new SoundManager(eventManager)) {
+SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient)
+        : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
+          _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(),
+          _networkClient(networkClient), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {

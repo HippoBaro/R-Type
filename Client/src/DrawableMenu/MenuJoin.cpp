@@ -12,6 +12,8 @@ MenuJoin::MenuJoin(std::shared_ptr<RType::EventManager> &eventManager) {
     _menuName = "Join";
     _menuType = HORIZONTAL;
     _textToWrite = "Waiting";
+    _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
+
     _eventListener->Subscribe<void, MenuStateUpdateMessage>(MenuStateUpdateMessage::EventType, [&](void *sender, MenuStateUpdateMessage *message) {
         _textToWrite = message->GetTextToWrite();
     });

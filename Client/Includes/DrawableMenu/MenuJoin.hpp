@@ -9,7 +9,7 @@
 
 class MenuJoin : public ADrawableMenu {
 private:
-    std::string _textToWrite = std::string();
+    std::string _textToWrite;
 public:
     MenuJoin(std::shared_ptr<RType::EventManager> &eventManager);
 
