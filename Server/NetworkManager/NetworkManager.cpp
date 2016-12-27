@@ -26,8 +26,6 @@ void NetworkManager::Run() {
             _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-
-    //std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::hours((std::numeric_limits<int>::max)()));
 }
 
 NetworkManager::NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(
