@@ -5,8 +5,8 @@
 #ifndef R_TYPE_GRAPHICORBMONSTER_HPP
 #define R_TYPE_GRAPHICORBMONSTER_HPP
 
-#include <TextureBag.hpp>
 #include <AAnimatable.hpp>
+#include <TextureBag.hpp>
 #include "OrbMonster.hpp"
 
 class GraphicOrbMonster : public OrbMonster, public AAnimatable {

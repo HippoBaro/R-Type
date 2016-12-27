@@ -2,7 +2,8 @@
     "entityTypes":[
         "SimpleProjectile",
         "Player",
-        "TentacleBoss"
+        "TentacleBoss",
+        "OrbMonster"
     ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",

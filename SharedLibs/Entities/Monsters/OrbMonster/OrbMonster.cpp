@@ -4,8 +4,6 @@
 
 #include "OrbMonster.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
-#include <Messages/FireProjectileMessage.hpp>
-#include <Messages/ProjectilePositionChangedMessage.hpp>
 
 OrbMonster::OrbMonster(const std::initializer_list<void *> init) : OrbMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),

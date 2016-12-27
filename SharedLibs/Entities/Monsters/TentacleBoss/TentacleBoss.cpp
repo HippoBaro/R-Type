@@ -4,8 +4,6 @@
 
 #include "TentacleBoss.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
-#include <Messages/FireProjectileMessage.hpp>
-#include <Messages/ProjectilePositionChangedMessage.hpp>
 
 TentacleBoss::TentacleBoss(const std::initializer_list<void *> init) : TentacleBoss(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
