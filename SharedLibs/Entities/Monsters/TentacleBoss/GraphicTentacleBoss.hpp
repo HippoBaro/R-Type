@@ -12,11 +12,10 @@
 class GraphicTentacleBoss : public TentacleBoss, public AAnimable {
 
 public:
-  GraphicTentacleBoss(const std::initializer_list<void *> init);
+    GraphicTentacleBoss(const std::initializer_list<void *> init);
 
-public:
-  void Draw(sf::RenderTexture *rect, TextureBag &) override;
-  void Cycle() override;
+    void Draw(sf::RenderTexture *rect, TextureBag &) override;
+    void Cycle() override;
 };
 
 

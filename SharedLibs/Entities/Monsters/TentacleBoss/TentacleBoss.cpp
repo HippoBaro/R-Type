@@ -14,7 +14,7 @@ TentacleBoss::TentacleBoss(const std::initializer_list<void *> init) : TentacleB
                                                                                     *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
 TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
-  Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))
+        Entity(id, timer, eventManager), _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager)))
 {
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
@@ -28,7 +28,7 @@ void TentacleBoss::Cycle() {
 }
 
 vec2<float> TentacleBoss::GetRenderRect() {
-    return vec2<float>(256, 141);
+    return vec2<float>(4 * 256, 4 * 142);
 }
 
 vec2<float> TentacleBoss::GetPosition() {
