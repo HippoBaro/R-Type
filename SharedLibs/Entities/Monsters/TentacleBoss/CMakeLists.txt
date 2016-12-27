@@ -17,3 +17,4 @@ add_library(DrawableTentacleBoss SHARED
         GraphicTentacleBoss.cpp
         GraphicTentacleBoss.hpp)
 target_link_libraries(DrawableTentacleBoss sfml-graphics sfml-window sfml-system)
+target_compile_definitions(DrawableTentacleBoss PRIVATE ENTITY_DRW_CTOR=1)

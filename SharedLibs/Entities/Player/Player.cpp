@@ -45,7 +45,7 @@ vec2<float> Player::GetPosition() {
 }
 
 uint16_t Player::getTypeId() const {
-    return 5;
+    return this->PLAYER;
 }
 
 void Player::Action(std::set<UserEventType> events) {

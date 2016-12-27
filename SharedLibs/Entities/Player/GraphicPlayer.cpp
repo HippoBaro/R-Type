@@ -14,7 +14,6 @@ GraphicPlayer::GraphicPlayer(const std::initializer_list<void *> init) : Player(
 }
 
 void GraphicPlayer::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-
     auto texture = bag.getTexture("medias/images/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
 
     rect->clear(sf::Color::Transparent);
