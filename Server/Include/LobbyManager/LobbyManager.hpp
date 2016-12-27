@@ -21,7 +21,7 @@ private:
     NetworkManager _networkManager = NetworkManager(_eventManager);
     std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
     std::map<std::string, std::shared_ptr<LobbyInstance>> _instances = std::map<std::string, std::shared_ptr<LobbyInstance>>();
-    std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>> _toSend = std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>>();
+    std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>> _toSend {};
 
 private:
     bool CreateInstance(std::string &roomName);
