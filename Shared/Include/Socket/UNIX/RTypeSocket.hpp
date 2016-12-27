@@ -230,6 +230,7 @@ public:
         if (data == -1) {
             return false;
         } else {
+            payload.Length = (int) data;
             payload.Ip = std::string(inet_ntoa(_addrClient.sin_addr));
             return true;
         }

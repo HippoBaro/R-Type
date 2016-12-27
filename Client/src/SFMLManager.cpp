@@ -10,6 +10,8 @@
 #include <SFML/OpenGL.hpp>
 #include <Messages/StopReceiveNetworkGamePayload.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
+#include <Entities/PlayerRef.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
                                                                                                                                    _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(),
@@ -40,13 +42,32 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
 }
 
 void SFMLManager::CheckForNetwork() {
+    if (!_isMenu)
+        return;
     if (!_isConnected)
         _isConnected = _networkClient->TryToConnect();
     if (_isConnected) {
         char data[1500];
         auto payload = RTypeNetworkPayload(data, 1500);
-        if (_networkClient->TrytoReceive(0, payload))
-            std::cout << "Client receive: " << payload.Payload << std::endl;
+        if (_networkClient->TrytoReceive(0, payload)) {
+            std::cout << "Payload length: " << payload.Length << std::endl;
+            std::vector<PlayerRef> players;
+            auto unpacker = RType::Packer(RType::READ, payload.Payload);
+            unsigned long length;
+            unpacker.Pack(length);
+            std::cout << length << std::endl;
+            for (unsigned long i = 0; i < length; ++i) {
+                uint8_t tmp1;
+                std::string tmp2;
+                bool tmp3;
+                unpacker.Pack(tmp1);
+                unpacker.Pack(tmp2);
+                unpacker.Pack(tmp3);
+                PlayerRef player(tmp1, tmp2, tmp3);
+                players.push_back(player);
+            }
+            _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(players), this);
+        }
     }
     if (_tryToCreate) {
         std::string toSend = "[CREATE]";
@@ -66,6 +87,7 @@ void SFMLManager::CheckForNetwork() {
     }
     if (_tryToQuit) {
         std::string toSend = "[QUIT]";
+        toSend += _roomName;
         char *data = strdup(toSend.c_str());
         auto payload = RTypeNetworkPayload(data, (int) strlen(data));
         _tryToQuit = !_networkClient->TryToSend(0, payload);
@@ -97,6 +119,7 @@ void SFMLManager::Run() {
             _currentContext = _gameContext.get();
             _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
+            _isMenu = !_isMenu;
             _menuContext->ReleaseListener();
             minFPS = 60;
             maxFPS = 0;

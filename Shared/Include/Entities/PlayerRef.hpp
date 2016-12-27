@@ -17,12 +17,18 @@ private:
 public:
     PlayerRef(const uint8_t id, const std::string &address) : _id(id), _address(address) {}
 
+    PlayerRef(const uint8_t _id, const std::string &_address, bool _isReady) : _id(_id), _address(_address), _isReady(_isReady) {}
+
     bool IsReady() const {
         return _isReady;
     }
 
     void SetReady(bool isReady) {
         _isReady = isReady;
+    }
+
+    const std::string &GetAddress() const {
+        return _address;
     }
 
     uint8_t GetId() const {

@@ -55,11 +55,17 @@ void LobbyInstance::NotifyClients() {
 
 RType::Packer LobbyInstance::Serialize() {
     auto packer = RType::Packer(RType::WRITE);
+    unsigned long tmp0 = _players.size();
+    std::cout << tmp0 << std::endl;
+    packer.Pack(tmp0);
     for (auto const &player : _players) {
-        auto tmp1 = player.second->GetId();
-        auto tmp2 = player.second->IsReady();
+        uint8_t tmp1 = player.second->GetId();
+        std::string tmp2 = player.second->GetAddress();
+        bool tmp3 = player.second->IsReady();
         packer.Pack(tmp1);
         packer.Pack(tmp2);
+        packer.Pack(tmp3);
     }
+    std::cout << packer.getBuffer() << std::endl;
     return packer;
 }

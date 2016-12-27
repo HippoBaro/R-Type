@@ -22,7 +22,8 @@ namespace RType {
         RECEIVED_NET_MESSAGE,
         SEND_NET_TCP_MESSAGE,
         RECEIVED_NET_TCP_MESSAGE,
-        NEW_CLIENT_CONNECTION
+        NEW_CLIENT_CONNECTION,
+        LOBBY_STATE_CHANGE
     };
 }
 

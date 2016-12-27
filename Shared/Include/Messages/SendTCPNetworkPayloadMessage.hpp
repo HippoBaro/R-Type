@@ -31,7 +31,6 @@ public:
     }
 
     const RTypeNetworkPayload ConvertToSocketMessage() const {
-        std::cout << _packer.getLength() << std::endl;
         return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength());
     }
 };

@@ -57,6 +57,7 @@ set(SHARED_SOURCE_FILES
         Include/Messages/ReceivedTCPNetworkPayloadMessage.hpp
         Include/Messages/SendTCPNetworkPayloadMessage.hpp
         Include/Messages/ClientWaitForServerMessage.hpp
+        Include/Messages/MenuStateUpdateMessage.hpp
 
         Include/Json/Json.hpp
         Include/Queue/SingleReaderWriterQueue.hpp
