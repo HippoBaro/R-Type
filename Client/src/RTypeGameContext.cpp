@@ -61,10 +61,7 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     while (_mailbox.try_dequeue(entityPacker))
         _pool->AddEntity(entityPacker.GetEntity(_timer, _pool->getEventManager()));
     if (entityPacker.getTimeStamp() != -1)
-    {
         _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
-        //didSyncTime = true;
-    }
 
     _pool->ProcessEntities();
     _pool->Draw(context, bag);

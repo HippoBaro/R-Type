@@ -85,7 +85,7 @@ bool EntityPool::Exist(const uint16_t id) {
 }
 
 bool EntityPool::isPlayer(const uint16_t id) {
-    return _pool.count(id) > 0 && getEntityById(id)->GetInstance()->getTypeId() == 5;
+    return _pool.count(id) > 0 && getEntityById(id)->GetInstance()->getTypeId() == Entity::PLAYER;
 }
 
 std::shared_ptr<ManagedExternalInstance<Entity>> &EntityPool::getEntityById(uint16_t id) {
