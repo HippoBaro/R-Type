@@ -12,17 +12,16 @@ template <class Type>
 class ManagedExternalInstance {
 private:
     std::shared_ptr<Type> _externalInstance = nullptr;
-    ExternalClassFactory _factory;
+    std::shared_ptr<ExternalClassFactory> _factory = nullptr;
 
 public:
-    ManagedExternalInstance(const ExternalClassFactory &factory, std::initializer_list<void *> &args) : _factory(factory) {
-        _externalInstance = std::shared_ptr<Type>((Type *)_factory.getCreate()(args), _factory.getDestroy());
+    ManagedExternalInstance(const std::shared_ptr<ExternalClassFactory> &factory, std::initializer_list<void *> &args) : _factory(factory) {
+        _externalInstance = std::shared_ptr<Type>((Type *)_factory->getCreate()(args), _factory->getDestroy());
     }
 
+    ManagedExternalInstance() { }
 
-    ManagedExternalInstance() : _factory() { }
-
-    ManagedExternalInstance(ManagedExternalInstance const &ref) : _externalInstance(ref._externalInstance), _factory(ref._factory) { }
+    ManagedExternalInstance(const ManagedExternalInstance &ref) : _externalInstance(ref._externalInstance), _factory(ref._factory) { }
 
     ManagedExternalInstance & operator = (ManagedExternalInstance const &ref){
         this->_externalInstance = ref._externalInstance;
