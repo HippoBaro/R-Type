@@ -55,7 +55,7 @@ void SFMLManager::CheckForNetwork() {
         auto payload = RTypeNetworkPayload(data, 1500);
         if (_networkClient->TrytoReceive(0, payload)) {
 
-            //Normallement il faut depack ici mais vue que sa marche pas j'envoie une string en raw
+            //TODO: Normallement il faut depack ici mais vue que sa marche pas j'envoie une string en raw
 
             _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(payload.Payload), this);
         }
@@ -92,6 +92,7 @@ void SFMLManager::CheckForNetwork() {
         _tryToQuit = !_networkClient->TryToSend(0, payload);
         free(data);
     }
+    //TODO: Pour chaque _networkClient->TryToSend(0, payload) il faut pack le char *data
 }
 
 void SFMLManager::Run() {

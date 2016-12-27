@@ -48,6 +48,7 @@ bool LobbyInstance::IsThereAnyone() {
 }
 
 void LobbyInstance::NotifyClients() {
+    //TODO: Trouver une meilleure façon de faire ça
     //Le premier qui fait un commentaire sur cette fonction aura le droit de la refaire xD
     std::string _textToSend = "Waiting\n";
     for (auto const &player : _players) {

@@ -15,7 +15,7 @@ void LobbyManager::Start() {
     });
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
         //Je sait pas pourquoi mais si je depack pas ici dans le network manager message->getPacker().getBuffer() pointera sur \0
-
+        //TODO: Ne pas dépack le message pour l'envoyer
         auto depacker = RType::Packer(RType::READ, message->getPacker().getBuffer());
         std::string toSend;
         depacker.Pack(toSend);
@@ -25,6 +25,9 @@ void LobbyManager::Start() {
     });
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
         std::string data = std::string(message->getPayload()->Payload);
+
+        //TODO: Dépacker le payload
+
         if (data.find("[CREATE]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
             if (CreateInstance(roomName)) {
