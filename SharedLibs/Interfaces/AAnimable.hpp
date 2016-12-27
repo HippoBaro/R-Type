@@ -150,14 +150,10 @@ public:
     // TODO: this should be done in the constructor
     bool isTextureSetInit = false;
 
-    virtual void Draw(sf::RenderTexture *rect, TextureBag &) = 0;
-    virtual void Cycle() = 0;
-
     AAnimable() :
             _clock(),
             _frames()
     {}
-
 };
 
 #endif //R_TYPE_AANIMABLE_HPP
