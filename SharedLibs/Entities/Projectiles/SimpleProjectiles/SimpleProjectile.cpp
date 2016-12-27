@@ -25,20 +25,20 @@ SimpleProjectile::SimpleProjectile(uint16_t id,
                                    TimeRef const &timeRef,
                                    vec2<float> const &startPosition,
                                    const std::initializer_list<void *> *params) : Entity(id, timer, eventManager) {
+    auto dest = vec2<float>(0, 0);
+
     if (params != nullptr) {
         _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
         float direction = *GetParamFromInitializerList<float *>(*params, 1);
-        auto dest = vec2<float>(1920 * cosf((float) ((direction * M_PI) / 180)), 1920 * sinf((float) ((direction * M_PI) / 180)));
-
-        _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
-                        PartitionSegmentBuilder()
-                                .Begins(timeRef)
-                                .For(std::chrono::seconds(2))
-                                .Translate(dest))
-                .Build();
+        dest = vec2<float>(1920 * cosf((float) ((direction * M_PI) / 180)),
+                           1920 * sinf((float) ((direction * M_PI) / 180)));
     }
-    else
-        _partition = EntityPartitionBuilder(timer, timeRef, startPosition).Build();
+    _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
+                    PartitionSegmentBuilder()
+                            .Begins(timeRef)
+                            .For(std::chrono::seconds(2))
+                            .Translate(dest))
+            .Build();
 }
 
 void SimpleProjectile::Cycle() {
