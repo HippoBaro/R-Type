@@ -16,15 +16,15 @@ TEST(Tests_Serialization, EntitySerialization)
     uint16_t id = 99;
     auto eventManager = std::make_shared<RType::EventManager>();
 
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id, &timer , &eventManager, &now, &pos }, "create", "destroy"));
+    auto entity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id, &timer , &eventManager, &now, &pos }, "create", "destroy");
 
     auto packer = RType::Packer(RType::WRITE);
 
-    entity->RegisterTrait(Garbage);
+    entity->GetInstance()->RegisterTrait(Garbage);
 
     std::cout << "Empty size : " << packer.getLength() << " bytes." << std::endl;
     
-    entity->Serialize(packer);
+    entity->GetInstance()->Serialize(packer);
 
     std::cout << "Serialized size : " << packer.getLength() << " bytes." << std::endl;
 
@@ -32,18 +32,18 @@ TEST(Tests_Serialization, EntitySerialization)
     auto pos2 = vec2<float>(500, 500);
     uint16_t id2 = 78;
 
-    ManagedExternalInstance<Entity> entity2(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id2, &timer , &eventManager, &now2, &pos2 }, "create", "destroy"));
+    auto entity2 = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "DrawableDummyMonster", { &id2, &timer , &eventManager, &now2, &pos2 }, "create", "destroy");
 
-    ASSERT_EQ(entity->GetPosition().x != entity2->GetPosition().x, true) << "Serialization failed";
+    ASSERT_EQ(entity->GetInstance()->GetPosition().x != entity2->GetInstance()->GetPosition().x, true) << "Serialization failed";
 
     auto unpacker = RType::Packer(RType::READ, packer.getBuffer());
-    entity2->Serialize(unpacker);
+    entity2->GetInstance()->Serialize(unpacker);
 
-    ASSERT_EQ(entity->ImplementTrait(Garbage), true) << "Serialization failed";
-    ASSERT_EQ(entity2->ImplementTrait(Garbage), true) << "Serialization failed";
-    ASSERT_EQ(entity->getId() == entity2->getId(), true) << "Serialization failed";
+    ASSERT_EQ(entity->GetInstance()->ImplementTrait(Garbage), true) << "Serialization failed";
+    ASSERT_EQ(entity2->GetInstance()->ImplementTrait(Garbage), true) << "Serialization failed";
+    ASSERT_EQ(entity->GetInstance()->getId() == entity2->GetInstance()->getId(), true) << "Serialization failed";
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    ASSERT_EQ(entity->GetPosition().x == entity2->GetPosition().x, true) << "Serialization failed";
+    ASSERT_EQ(entity->GetInstance()->GetPosition().x == entity2->GetInstance()->GetPosition().x, true) << "Serialization failed";
 }
