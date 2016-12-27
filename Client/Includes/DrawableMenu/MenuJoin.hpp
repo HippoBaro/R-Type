@@ -8,6 +8,8 @@
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 class MenuJoin : public ADrawableMenu {
+private:
+    std::string _textToWrite = std::string();
 public:
     MenuJoin(std::shared_ptr<RType::EventManager> &eventManager);
 
