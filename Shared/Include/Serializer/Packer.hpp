@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <set>
+#include <memory>
 #include "SerializationHelper.hpp"
 
 namespace RType {
@@ -31,6 +32,13 @@ namespace RType {
             PackerContent() : Buffer(new char[udpMtu]), _shouldDelete(true) {}
             PackerContent(char *data) : Buffer(data) {}
 
+            PackerContent(const PackerContent& other) : Buffer(other.Buffer), _shouldDelete(other._shouldDelete) {}
+
+            PackerContent& operator=(const PackerContent& other) {
+                Buffer = other.Buffer;
+                _shouldDelete = other._shouldDelete;
+                return *this;
+            }
 
             virtual ~PackerContent() {
                 if (_shouldDelete)
