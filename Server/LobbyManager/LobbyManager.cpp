@@ -13,6 +13,7 @@ void LobbyManager::Start() {
 
     //Event listener pour ajouter des clients a la pool
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
+        std::cout << "New client connection" << std::endl;
         _clients[_nextClientId++] = message->getClient();
     });
 
@@ -26,7 +27,6 @@ void LobbyManager::Start() {
         auto clientMessage = new ClientWaitForServerMessage();
         RType::Packer unpacker(RType::READ, message->getPayload()->Payload);
         clientMessage->Serialize(unpacker);
-
         if (clientMessage->getEventType() == USER_CREATE) {
             if (CreateInstance(clientMessage->getChannelName())) {
                 auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
@@ -47,6 +47,7 @@ void LobbyManager::Start() {
 }
 
 void LobbyManager::Run() {
+    int i = 0;
     while (true) {
         _networkManager.IsThereNewClient();
         _networkManager.CheckForIncomingMessage(_clients);
@@ -105,8 +106,8 @@ void LobbyManager::UserDisconnect(uint8_t id) {
     for (auto const &instance : _instances) {
         if (instance.second->HaveYouSeenThisPlayer(id)) {
             LeftInstance(instance.second->getRoomName(), id);
-            _clients.erase(id);
             break;
         }
     }
+    _clients.erase(id);
 }

@@ -64,7 +64,6 @@ bool NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::shared
 
 void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &clients) {
     char data[1500];
-
     auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
     for (auto it = clients.cbegin(); it != clients.cend();) {
         if ((*it->second).PoolEventOnSocket(SOCKET_CLOSED, 0)) {
