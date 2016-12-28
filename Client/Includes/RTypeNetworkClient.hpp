@@ -33,8 +33,8 @@ private:
 public:
     void StopReceive();
     bool TryToConnect();
-    bool TryReceive(int timeout, RTypeNetworkPayload &payload);
-    bool TryToSend(int timeout, RTypeNetworkPayload &payload);
+    bool TryReceive(const int timeout, RTypeNetworkPayload &payload);
+    bool TryToSend(const int timeout, const RTypeNetworkPayload &payload);
 };
 
 

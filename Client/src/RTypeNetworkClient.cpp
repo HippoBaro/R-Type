@@ -46,7 +46,7 @@ bool RTypeNetworkClient::TryToConnect() {
     return (_networkClient->Connect());
 }
 
-bool RTypeNetworkClient::TryReceive(int timeout, RTypeNetworkPayload &payload) {
+bool RTypeNetworkClient::TryReceive(const int timeout, RTypeNetworkPayload &payload) {
     if (_networkClient->PoolEventOnSocket(DATA_INCOMING, timeout)) {
         _networkClient->Receive(payload);
         return true;
@@ -54,7 +54,7 @@ bool RTypeNetworkClient::TryReceive(int timeout, RTypeNetworkPayload &payload) {
     return false;
 }
 
-bool RTypeNetworkClient::TryToSend(int timeout, RTypeNetworkPayload &payload) {
+bool RTypeNetworkClient::TryToSend(const int timeout, const RTypeNetworkPayload &payload) {
     if (_networkClient->PoolEventOnSocket(SOMEONE_LISTENING, timeout)) {
         _networkClient->Send(payload);
         return true;

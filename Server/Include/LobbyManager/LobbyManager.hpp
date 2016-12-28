@@ -24,9 +24,9 @@ private:
     std::vector<std::pair<std::shared_ptr<IRTypeSocket>, RTypeNetworkPayload>> _toSend {};
 
 private:
-    bool CreateInstance(std::string &roomName);
-    bool JoinInstance(std::string &roomName, std::shared_ptr<PlayerRef> &ref);
-    void LeftInstance(std::string &roomName, uint8_t id);
+    bool CreateInstance(const std::string &roomName);
+    bool JoinInstance(const std::string &roomName, const std::shared_ptr<PlayerRef> &ref);
+    void LeftInstance(const std::string &roomName, const uint8_t id);
     void CheckInstance();
     void SendToClients();
 

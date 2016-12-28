@@ -6,6 +6,7 @@
 #define R_TYPE_RTYPENETWORKPAYLOAD_H
 
 #include <iostream>
+#include <Serializer/Packer.hpp>
 
 class RTypeNetworkPayload {
 private:
@@ -16,16 +17,29 @@ public:
     char *Payload;
     int Length;
 
-    RTypeNetworkPayload() : Payload(), Length() {}
-    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) {}
-    RTypeNetworkPayload(int length) : _alloc(true), Payload(new char[length]), Length(length) {}
-    RTypeNetworkPayload(char *payload, int length, std::string const &destination) : Ip(destination), Payload(payload), Length(length) {}
-    RTypeNetworkPayload(const RTypeNetworkPayload& payload) : _alloc(payload._alloc), Ip(payload.Ip), Payload(payload.Payload), Length(payload.Length) {}
-    const RTypeNetworkPayload& operator=(const RTypeNetworkPayload& payload) { return *this; }
+    RTypeNetworkPayload() : Payload(), Length() { }
+
+    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) { }
+
+    RTypeNetworkPayload(int length) : _alloc(true), Payload(new char[length]), Length(length) { }
+
+    RTypeNetworkPayload(char *payload, int length, std::string const &destination) : Ip(destination), Payload(payload),
+                                                                                     Length(length) { }
+
+    RTypeNetworkPayload(const RTypeNetworkPayload &payload) : _alloc(payload._alloc), Ip(payload.Ip),
+                                                              Payload(payload.Payload), Length(payload.Length) { }
+
+    RTypeNetworkPayload(const RType::Packer &packer) : Payload(packer.getBuffer()), Length(packer.getLength()) { }
+
+    RTypeNetworkPayload(const RType::Packer &packer, std::string const &destination) : Ip(destination),
+                                                                                       Payload(packer.getBuffer()),
+                                                                                       Length(packer.getLength()) { }
+
+    const RTypeNetworkPayload &operator=(const RTypeNetworkPayload &payload) { return *this; }
 
     virtual ~RTypeNetworkPayload() {
-		if (_alloc)
-			delete[] Payload;
+        if (_alloc)
+            delete[] Payload;
     }
 };
 

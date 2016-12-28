@@ -24,7 +24,7 @@ private:
 
 public:
     LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName);
-    bool AddPlayerToInstance(uint8_t id, std::shared_ptr<IRTypeSocket> &client, std::shared_ptr<PlayerRef> &ref);
+    bool AddPlayerToInstance(const uint8_t id, const std::shared_ptr<IRTypeSocket> &client, const std::shared_ptr<PlayerRef> &ref);
     void SetReady(uint8_t id, bool ready);
     void PlayerLeft(uint8_t id);
     bool IsReady();

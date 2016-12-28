@@ -26,7 +26,7 @@ namespace RType {
         class PackerContent {
         public:
             char *Buffer = nullptr;
-            bool _shouldDelete = false:
+            bool _shouldDelete = false;
 
             PackerContent() : Buffer(new char[udpMtu]), _shouldDelete(true) {}
             PackerContent(char *data) : Buffer(data) {}
@@ -56,18 +56,16 @@ namespace RType {
         { }
 
         Packer(const RType::Packer & copy) :
-                _buffer(std::make_shared<PackerContent>()),
+                _buffer(copy._buffer),
                 _type(copy._type),
                 _index(copy._index) {
-            std::memcpy(_buffer->Buffer, copy._buffer->Buffer, udpMtu);
         }
 
         Packer &operator=(const RType::Packer & rhs)
         {
             this->_type = rhs._type;
             this->_index = rhs._index;
-            this->_buffer = std::make_shared<PackerContent>();
-            std::memcpy(_buffer->Buffer, rhs._buffer->Buffer, udpMtu);
+            this->_buffer = rhs._buffer;
             return *this;
         }
 

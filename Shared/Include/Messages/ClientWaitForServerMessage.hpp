@@ -14,7 +14,8 @@ enum ClientType : uint8_t {
     USER_CREATE,
     USER_JOIN,
     USER_READY,
-    USER_QUIT
+    USER_QUIT,
+    USER_DEFAULT_ACTION
 };
 
 class ClientWaitForServerMessage : public IMessage, RType::ISerializable {
@@ -22,13 +23,15 @@ public:
     static constexpr RType::Event EventType = RType::MENU_LOBBY;
 
 private:
-    const ClientType _event;
+    ClientType _event;
     std::string _channelName;
 
 public:
     ClientWaitForServerMessage(const ClientType &event, const std::string &channelName) : _event(event), _channelName(channelName) {}
 
     ClientWaitForServerMessage(const ClientType &event) : _event(event), _channelName() {}
+
+    ClientWaitForServerMessage() : _event(USER_DEFAULT_ACTION), _channelName() { }
 
     const std::string &getChannelName() const {
         return _channelName;

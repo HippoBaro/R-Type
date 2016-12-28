@@ -6,6 +6,7 @@
 #include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
 #include "LobbyManager/LobbyManager.hpp"
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
 
 void LobbyManager::Start() {
     auto sub = RType::EventListener(_eventManager);
@@ -27,7 +28,28 @@ void LobbyManager::Start() {
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
         std::string data = std::string(message->getPayload()->Payload);
 
-        //TODO: Dépacker le payload
+        auto payload = new ClientWaitForServerMessage();
+        RType::Packer packer(RType::READ, message->getPayload()->Payload);
+        payload->Serialize(packer);
+
+        if (payload->getEventType() == USER_CREATE) {
+            if (CreateInstance(payload->getChannelName())) {
+                auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
+                JoinInstance(payload->getChannelName(), player);
+            }
+        }
+        else if (payload->getEventType() == USER_JOIN) {
+            auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
+            JoinInstance(payload->getChannelName(), player);
+        }
+        else if (payload->getEventType() == USER_READY) {
+            if (_instances.count(payload->getChannelName()) > 0)
+                _instances[payload->getChannelName()]->SetReady(message->getId(), true);
+        }
+        else if (payload->getEventType() == USER_QUIT)
+            LeftInstance(payload->getChannelName(), message->getId());
+
+/*        //TODO: Dépacker le payload
 
         if (data.find("[CREATE]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
@@ -47,7 +69,7 @@ void LobbyManager::Start() {
         } else if (data.find("[QUIT]") != std::string::npos) {
             std::string roomName = data.substr(data.find("]") + 1);
             LeftInstance(roomName, message->getId());
-        }
+        }*/
     });
     Run();
 }
@@ -61,7 +83,7 @@ void LobbyManager::Run() {
     }
 }
 
-bool LobbyManager::CreateInstance(std::string &roomName) {
+bool LobbyManager::CreateInstance(const std::string &roomName) {
     if (_instances.find(roomName) == _instances.end()) {
         auto lobby = std::make_shared<LobbyInstance>(_eventManager, roomName);
         _instances[roomName] = lobby;
@@ -70,14 +92,14 @@ bool LobbyManager::CreateInstance(std::string &roomName) {
     return false;
 }
 
-bool LobbyManager::JoinInstance(std::string &roomName, std::shared_ptr<PlayerRef> &ref) {
+bool LobbyManager::JoinInstance(const std::string &roomName, const std::shared_ptr<PlayerRef> &ref) {
     if (_instances.find(roomName) != _instances.end()) {
         return _instances[roomName]->AddPlayerToInstance(ref->GetId(), _clients[ref->GetId()], ref);
     }
     return false;
 }
 
-void LobbyManager::LeftInstance(std::string &roomName, uint8_t id) {
+void LobbyManager::LeftInstance(const std::string &roomName, const uint8_t id) {
     if (_instances.find(roomName) != _instances.end()) {
         _instances[roomName]->PlayerLeft(id);
     }

@@ -28,7 +28,7 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
             _soundManager->PlaySoundEffects(message->getPlaySound());
     });
     _eventListener->Subscribe<Entity, ClientWaitForServerMessage>(ClientWaitForServerMessage::EventType, [&](Entity *, ClientWaitForServerMessage *message) {
-        if (message->getEventType() == USER_CREATE) {
+        /*if (message->getEventType() == USER_CREATE) {
             _tryToCreate = true;
             _roomName = message->getChannelName();
         } else if (message->getEventType() == USER_JOIN) {
@@ -41,16 +41,19 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
             _tryToJoin = false;
             _tryToReady = false;
             _tryToQuit = true;
-        }
+        }*/
+
+        RType::Packer packer(RType::WRITE);
+        message->Serialize(packer);
+        _networkClient->TryToSend(-1, RTypeNetworkPayload(packer));
+
     });
 }
 
 void SFMLManager::CheckForNetwork() {
-    if (!_isMenu)
-        return;
     if (!_isConnected)
         _isConnected = _networkClient->TryToConnect();
-    if (_isConnected) {
+    else {
         char data[1500];
         auto payload = RTypeNetworkPayload(data, 1500);
         if (_networkClient->TryReceive(0, payload)) {
@@ -62,7 +65,7 @@ void SFMLManager::CheckForNetwork() {
             _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
         }
     }
-    if (_tryToCreate) {
+/*    if (_tryToCreate) {
         std::string toSend = "[CREATE]";
         toSend += _roomName;
         char *data = strdup(toSend.c_str());
@@ -93,7 +96,7 @@ void SFMLManager::CheckForNetwork() {
         auto payload = RTypeNetworkPayload(data, (int) strlen(data));
         _tryToQuit = !_networkClient->TryToSend(0, payload);
         free(data);
-    }
+    }*/
     //TODO: Pour chaque _networkClient->TryToSend(0, payload) il faut pack le char *data
 }
 
@@ -116,7 +119,6 @@ void SFMLManager::Run() {
 
     // Boucle de jeu.
     while (_window.isOpen()) {
-        CheckForNetwork();
         if (_switch) {
             _currentContext = _gameContext.get();
             _currentContext->Setup("medias/partitions/testPartition.partition");
@@ -127,6 +129,8 @@ void SFMLManager::Run() {
             maxFPS = 0;
         }
         _inputListener->CheckForInputs(_window);
+        if (_currentContext == _menuContext.get())
+            CheckForNetwork();
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);

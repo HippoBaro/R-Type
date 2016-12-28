@@ -10,7 +10,7 @@ LobbyInstance::LobbyInstance(const std::shared_ptr<RType::EventManager> &eventMa
 
 }
 
-bool LobbyInstance::AddPlayerToInstance(uint8_t id, std::shared_ptr<IRTypeSocket> &client, std::shared_ptr<PlayerRef> &ref) {
+bool LobbyInstance::AddPlayerToInstance(const uint8_t id, const std::shared_ptr<IRTypeSocket> &client, const std::shared_ptr<PlayerRef> &ref) {
     if (_players.size() < 4) {
         _clients[id] = client;
         _players[id] = ref;
