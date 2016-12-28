@@ -12,7 +12,7 @@ GraphicOrbMonster::GraphicOrbMonster(const std::initializer_list<void *> init) :
         OrbMonster(init),
         AAnimatable()
 {
-    this->RegisterTrait(Trait::Drawable);
+    RegisterTrait(Trait::Drawable);
 }
 
 void GraphicOrbMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {

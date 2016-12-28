@@ -12,7 +12,7 @@ GraphicTentacleBoss::GraphicTentacleBoss(const std::initializer_list<void *> ini
         TentacleBoss(init),
         AAnimatable()
 {
-    this->RegisterTrait(Trait::Drawable);
+    RegisterTrait(Trait::Drawable);
 }
 
 void GraphicTentacleBoss::Draw(sf::RenderTexture *rect, TextureBag &bag) {
