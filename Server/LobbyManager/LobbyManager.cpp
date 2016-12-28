@@ -47,7 +47,6 @@ void LobbyManager::Start() {
 }
 
 void LobbyManager::Run() {
-    int i = 0;
     while (true) {
         _networkManager.IsThereNewClient();
         _networkManager.CheckForIncomingMessage(_clients);
@@ -86,6 +85,7 @@ void LobbyManager::CheckInstance() {
         }
         if (instance.second->IsReady()) {
             //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
+            std::cout << "Instance: " << instance.second->getRoomName() << " is ready to go !" << std::endl;
         }
     }
 }
