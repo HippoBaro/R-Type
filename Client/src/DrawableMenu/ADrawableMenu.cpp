@@ -3,6 +3,7 @@
 //
 
 #include <Messages/ClientWaitForServerMessage.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 ADrawableMenu::ADrawableMenu() {
@@ -37,13 +38,18 @@ bool ADrawableMenu::isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem) {
 
 void ADrawableMenu::checkIfUserStopWaiting() {
     //Si jamais l'utilistateur quitte l'écran Waiting, alors on envoie un signal
-    if ((_menuName == "Create" || _menuName == "Join") && getSelection() == "Back")
-        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_QUIT, getChannelName()), nullptr);
+    if ((_menuName == "Create" || _menuName == "Join") && getSelection() == "Back") {
+        _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(), nullptr);
+        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_QUIT), nullptr);
+    }
 }
 
-void ADrawableMenu::checkIfUserIsReady() {
-    if (getSelection() == "Ready")
+bool ADrawableMenu::checkIfUserIsReady() {
+    if (getSelection() == "Ready") {
         _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_READY), nullptr);
+        return true;
+    }
+    return false;
 }
 
 void ADrawableMenu::moveUp() {
@@ -114,7 +120,7 @@ void ADrawableMenu::moveSelection(UserEventType type) {
 bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &allMenu) {
     if (_active) {
         checkIfUserStopWaiting();
-        checkIfUserIsReady();
+        bool cond = checkIfUserIsReady();
         for (auto &&elem : allMenu) {
             if (elem->_menuName == getSelection()) {
                 if (!isCreateOrJoin(elem))
@@ -125,7 +131,8 @@ bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &a
                 return true;
             }
         }
-        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
+        if (!cond)
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
     }
     return false;
 }
@@ -141,7 +148,7 @@ void ADrawableMenu::Draw(sf::RenderTexture &context, sf::Text &text) {
                 text.setPosition(150, y);
                 y += 50;
             } else if (_menuType == HORIZONTAL) {
-                text.setPosition(x, 410);
+                text.setPosition(x, 510);
                 x += (elem.second.second.size() * 50);
             }
             context.draw(text);

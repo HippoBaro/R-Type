@@ -48,30 +48,23 @@ bool LobbyInstance::IsThereAnyone() {
 }
 
 void LobbyInstance::NotifyClients() {
-    //TODO: Trouver une meilleure façon de faire ça
-    //Le premier qui fait un commentaire sur cette fonction aura le droit de la refaire xD
-    std::string _textToSend = "Waiting\n";
     auto packer = RType::Packer(RType::WRITE);
-
-    auto players = std::vector<std::shared_ptr<PlayerRef>>();
+    auto tmpPlayers = std::vector<std::shared_ptr<PlayerRef>>();
     for (const auto &i : _players)
-        players.push_back(i.second);
-    packer.PackSerializables(players);
-
-    /*for (auto const &player : _players) {
-        _textToSend += "Player ";
-        _textToSend += (player.second->GetId() + 48);
-        if (player.second->IsReady())
-            _textToSend += "\tReady";
-        else if (!player.second->isReady())
-            _textToSend += "\tNot Ready";
-        _textToSend += "\n";
-    }
-
-    auto packer = RType::Packer(RType::WRITE);
-    packer.Pack(_textToSend);
-     */
-
+        tmpPlayers.push_back(i.second);
+    packer.PackSerializables(tmpPlayers);
     for (auto const &cli : _clients)
         _eventManager->Emit(SendTCPNetworkPayloadMessage::EventType, new SendTCPNetworkPayloadMessage(packer, cli.second), this);
+}
+
+bool LobbyInstance::HaveYouSeenThisPlayer(uint8_t id) {
+    for (const auto &i : _players) {
+        if (i.first == id)
+            return true;
+    }
+    return false;
+}
+
+const std::string &LobbyInstance::getRoomName() const {
+    return _roomName;
 }

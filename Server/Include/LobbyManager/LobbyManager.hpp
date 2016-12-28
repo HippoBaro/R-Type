@@ -29,6 +29,7 @@ private:
     void LeftInstance(const std::string &roomName, const uint8_t id);
     void CheckInstance();
     void SendToClients();
+    void UserDisconnect(uint8_t id);
 
 public:
     void Start();

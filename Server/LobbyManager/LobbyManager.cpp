@@ -11,65 +11,37 @@
 void LobbyManager::Start() {
     auto sub = RType::EventListener(_eventManager);
 
+    //Event listener pour ajouter des clients a la pool
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
         _clients[_nextClientId++] = message->getClient();
     });
+
+    //Event listener pour ajouter des messages a envoyer sur le reseau
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
-        //Je sait pas pourquoi mais si je depack pas ici dans le network manager message->getPacker().getBuffer() pointera sur \0
-        //TODO: Ne pas dépack le message pour l'envoyer
-/*
-        auto depacker = RType::Packer(RType::READ, message->getPacker().getBuffer());
-        std::string toSend;
-        depacker.Pack(toSend);
-        RTypeNetworkPayload payload(strdup(toSend.c_str()), (int) toSend.size());
-*/
         _toSend.push_back(std::make_pair(message->getDestination(), message->ConvertToSocketMessage()));
     });
+
+    //Event listener pour prendre des actions en fonctions de ce qui arrive du reseau
     sub.Subscribe<void, ReceivedTCPNetworkPayloadMessage>(ReceivedTCPNetworkPayloadMessage::EventType, [&](void *sender, ReceivedTCPNetworkPayloadMessage *message) {
-        std::string data = std::string(message->getPayload()->Payload);
+        auto clientMessage = new ClientWaitForServerMessage();
+        RType::Packer unpacker(RType::READ, message->getPayload()->Payload);
+        clientMessage->Serialize(unpacker);
 
-        auto payload = new ClientWaitForServerMessage();
-        RType::Packer packer(RType::READ, message->getPayload()->Payload);
-        payload->Serialize(packer);
-
-        if (payload->getEventType() == USER_CREATE) {
-            if (CreateInstance(payload->getChannelName())) {
+        if (clientMessage->getEventType() == USER_CREATE) {
+            if (CreateInstance(clientMessage->getChannelName())) {
                 auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
-                JoinInstance(payload->getChannelName(), player);
+                JoinInstance(clientMessage->getChannelName(), player);
             }
-        }
-        else if (payload->getEventType() == USER_JOIN) {
+        } else if (clientMessage->getEventType() == USER_JOIN) {
             auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
-            JoinInstance(payload->getChannelName(), player);
-        }
-        else if (payload->getEventType() == USER_READY) {
-            if (_instances.count(payload->getChannelName()) > 0)
-                _instances[payload->getChannelName()]->SetReady(message->getId(), true);
-        }
-        else if (payload->getEventType() == USER_QUIT)
-            LeftInstance(payload->getChannelName(), message->getId());
-
-/*        //TODO: Dépacker le payload
-
-        if (data.find("[CREATE]") != std::string::npos) {
-            std::string roomName = data.substr(data.find("]") + 1);
-            if (CreateInstance(roomName)) {
-                auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
-                JoinInstance(roomName, player);
-            }
-        } else if (data.find("[JOIN]") != std::string::npos) {
-            std::string roomName = data.substr(data.find("]") + 1);
-            auto player = std::make_shared<PlayerRef>(message->getId(), message->getPayload()->Ip);
-            JoinInstance(roomName, player);
-        } else if (data.find("[READY]") != std::string::npos) {
-            std::string roomName = data.substr(data.find("]") + 1);
-            if (_instances.find(roomName) != _instances.end()) {
-                _instances[roomName]->SetReady(message->getId(), true);
-            }
-        } else if (data.find("[QUIT]") != std::string::npos) {
-            std::string roomName = data.substr(data.find("]") + 1);
-            LeftInstance(roomName, message->getId());
-        }*/
+            JoinInstance(clientMessage->getChannelName(), player);
+        } else if (clientMessage->getEventType() == USER_READY) {
+            if (_instances.count(clientMessage->getChannelName()) > 0)
+                _instances[clientMessage->getChannelName()]->SetReady(message->getId(), true);
+        } else if (clientMessage->getEventType() == USER_QUIT)
+            LeftInstance(clientMessage->getChannelName(), message->getId());
+        else if (clientMessage->getEventType() == USER_DISCONNECT)
+            UserDisconnect(message->getId());
     });
     Run();
 }
@@ -125,6 +97,16 @@ void LobbyManager::SendToClients() {
             } else {
                 ++it;
             }
+        }
+    }
+}
+
+void LobbyManager::UserDisconnect(uint8_t id) {
+    for (auto const &instance : _instances) {
+        if (instance.second->HaveYouSeenThisPlayer(id)) {
+            LeftInstance(instance.second->getRoomName(), id);
+            _clients.erase(id);
+            break;
         }
     }
 }

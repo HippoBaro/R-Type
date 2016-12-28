@@ -27,8 +27,7 @@ protected:
     std::map<UserEventType, std::function<void()>> _move = std::map<UserEventType, std::function<void()>>();
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
     std::unique_ptr<RType::EventListener> _eventListener = nullptr;
-
-    std::string _menuName = std::string();
+    std::string _menuName = "";
     MenuType _menuType = VERTICAL;
     bool _active = false;
     bool _canMove = true;
@@ -40,7 +39,7 @@ private:
 
     void checkIfUserStopWaiting();
 
-    void checkIfUserIsReady();
+    bool checkIfUserIsReady();
 
     void moveUp();
 

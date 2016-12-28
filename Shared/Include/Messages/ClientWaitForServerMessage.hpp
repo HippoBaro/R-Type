@@ -15,6 +15,7 @@ enum ClientType : uint8_t {
     USER_JOIN,
     USER_READY,
     USER_QUIT,
+    USER_DISCONNECT,
     USER_DEFAULT_ACTION
 };
 
@@ -32,6 +33,10 @@ public:
     ClientWaitForServerMessage(const ClientType &event) : _event(event), _channelName() {}
 
     ClientWaitForServerMessage() : _event(USER_DEFAULT_ACTION), _channelName() { }
+
+    void setChannelName(const std::string &channelName) {
+        _channelName = channelName;
+    }
 
     const std::string &getChannelName() const {
         return _channelName;

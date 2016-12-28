@@ -11,7 +11,7 @@
 #include <Messages/StopReceiveNetworkGamePayload.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
 #include <Entities/PlayerRef.hpp>
-#include <Messages/MenuStateUpdateMessage.hpp.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient)
         : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
@@ -28,21 +28,10 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
             _soundManager->PlaySoundEffects(message->getPlaySound());
     });
     _eventListener->Subscribe<Entity, ClientWaitForServerMessage>(ClientWaitForServerMessage::EventType, [&](Entity *, ClientWaitForServerMessage *message) {
-        /*if (message->getEventType() == USER_CREATE) {
-            _tryToCreate = true;
+        if (message->getEventType() == USER_CREATE || message->getEventType() == USER_JOIN)
             _roomName = message->getChannelName();
-        } else if (message->getEventType() == USER_JOIN) {
-            _tryToJoin = true;
-            _roomName = message->getChannelName();
-        } else if (message->getEventType() == USER_READY) {
-            _tryToReady = true;
-        } else if (message->getEventType() == USER_QUIT) {
-            _tryToCreate = false;
-            _tryToJoin = false;
-            _tryToReady = false;
-            _tryToQuit = true;
-        }*/
-
+        else if (message->getEventType() == USER_READY || message->getEventType() == USER_QUIT)
+            message->setChannelName(_roomName);
         RType::Packer packer(RType::WRITE);
         message->Serialize(packer);
         _networkClient->TryToSend(-1, RTypeNetworkPayload(packer));
@@ -65,39 +54,6 @@ void SFMLManager::CheckForNetwork() {
             _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
         }
     }
-/*    if (_tryToCreate) {
-        std::string toSend = "[CREATE]";
-        toSend += _roomName;
-        char *data = strdup(toSend.c_str());
-        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
-        _tryToCreate = !_networkClient->TryToSend(0, payload);
-        free(data);
-    }
-    if (_tryToJoin) {
-        std::string toSend = "[JOIN]";
-        toSend += _roomName;
-        char *data = strdup(toSend.c_str());
-        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
-        _tryToJoin = !_networkClient->TryToSend(0, payload);
-        free(data);
-    }
-    if (_tryToReady) {
-        std::string toSend = "[READY]";
-        toSend += _roomName;
-        char *data = strdup(toSend.c_str());
-        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
-        _tryToReady = !_networkClient->TryToSend(0, payload);
-        free(data);
-    }
-    if (_tryToQuit) {
-        std::string toSend = "[QUIT]";
-        toSend += _roomName;
-        char *data = strdup(toSend.c_str());
-        auto payload = RTypeNetworkPayload(data, (int) strlen(data));
-        _tryToQuit = !_networkClient->TryToSend(0, payload);
-        free(data);
-    }*/
-    //TODO: Pour chaque _networkClient->TryToSend(0, payload) il faut pack le char *data
 }
 
 void SFMLManager::Run() {
@@ -123,7 +79,6 @@ void SFMLManager::Run() {
             _currentContext = _gameContext.get();
             _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
-            _isMenu = !_isMenu;
             _menuContext->ReleaseListener();
             minFPS = 60;
             maxFPS = 0;

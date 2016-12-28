@@ -3,7 +3,7 @@
 //
 
 #include "DrawableMenu/MenuCreate.hpp"
-#include <Messages/MenuStateUpdateMessage.hpp.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 
 MenuCreate::MenuCreate(std::shared_ptr<RType::EventManager> &eventManager) {
     _eventManager = eventManager;
@@ -11,19 +11,25 @@ MenuCreate::MenuCreate(std::shared_ptr<RType::EventManager> &eventManager) {
     _menuMap[1] = std::make_pair(false, "Ready");
     _menuName = "Create";
     _menuType = HORIZONTAL;
-    _textToWrite = "Waiting";
+    _textToWrite = "         Waiting";
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<void, MenuStateUpdateMessage>(MenuStateUpdateMessage::EventType, [&](void *sender, MenuStateUpdateMessage *message) {
-        std::cout << "STATE UPDATED : " << std::endl;
+        _textToWrite = "         Waiting\n";
         for (const auto &i : message->getPlayers()) {
-            std::cout << i.GetId() + 48 << " | " << i.isReady() << " | " << i.GetAddress()  << std::endl;
+            _textToWrite += "Player ";
+            _textToWrite += (char) (i.GetId() + 48);
+            if (i.isReady())
+                _textToWrite += "  READY";
+            else
+                _textToWrite += "  NOT READY";
+            _textToWrite += "\n";
         }
     });
 }
 
 void MenuCreate::specialDrawing(sf::RenderTexture &context, sf::Text &text) {
     text.setFillColor(sf::Color::White);
-    text.setPosition(context.getSize().x / 2 - ((50 * 7) / 3), context.getSize().y / 4);
+    text.setPosition(context.getSize().x / 4, context.getSize().y / 4);
     text.setString(_textToWrite);
     context.draw(text);
 }

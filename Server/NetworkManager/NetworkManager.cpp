@@ -7,6 +7,7 @@
 #include <Messages/NewClientConnectionMessage.hpp>
 #include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
 #include "NetworkManager/NetworkManager.hpp"
 
 NetworkManager::NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager) {
@@ -67,7 +68,13 @@ void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<I
     auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
     for (auto it = clients.cbegin(); it != clients.cend();) {
         if ((*it->second).PoolEventOnSocket(SOCKET_CLOSED, 0)) {
-            clients.erase(it++);
+            auto clientMessage = new ClientWaitForServerMessage(USER_DISCONNECT);
+            RType::Packer packer(RType::WRITE);
+            clientMessage->Serialize(packer);
+            payload->Payload = packer.getBuffer();
+            payload->Length = packer.getLength();
+            _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(it->first, payload), this);
+            break;
         } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
             (*it->second).Receive(*payload);
             _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(it->first, payload), this);

@@ -29,12 +29,7 @@ private:
     std::unique_ptr<RType::EventListener> _eventListener;
     sf::RenderWindow _window;
     bool _switch = false;
-    bool _isMenu = true;
     bool _isConnected = false;
-    bool _tryToCreate = false;
-    bool _tryToJoin = false;
-    bool _tryToReady = false;
-    bool _tryToQuit = false;
     std::string _roomName = "";
     std::shared_ptr<RTypeNetworkClient> _networkClient;
 

@@ -23,12 +23,14 @@ private:
     void NotifyClients();
 
 public:
+    const std::string &getRoomName() const;
     LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName);
     bool AddPlayerToInstance(const uint8_t id, const std::shared_ptr<IRTypeSocket> &client, const std::shared_ptr<PlayerRef> &ref);
     void SetReady(uint8_t id, bool ready);
     void PlayerLeft(uint8_t id);
     bool IsReady();
     bool IsThereAnyone();
+    bool HaveYouSeenThisPlayer(uint8_t id);
 };
 
 
