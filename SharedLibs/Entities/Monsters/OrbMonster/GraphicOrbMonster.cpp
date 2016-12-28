@@ -22,12 +22,12 @@ void GraphicOrbMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         std::vector<sf::IntRect> framePos;
         for (uint8_t i = 0 ; i < 12 ; i++)
             framePos.push_back(sf::IntRect(16 * i, 0, 16, 14));
-        this->setAnimation("medias/images/OrbMonster.png", framePos, bag);
-        this->setLoopBackAndForth(false);
-        this->setLoopDuration(1200);
-        this->setScale(sf::Vector2f(4.0f, 4.0f));
+        setAnimation("medias/images/OrbMonster.png", framePos, bag);
+        setLoopBackAndForth(false);
+        setLoopDuration(1200);
+        setScale(sf::Vector2f(4.0f, 4.0f));
     }
-    this->updateAnimation(rect, bag);
+    updateAnimation(rect, bag);
 }
 
 void GraphicOrbMonster::Cycle() {
