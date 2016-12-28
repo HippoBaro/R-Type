@@ -21,7 +21,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10000))
                             .Translate(vec2<float>(0, 0))
-                            .Fire("SimpleProjectile", 5))
+                            .Fire(Entity::SIMPLE_PROJECTILE, 5))
             /*.AddSegment(PartitionSegmentBuilder()
                                 .For(std::chrono::seconds(5))
                                 .Translate(vec2<float>(-400, -400))
@@ -45,7 +45,7 @@ void DummyMonster::Cycle() {
     if (_partition.ShouldFire(now)) {
         auto segment = _partition.GetCurrentSegment(now);
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened()), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 180), this);
     }
 }
 

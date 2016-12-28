@@ -12,7 +12,7 @@
 class PartitionSegment : public RType::ISerializable {
 private:
     Tween<vec2<float>> _locationVector;
-    std::string _projectileType = "";
+    uint16_t _projectileType = 0;
     uint16_t _shootNumber = 0;
     TimeRef _lastShot = TimeRef();
     uint32_t _timeBeetweenShot = 0;
@@ -21,8 +21,8 @@ public:
     PartitionSegment() : _locationVector() {
 
     }
-    PartitionSegment(const Tween<vec2<float>> &locationVector, float fireRate, std::string const &projectileType): _locationVector(locationVector),
-                                                                                                                   _projectileType(projectileType){
+    PartitionSegment(const Tween<vec2<float>> &locationVector, float fireRate, uint16_t const projectileType) : _locationVector(locationVector),
+                                                                                                                _projectileType(projectileType) {
 
         auto totalDuration = (getEnd().getMilliseconds() - getStart().getMilliseconds()).count();
         _shootNumber = (uint16_t) (fireRate * totalDuration / 1000);
@@ -60,7 +60,7 @@ public:
         return false;
     }
 
-    std::string getCurrentProjectile() {
+    uint16_t getCurrentProjectile() {
         return _projectileType;
     }
 
