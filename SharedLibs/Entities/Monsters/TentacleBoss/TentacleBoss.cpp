@@ -40,7 +40,7 @@ void TentacleBoss::Serialize(RType::Packer &packer) {
 }
 
 uint16_t TentacleBoss::getTypeId() const {
-    return this->TENTACLE_BOSS;
+    return Entity::TENTACLE_BOSS;
 }
 
 #ifndef ENTITY_DRW_CTOR

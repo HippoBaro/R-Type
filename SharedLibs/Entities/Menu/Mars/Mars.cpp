@@ -41,7 +41,7 @@ void Mars::Serialize(RType::Packer &packer) {
 }
 
 uint16_t Mars::getTypeId() const {
-    return this->MARS;
+    return Entity::MARS;
 }
 
 #ifndef ENTITY_DRW_CTOR
