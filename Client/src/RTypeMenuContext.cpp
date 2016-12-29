@@ -4,7 +4,6 @@
 
 #include <vec2.hpp>
 #include <Time/Timer.hpp>
-#include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp>
 #include "RTypeMenuContext.hpp"
