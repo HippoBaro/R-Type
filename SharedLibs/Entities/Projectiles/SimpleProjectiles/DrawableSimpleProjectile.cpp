@@ -19,8 +19,8 @@ void DrawableSimpleProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
-        sf::Texture newtexture;
-        newtexture.loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+        auto newtexture = std::make_shared<sf::Texture>();
+        newtexture->loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
         texture = bag.AddTexture("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8), newtexture);
     }
     sf::Sprite sprite;
