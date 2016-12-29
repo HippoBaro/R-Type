@@ -35,8 +35,14 @@ namespace RType {
         void Subscribe(RType::Event event, std::function<void(EntityType *, MessageType *message)> callback) {
           static_assert(std::is_same<MessageType, void>::value || std::is_base_of<IMessage, MessageType>::value, "MessageType is not derived from IMessage");
             // Add the callback relative to the given event
-            (*_callbacks)[event].push_back([=](void *entity, IMessage *message) {
-                callback((EntityType *)entity, (MessageType *)message);
+            (*_callbacks)[event].push_back([=](void *sender, IMessage *message) {
+                callback((EntityType *)sender, (MessageType *)message);
+            });
+        }
+
+        void Reroute(RType::Event event, std::shared_ptr<RType::EventManager> &manager) {
+            Subscribe<void, IMessage>(event, [manager, event] (void *sender, IMessage *message){
+                manager->EmitNoDelete(event, message, sender);
             });
         }
 
