@@ -81,6 +81,35 @@ public:
     }
 
     bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
+        struct pollfd pfds[1];
+        pfds[0].fd = *((int *) GetNativeSocket());
+        switch (evt) {
+            case SOCKET_CLOSED:
+                pfds[0].events = POLLRDHUP;
+                break;
+            case DATA_INCOMING:
+                pfds[0].events = POLLIN;
+                break;
+            case SOMEONE_LISTENING:
+                pfds[0].events = POLLOUT;
+                break;
+        }
+        if (poll(pfds, 1, timeout) > 0) {
+            switch (evt) {
+                case SOCKET_CLOSED:
+                    if (pfds[0].revents == POLLRDHUP)
+                        return true;
+                    break;
+                case DATA_INCOMING:
+                    if (pfds[0].revents == POLLIN)
+                        return true;
+                    break;
+                case SOMEONE_LISTENING:
+                    if (pfds[0].revents == POLLOUT)
+                        return true;
+                    break;
+            }
+        }
         return false;
     }
 
@@ -221,7 +250,7 @@ public:
                     break;
             }
         }
-        return  false;
+        return false;
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {

@@ -56,7 +56,7 @@ public:
     }
 
     ~RTypeSocket() {
-		closesocket(_socket);
+        closesocket(_socket);
         WSACleanup();
     }
 
@@ -83,11 +83,40 @@ public:
     }
 
     bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
+        WSAPOLLFD pfds = {0};
+        pfds.fd = *((SOCKET *) GetNativeSocket());
+        switch (evt) {
+            case SOCKET_CLOSED:
+                pfds.events = POLLHUP;
+                break;
+            case DATA_INCOMING:
+                pfds.events = POLLIN;
+                break;
+            case SOMEONE_LISTENING:
+                pfds.events = POLLOUT;
+                break;
+        }
+        if (WSAPoll(&pfds, 1, timeout) > 0) {
+            switch (evt) {
+                case SOCKET_CLOSED:
+                    if (pfds.revents & POLLHUP)
+                        return true;
+                    break;
+                case DATA_INCOMING:
+                    if (pfds.revents & POLLIN)
+                        return true;
+                    break;
+                case SOMEONE_LISTENING:
+                    if (pfds.revents & POLLOUT)
+                        return true;
+                    break;
+            }
+        }
         return false;
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
-        SOCKADDR_IN  clientAddr;
+        SOCKADDR_IN clientAddr;
         int lengthSockAddr = sizeof(clientAddr);
 
         memset((payload.Payload), '\0', (size_t) (payload.Length));
@@ -163,7 +192,7 @@ public:
     }
 
     ~RTypeSocket() {
-		closesocket(_socket);
+        closesocket(_socket);
         WSACleanup();
     }
 
@@ -201,7 +230,7 @@ public:
     }
 
     bool PoolEventOnSocket(SocketEvent evt, int timeout) override {
-		WSAPOLLFD pfds = {0};
+        WSAPOLLFD pfds = {0};
         pfds.fd = *((SOCKET *) GetNativeSocket());
         switch (evt) {
             case SOCKET_CLOSED:
@@ -230,12 +259,12 @@ public:
                     break;
             }
         }
-        return  false;
+        return false;
     }
 
     bool Receive(RTypeNetworkPayload &payload) override final {
         memset((payload.Payload), '\0', (size_t) (payload.Length));
-        SSIZE_T data = recv(_socket, payload.Payload, payload.Length,0);
+        SSIZE_T data = recv(_socket, payload.Payload, payload.Length, 0);
         if (data == -1) {
             return false;
         } else {
