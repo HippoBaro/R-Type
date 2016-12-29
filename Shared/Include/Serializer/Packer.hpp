@@ -166,16 +166,11 @@ namespace RType {
                 size_t len;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
                 _index += sizeof(size_t);
+                if (v.size() < len)
+                    v.resize(len);
 
-                v.clear();
-
-                for (size_t i = 0; i < len; i++) {
-                    T val;
-
-                    val.Serialize(*this);
-                    v.push_back(val);
-                    _index += sizeof(T);
-                }
+                for (size_t i = 0; i < len; i++)
+                    v[i].Serialize(*this);
             }
         }
 

@@ -19,7 +19,6 @@ void LobbyManager::Start() {
 
     //Event listener pour ajouter des messages a envoyer sur le reseau
     sub.Subscribe<void, SendTCPNetworkPayloadMessage>(SendTCPNetworkPayloadMessage::EventType, [&](void *sender, SendTCPNetworkPayloadMessage *message) {
-        std::cout << "Before adding to queue : " << message->getPacker().getBuffer() << std::endl << "Len : " << message->getPacker().getLength() << std::endl << std::endl;
         _toSend.push_back(std::make_pair(message->getDestination(), message->ConvertToSocketMessage()));
     });
 
@@ -94,8 +93,7 @@ void LobbyManager::CheckInstance() {
 void LobbyManager::SendToClients() {
     if (_toSend.size() != 0) {
         for (auto it = _toSend.begin(); it != _toSend.end();) {
-            //std::cout << "Before adding to queue : " << message->getPacker().getBuffer() << std::endl << "Len : " << message->getPacker().getLength() << std::endl << std::endl;
-            if (_networkManager.SendOverTCP(it->second, it->first, -1)) {
+            if (_networkManager.SendOverTCP(it->second, it->first, 100)) {
                 it = _toSend.erase(it);
             } else {
                 ++it;
