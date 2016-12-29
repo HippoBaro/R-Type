@@ -10,11 +10,11 @@
 
 SoundManager::SoundManager(std::shared_ptr<RType::EventManager> &eventManager) : _music(), _sound(), _cachedSound(), _eventManager(eventManager), _eventListener(eventManager) {
     _eventListener.Subscribe<Entity, SoundSystemMessage>(SoundSystemMessage::EventType, [&](Entity *, SoundSystemMessage *message) {
-        if (message->getEventType() == VOLUME_MUSIC) {
-            setMusicVolume(message->getVolume());
-        } else if (message->getEventType() == VOLUME_SOUND) {
-            setSoundVolume(message->getVolume());
-        }
+        //if (message->getEventType() == VOLUME_MUSIC) {
+        //    setMusicVolume(message->getVolume());
+        //} else if (message->getEventType() == VOLUME_SOUND) {
+        //    setSoundVolume(message->getVolume());
+        //}
     });
 }
 

@@ -6,6 +6,9 @@
 #include <Time/Timer.hpp>
 #include <SFMLManager.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp>
+#include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
+#include <Messages/SendTCPNetworkPayloadMessage.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
@@ -47,8 +50,13 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
 
     _globalEventListener.Reroute(UserInputMessage::EventType, _eventManager);
     _globalEventListener.Reroute(UserInputEntryMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(ReceivedTCPNetworkPayloadMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(MenuStateUpdateMessage::EventType, _eventManager);
+
     _eventListener.Reroute(SoundSystemMessage::EventType, _globalEventManager);
-    _eventListener.Reroute(MenuStateUpdateMessage::EventType, _globalEventManager);
+    //_eventListener.Reroute(MenuStateUpdateMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(SendTCPNetworkPayloadMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(ClientWaitForServerMessage::EventType, _globalEventManager);
 
     _eventListener.Subscribe<void, UserInputMessage>(UserInputMessage::EventType, [&](void *, UserInputMessage *message) {
         if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
@@ -72,8 +80,12 @@ void RTypeMenuContext::Setup(std::string const &string) {
 void RTypeMenuContext::ReleaseListener() {
     _globalEventListener.Unsubscribe(UserInputMessage::EventType);
     _globalEventListener.Unsubscribe(UserInputEntryMessage::EventType);
+    _globalEventListener.Unsubscribe(ReceivedTCPNetworkPayloadMessage::EventType);
+    _globalEventListener.Unsubscribe(MenuStateUpdateMessage::EventType);
+
     _eventListener.Unsubscribe(SoundSystemMessage::EventType);
-    _eventListener.Unsubscribe(MenuStateUpdateMessage::EventType);
+    _eventListener.Unsubscribe(SendTCPNetworkPayloadMessage::EventType);
+    _eventListener.Unsubscribe(ClientWaitForServerMessage::EventType);
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
