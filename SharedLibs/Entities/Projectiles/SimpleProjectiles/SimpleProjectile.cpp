@@ -64,5 +64,5 @@ void SimpleProjectile::Serialize(RType::Packer &packer) {
 }
 
 uint16_t SimpleProjectile::getTypeId() const {
-    return this->SIMPLE_PROJECTILE;
+    return Entity::SIMPLE_PROJECTILE;
 }

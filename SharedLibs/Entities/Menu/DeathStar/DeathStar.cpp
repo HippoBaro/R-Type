@@ -41,7 +41,7 @@ void DeathStar::Serialize(RType::Packer &packer) {
 }
 
 uint16_t DeathStar::getTypeId() const {
-    return this->DEATH_STAR;
+    return Entity::DEATH_STAR;
 }
 
 
