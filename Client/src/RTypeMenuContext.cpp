@@ -46,6 +46,10 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSoundVolume(_eventManager)));
 
     _globalEventListener.Reroute(UserInputMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(UserInputEntryMessage::EventType, _eventManager);
+    _eventListener.Reroute(SoundSystemMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(MenuLobbyMessage::EventType, _globalEventManager);
+
     _eventListener.Subscribe<void, UserInputMessage>(UserInputMessage::EventType, [&](void *, UserInputMessage *message) {
         if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
             message->ReleasedContainsOnly(USER_LEFT) ||
@@ -63,11 +67,9 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
 }
 
 void RTypeMenuContext::Setup(std::string const &string) {
-
 }
 
 void RTypeMenuContext::ReleaseListener() {
-    _eventListener.~EventListener();
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
