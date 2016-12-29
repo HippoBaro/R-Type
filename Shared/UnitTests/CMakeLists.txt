@@ -9,15 +9,11 @@ set(SHARED_TEST_FILES
         PartitionSystem/EntityPartition.cpp
         EventDispatcher/EventDispatcherTest.cpp
         Serializer/SerializerTest.cpp
-        Socket/SocketTest.cpp Serializer/EntitySerialization.cpp)
+        Socket/SocketTest.cpp
+        Serializer/EntitySerialization.cpp
+        )
 
-IF (MSVC)
-    set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/Windows)
-ELSE()
-    set(LIBRARY_SOCKET_HEADER_FOLDER ../Include/Socket/UNIX)
-ENDIF()
-
-include_directories(../Include ../Libs/Interfaces ${LIBRARY_SOCKET_HEADER_FOLDER})
+include_directories(../Include ../Libs/Interfaces ../Include/Socket)
 
 foreach (_file ${SHARED_TEST_FILES})
     get_filename_component(SHARED_TEST_FILES_ABS ${_file} REALPATH)

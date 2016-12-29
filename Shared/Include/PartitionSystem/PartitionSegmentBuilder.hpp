@@ -22,7 +22,7 @@ private:
     vec2<float> _endValue = vec2<float>();
     vec2<float> _translationValue = vec2<float>();
     float _fireRate = 0;
-    std::string _projectileType = "";
+    uint16_t _projectileType = 0;
 
 public:
 
@@ -69,7 +69,7 @@ public:
         return *this;
     }
 
-    PartitionSegmentBuilder &Fire(std::string const &projectileType, float ratePerSecond) {
+    PartitionSegmentBuilder &Fire(uint16_t const projectileType, float ratePerSecond) {
         _fireRate = ratePerSecond;
         _projectileType = projectileType;
         return *this;
@@ -120,7 +120,7 @@ public:
         return _fireRate;
     }
 
-    const std::string &getProjectileType() const {
+    uint16_t getProjectileType() const {
         return _projectileType;
     }
 };

@@ -31,7 +31,7 @@ void Player::Cycle() {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), "SimpleProjectile", segment->getLocationVector().GetTweened()), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), Entity::SIMPLE_PROJECTILE, segment->getLocationVector().GetTweened(), 0), this);
     }
 }
 
@@ -45,7 +45,7 @@ vec2<float> Player::GetPosition() {
 }
 
 uint16_t Player::getTypeId() const {
-    return 5;
+    return Entity::PLAYER;
 }
 
 void Player::Action(std::set<UserEventType> events) {

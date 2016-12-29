@@ -9,30 +9,32 @@ RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTentacleBoss)
 #endif
 
 GraphicTentacleBoss::GraphicTentacleBoss(const std::initializer_list<void *> init) :
-  TentacleBoss(init),
-  AAnimable()
+        TentacleBoss(init),
+        AAnimatable()
 {
-  this->RegisterTrait(Trait::Drawable);
+    RegisterTrait(Trait::Drawable);
 }
 
 void GraphicTentacleBoss::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-  if (!isTextureSetInit) {
-    isTextureSetInit = true;
+    if (!isTextureSetInit) {
+        isTextureSetInit = true;
 
-    std::vector<sf::IntRect> framePos;
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 0, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 0, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 1, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 1, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 2, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 2, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 1, 142 * 3, 256, 142));
-    framePos.push_back(sf::IntRect(256 * 0, 142 * 3, 256, 142));
-    this->setAnimation("medias/images/r-typesheet34.png", framePos, bag, 1000, false);
-  }
-  this->updateAnimation(rect, bag);
+        std::vector<sf::IntRect> framePos;
+        framePos.push_back(sf::IntRect(256 * 1, 142 * 0, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 0, 142 * 0, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 1, 142 * 1, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 0, 142 * 1, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 1, 142 * 2, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 0, 142 * 2, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 1, 142 * 3, 256, 142));
+        framePos.push_back(sf::IntRect(256 * 0, 142 * 3, 256, 142));
+        setAnimation("medias/images/r-typesheet34.png", framePos, bag);
+        setLoopDuration(1500);
+        setScale(sf::Vector2f(4.0f, 4.0f));
+    }
+    updateAnimation(rect, bag);
 }
 
 void GraphicTentacleBoss::Cycle() {
-  TentacleBoss::Cycle();
+    TentacleBoss::Cycle();
 }

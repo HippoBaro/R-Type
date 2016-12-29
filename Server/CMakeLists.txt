@@ -20,8 +20,12 @@ set(SERVER_SOURCE_FILES
         NetworkManager/NetworkManager.cpp
         Include/NetworkManager/NetworkManager.hpp
         ServerEntityPool/ServerEntityPool.cpp
-        Include/ServerEntityPool/ServerEntityPool.hpp)
-
+        Include/ServerEntityPool/ServerEntityPool.hpp
+        LobbyManager/LobbyManager.cpp
+        LobbyInstance/LobbyInstance.cpp
+        Include/LobbyManager/LobbyManager.hpp
+        Include/LobbyInstance/LobbyInstance.hpp
+        )
 IF (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()

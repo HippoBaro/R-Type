@@ -8,13 +8,13 @@
 void EntityPool::AddEntity(std::string const &entityName, uint16_t id, vec2<float> const &initialPos, TimeRef const &timeRef, std::initializer_list<void *> *params) {
     auto now = timeRef;
     auto pos = initialPos;
-    ManagedExternalInstance<Entity> entity(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &_timer , &_eventManager, &now, &pos, params }, "create", "destroy"));
-    _pool.insert(std::make_pair( id, entity ));
+    auto entity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", entityName, { &id, &_timer , &_eventManager, &now, &pos, params }, "create", "destroy");
+    _pool.insert(std::make_pair(id, entity));
 }
 
-void EntityPool::AddEntity(const ManagedExternalInstance<Entity> &entity) {
-    _pool.erase(entity->getId());
-    _pool.insert(std::make_pair(entity->getId(), entity));
+void EntityPool::AddEntity(const std::shared_ptr<ManagedExternalInstance<Entity>> &entity) {
+    _pool.erase(entity->GetInstance()->getId());
+    _pool.insert(std::make_pair(entity->GetInstance()->getId(), entity));
 }
 
 EntityPool::~EntityPool() { }
@@ -31,13 +31,13 @@ std::shared_ptr<RType::EventManager> &EntityPool::getEventManager() {
 
 void EntityPool::ProcessEntities() {
     for(auto outer_iter=_pool.begin(); outer_iter!=_pool.end(); ++outer_iter) {
-        if (outer_iter->second->ImplementTrait(Garbage))
+        if (outer_iter->second->GetInstance()->ImplementTrait(Garbage))
         {
             _pool.erase(outer_iter->first);
             ProcessEntities();
             break;
         }
-        outer_iter->second->Cycle();
+        outer_iter->second->GetInstance()->Cycle();
     }
 }
 
@@ -48,8 +48,9 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
 void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
     if (_pool.count(message.getId()) > 0)
         return;
-    std::initializer_list<void *> params = { &emitterId };
-    AddEntity(message.getProjectileName(), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
+    auto direction = message.getDirection();
+    std::initializer_list<void *> params = { &emitterId, &direction };
+    AddEntity(_factory.getTypeFromTypeId(message.getProjectileName()), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 
 void EntityPool::LoadPartition(std::string const &partition) {
@@ -85,9 +86,9 @@ bool EntityPool::Exist(const uint16_t id) {
 }
 
 bool EntityPool::isPlayer(const uint16_t id) {
-    return _pool.count(id) > 0 && getEntityById(id)->getTypeId() == 5;
+    return _pool.count(id) > 0 && getEntityById(id)->GetInstance()->getTypeId() == Entity::PLAYER;
 }
 
-ManagedExternalInstance<Entity> &EntityPool::getEntityById(uint16_t id) {
+std::shared_ptr<ManagedExternalInstance<Entity>> &EntityPool::getEntityById(uint16_t id) {
     return _pool[id];
 }

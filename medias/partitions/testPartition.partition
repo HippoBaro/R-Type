@@ -1,8 +1,9 @@
 {
     "entityTypes":[
-        "DummyMonster",
         "SimpleProjectile",
-        "Player"
+        "Player",
+        "TentacleBoss",
+        "OrbMonster"
     ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
@@ -32,6 +33,15 @@
             },
             "startTime":0,
             "id":3
+        },
+        {
+            "entityName":"OrbMonster",
+            "startPosition": {
+                "x":500,
+                "y":200
+            },
+            "startTime":0,
+            "id":4
         }
 	]
 }

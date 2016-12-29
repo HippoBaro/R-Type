@@ -15,19 +15,21 @@ private:
     std::unique_ptr<std::thread> _thread = nullptr;
     std::unique_ptr<IRTypeSocket> _socketUpUDP = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9876));
     std::unique_ptr<IRTypeSocket> _socketDownUDP = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9875));
+    std::unique_ptr<IRTypeSocket> _socketTCP = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(6789));
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
     std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>> _clients = std::map<std::string, std::unique_ptr<RTypeSocket<UDP>>>();
     bool _poisonPill = false;
-
-public:
-    NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager);
 
 private:
     void Run();
     void Send(RTypeNetworkPayload const &payload);
 
 public:
+    NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager);
+    bool SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client, int timeout);
     void Start();
+    void IsThereNewClient();
+    void CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &);
 };
 
 

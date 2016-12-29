@@ -11,6 +11,7 @@
 #include "RTypeInputListener.hpp"
 #include "SoundManager.hpp"
 #include "TextureBag.hpp"
+#include "RTypeNetworkClient.hpp"
 #include <Messages/UserInputMessage.hpp>
 #include <EventDispatcher/EventManager.hpp>
 
@@ -28,10 +29,15 @@ private:
     std::unique_ptr<RType::EventListener> _eventListener;
     sf::RenderWindow _window;
     bool _switch = false;
+    bool _isConnected = false;
+    std::string _roomName = "";
+    std::shared_ptr<RTypeNetworkClient> _networkClient;
 
+private:
+    void CheckForNetwork();
 public:
     std::unique_ptr<SoundManager> _soundManager;
-    SFMLManager(std::shared_ptr<RType::EventManager> &eventManager);
+    SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient);
     void Run();
 };
 

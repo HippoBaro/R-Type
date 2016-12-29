@@ -7,8 +7,8 @@
 #include "RTypeSocket.hpp"
 #include <thread>
 
-std::string UDPString;
-std::string TCPString;
+std::string UDPString = "";
+std::string TCPString = "";
 
 void UdpCreateServer() {
     char buffer[1024];
@@ -33,24 +33,28 @@ void TcpCreateServer() {
     char buffer[1024];
 
     RTypeNetworkPayload payload(buffer, 1024);
-    std::unique_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(8769));
+    std::shared_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(8769));
     server->Bind();
-    std::unique_ptr<IRTypeSocket> newClient = server->Accept();
-    if (newClient != nullptr) {
-        newClient->Receive(payload);
-        newClient->Send(payload);
-    }
+    std::shared_ptr<IRTypeSocket> client;
+    client = server->Accept();
+	if (client->PoolEventOnSocket(DATA_INCOMING, -1))
+		client->Receive(payload);
+    if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
+        client->Send(payload);
+    std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::milliseconds(500));
 }
 
 void TcpCreateClient() {
     char buffer[1024];
-    
+
     RTypeNetworkPayload sendpayload((char *) "Bonjour server TCP !", (int) strlen("Bonjour server TCP !"));
     RTypeNetworkPayload receivepayload(buffer, 1024);
     std::unique_ptr<IRTypeSocket> client = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>("127.0.0.1", 8769));
     while (!client->Connect());
-    client->Send(sendpayload);
-    client->Receive(receivepayload);
+    if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
+        client->Send(sendpayload);
+    if (client->PoolEventOnSocket(DATA_INCOMING, -1))
+        client->Receive(receivepayload);
     TCPString = std::string(receivepayload.Payload);
 }
 

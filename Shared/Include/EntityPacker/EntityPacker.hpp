@@ -23,7 +23,7 @@ private:
 
     uint16_t _entityId;
 
-    ManagedExternalInstance<Entity> _entity;
+    std::shared_ptr<ManagedExternalInstance<Entity>> _entity = nullptr;
 
 
 public:
@@ -39,12 +39,12 @@ public:
         TimeRef now = 0;
         vec2<float> pos;
 
-        _entity = ManagedExternalInstance<Entity>(ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy"));
-        _entity->Serialize(_packer);
+        _entity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", _type, { &_entityId, &timer , &eventManager, &now, &pos }, "create", "destroy");
+        _entity->GetInstance()->Serialize(_packer);
     }
 
-    ManagedExternalInstance<Entity> &GetEntity(std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
-        if (_entity.GetInstance() == nullptr)
+    std::shared_ptr<ManagedExternalInstance<Entity>> &GetEntity(std::shared_ptr<Timer> &timer, std::shared_ptr<RType::EventManager> &eventManager) {
+        if (_entity == nullptr)
             UnpackEntity(timer, eventManager);
         return _entity;
     }

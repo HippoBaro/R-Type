@@ -2,6 +2,8 @@
 // Created by pasteu_e on 08/12/16.
 //
 
+#include <Messages/ClientWaitForServerMessage.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 ADrawableMenu::ADrawableMenu() {
@@ -24,17 +26,30 @@ std::string ADrawableMenu::getSelection() {
 bool ADrawableMenu::isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem) {
     //Si jamais l'utilistateur n'entre pas de ChannelName alors on l'empeche de passer a la suite
     if (elem->_menuName == "Create" || elem->_menuName == "Join") {
-        if (getChannelName() == std::string())
+        if (getChannelName() == "")
             return false;
-        _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_WAITING, getChannelName()), nullptr);
+        if (elem->_menuName == "Create")
+            _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_CREATE, getChannelName()), nullptr);
+        else if (elem->_menuName == "Join")
+            _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_JOIN, getChannelName()), nullptr);
     }
     return true;
 }
 
 void ADrawableMenu::checkIfUserStopWaiting() {
     //Si jamais l'utilistateur quitte l'écran Waiting, alors on envoie un signal
-    if ((_menuName == "Create" || _menuName == "Join") && getSelection() == "Back")
-        _eventManager->Emit(MenuLobbyMessage::EventType, new MenuLobbyMessage(USER_STOP_WAITING, getChannelName()), nullptr);
+    if ((_menuName == "Create" || _menuName == "Join") && getSelection() == "Back") {
+        _eventManager->Emit(MenuStateUpdateMessage::EventType, new MenuStateUpdateMessage(), nullptr);
+        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_QUIT), nullptr);
+    }
+}
+
+bool ADrawableMenu::checkIfUserIsReady() {
+    if (getSelection() == "Ready") {
+        _eventManager->Emit(ClientWaitForServerMessage::EventType, new ClientWaitForServerMessage(USER_READY), nullptr);
+        return true;
+    }
+    return false;
 }
 
 void ADrawableMenu::moveUp() {
@@ -105,6 +120,7 @@ void ADrawableMenu::moveSelection(UserEventType type) {
 bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &allMenu) {
     if (_active) {
         checkIfUserStopWaiting();
+        bool cond = checkIfUserIsReady();
         for (auto &&elem : allMenu) {
             if (elem->_menuName == getSelection()) {
                 if (!isCreateOrJoin(elem))
@@ -115,7 +131,8 @@ bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &a
                 return true;
             }
         }
-        _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
+        if (!cond)
+            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
     }
     return false;
 }
@@ -131,7 +148,7 @@ void ADrawableMenu::Draw(sf::RenderTexture &context, sf::Text &text) {
                 text.setPosition(150, y);
                 y += 50;
             } else if (_menuType == HORIZONTAL) {
-                text.setPosition(x, 410);
+                text.setPosition(x, 510);
                 x += (elem.second.second.size() * 50);
             }
             context.draw(text);

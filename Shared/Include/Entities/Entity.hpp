@@ -15,6 +15,18 @@
 #include <random>
 
 class Entity : public RType::ISerializable {
+public:
+    enum EntityTypeId : uint8_t {
+        PLAYER,
+        DUMMY_MONSTER,
+        ORB_MONSTER,
+        TENTACLE_BOSS,
+        SIMPLE_PROJECTILE,
+        DEATH_STAR,
+        MARS,
+        SHIP
+    };
+
 protected:
     uint16_t _id;
     std::shared_ptr<Timer> _timer;

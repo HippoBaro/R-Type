@@ -31,7 +31,7 @@ void GameInstance::Start() {
     {
         std::set<UserEventType> events;
         while (_inbox->try_dequeue(events)) {
-            dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(events);
+            dynamic_cast<IUserControlled *>(_pool->getEntityById(2)->GetInstance())->Action(events);
         }
 
         _pool->ProcessEntities();
