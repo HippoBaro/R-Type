@@ -98,8 +98,8 @@ protected:
         for (auto it = frames.begin() ; it != frames.end() ; it++)
         {
             _frames.push_back(*it);
-            sf::Texture newtexture;
-            newtexture.loadFromFile(_pathToFile, *it);
+            auto newtexture = std::make_shared<sf::Texture>();
+            newtexture->loadFromFile(_pathToFile, *it);
             bag.AddTexture(_pathToFile, *it, newtexture);
         }
     };
@@ -119,7 +119,7 @@ protected:
             // Replace old texture by a new one
             rect->clear(sf::Color::Transparent);
             sf::Sprite sprite;
-            sf::Texture *texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
+            auto texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
             sprite.setTexture(*texture);
             sprite.setScale(sf::Vector2f(4.0f, 4.0f));
             rect->draw(sprite);

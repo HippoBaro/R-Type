@@ -18,8 +18,8 @@ void GraphicShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
-        sf::Texture newtexture;
-        newtexture.loadFromFile("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
+        auto newtexture = std::make_shared<sf::Texture>();
+        newtexture->loadFromFile("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390));
         texture = bag.AddTexture("medias/images/starwarsShip.png", sf::IntRect(0, 0, 390, 390), newtexture);
     }
 
