@@ -14,7 +14,7 @@ private:
 
 public:
     std::string Ip = std::string();
-    char *Payload;
+    std::shared_ptr<char[]> Payload;
     int Length;
 
     RTypeNetworkPayload() : Payload(), Length() { }

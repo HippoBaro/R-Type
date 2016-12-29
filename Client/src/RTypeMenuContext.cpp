@@ -6,6 +6,7 @@
 #include <Time/Timer.hpp>
 #include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
@@ -48,7 +49,7 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _globalEventListener.Reroute(UserInputMessage::EventType, _eventManager);
     _globalEventListener.Reroute(UserInputEntryMessage::EventType, _eventManager);
     _eventListener.Reroute(SoundSystemMessage::EventType, _globalEventManager);
-    _eventListener.Reroute(MenuLobbyMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(MenuStateUpdateMessage::EventType, _globalEventManager);
 
     _eventListener.Subscribe<void, UserInputMessage>(UserInputMessage::EventType, [&](void *, UserInputMessage *message) {
         if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
@@ -73,7 +74,7 @@ void RTypeMenuContext::ReleaseListener() {
     _globalEventListener.Unsubscribe(UserInputMessage::EventType);
     _globalEventListener.Unsubscribe(UserInputEntryMessage::EventType);
     _eventListener.Unsubscribe(SoundSystemMessage::EventType);
-    _eventListener.Unsubscribe(MenuLobbyMessage::EventType);
+    _eventListener.Unsubscribe(MenuStateUpdateMessage::EventType);
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
