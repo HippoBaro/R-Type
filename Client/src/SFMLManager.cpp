@@ -9,8 +9,14 @@
 #include "RTypeGameContext.hpp"
 #include <SFML/OpenGL.hpp>
 #include <Messages/StopReceiveNetworkGamePayload.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
+#include <Entities/PlayerRef.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
 
-SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)), _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(), _soundManager(new SoundManager(eventManager)) {
+SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient)
+        : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
+          _menuContext(new RTypeMenuContext(eventManager)), _currentContext(), _eventManager(eventManager), _window(),
+          _networkClient(networkClient), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
@@ -21,13 +27,33 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager) : _
         if (message->getEventType() == PLAY_SOUND)
             _soundManager->PlaySoundEffects(message->getPlaySound());
     });
-    _eventListener->Subscribe<Entity, MenuLobbyMessage>(MenuLobbyMessage::EventType, [&](Entity *, MenuLobbyMessage *message) {
-        if (message->getEventType() == USER_WAITING) {
-            std::cout << "Room name is: " << message->getChannelName() << std::endl;
-            _switch = true;
-        } else if (message->getEventType() == USER_STOP_WAITING)
-            std::cout << "Stop Waiting" << std::endl;
+    _eventListener->Subscribe<Entity, ClientWaitForServerMessage>(ClientWaitForServerMessage::EventType, [&](Entity *, ClientWaitForServerMessage *message) {
+        if (message->getEventType() == USER_CREATE || message->getEventType() == USER_JOIN)
+            _roomName = message->getChannelName();
+        else if (message->getEventType() == USER_READY || message->getEventType() == USER_QUIT)
+            message->setChannelName(_roomName);
+        RType::Packer packer(RType::WRITE);
+        message->Serialize(packer);
+        _networkClient->TryToSend(-1, RTypeNetworkPayload(packer));
+
     });
+}
+
+void SFMLManager::CheckForNetwork() {
+    if (!_isConnected)
+        _isConnected = _networkClient->TryToConnect();
+    else {
+        char data[1500];
+        auto payload = RTypeNetworkPayload(data, 1500);
+        if (_networkClient->TryReceive(0, payload)) {
+
+            auto state = new MenuStateUpdateMessage();
+            auto packer = RType::Packer(RType::READ, payload.Payload);
+            packer.PackSerializables(state->getPlayers());
+
+            _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
+        }
+    }
 }
 
 void SFMLManager::Run() {
@@ -58,6 +84,8 @@ void SFMLManager::Run() {
             maxFPS = 0;
         }
         _inputListener->CheckForInputs(_window);
+        if (_currentContext == _menuContext.get())
+            CheckForNetwork();
         _currentContext->Draw(context, _textureBag);
         renderSprite.setTexture(context.getTexture());
         _window.draw(renderSprite);

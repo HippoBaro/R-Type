@@ -12,7 +12,6 @@
 #include <thread>
 #include "Messages/UserInputMessage.hpp"
 #include <Messages/SoundSystemMessage.hpp>
-#include <Messages/MenuLobbyMessage.hpp>
 #include <EventDispatcher/EventManager.hpp>
 #include <Entities/Entity.hpp>
 #include <EventDispatcher/EventListener.hpp>
@@ -27,8 +26,8 @@ protected:
     std::map<unsigned int, std::pair<bool, std::string>> _menuMap = std::map<unsigned int, std::pair<bool, std::string>>();
     std::map<UserEventType, std::function<void()>> _move = std::map<UserEventType, std::function<void()>>();
     std::shared_ptr<RType::EventManager> _eventManager = nullptr;
-
-    std::string _menuName = std::string();
+    std::unique_ptr<RType::EventListener> _eventListener = nullptr;
+    std::string _menuName = "";
     MenuType _menuType = VERTICAL;
     bool _active = false;
     bool _canMove = true;
@@ -39,6 +38,8 @@ private:
     bool isCreateOrJoin(std::unique_ptr<ADrawableMenu> &elem);
 
     void checkIfUserStopWaiting();
+
+    bool checkIfUserIsReady();
 
     void moveUp();
 

@@ -47,12 +47,16 @@ set(SHARED_SOURCE_FILES
         Include/Messages/ProjectilePositionChangedMessage.hpp
         Include/Messages/UserInputMessage.hpp
         Include/Messages/UserInputEntryMessage.hpp
-        Include/Messages/MenuLobbyMessage.hpp
         Include/Messages/SoundSystemMessage.hpp
         Include/Messages/StopReceiveNetworkGamePayload.hpp
         Include/Messages/StartReceiveNetworkGamePayload.hpp
         Include/Messages/ReceivedNetworkPayloadMessage.hpp
         Include/Messages/SendNetworkPayloadMessage.hpp
+        Include/Messages/NewClientConnectionMessage.hpp
+        Include/Messages/ReceivedTCPNetworkPayloadMessage.hpp
+        Include/Messages/SendTCPNetworkPayloadMessage.hpp
+        Include/Messages/ClientWaitForServerMessage.hpp
+        Include/Messages/MenuStateUpdateMessage.hpp
 
         Include/Json/Json.hpp
         Include/Queue/SingleReaderWriterQueue.hpp

@@ -15,7 +15,7 @@
 
 class RTypeNetworkClient {
 private:
-    std::unique_ptr<IRTypeSocket> _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>("127.0.0.1", 8769));
+    std::unique_ptr<IRTypeSocket> _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>("127.0.0.1", 6789));
     std::unique_ptr<IRTypeSocket> _networkGameClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9876));
     std::unique_ptr<IRTypeSocket> _networkGameUpClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(9875));
     std::shared_ptr<RType::EventManager> _eventManager;
@@ -32,6 +32,9 @@ private:
 
 public:
     void StopReceive();
+    bool TryToConnect();
+    bool TryReceive(const int timeout, RTypeNetworkPayload &payload);
+    bool TryToSend(const int timeout, const RTypeNetworkPayload &payload);
 };
 
 

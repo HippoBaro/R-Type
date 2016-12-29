@@ -1,3 +1,4 @@
 # CLion
 .idea/*
 /build
+cmake-build-debug/
