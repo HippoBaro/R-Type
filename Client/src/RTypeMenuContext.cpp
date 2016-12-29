@@ -70,6 +70,10 @@ void RTypeMenuContext::Setup(std::string const &string) {
 }
 
 void RTypeMenuContext::ReleaseListener() {
+    _globalEventListener.Unsubscribe(UserInputMessage::EventType);
+    _globalEventListener.Unsubscribe(UserInputEntryMessage::EventType);
+    _eventListener.Unsubscribe(SoundSystemMessage::EventType);
+    _eventListener.Unsubscribe(MenuLobbyMessage::EventType);
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
