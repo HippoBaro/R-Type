@@ -19,6 +19,7 @@ public:
     enum EntityTypeId : uint8_t {
         PLAYER,
         DUMMY_MONSTER,
+        ORB_MONSTER,
         TENTACLE_BOSS,
         SIMPLE_PROJECTILE,
         DEATH_STAR,

@@ -63,7 +63,7 @@ void DummyMonster::Serialize(RType::Packer &packer) {
 }
 
 uint16_t DummyMonster::getTypeId() const {
-    return this->DUMMY_MONSTER;
+    return Entity::DUMMY_MONSTER;
 }
 
 #ifndef ENTITY_DRW_CTOR
