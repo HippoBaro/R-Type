@@ -38,11 +38,6 @@ public:
                                                                                        Length(packer.getLength()) { }
 
     const RTypeNetworkPayload &operator=(const RTypeNetworkPayload &payload) { return *this; }
-
-    virtual ~RTypeNetworkPayload() {
-        if (_alloc)
-            delete[] Payload;
-    }
 };
 
 #endif //R_TYPE_RTYPENETWORKPAYLOAD_H
