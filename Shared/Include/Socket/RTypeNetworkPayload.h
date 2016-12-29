@@ -19,7 +19,9 @@ public:
 
     RTypeNetworkPayload() : Payload(), Length() { }
 
-    RTypeNetworkPayload(char *payload, int length) : Payload(payload), Length(length) { }
+    RTypeNetworkPayload(char *payload, int length) : Payload(new char[length]), Length(length) {
+        memcpy(Payload, payload, (size_t)length);
+    }
 
     RTypeNetworkPayload(int length) : _alloc(true), Payload(new char[length]), Length(length) { }
 
