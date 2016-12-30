@@ -25,6 +25,7 @@ namespace RType {
         NEW_CLIENT_CONNECTION,
         LOBBY_STATE_CHANGE,
         APP_QUIT
+        START_NEW_GAME
     };
 }
 

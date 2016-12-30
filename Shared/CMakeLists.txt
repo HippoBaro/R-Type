@@ -78,7 +78,7 @@ IF (MSVC)
     set(LIB_SOCKET ws2_32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ELSE()
-    set(SHARED_SOURCE_FILES ${SHARED_SOURCE_FILES} Include/Socket/UNIX/RTypeSocket.hpp)
+    set(SHARED_SOURCE_FILES ${SHARED_SOURCE_FILES} Include/Socket/UNIX/RTypeSocket.hpp Include/Messages/StartNewGameMessage.hpp)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror -Wuninitialized -Winit-self -Weffc++ -Wno-unused-parameter -Wno-unused-private-field")
 ENDIF()
 

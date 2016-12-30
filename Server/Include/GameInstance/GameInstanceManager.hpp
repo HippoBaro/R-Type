@@ -14,6 +14,7 @@ class GameInstanceManager {
 private:
     std::vector<std::unique_ptr<GameInstance>> _instances = std::vector<std::unique_ptr<GameInstance>>();
     std::shared_ptr<RType::EventManager> _eventManager;
+    RType::EventListener _eventListener;
 
 public:
     GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager);

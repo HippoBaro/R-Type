@@ -86,6 +86,8 @@ void LobbyManager::CheckInstance() {
         if (instance.second->IsReady()) {
             //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
             std::cout << "Instance: " << instance.second->getRoomName() << " is ready to go !" << std::endl;
+//            instance.second->
+            this->_eventManager->Emit(RType::Event::START_NEW_GAME, nullptr, nullptr);
         }
     }
 }
