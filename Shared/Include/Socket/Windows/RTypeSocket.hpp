@@ -115,7 +115,7 @@ public:
         return false;
     }
 
-    bool Receive(RTypeNetworkPayload &payload) override final {
+    bool Receive(std::shared_ptr<RTypeNetworkPayload> payload) override final {
         SOCKADDR_IN clientAddr;
         int lengthSockAddr = sizeof(clientAddr);
 
@@ -129,7 +129,7 @@ public:
         }
     }
 
-    bool Send(const RTypeNetworkPayload &payload) override final {
+    bool Send(std::shared_ptr<RTypeNetworkPayload> payload) override final {
         return sendto(_socket, payload.Payload, payload.Length, 0, (struct sockaddr *) &_addr, sizeof(_addr)) >= 0;
     }
 };
@@ -262,7 +262,7 @@ public:
         return false;
     }
 
-    bool Receive(RTypeNetworkPayload &payload) override final {
+    bool Receive(std::shared_ptr<RTypeNetworkPayload> payload) override final {
         memset((payload.Payload), '\0', (size_t) (payload.Length));
         SSIZE_T data = recv(_socket, payload.Payload, payload.Length, 0);
         if (data == -1) {
@@ -273,7 +273,7 @@ public:
         }
     }
 
-    bool Send(const RTypeNetworkPayload &payload) override final {
+    bool Send(std::shared_ptr<RTypeNetworkPayload> payload) override final {
         return send(_socket, payload.Payload, payload.Length, 0) >= 0;
     }
 };
