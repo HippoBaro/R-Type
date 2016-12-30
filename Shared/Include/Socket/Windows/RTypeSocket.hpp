@@ -119,18 +119,18 @@ public:
         SOCKADDR_IN clientAddr;
         int lengthSockAddr = sizeof(clientAddr);
 
-        memset((payload.Payload), '\0', (size_t) (payload.Length));
-        SSIZE_T data = recvfrom(_socket, payload.Payload, payload.Length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
+        memset((payload->Payload), '\0', (size_t) (payload->Length));
+        SSIZE_T data = recvfrom(_socket, payload->Payload, payload->Length, 0, (struct sockaddr *) &clientAddr, &lengthSockAddr);
         if (data == -1) {
             return false;
         } else {
-            payload.Ip = std::string(inet_ntoa(clientAddr.sin_addr));
+            payload->Ip = std::string(inet_ntoa(clientAddr.sin_addr));
             return true;
         }
     }
 
     bool Send(std::shared_ptr<RTypeNetworkPayload> payload) override final {
-        return sendto(_socket, payload.Payload, payload.Length, 0, (struct sockaddr *) &_addr, sizeof(_addr)) >= 0;
+        return sendto(_socket, payload->Payload, payload->Length, 0, (struct sockaddr *) &_addr, sizeof(_addr)) >= 0;
     }
 };
 
@@ -263,18 +263,18 @@ public:
     }
 
     bool Receive(std::shared_ptr<RTypeNetworkPayload> payload) override final {
-        memset((payload.Payload), '\0', (size_t) (payload.Length));
-        SSIZE_T data = recv(_socket, payload.Payload, payload.Length, 0);
+        memset((payload->Payload), '\0', (size_t) (payload->Length));
+        SSIZE_T data = recv(_socket, payload->Payload, payload->Length, 0);
         if (data == -1) {
             return false;
         } else {
-            payload.Ip = std::string(inet_ntoa(_addrClient.sin_addr));
+            payload->Ip = std::string(inet_ntoa(_addrClient.sin_addr));
             return true;
         }
     }
 
     bool Send(std::shared_ptr<RTypeNetworkPayload> payload) override final {
-        return send(_socket, payload.Payload, payload.Length, 0) >= 0;
+        return send(_socket, payload->Payload, payload->Length, 0) >= 0;
     }
 };
 
