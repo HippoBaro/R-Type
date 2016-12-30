@@ -29,17 +29,17 @@ void NetworkManager::Run() {
     char data[1500];
     while (!_poisonPill) {
         auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
-        while (!_poisonPill && _socketDownUDP->Receive(*payload))
+        while (!_poisonPill && _socketDownUDP->Receive(payload))
             _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
-void NetworkManager::Send(RTypeNetworkPayload const &payload) {
-    if (_clients.find(payload.Ip) == _clients.end()) {
-        _clients[payload.Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload.Ip, 9876));
+void NetworkManager::Send(std::shared_ptr<RTypeNetworkPayload> payload) {
+    if (_clients.find(payload->Ip) == _clients.end()) {
+        _clients[payload->Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload->Ip, 9876));
     } else {
-        _clients[payload.Ip]->Send(payload);
+        _clients[payload->Ip]->Send(payload);
     }
 }
 
@@ -54,7 +54,7 @@ void NetworkManager::IsThereNewClient() {
 }
 
 
-bool NetworkManager::SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client, int timeout) {
+bool NetworkManager::SendOverTCP(std::shared_ptr<RTypeNetworkPayload> payload, std::shared_ptr<IRTypeSocket> &client, int timeout) {
     if (client->PoolEventOnSocket(SOMEONE_LISTENING, timeout)) {
         client->Send(payload);
         return true;
@@ -75,7 +75,7 @@ void NetworkManager::CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<I
             _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(it->first, payload), this);
             break;
         } else if ((*it->second).PoolEventOnSocket(DATA_INCOMING, 0)) {
-            (*it->second).Receive(*payload);
+            (*it->second).Receive(payload);
             _eventManager->Emit(ReceivedTCPNetworkPayloadMessage::EventType, new ReceivedTCPNetworkPayloadMessage(it->first, payload), this);
             break;
         } else {

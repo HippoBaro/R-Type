@@ -29,8 +29,8 @@ public:
         return _destination;
     }
 
-    const RTypeNetworkPayload ConvertToSocketMessage() const {
-        return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength(), _destination);
+    const std::shared_ptr<RTypeNetworkPayload> ConvertToSocketMessage() const {
+        return std::make_shared<RTypeNetworkPayload>(RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength(), _destination));
     }
 };
 

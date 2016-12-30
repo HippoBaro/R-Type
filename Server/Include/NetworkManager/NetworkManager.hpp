@@ -22,11 +22,11 @@ private:
 
 private:
     void Run();
-    void Send(RTypeNetworkPayload const &payload);
+    void Send(std::shared_ptr<RTypeNetworkPayload> payload);
 
 public:
     NetworkManager(const std::shared_ptr<RType::EventManager> &eventManager);
-    bool SendOverTCP(RTypeNetworkPayload const &payload, std::shared_ptr<IRTypeSocket> &client, int timeout);
+    bool SendOverTCP(std::shared_ptr<RTypeNetworkPayload> payload, std::shared_ptr<IRTypeSocket> &client, int timeout);
     void Start();
     void IsThereNewClient();
     void CheckForIncomingMessage(std::map<uint8_t, std::shared_ptr<IRTypeSocket>> &);

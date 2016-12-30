@@ -21,9 +21,9 @@ public:
 
     virtual std::shared_ptr<IRTypeSocket> Accept() = 0;
 
-    virtual bool Receive(RTypeNetworkPayload &) = 0;
+    virtual bool Receive(std::shared_ptr<RTypeNetworkPayload>) = 0;
 
-    virtual bool Send(const RTypeNetworkPayload &payload) = 0;
+    virtual bool Send(std::shared_ptr<RTypeNetworkPayload> payload) = 0;
 
     virtual void *GetNativeSocket() = 0;
 
