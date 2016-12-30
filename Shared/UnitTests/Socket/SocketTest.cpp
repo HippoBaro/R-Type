@@ -13,15 +13,15 @@ std::string TCPString = "";
 void UdpCreateServer() {
     char buffer[1024];
 
-    RTypeNetworkPayload payload(buffer, 1024);
+    auto payload = std::make_shared<RTypeNetworkPayload>(buffer, 1024);
     std::unique_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(5678));
     server->Bind();
     while (!server->Receive(payload));
-    UDPString = std::string(payload.Payload);
+    UDPString = std::string(payload->Payload);
 }
 
 void UdpCreateClient() {
-    RTypeNetworkPayload payload((char *) "Bonjour server UDP !", (int) strlen("Bonjour server UDP !"));
+    auto payload = std::make_shared<RTypeNetworkPayload>((char *) "Bonjour server UDP !", (int) strlen("Bonjour server UDP !"));
 
     std::unique_ptr<IRTypeSocket> client = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>("127.0.0.1", 5678));
     //Waiting 0.5 sec to give the time to UdpCreateServer to pass in the Receive loop.
@@ -32,7 +32,7 @@ void UdpCreateClient() {
 void TcpCreateServer() {
     char buffer[1024];
 
-    RTypeNetworkPayload payload(buffer, 1024);
+    auto payload = std::make_shared<RTypeNetworkPayload>(buffer, 1024);
     std::shared_ptr<IRTypeSocket> server = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(8769));
     server->Bind();
     std::shared_ptr<IRTypeSocket> client;
@@ -47,15 +47,15 @@ void TcpCreateServer() {
 void TcpCreateClient() {
     char buffer[1024];
 
-    RTypeNetworkPayload sendpayload((char *) "Bonjour server TCP !", (int) strlen("Bonjour server TCP !"));
-    RTypeNetworkPayload receivepayload(buffer, 1024);
+    auto sendpayload = std::make_shared<RTypeNetworkPayload>((char *) "Bonjour server TCP !", (int) strlen("Bonjour server TCP !"));
+    auto receivepayload = std::make_shared<RTypeNetworkPayload>(buffer, 1024);
     std::unique_ptr<IRTypeSocket> client = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>("127.0.0.1", 8769));
     while (!client->Connect());
     if (client->PoolEventOnSocket(SOMEONE_LISTENING, -1))
         client->Send(sendpayload);
     if (client->PoolEventOnSocket(DATA_INCOMING, -1))
         client->Receive(receivepayload);
-    TCPString = std::string(receivepayload.Payload);
+    TCPString = std::string(receivepayload->Payload);
 }
 
 TEST(Tests_Socket, UDP_Socket) {
