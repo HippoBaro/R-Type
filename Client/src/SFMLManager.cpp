@@ -76,10 +76,10 @@ void SFMLManager::Run() {
     // Boucle de jeu.
     while (_window.isOpen()) {
         if (_switch) {
+            _menuContext->ReleaseListener();
             _currentContext = _gameContext.get();
             _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
-            _menuContext->ReleaseListener();
             minFPS = 60;
             maxFPS = 0;
         }

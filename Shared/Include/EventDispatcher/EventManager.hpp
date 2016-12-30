@@ -63,6 +63,15 @@ namespace RType {
             if (message)
                 delete message;
         }
+
+		void EmitNoDelete(RType::Event event, IMessage *message, void *sender) {
+			size_t index = 0;
+			for (index = 0; index < _listeners.size(); index++) {
+				if (_listeners[index] != nullptr)
+					for (size_t inner = 0; inner < ((*_listeners[index])[event]).size(); inner++)
+						((*_listeners[index])[event])[inner](sender, message);
+			}
+		}
     };
 }
 

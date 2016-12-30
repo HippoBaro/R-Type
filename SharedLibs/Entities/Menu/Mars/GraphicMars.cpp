@@ -18,8 +18,8 @@ void GraphicMars::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
-        sf::Texture newtexture;
-        newtexture.loadFromFile("medias/images/mars.png", sf::IntRect(0, 0, 500, 500));
+        auto newtexture = std::make_shared<sf::Texture>();
+        newtexture->loadFromFile("medias/images/mars.png", sf::IntRect(0, 0, 500, 500));
         texture = bag.AddTexture("medias/images/mars.png", sf::IntRect(0, 0, 500, 500), newtexture);
     }
 

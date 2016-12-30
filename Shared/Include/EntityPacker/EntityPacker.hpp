@@ -25,7 +25,6 @@ private:
 
     std::shared_ptr<ManagedExternalInstance<Entity>> _entity = nullptr;
 
-
 public:
     EntityPacker() : _packer(), _factory(), _type(), _typeId(0), _timeStamp(-1), _entityId(0), _entity() {}
     EntityPacker(const RType::Packer &packer, const EntityFactory &factory) : _packer(packer), _factory(factory), _entity() {

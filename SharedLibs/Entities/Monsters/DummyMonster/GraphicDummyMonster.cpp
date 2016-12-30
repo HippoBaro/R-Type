@@ -18,8 +18,8 @@ void GrahicDummyMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
     rect->clear(sf::Color::Transparent);
     if (texture == nullptr) {
-        sf::Texture newtexture;
-        newtexture.loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
+        auto newtexture = std::make_shared<sf::Texture>();
+        newtexture->loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(101, 3, 32, 14));
         texture = bag.AddTexture("medias/images/r-typesheet1.png", sf::IntRect(101, 3, 32, 14), newtexture);
     }
 
