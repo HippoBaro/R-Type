@@ -23,8 +23,10 @@ private:
 
     std::vector<std::unique_ptr<ADrawableMenu>> _menu {};
 
-    std::shared_ptr<RType::EventManager> _eventManager;
-    RType::EventListener _eventListener;
+    std::shared_ptr<RType::EventManager> _globalEventManager;
+    std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
+    RType::EventListener _globalEventListener;
+    RType::EventListener _eventListener = RType::EventListener(_eventManager);
 
 private:
     void DrawMenu(sf::RenderTexture &context);

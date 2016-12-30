@@ -38,7 +38,7 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
         if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
             return; //Drop the packet
 
-        entityPacker.UnpackEntity(_timer, _pool->getEventManager());
+         entityPacker.UnpackEntity(_timer, _pool->getEventManager());
         _mailbox.enqueue(entityPacker);
     });
 

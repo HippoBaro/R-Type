@@ -4,8 +4,11 @@
 
 #include <vec2.hpp>
 #include <Time/Timer.hpp>
-#include <LibraryLoader/ExternalClassFactoryLoader.hpp>
 #include <SFMLManager.hpp>
+#include <Messages/MenuStateUpdateMessage.hpp>
+#include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
+#include <Messages/SendTCPNetworkPayloadMessage.hpp>
+#include <Messages/ClientWaitForServerMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
@@ -17,7 +20,7 @@
 #include "DrawableMenu/MenuSoundVolume.hpp"
 
 
-RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
+RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventManager) : _globalEventManager(eventManager), _globalEventListener(eventManager) {
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
@@ -45,7 +48,17 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuMusicVolume(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSoundVolume(_eventManager)));
 
-    _eventListener.Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
+    _globalEventListener.Reroute(UserInputMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(UserInputEntryMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(ReceivedTCPNetworkPayloadMessage::EventType, _eventManager);
+    _globalEventListener.Reroute(MenuStateUpdateMessage::EventType, _eventManager);
+
+    _eventListener.Reroute(SoundSystemMessage::EventType, _globalEventManager);
+    //_eventListener.Reroute(MenuStateUpdateMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(SendTCPNetworkPayloadMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(ClientWaitForServerMessage::EventType, _globalEventManager);
+
+    _eventListener.Subscribe<void, UserInputMessage>(UserInputMessage::EventType, [&](void *, UserInputMessage *message) {
         if (message->ReleasedContainsOnly(USER_UP) || message->ReleasedContainsOnly(USER_DOWN) ||
             message->ReleasedContainsOnly(USER_LEFT) ||
             message->ReleasedContainsOnly(USER_RIGHT)) {
@@ -62,11 +75,17 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
 }
 
 void RTypeMenuContext::Setup(std::string const &string) {
-
 }
 
 void RTypeMenuContext::ReleaseListener() {
-    _eventListener.~EventListener();
+    _globalEventListener.Unsubscribe(UserInputMessage::EventType);
+    _globalEventListener.Unsubscribe(UserInputEntryMessage::EventType);
+    _globalEventListener.Unsubscribe(ReceivedTCPNetworkPayloadMessage::EventType);
+    _globalEventListener.Unsubscribe(MenuStateUpdateMessage::EventType);
+
+    _eventListener.Unsubscribe(SoundSystemMessage::EventType);
+    _eventListener.Unsubscribe(SendTCPNetworkPayloadMessage::EventType);
+    _eventListener.Unsubscribe(ClientWaitForServerMessage::EventType);
 }
 
 void RTypeMenuContext::DrawMenu(sf::RenderTexture &context) {
