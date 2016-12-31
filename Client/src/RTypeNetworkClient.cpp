@@ -10,7 +10,20 @@
 #include <Messages/SendNetworkPayloadMessage.hpp>
 #include "RTypeNetworkClient.hpp"
 
-RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager), _eventListener(eventManager) {
+RTypeNetworkClient::RTypeNetworkClient(const std::shared_ptr<RType::EventManager> &eventManager,
+                                       const std::string &serverIp) : _eventManager(eventManager),
+                                                                      _eventListener(eventManager) {
+
+    try {
+        _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(serverIp, 6789));
+        _currentServerIp = serverIp;
+    }
+    catch (std::exception ex) {
+        std::cerr << "Provided IP adress is malformed, falling back to default : " << _currentServerIp << std::endl;
+        _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(_currentServerIp, 6789));
+    }
+
+
     _networkGameClient->Bind();
 
     _eventListener.Subscribe<void, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](void *, StartReceiveNetworkGamePayload *message) {
@@ -22,7 +35,9 @@ RTypeNetworkClient::RTypeNetworkClient(std::shared_ptr<RType::EventManager> &eve
     });
 
     _eventListener.Subscribe<void, SendNetworkPayloadMessage>(SendNetworkPayloadMessage::EventType, [&](void *, SendNetworkPayloadMessage *message) {
-        _networkGameUpClient->Send(message->ConvertToSocketMessage());
+        auto packet = message->ConvertToSocketMessage();
+        packet->Ip = _currentServerIp;
+        _networkGameUpClient->Send(packet);
     });
 }
 

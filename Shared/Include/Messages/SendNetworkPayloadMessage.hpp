@@ -20,6 +20,7 @@ private:
 
 public:
     SendNetworkPayloadMessage(const RType::Packer &packer, std::string const &destination) : _packer(packer), _destination(destination) {}
+    SendNetworkPayloadMessage(const RType::Packer &packer) : _packer(packer), _destination() {}
 
     const RType::Packer &getPacker() const {
         return _packer;
