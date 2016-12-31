@@ -85,16 +85,16 @@ void LobbyManager::LeftInstance(const std::string &roomName, const uint8_t id) {
 }
 
 void LobbyManager::CheckInstance() {
-    for (auto const &instance : _instances) {
-        if (!instance.second->IsThereAnyone()) {
-            _instances.erase(instance.first);
+    for (auto instance = _instances.begin() ; instance != _instances.end() ; ++instance) {
+        if (!instance->second->IsThereAnyone()) {
+            _instances.erase(instance->first);
             break;
         }
-        if (instance.second->IsReady()) {
+        if (instance->second->IsReady()) {
             //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
-            std::cout << "Instance: " << instance.second->getRoomName() << " is ready to go !" << std::endl;
-//            instance.second->
-            this->_eventManager->Emit(RType::Event::START_NEW_GAME, nullptr, nullptr);
+            std::cout << "Instance: " << instance->second->getRoomName() << " is ready to go !" << std::endl;
+
+            TransformIntoGameInstance(instance);
         }
     }
 }
@@ -119,4 +119,27 @@ void LobbyManager::UserDisconnect(uint8_t id) {
         }
     }
     _clients.erase(id);
+}
+
+void LobbyManager::TransformIntoGameInstance(std::map<std::string, std::shared_ptr<LobbyInstance>>::iterator &instance)
+{
+    // Build Message
+    std::string randomPartition("testPartition");
+    std::vector<std::shared_ptr<PlayerRef>> playerRefs;
+    for (auto it = instance->second->getPlayerRefs().begin(); it != instance->second->getPlayerRefs().end(); ++it)
+        playerRefs.push_back(it->second);
+    this->_eventManager->Emit(RType::Event::START_NEW_GAME, nullptr, new StartNewGameMessage(randomPartition, playerRefs));
+
+
+    // Remove IRTypeSockets
+    std::vector<uint8_t> ids;
+    for (auto&& it : instance->second->getPlayerRefs())
+        ids.push_back(it.first);
+
+    for (auto it = _clients.begin() ; it != _clients.end() ; ++it)
+        if (std::find(std::begin(ids), std::end(ids), it->first) != std::end(ids))
+            _clients.erase(it);
+
+    // Delete instance
+    _instances.erase(instance);
 }
