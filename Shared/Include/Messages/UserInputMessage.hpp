@@ -18,7 +18,6 @@ enum UserEventType {
     USER_SPACE,
     USER_ENTER,
     USER_ESCAPE,
-    CLOSE_WINDOWS,
     OTHER
 };
 
@@ -35,8 +34,6 @@ public:
 
     UserInputMessage(UserEventType event) : _keyPressed(), _keyReleased() {
         _keyPressed.insert(event);
-        if (event == CLOSE_WINDOWS)
-            _keyReleased.insert(event);
     }
 
     virtual void Serialize(RType::Packer &packer) {

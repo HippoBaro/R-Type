@@ -4,6 +4,7 @@
 
 #include <Messages/ClientWaitForServerMessage.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp>
+#include <Messages/ApplicationQuitMessage.hpp>
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 ADrawableMenu::ADrawableMenu() {
@@ -132,7 +133,7 @@ bool ADrawableMenu::moveInSubMenu(std::vector<std::unique_ptr<ADrawableMenu>> &a
             }
         }
         if (!cond)
-            _eventManager->Emit(UserInputMessage::EventType, new UserInputMessage(CLOSE_WINDOWS), nullptr);
+            _eventManager->Emit(ApplicationQuitMessage::EventType, nullptr, nullptr);
     }
     return false;
 }
