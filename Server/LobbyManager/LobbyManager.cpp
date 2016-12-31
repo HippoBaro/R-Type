@@ -7,6 +7,7 @@
 #include "LobbyManager/LobbyManager.hpp"
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
+#include <Messages/StartNewGameMessage.hpp>
 
 LobbyManager::LobbyManager(std::shared_ptr<RType::EventManager> eventManager, std::shared_ptr<NetworkManager> networkManager) :
     _eventManager(eventManager),
@@ -14,8 +15,6 @@ LobbyManager::LobbyManager(std::shared_ptr<RType::EventManager> eventManager, st
 {}
 
 void LobbyManager::Start() {
-    std::cout << "LobbyManager Launched" << std::endl;
-
     RType::EventListener sub(_eventManager);
 
     //Event listener pour ajouter des clients a la pool
