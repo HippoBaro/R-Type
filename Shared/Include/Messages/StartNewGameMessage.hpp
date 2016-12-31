@@ -30,6 +30,10 @@ public:
     const std::vector<std::shared_ptr<PlayerRef>> getPlayerRefs() const {
         return _playerRefs;
     }
+
+    const std::string &getPartition() const {
+        return _partitionName;
+    }
 };
 
 #endif //R_TYPE_STARTNEWGAMEMESSAGE_HPP

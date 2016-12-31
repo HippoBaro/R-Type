@@ -20,7 +20,7 @@ public:
     GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager);
 
 public:
-    void CreateInstance(std::vector<PlayerRef> &players);
+    void CreateInstance(std::vector<std::shared_ptr<PlayerRef>> players, const std::string &partitionName);
 };
 
 
