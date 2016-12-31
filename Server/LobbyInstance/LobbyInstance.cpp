@@ -6,9 +6,10 @@
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include "LobbyInstance/LobbyInstance.hpp"
 
-LobbyInstance::LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName) : _roomName(roomName), _eventManager(eventManager) {
-
-}
+LobbyInstance::LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName) :
+        _roomName(roomName),
+        _eventManager(eventManager)
+{}
 
 bool LobbyInstance::AddPlayerToInstance(const uint8_t id, const std::shared_ptr<IRTypeSocket> &client, const std::shared_ptr<PlayerRef> &ref) {
     if (_players.size() < 4) {

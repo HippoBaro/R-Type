@@ -16,10 +16,10 @@ public:
 
 private:
     std::string _partitionName;
-    std::vector<PlayerRef> _playerRefs;
+    std::vector<std::shared_ptr<PlayerRef>> _playerRefs;
 
 public:
-    StartNewGameMessage(std::string &partition, std::vector<PlayerRef> &refs) :
+    StartNewGameMessage(std::string &partition, std::vector<std::shared_ptr<PlayerRef>> &refs) :
             _partitionName(partition),
             _playerRefs(refs) {}
 
@@ -27,7 +27,7 @@ public:
         return _partitionName;
     }
 
-    const std::vector<PlayerRef> &getPlayerRefs() const {
+    const std::vector<std::shared_ptr<PlayerRef>> getPlayerRefs() const {
         return _playerRefs;
     }
 };
