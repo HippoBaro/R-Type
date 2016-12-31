@@ -9,6 +9,7 @@
 #include <Messages/ReceivedTCPNetworkPayloadMessage.hpp>
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
+#include <Messages/ApplicationQuitMessage.hpp>
 #include "RTypeMenuContext.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
@@ -54,7 +55,7 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _globalEventListener.Reroute(MenuStateUpdateMessage::EventType, _eventManager);
 
     _eventListener.Reroute(SoundSystemMessage::EventType, _globalEventManager);
-    //_eventListener.Reroute(MenuStateUpdateMessage::EventType, _globalEventManager);
+    _eventListener.Reroute(ApplicationQuitMessage::EventType, _globalEventManager);
     _eventListener.Reroute(SendTCPNetworkPayloadMessage::EventType, _globalEventManager);
     _eventListener.Reroute(ClientWaitForServerMessage::EventType, _globalEventManager);
 
@@ -84,6 +85,7 @@ void RTypeMenuContext::ReleaseListener() {
     _globalEventListener.Unsubscribe(MenuStateUpdateMessage::EventType);
 
     _eventListener.Unsubscribe(SoundSystemMessage::EventType);
+    _eventListener.Unsubscribe(ApplicationQuitMessage::EventType);
     _eventListener.Unsubscribe(SendTCPNetworkPayloadMessage::EventType);
     _eventListener.Unsubscribe(ClientWaitForServerMessage::EventType);
 }
