@@ -26,6 +26,9 @@ set(CLIENT_SOURCE_FILES
         src/RTypeGameContext.cpp
         src/RTypeMenuContext.cpp
         src/RTypeNetworkClient.cpp
+        src/SoundManager.cpp
+
+        src/GameContext/ClientEntityPool.cpp
 
         Includes/RTypeClient.hpp
         Includes/SFMLManager.hpp
@@ -33,15 +36,11 @@ set(CLIENT_SOURCE_FILES
         Includes/RTypeGameContext.hpp
         Includes/RTypeMenuContext.hpp
         Includes/RTypeNetworkClient.hpp
+        Includes/ClientEntityPool.hpp
+        Includes/SoundManager.hpp
 
         Interfaces/IRTypeDrawingContext.hpp
-        src/GameContext/ClientEntityPool.cpp
-        Includes/ClientEntityPool.hpp
-        src/SoundManager.cpp
-        Includes/SoundManager.hpp
-        ../SharedLibs/Interfaces/TextureBag.hpp
-        src/SoundManager.cpp
-        Includes/SoundManager.hpp
+
         Includes/DrawableMenu/ADrawableMenu.hpp
         Includes/DrawableMenu/ADrawableInputMenu.hpp
         Includes/DrawableMenu/MenuRoot.hpp
