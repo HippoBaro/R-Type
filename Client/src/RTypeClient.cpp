@@ -7,3 +7,7 @@
 void RTypeClient::Run() {
     _sfmlManager->Run();
 }
+
+RTypeClient::RTypeClient(const std::string &serverEndpoint) : _networkClient(std::make_shared<RTypeNetworkClient>(_eventManager, serverEndpoint)) {
+
+}
