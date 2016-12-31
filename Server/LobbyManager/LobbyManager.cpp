@@ -8,8 +8,15 @@
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
 
+LobbyManager::LobbyManager(std::shared_ptr<RType::EventManager> eventManager, std::shared_ptr<NetworkManager> networkManager) :
+    _eventManager(eventManager),
+    _networkManager(networkManager)
+{}
+
 void LobbyManager::Start() {
-    auto sub = RType::EventListener(_eventManager);
+    std::cout << "LobbyManager Launched" << std::endl;
+
+    RType::EventListener sub(_eventManager);
 
     //Event listener pour ajouter des clients a la pool
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
@@ -48,8 +55,8 @@ void LobbyManager::Start() {
 
 void LobbyManager::Run() {
     while (true) {
-        _networkManager.IsThereNewClient();
-        _networkManager.CheckForIncomingMessage(_clients);
+        _networkManager->IsThereNewClient();
+        _networkManager->CheckForIncomingMessage(_clients);
         CheckInstance();
         SendToClients();
     }
@@ -95,7 +102,7 @@ void LobbyManager::CheckInstance() {
 void LobbyManager::SendToClients() {
     if (_toSend.size() != 0) {
         for (auto it = _toSend.begin(); it != _toSend.end();) {
-            if (_networkManager.SendOverTCP(it->second, it->first, 100)) {
+            if (_networkManager->SendOverTCP(it->second, it->first, 100)) {
                 it = _toSend.erase(it);
             } else {
                 ++it;
