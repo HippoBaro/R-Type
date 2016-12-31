@@ -57,13 +57,14 @@ set(SHARED_SOURCE_FILES
         Include/Messages/SendTCPNetworkPayloadMessage.hpp
         Include/Messages/ClientWaitForServerMessage.hpp
         Include/Messages/MenuStateUpdateMessage.hpp
+        Include/Messages/ApplicationQuitMessage.hpp
 
         Include/Json/Json.hpp
         Include/Queue/SingleReaderWriterQueue.hpp
         Include/Queue/atomicops.hpp
         Include/EntityFactory/EntityFactory.hpp
         Include/EntityPacker/EntityPacker.hpp
-        Include/Messages/ApplicationQuitMessage.hpp)
+        )
 
 include_directories(Libs/Interfaces
         ../SFML/include
