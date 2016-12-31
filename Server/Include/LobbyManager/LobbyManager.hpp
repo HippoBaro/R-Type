@@ -17,8 +17,8 @@
 class LobbyManager {
 private:
     uint8_t _nextClientId = 0;
-    std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
-    NetworkManager _networkManager = NetworkManager(_eventManager);
+    std::shared_ptr<RType::EventManager> _eventManager;
+    std::shared_ptr<NetworkManager> _networkManager;
     std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients {};
     std::map<std::string, std::shared_ptr<LobbyInstance>> _instances {};
     std::vector<std::pair<std::shared_ptr<IRTypeSocket>, std::shared_ptr<RTypeNetworkPayload>>> _toSend {};
@@ -32,6 +32,7 @@ private:
     void UserDisconnect(uint8_t id);
 
 public:
+    LobbyManager(std::shared_ptr<RType::EventManager>, std::shared_ptr<NetworkManager>);
     void Start();
     void Run();
 };
