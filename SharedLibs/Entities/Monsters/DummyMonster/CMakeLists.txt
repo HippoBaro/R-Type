@@ -11,10 +11,12 @@ add_library(DummyMonster SHARED
         DummyMonster.cpp)
 target_link_libraries(DummyMonster)
 
-add_library(DrawableDummyMonster SHARED
-        GraphicDummyMonster.cpp
-        GraphicDummyMonster.hpp
-        DummyMonster.hpp
-        DummyMonster.cpp)
-target_link_libraries(DrawableDummyMonster sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawableDummyMonster PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawableDummyMonster SHARED
+            GraphicDummyMonster.cpp
+            GraphicDummyMonster.hpp
+            DummyMonster.hpp
+            DummyMonster.cpp)
+    target_link_libraries(DrawableDummyMonster sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawableDummyMonster PRIVATE ENTITY_DRW_CTOR=1)
+endif()

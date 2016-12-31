@@ -11,10 +11,12 @@ add_library(TentacleBoss SHARED
         TentacleBoss.cpp)
 target_link_libraries(TentacleBoss)
 
-add_library(DrawableTentacleBoss SHARED
-        TentacleBoss.hpp
-        TentacleBoss.cpp
-        GraphicTentacleBoss.cpp
-        GraphicTentacleBoss.hpp)
-target_link_libraries(DrawableTentacleBoss sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawableTentacleBoss PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawableTentacleBoss SHARED
+            TentacleBoss.hpp
+            TentacleBoss.cpp
+            GraphicTentacleBoss.cpp
+            GraphicTentacleBoss.hpp)
+    target_link_libraries(DrawableTentacleBoss sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawableTentacleBoss PRIVATE ENTITY_DRW_CTOR=1)
+endif()
