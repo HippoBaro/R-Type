@@ -127,7 +127,8 @@ void LobbyManager::TransformIntoGameInstance(std::map<std::string, std::shared_p
     std::vector<std::shared_ptr<PlayerRef>> playerRefs;
     for (auto it = instance->second->getPlayerRefs().begin(); it != instance->second->getPlayerRefs().end(); ++it)
         playerRefs.push_back(it->second);
-    this->_eventManager->Emit(RType::Event::START_NEW_GAME, nullptr, new StartNewGameMessage(randomPartition, playerRefs));
+    this->_eventManager->Emit(RType::Event::START_NEW_GAME, new StartNewGameMessage(randomPartition, playerRefs), nullptr);
+    std::cout << randomPartition << " | " << playerRefs.size() << std::endl;
 
 
     // Remove IRTypeSockets

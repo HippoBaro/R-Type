@@ -23,7 +23,7 @@ private:
     std::unique_ptr<RType::EventListener> _sub;
 
 public:
-    GameInstance(uint16_t id, const std::shared_ptr<RType::EventManager> &globalEventManager, std::string const &partition, std::chrono::steady_clock::time_point const&);
+    GameInstance(uint16_t id, const std::shared_ptr<RType::EventManager> globalEventManager, std::string const &partition, std::chrono::steady_clock::time_point const&);
 
 private:
     void Start();
