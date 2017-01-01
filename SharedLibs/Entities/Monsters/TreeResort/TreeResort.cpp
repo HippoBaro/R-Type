@@ -5,6 +5,9 @@
 #include "TreeResort.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
+#define H 130
+#define L 64
+
 TreeResort::TreeResort(const std::initializer_list<void *> init) : TreeResort(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),
@@ -26,7 +29,7 @@ void TreeResort::Cycle() {
 }
 
 vec2<float> TreeResort::GetRenderRect() {
-    return vec2<float>(4 * 256, 4 * 142);
+    return vec2<float>(4 * L, 4 * H);
 }
 
 vec2<float> TreeResort::GetPosition() {
@@ -40,7 +43,7 @@ void TreeResort::Serialize(RType::Packer &packer) {
 }
 
 uint16_t TreeResort::getTypeId() const {
-    return Entity::TENTACLE_BOSS;
+    return Entity::TreeResort;
 }
 
 #ifndef ENTITY_DRW_CTOR
