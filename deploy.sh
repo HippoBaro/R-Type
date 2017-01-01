@@ -7,13 +7,9 @@ if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | b
 tar -xzf credentials.tar.gz;
 gcloud auth activate-service-account --key-file RType-server-736393d1bca7.json;
 
-gcloud config set project rtype-server ;
-gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet ;
-git clone https://github.com/HippoBaro/R-Type.git" ;
-cd R-Type ;
-git checkout ${TRAVIS_BRANCH} ;
-chmod +x install_run_server.sh ;
-./install_run_server.sh ;
-exit ;
+gcloud config set project rtype-server;
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="rm -rf R-Type";
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="git clone -b ${TRAVIS_BRANCH} https://github.com/HippoBaro/R-Type.git";
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="bash R-Type/install_run_server.sh";
 
 exit 0;
