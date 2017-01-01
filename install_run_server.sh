@@ -14,4 +14,4 @@ make
 echo "Killing current server instance if any"
 sudo pkill -f R_Type_Server
 echo "Launching"
-./R_Type_Server
+./BUILD/R_Type_Server
