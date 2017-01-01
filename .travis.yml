@@ -48,6 +48,7 @@ script:
   - cd build
   - cmake .. && make
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
+  - cd ..
   # Install Google App Engine Python SDK
   - if [ ! -d "${GAE_PYTHONPATH}" ]; then
       python scripts/fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}");
