@@ -4,8 +4,11 @@
 
 #include <RTypeClient.hpp>
 
-int main(void) {
-    RTypeClient client;
+int main(int ac, char **av) {
+    std::string serverEndpoint;
+    if (ac > 1)
+        serverEndpoint = std::string(av[1]);
+    RTypeClient client(serverEndpoint);
     client.Run();
     return 0;
 }

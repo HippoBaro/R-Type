@@ -10,10 +10,12 @@ add_library(Player SHARED
         Player.hpp
         Player.cpp ../../Interfaces/IUserControlled.hpp)
 
-add_library(DrawablePlayer SHARED
-        GraphicPlayer.cpp
-        GraphicPlayer.hpp
-        Player.hpp
-        Player.cpp)
-target_link_libraries(DrawablePlayer sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawablePlayer PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawablePlayer SHARED
+            GraphicPlayer.cpp
+            GraphicPlayer.hpp
+            Player.hpp
+            Player.cpp)
+    target_link_libraries(DrawablePlayer sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawablePlayer PRIVATE ENTITY_DRW_CTOR=1)
+endif()

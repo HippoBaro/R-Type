@@ -11,10 +11,12 @@ add_library(OrbMonster SHARED
         OrbMonster.cpp)
 target_link_libraries(OrbMonster)
 
-add_library(DrawableOrbMonster SHARED
-        OrbMonster.hpp
-        OrbMonster.cpp
-        GraphicOrbMonster.cpp
-        GraphicOrbMonster.hpp)
-target_link_libraries(DrawableOrbMonster sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawableOrbMonster PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawableOrbMonster SHARED
+            OrbMonster.hpp
+            OrbMonster.cpp
+            GraphicOrbMonster.cpp
+            GraphicOrbMonster.hpp)
+    target_link_libraries(DrawableOrbMonster sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawableOrbMonster PRIVATE ENTITY_DRW_CTOR=1)
+endif()

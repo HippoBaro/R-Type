@@ -12,6 +12,7 @@
 #include <Messages/ClientWaitForServerMessage.hpp>
 #include <Entities/PlayerRef.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp>
+#include <Messages/ApplicationQuitMessage.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient)
         : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
@@ -19,9 +20,8 @@ SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std
           _networkClient(networkClient), _soundManager(new SoundManager(eventManager)) {
     _currentContext = _menuContext.get();
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
-    _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
-        if (message->ReleasedContains(CLOSE_WINDOWS))
-            _window.close();
+    _eventListener->Subscribe<void, ApplicationQuitMessage>(ApplicationQuitMessage::EventType, [&](void *, ApplicationQuitMessage *message) {
+        _window.close();
     });
     _eventListener->Subscribe<Entity, SoundSystemMessage>(SoundSystemMessage::EventType, [&](Entity *, SoundSystemMessage *message) {
         if (message->getEventType() == PLAY_SOUND)

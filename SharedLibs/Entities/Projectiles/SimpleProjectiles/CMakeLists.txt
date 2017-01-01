@@ -13,10 +13,12 @@ add_library(SimpleProjectile SHARED
         SimpleProjectile.cpp)
 target_link_libraries(SimpleProjectile)
 
-add_library(DrawableSimpleProjectile SHARED
-        DrawableSimpleProjectile.cpp
-        DrawableSimpleProjectile.hpp
-        SimpleProjectile.cpp
-        SimpleProjectile.hpp)
-target_link_libraries(DrawableSimpleProjectile sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawableSimpleProjectile PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawableSimpleProjectile SHARED
+            DrawableSimpleProjectile.cpp
+            DrawableSimpleProjectile.hpp
+            SimpleProjectile.cpp
+            SimpleProjectile.hpp)
+    target_link_libraries(DrawableSimpleProjectile sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawableSimpleProjectile PRIVATE ENTITY_DRW_CTOR=1)
+endif()

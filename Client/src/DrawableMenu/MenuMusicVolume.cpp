@@ -16,7 +16,7 @@ MenuMusicVolume::MenuMusicVolume(std::shared_ptr<RType::EventManager> &eventMana
             if (message->PressedContainsOnly(USER_RIGHT) && _volume < 100) {
                 _volume++;
                 _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_MUSIC, _volume), this);
-            } else if (message->ReleasedContainsOnly(USER_LEFT) && _volume > 0) {
+            } else if (message->PressedContainsOnly(USER_LEFT) && _volume > 0) {
                 _volume--;
                 _eventManager->Emit(SoundSystemMessage::EventType, new SoundSystemMessage(VOLUME_MUSIC, _volume), this);
             }

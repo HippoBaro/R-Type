@@ -6,7 +6,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/BUILD)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/BUILD)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared/Include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
+
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SFML/include)
+endif()
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SharedLibs/Interfaces)
 
 include(cmake/ucm.cmake)
@@ -21,10 +24,13 @@ endif()
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
-add_subdirectory(SFML EXCLUDE_FROM_ALL)
-
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_subdirectory(SFML EXCLUDE_FROM_ALL)
+endif()
 add_subdirectory(Shared)
-add_subdirectory(Client)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_subdirectory(Client)
+endif()
 add_subdirectory(Server)
 
 ucm_set_runtime(STATIC)

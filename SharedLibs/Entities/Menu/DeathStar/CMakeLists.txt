@@ -11,10 +11,12 @@ add_library(DeathStar SHARED
         DeathStar.cpp)
 target_link_libraries(DeathStar)
 
-add_library(DrawableDeathStar SHARED
-        GraphicDeathStar.cpp
-        GraphicDeathStar.hpp
-        DeathStar.hpp
-        DeathStar.cpp)
-target_link_libraries(DrawableDeathStar sfml-graphics sfml-window sfml-system)
-target_compile_definitions(DrawableDeathStar PRIVATE ENTITY_DRW_CTOR=1)
+if (NOT RTYPE_BUILD_SERVER_ONLY)
+    add_library(DrawableDeathStar SHARED
+            GraphicDeathStar.cpp
+            GraphicDeathStar.hpp
+            DeathStar.hpp
+            DeathStar.cpp)
+    target_link_libraries(DrawableDeathStar sfml-graphics sfml-window sfml-system)
+    target_compile_definitions(DrawableDeathStar PRIVATE ENTITY_DRW_CTOR=1)
+endif()
