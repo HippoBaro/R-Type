@@ -16,6 +16,6 @@ gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-serve
 gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="rm -rf R-Type";
 gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="git clone -b ${TRAVIS_BRANCH} https://github.com/HippoBaro/R-Type.git";
 gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="bash R-Type/install_server.sh";
-gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="sudo reboot";
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="sudo systemctl restart --no-block rtype-server";
 
 exit 0;
