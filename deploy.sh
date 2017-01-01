@@ -12,9 +12,10 @@ gcloud version
 gcloud auth activate-service-account --key-file RType-server-736393d1bca7.json;
 
 gcloud config set project rtype-server;
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="pwd";
 gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="rm -rf R-Type";
 gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="git clone -b ${TRAVIS_BRANCH} https://github.com/HippoBaro/R-Type.git";
-gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="bash R-Type/install_run_server.sh";
-gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="nohup R-Type/build/BUILD/R_Type_Server &";
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="bash R-Type/install_server.sh";
+gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet --command="sudo reboot";
 
 exit 0;
