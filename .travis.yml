@@ -48,8 +48,6 @@ script:
   - cd build
   - cmake .. && make
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
-
-after_success:
   # Install Google App Engine Python SDK
   - if [ ! -d "${GAE_PYTHONPATH}" ]; then
       python scripts/fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}");
@@ -64,10 +62,11 @@ after_success:
     fi
   # Unpack credentials
   - tar -xzf credentials.tar.gz
-  - mkdir -p lib
   # Here we use the decrypted service account credentials to authenticate the command line tool
   - gcloud auth activate-service-account --key-file RType-server-736393d1bca7.json
   # [END auth]
+
+after_success:
 
   # [START deploy]
   # Deploy the app
