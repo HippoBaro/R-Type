@@ -4,9 +4,6 @@
 
 #include "GraphicTreeResort.hpp"
 
-static constexpr int _height = 130;
-static constexpr int _width = 64;
-
 #ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTreeResort)
 #endif

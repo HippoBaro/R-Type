@@ -5,9 +5,6 @@
 #include "TreeResort.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
-static constexpr int _height = 130;
-static constexpr int _width = 64;
-
 TreeResort::TreeResort(const std::initializer_list<void *> init) : TreeResort(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<RType::EventManager>*>(init, 2),

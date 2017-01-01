@@ -15,6 +15,8 @@
 
 class TreeResort : public Entity {
 protected:
+    static constexpr int _height = 130;
+    static constexpr int _width = 64;
     EntityPartition _partition = EntityPartition(_timer);
     std::unique_ptr<RType::EventListener> _eventListener;
 
