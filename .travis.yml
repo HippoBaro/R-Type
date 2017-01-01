@@ -28,7 +28,7 @@ matrix:
           - libopenal-dev
           - libudev-dev
       env:
-      # Make sure gcloud command is on our PATH and the App Engine SDK is in the Python path
+        # Make sure gcloud command is on our PATH and the App Engine SDK is in the Python path
         - GAE_PYTHONPATH=${HOME}/.cache/google_appengine PATH=$PATH:${HOME}/google-cloud-sdk/bin PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH} CLOUDSDK_CORE_DISABLE_PROMPTS=1
     - os: osx
       osx_image: xcode8.2
@@ -40,7 +40,16 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update          ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cmake   ; fi
 
+install:
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export CXX="g++-5" CC="gcc-5"; fi
 
+script:
+  - mkdir build
+  - cd build
+  - cmake .. && make
+  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
+
+after_success:
   # Install Google App Engine Python SDK
   - if [ ! -d "${GAE_PYTHONPATH}" ]; then
       python scripts/fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}");
@@ -60,31 +69,15 @@ before_install:
   - gcloud auth activate-service-account --key-file RType-server-736393d1bca7.json
   # [END auth]
 
-install:
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export CXX="g++-5" CC="gcc-5"; fi
-
-  # Set the correct project to deploy to
-  - gcloud config set project rtype-server
-  - gcloud -q components update gae-python
-  # Install the Python dependencies
-  - pip install -r requirements.txt -t lib/
-
-script:
-  - mkdir build
-  - cd build
-  - cmake .. && make
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
-
-after_success:
   # [START deploy]
   # Deploy the app
+  # Set the correct project to deploy to
+  - gcloud config set project rtype-server
   - gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet
   - git clone https://github.com/HippoBaro/R-Type.git"
   - cd R-Type
   - git checkout $TRAVIS_BRANCH
   - ./install_run_server.sh
-
-  # Current branch : TRAVIS_BRANCH
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
