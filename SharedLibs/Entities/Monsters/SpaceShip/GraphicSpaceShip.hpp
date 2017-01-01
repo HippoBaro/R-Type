@@ -2,12 +2,12 @@
 // Created by barre_k
 //
 
-#ifndef R_TYPE_GRAPHICTREERESORT_HPP
-#define R_TYPE_GRAPHICTREERESORT_HPP
+#ifndef R_TYPE_GRAPHICSPACESHIP_HPP
+#define R_TYPE_GRAPHICSPACESHIP_HPP
 
 #include <AAnimatable.hpp>
 #include <TextureBag.hpp>
-#include "TreeResort.hpp"
+#include "SpaceShip.hpp"
 
 class GraphicSpaceShip : public SpaceShip, public AAnimatable {
 
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //R_TYPE_GRAPHICTREERESORT_HPP
+#endif //R_TYPE_GRAPHICSPACESHIP_HPP

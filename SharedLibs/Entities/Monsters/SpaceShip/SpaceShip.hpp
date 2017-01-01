@@ -2,8 +2,8 @@
 // Created by barre_k
 //
 
-#ifndef R_TYPE_TREERESORT_HPP
-#define R_TYPE_TREERESORT_HPP
+#ifndef R_TYPE_SPACESHIP_HPP
+#define R_TYPE_SPACESHIP_HPP
 
 #include "PartitionSystem/EntityPartition.hpp"
 #include <Time/Timer.hpp>
@@ -15,8 +15,8 @@
 
 class SpaceShip : public Entity {
 protected:
-    static constexpr int _height = 130;
-    static constexpr int _width = 64;
+    static constexpr int _height = 21;
+    static constexpr int _width = 24;
     EntityPartition _partition = EntityPartition(_timer);
     std::unique_ptr<RType::EventListener> _eventListener;
 
@@ -33,4 +33,4 @@ public:
     void Serialize(RType::Packer &packer) override;
 };
 
-#endif //R_TYPE_TREERESORT_HPP
+#endif //R_TYPE_SPACESHIP_HPP
