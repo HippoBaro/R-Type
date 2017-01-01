@@ -11,7 +11,7 @@ echo "Building project"
 cd ~/R-Type && mkdir build && cd build
 cmake -D RTYPE_BUILD_SERVER_ONLY=1 ..
 make
-echo "Killing current server instance if any"
+echo "Killing current server instance, if any"
 sudo pkill -f R_Type_Server
 echo "Launching"
-./BUILD/R_Type_Server
+sudo ./BUILD/R_Type_Server &
