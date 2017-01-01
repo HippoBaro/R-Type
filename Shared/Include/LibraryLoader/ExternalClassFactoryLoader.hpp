@@ -26,6 +26,7 @@ private:
         for (const auto &i : _factories) // access by const reference
             if (i->getLibName() == libName)
                 return i;
+        std::cout << "Loading " << libraryPath << libName << "symbols" << std::endl;
         auto newRef = _dynLoader->GetFactoryForClass(libraryPath, libName, constructor, destructor);
         _factories.push_back(newRef);
         return newRef;
