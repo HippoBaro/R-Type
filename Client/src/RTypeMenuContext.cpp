@@ -11,6 +11,7 @@
 #include <Messages/ClientWaitForServerMessage.hpp>
 #include <Messages/ApplicationQuitMessage.hpp>
 #include "RTypeMenuContext.hpp"
+#include "DrawableMenu/MenuSelectLevel.hpp"
 #include "DrawableMenu/MenuCreateRoom.hpp"
 #include "DrawableMenu/MenuJoinRoom.hpp"
 #include "DrawableMenu/MenuRoot.hpp"
@@ -41,6 +42,7 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     _text.setCharacterSize(50);
 
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuRoot(_eventManager)));
+    _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSelectLevel(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuCreateRoom(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuJoinRoom(_eventManager)));
     _menu.push_back(std::unique_ptr<ADrawableMenu>(new MenuSettings(_eventManager)));

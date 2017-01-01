@@ -62,7 +62,7 @@ set(CLIENT_SOURCE_FILES
         src/DrawableMenu/MenuCreate.cpp
         src/DrawableMenu/MenuMusicVolume.cpp
         src/DrawableMenu/MenuSoundVolume.cpp
-        )
+        src/DrawableMenu/MenuSelectLevel.cpp Includes/DrawableMenu/MenuSelectLevel.hpp)
 
 add_executable(R_Type_Client ${CLIENT_SOURCE_FILES})
 target_compile_definitions(R_Type_Client INTERFACE -DRTYPE_CLIENT)

@@ -8,7 +8,7 @@
 #include "DrawableMenu/ADrawableMenu.hpp"
 
 class ADrawableInputMenu : public ADrawableMenu {
-private:
+protected:
     bool _blinkingCursor = true;
     int _frame = 0;
     std::string _drawableTextByUser = "_";
@@ -17,7 +17,7 @@ private:
 public:
     ADrawableInputMenu(std::shared_ptr<RType::EventManager> &eventManager);
 
-    void specialDrawing(sf::RenderTexture &context, sf::Text &text) override final;
+    void specialDrawing(sf::RenderTexture &context, sf::Text &text) override;
 
     const std::string getChannelName() override final;
 };

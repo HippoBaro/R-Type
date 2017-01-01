@@ -8,6 +8,6 @@ MenuCreateRoom::MenuCreateRoom(std::shared_ptr<RType::EventManager> &eventManage
     _eventManager = eventManager;
     _menuMap[0] = std::make_pair(true, "Back");
     _menuMap[1] = std::make_pair(false, "Create");
-    _menuName = "Create Room";
+    _menuName = "Go";
     _menuType = HORIZONTAL;
 }
