@@ -27,7 +27,8 @@ public:
         SHIP,
         TREERESORT,
         SPACESHIP,
-        TANK
+        TANK,
+        DUCK
     };
 
 protected:

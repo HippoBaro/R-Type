@@ -26,18 +26,13 @@ void GraphicTank::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         framePos.push_back(sf::IntRect(_width * 3, 0, _width, _height));
         framePos.push_back(sf::IntRect(_width * 4, 0, _width, _height));
         framePos.push_back(sf::IntRect(_width * 5, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 6, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 7, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 8, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 9, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 10, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 11, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 12, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 13, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 14, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 15, 0, _width, _height));
-        framePos.push_back(sf::IntRect(_width * 16, 0, _width, _height));
-        setAnimation("medias/images/r-typesheet5.png", framePos, bag);
+        framePos.push_back(sf::IntRect(_width * 6, _height, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 7, _height, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 8, _height, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 9, _height, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 10, _height, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 11, _height, _width, _height));
+        setAnimation("medias/images/r-typesheet12.png", framePos, bag);
         setLoopDuration(1500);
         setScale(sf::Vector2f(4.0f, 4.0f));
     }
