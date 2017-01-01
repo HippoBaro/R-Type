@@ -9,10 +9,10 @@
 #include <TextureBag.hpp>
 #include "TreeResort.hpp"
 
-class GraphicSpaceShip : public SpaceShip, public AAnimatable {
+class GraphicTreeResort : public SpaceShip, public AAnimatable {
 
 public:
-    GraphicSpaceShip(const std::initializer_list<void *> init);
+    GraphicTreeResort(const std::initializer_list<void *> init);
 
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
     void Cycle() override;

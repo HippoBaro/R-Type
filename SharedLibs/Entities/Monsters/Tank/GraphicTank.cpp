@@ -2,20 +2,20 @@
 // Created by barre_k
 //
 
-#include "GraphicSpaceShip.hpp"
+#include "GraphicTank.hpp"
 
 #ifdef ENTITY_DRW_CTOR
-RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicSpaceShip)
+RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTank)
 #endif
 
-GraphicSpaceShip::GraphicSpaceShip(const std::initializer_list<void *> init) :
-        SpaceShip(init),
+GraphicTank::GraphicTank(const std::initializer_list<void *> init) :
+        Tank(init),
         AAnimatable()
 {
     RegisterTrait(Trait::Drawable);
 }
 
-void GraphicSpaceShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
+void GraphicTank::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     if (!isTextureSetInit) {
         isTextureSetInit = true;
 
@@ -44,6 +44,6 @@ void GraphicSpaceShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     updateAnimation(rect, bag);
 }
 
-void GraphicSpaceShip::Cycle() {
-    SpaceShip::Cycle();
+void GraphicTank::Cycle() {
+    Tank::Cycle();
 }

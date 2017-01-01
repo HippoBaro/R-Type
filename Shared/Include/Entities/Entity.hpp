@@ -25,8 +25,9 @@ public:
         DEATH_STAR,
         MARS,
         SHIP,
-        TreeResort,
-        SPACESHIP
+        TREERESORT,
+        SPACESHIP,
+        TANK
     };
 
 protected:

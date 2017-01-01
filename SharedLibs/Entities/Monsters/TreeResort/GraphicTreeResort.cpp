@@ -8,14 +8,14 @@
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTreeResort)
 #endif
 
-GraphicSpaceShip::GraphicSpaceShip(const std::initializer_list<void *> init) :
-        SpaceShip(init),
+GraphicTreeResort::GraphicTreeResort(const std::initializer_list<void *> init) :
+        TreeResort(init),
         AAnimatable()
 {
     RegisterTrait(Trait::Drawable);
 }
 
-void GraphicSpaceShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
+void GraphicTreeResort::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     if (!isTextureSetInit) {
         isTextureSetInit = true;
 
@@ -35,6 +35,6 @@ void GraphicSpaceShip::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     updateAnimation(rect, bag);
 }
 
-void GraphicSpaceShip::Cycle() {
-    SpaceShip::Cycle();
+void GraphicTreeResort::Cycle() {
+    TreeResort::Cycle();
 }
