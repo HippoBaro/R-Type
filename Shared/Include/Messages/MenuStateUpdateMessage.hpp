@@ -10,6 +10,7 @@
 #include <EventDispatcher/Events.h>
 #include <Entities/PlayerRef.hpp>
 #include <vector>
+#include <Model/LobbyStatePayload.hpp>
 
 
 class MenuStateUpdateMessage : public IMessage {
@@ -17,15 +18,15 @@ public:
     static constexpr RType::Event EventType = RType::LOBBY_STATE_CHANGE;
 
 private:
-    std::vector<PlayerRef> _players;
+    LobbyStatePayload _state;
 
 public:
 
-    MenuStateUpdateMessage() : _players() { }
-    MenuStateUpdateMessage(const std::vector<PlayerRef> &players) : _players(players) {}
+    MenuStateUpdateMessage() : _state() { }
+    MenuStateUpdateMessage(const LobbyStatePayload &state) : _state(state) {}
 
-    std::vector<PlayerRef> &getPlayers() {
-        return _players;
+    LobbyStatePayload &getState() {
+        return _state;
     }
 };
 

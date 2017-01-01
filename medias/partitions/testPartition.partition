@@ -16,15 +16,6 @@
 		}
 	},
 	"entities":[
-		{
-            "entityName":"Player",
-            "startPosition": {
-                "x":0,
-                "y":0
-            },
-            "startTime":0,
-            "id":2
-		},
         {
             "entityName":"TentacleBoss",
             "startPosition": {
@@ -32,7 +23,7 @@
                 "y":300
             },
             "startTime":0,
-            "id":3
+            "id":5
         },
         {
             "entityName":"OrbMonster",
@@ -41,7 +32,7 @@
                 "y":200
             },
             "startTime":0,
-            "id":4
+            "id":6
         }
 	]
 }

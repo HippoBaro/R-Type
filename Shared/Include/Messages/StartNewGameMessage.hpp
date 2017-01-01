@@ -9,6 +9,7 @@
 #include <EventDispatcher/Events.h>
 #include <string>
 #include <Entities/PlayerRef.hpp>
+#include "../../../Server/Include/LobbyInstance/LobbyInstance.hpp"
 
 class StartNewGameMessage : public IMessage {
 public:
@@ -17,14 +18,16 @@ public:
 private:
     std::string _partitionName;
     std::vector<std::shared_ptr<PlayerRef>> _playerRefs;
+    int _instanceId;
 
 public:
-    StartNewGameMessage(std::string &partition, std::vector<std::shared_ptr<PlayerRef>> &refs) :
+    StartNewGameMessage(std::string &partition, std::vector<std::shared_ptr<PlayerRef>> &refs, int id) :
             _partitionName(partition),
-            _playerRefs(refs) {}
+            _playerRefs(refs),
+            _instanceId(id) {}
 
-    const std::string &getId() const {
-        return _partitionName;
+    int getId() const {
+        return _instanceId;
     }
 
     const std::vector<std::shared_ptr<PlayerRef>> getPlayerRefs() const {

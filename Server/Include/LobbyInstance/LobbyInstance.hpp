@@ -10,6 +10,7 @@
 #include <Entities/PlayerRef.hpp>
 #include <Socket/IRTypeSocket.hpp>
 #include <Serializer/Packer.hpp>
+#include <Model/LobbyStatePayload.hpp>
 #include <Serializer/ISerializable.hpp>
 
 class LobbyInstance {
@@ -18,6 +19,8 @@ private:
     std::map<uint8_t, std::shared_ptr<PlayerRef>> _players = std::map<uint8_t, std::shared_ptr<PlayerRef>>();
     std::map<uint8_t, std::shared_ptr<IRTypeSocket>> _clients = std::map<uint8_t, std::shared_ptr<IRTypeSocket>>();
     std::shared_ptr<RType::EventManager> _eventManager;
+    bool _shouldRemove = false;
+    LobbyStatePayload _state = LobbyStatePayload();
 
 private:
     void NotifyClients();
@@ -32,6 +35,18 @@ public:
     bool IsReady();
     bool IsThereAnyone();
     bool HaveYouSeenThisPlayer(uint8_t id);
+    LobbyStatePayload getState();
+    void setState(const LobbyStatePayload &);
+
+    void NotifyGameStarted(const std::string &partition, uint16_t instanceId);
+
+    bool shouldRemove() const {
+        return _shouldRemove;
+    }
+
+    void Remove() {
+        _shouldRemove = true;
+    }
 };
 
 

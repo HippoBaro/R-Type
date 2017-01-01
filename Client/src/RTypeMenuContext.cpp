@@ -75,9 +75,6 @@ RTypeMenuContext::RTypeMenuContext(std::shared_ptr<RType::EventManager> &eventMa
     });
 }
 
-void RTypeMenuContext::Setup(std::string const &string) {
-}
-
 void RTypeMenuContext::ReleaseListener() {
     _globalEventListener.Unsubscribe(UserInputMessage::EventType);
     _globalEventListener.Unsubscribe(UserInputEntryMessage::EventType);
@@ -105,4 +102,8 @@ void RTypeMenuContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     _pool->Draw(context, bag);
     DrawMenu(context);
     context.display();
+}
+
+void RTypeMenuContext::Setup(int i, std::string const &string) {
+
 }

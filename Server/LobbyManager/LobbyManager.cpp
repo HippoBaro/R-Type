@@ -54,6 +54,15 @@ void LobbyManager::Start() {
 
 void LobbyManager::Run() {
     while (true) {
+        for (auto &i : _instances) {
+            if (i.second->shouldRemove()) {
+                i.second->NotifyGameStarted(i.second->getState().getPartitionName(), i.second->getState().getGameInstanceId()); //todo change this
+                _instances.erase(i.first);
+                Run();
+                break;
+            }
+        }
+
         _networkManager->IsThereNewClient();
         _networkManager->CheckForIncomingMessage(_clients);
         CheckInstance();
@@ -101,7 +110,7 @@ void LobbyManager::CheckInstance() {
 void LobbyManager::SendToClients() {
     if (_toSend.size() != 0) {
         for (auto it = _toSend.begin(); it != _toSend.end();) {
-            if (_networkManager->SendOverTCP(it->second, it->first, 100)) {
+            if (_networkManager->SendOverTCP(it->second, it->first, -1)) {
                 it = _toSend.erase(it);
             } else {
                 ++it;
@@ -127,19 +136,18 @@ void LobbyManager::TransformIntoGameInstance(std::map<std::string, std::shared_p
     std::vector<std::shared_ptr<PlayerRef>> playerRefs;
     for (auto it = instance->second->getPlayerRefs().begin(); it != instance->second->getPlayerRefs().end(); ++it)
         playerRefs.push_back(it->second);
-    this->_eventManager->Emit(RType::Event::START_NEW_GAME, new StartNewGameMessage(randomPartition, playerRefs), nullptr);
+
+    auto tmpPlayers = std::vector<PlayerRef>();
+    for (const auto &i : playerRefs)
+        tmpPlayers.push_back(*i);
+
+    LobbyStatePayload lobbyState;
+    lobbyState.setPlayers(tmpPlayers);
+    lobbyState.setPartitionName(randomPartition);
+    lobbyState.setGameInstanceId(_nextInstanceId);
+    instance->second->setState(lobbyState);
+    this->_eventManager->Emit(StartNewGameMessage::EventType, new StartNewGameMessage(randomPartition, playerRefs, _nextInstanceId++), instance->second.get());
+
     std::cout << randomPartition << " | " << playerRefs.size() << std::endl;
-
-
-    // Remove IRTypeSockets
-    std::vector<uint8_t> ids;
-    for (auto&& it : instance->second->getPlayerRefs())
-        ids.push_back(it.first);
-
-    for (auto it = _clients.begin() ; it != _clients.end() ; ++it)
-        if (std::find(std::begin(ids), std::end(ids), it->first) != std::end(ids))
-            _clients.erase(it);
-
-    // Delete instance
-    _instances.erase(instance);
+    (*instance).second->Remove();
 }

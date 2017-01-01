@@ -5,23 +5,20 @@
 #include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include "GameInstance/GameInstance.hpp"
 
-GameInstance::GameInstance(uint16_t id, const std::shared_ptr<RType::EventManager> globalEventManager,
+GameInstance::GameInstance(uint16_t id, const std::vector<std::shared_ptr<PlayerRef>> &players,
+                           const std::shared_ptr<RType::EventManager> globalEventManager,
                            std::string const &partition,
                            std::chrono::steady_clock::time_point const &origin) : _id(id),
                                                                                   _globalEventManager(globalEventManager),
-                                                                                  _sub(std::unique_ptr<RType::EventListener>(new RType::EventListener(_globalEventManager))) {
+                                                                                  _sub(std::unique_ptr<RType::EventListener>(new RType::EventListener(_globalEventManager))),
+                                                                                  _players(players) {
     _timer = std::make_shared<Timer>(origin);
     _pool = std::unique_ptr<ServerEntityPool>(new ServerEntityPool(_timer, _eventManager));
     _pool->LoadPartition(partition);
+    for (auto &i : _players) {
+        _pool->AddEntity("Player", i->GetId(), vec2<float>(0, 100 * i->GetId()), _timer->getCurrent());
+    }
     _thread = std::unique_ptr<std::thread>(new std::thread(std::bind(&GameInstance::Start, this)));
-
-    _sub->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        std::cout << "Received User Input" << std::endl;
-        RType::Packer packer(RType::READ, message->getPayload()->Payload);
-        std::set<UserEventType> events;
-        packer.Pack(events);
-        _inbox->enqueue(events);
-    });
 }
 
 void GameInstance::Start() {
@@ -29,14 +26,22 @@ void GameInstance::Start() {
 
     while (true) //todo : loop must break when game is over
     {
-        std::set<UserEventType> events;
+        std::pair<int, std::set<UserEventType>> events;
         while (_inbox->try_dequeue(events)) {
-            dynamic_cast<IUserControlled *>(_pool->getEntityById(2)->GetInstance())->Action(events);
+            dynamic_cast<IUserControlled *>(_pool->getEntityById(events.first)->GetInstance())->Action(events.second);
         }
 
         _pool->ProcessEntities();
-        _pool->BroadcastEntities(_globalEventManager);
+        _pool->BroadcastEntities(_globalEventManager, _players);
         t += std::chrono::milliseconds(32); //We'll send entities 30 times per seconds
         std::this_thread::sleep_until(t);
     }
+}
+
+void GameInstance::ReceivedNetworkPayload(RType::Packer &packer) {
+    int playerid;
+    packer.Pack(playerid);
+    std::set<UserEventType> events;
+    packer.Pack(events);
+    _inbox->enqueue(std::make_pair(playerid, events));
 }
