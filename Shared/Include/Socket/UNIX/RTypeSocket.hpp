@@ -67,9 +67,9 @@ public:
         if (bind(_socket, (struct sockaddr *) &_addr, sizeof(_addr))) {
             throw std::runtime_error(std::string("Binding port failed !"));
         }
-        if (fcntl(_socket, F_SETFL, O_NONBLOCK, 1) == -1) {
+/*        if (fcntl(_socket, F_SETFL, O_NONBLOCK, 1) == -1) {
             throw std::runtime_error(std::string("Failed to set non-blocking socket !"));
-        }
+        }*/
     }
 
     bool Connect() override {
