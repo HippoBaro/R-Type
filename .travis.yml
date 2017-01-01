@@ -53,7 +53,7 @@ script:
 
 after_success:
   - chmod +x deploy.sh
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./deploy.sh ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ./deploy.sh ; fi
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
