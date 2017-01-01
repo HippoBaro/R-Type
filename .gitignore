@@ -6,4 +6,3 @@ cmake-build-debug/
 #Continuous deployment
 RType-server-736393d1bca7.json
 api_key.py
-credentials.tar.gz
