@@ -24,7 +24,7 @@ namespace RType {
         RECEIVED_NET_TCP_MESSAGE,
         NEW_CLIENT_CONNECTION,
         LOBBY_STATE_CHANGE,
-        APP_QUIT
+        APP_QUIT,
         START_NEW_GAME
     };
 }
