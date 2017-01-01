@@ -20,6 +20,7 @@ private:
 
 public:
     SendNetworkPayloadMessage(const RType::Packer &packer, std::string const &destination) : _packer(packer), _destination(destination) {}
+    SendNetworkPayloadMessage(const RType::Packer &packer) : _packer(packer), _destination() {}
 
     const RType::Packer &getPacker() const {
         return _packer;
@@ -29,8 +30,8 @@ public:
         return _destination;
     }
 
-    const RTypeNetworkPayload ConvertToSocketMessage() const {
-        return RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength(), _destination);
+    const std::shared_ptr<RTypeNetworkPayload> ConvertToSocketMessage() const {
+        return std::make_shared<RTypeNetworkPayload>(RTypeNetworkPayload(_packer.getBuffer(), _packer.getLength(), _destination));
     }
 };
 

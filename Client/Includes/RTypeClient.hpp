@@ -13,8 +13,12 @@
 class RTypeClient {
 private:
     std::shared_ptr<RType::EventManager> _eventManager = std::make_shared<RType::EventManager>();
-    std::shared_ptr<RTypeNetworkClient> _networkClient = std::make_shared<RTypeNetworkClient>(_eventManager);
+    std::shared_ptr<RTypeNetworkClient> _networkClient = nullptr;
     std::unique_ptr<SFMLManager> _sfmlManager = std::unique_ptr<SFMLManager>(new SFMLManager(_eventManager, _networkClient));
+
+public:
+
+    RTypeClient(const std::string &serverEndpoint);
 
 public:
     void Run();

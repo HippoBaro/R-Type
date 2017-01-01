@@ -45,8 +45,8 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         RType::Packer packer(RType::WRITE);
         message->Serialize(packer);
-        _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this);
-        //if (_pool->Exist(2))
+        _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
+        //if (_pool->Exist(2)) //todo reattivate this once current player id is known
         //    dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(message->getPressed());
     });
 
