@@ -15,6 +15,7 @@ matrix:
           - ubuntu-toolchain-r-test
           packages:
           # install toolchains
+          - ssh
           - gcc-5
           - g++-5
           - libpthread-stubs0-dev
