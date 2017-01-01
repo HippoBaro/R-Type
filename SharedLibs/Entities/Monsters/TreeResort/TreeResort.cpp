@@ -5,8 +5,8 @@
 #include "TreeResort.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
-#define H 130
-#define L 64
+static constexpr int _height = 130;
+static constexpr int _width = 64;
 
 TreeResort::TreeResort(const std::initializer_list<void *> init) : TreeResort(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
@@ -29,7 +29,7 @@ void TreeResort::Cycle() {
 }
 
 vec2<float> TreeResort::GetRenderRect() {
-    return vec2<float>(4 * L, 4 * H);
+    return vec2<float>(4 * _width, 4 * _height);
 }
 
 vec2<float> TreeResort::GetPosition() {

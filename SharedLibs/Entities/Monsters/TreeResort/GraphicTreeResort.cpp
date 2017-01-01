@@ -4,8 +4,8 @@
 
 #include "GraphicTreeResort.hpp"
 
-#define H 130
-#define L 64
+static constexpr int _height = 130;
+static constexpr int _width = 64;
 
 #ifdef ENTITY_DRW_CTOR
 RTYPE_DRAWABLE_ENTITY_REGISTER(GraphicTreeResort)
@@ -23,14 +23,14 @@ void GraphicTreeResort::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         isTextureSetInit = true;
 
         std::vector<sf::IntRect> framePos;
-        framePos.push_back(sf::IntRect(L * 0, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 1, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 2, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 3, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 4, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 5, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 6, 0, L, H));
-        framePos.push_back(sf::IntRect(L * 7, 0, L, H));
+        framePos.push_back(sf::IntRect(_width * 0, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 1, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 2, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 3, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 4, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 5, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 6, 0, _width, _height));
+        framePos.push_back(sf::IntRect(_width * 7, 0, _width, _height));
         setAnimation("medias/images/r-typesheet17.png", framePos, bag);
         setLoopDuration(1500);
         setScale(sf::Vector2f(4.0f, 4.0f));
