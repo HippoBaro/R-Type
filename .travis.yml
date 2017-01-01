@@ -75,9 +75,16 @@ script:
   - cmake .. && make
   - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
 
+after_success:
   # [START deploy]
   # Deploy the app
-  - gcloud -q preview app deploy app.yaml --promote
+  - gcloud compute --project "rtype-server" ssh --zone "europe-west1-c" "rtype-server-dev" --quiet
+  - git clone https://github.com/HippoBaro/R-Type.git"
+  - cd R-Type
+  - git checkout $TRAVIS_BRANCH
+  - ./install_run_server.sh
+
+  # Current branch : TRAVIS_BRANCH
 
 notifications:
   slack: r-type2016:mLsIqykIanE3Yt8cHcLetGuv
