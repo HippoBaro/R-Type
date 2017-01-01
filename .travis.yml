@@ -41,25 +41,19 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install cmake   ; fi
 
 install:
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then export CXX="g++-5" CC="gcc-5"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-5" CC="gcc-5"; fi
 
 script:
   - mkdir build
   - cd build
   - cmake .. && make
-  - if [[ "$TRAVIS_OS_NAME" != "osx" ]]; then ctest --verbose   ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ctest --verbose   ; fi
   - cd ..
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      # [START auth]
-      # Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
       openssl aes-256-cbc -K $encrypted_482e2f17cfc1_key -iv $encrypted_482e2f17cfc1_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d;
-      # If the SDK is not already cached, download it and unpack it
       if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash ; fi
-      # Unpack credentials
       tar -xzf credentials.tar.gz;
-      # Here we use the decrypted service account credentials to authenticate the command line tool
       gcloud auth activate-service-account --key-file RType-server-736393d1bca7.json;
-      # [END auth]
     fi
 
 after_success:
