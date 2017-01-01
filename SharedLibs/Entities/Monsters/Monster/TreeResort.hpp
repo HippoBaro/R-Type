@@ -2,8 +2,8 @@
 // Created by barre_k
 //
 
-#ifndef R_TYPE_TREERESORT_HPP
-#define R_TYPE_TREERESORT_HPP
+#ifndef R_TYPE_TENTACLEBOSS_HPP
+#define R_TYPE_TENTACLEBOSS_HPP
 
 #include "PartitionSystem/EntityPartition.hpp"
 #include <Time/Timer.hpp>
@@ -31,4 +31,4 @@ public:
     void Serialize(RType::Packer &packer) override;
 };
 
-#endif //R_TYPE_TREERESORT_HPP
+#endif //R_TYPE_TENTACLEBOSS_HPP

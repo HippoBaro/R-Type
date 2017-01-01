@@ -2,8 +2,8 @@
 // Created by barre_k
 //
 
-#ifndef R_TYPE_GRAPHICTREERESORT_HPP
-#define R_TYPE_GRAPHICTREERESORT_HPP
+#ifndef R_TYPE_GRAPHICTENTACLEBOSS_HPP
+#define R_TYPE_GRAPHICTENTACLEBOSS_HPP
 
 #include <AAnimatable.hpp>
 #include <TextureBag.hpp>
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //R_TYPE_GRAPHICTREERESORT_HPP
+#endif //R_TYPE_GRAPHICTENTACLEBOSS_HPP
