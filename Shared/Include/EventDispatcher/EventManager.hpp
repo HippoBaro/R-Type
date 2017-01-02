@@ -29,17 +29,17 @@
  * listener.Unsubscribe(RType::BULLET_POS_CHANGE)
  */
 
-std::mutex _eventManagerMutex;
 
 namespace RType {
     class EventManager {
 
     private:
+        std::mutex _eventManagerMutex;
         std::vector<std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(
                 void *, IMessage *message)>>>>> _listeners = {};
 
     public:
-        EventManager() {};
+        EventManager() : _eventManagerMutex() {};
 
         void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
             std::lock_guard<std::mutex> lock(_eventManagerMutex);
