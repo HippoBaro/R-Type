@@ -38,7 +38,10 @@ void NetworkManager::Run() {
 void NetworkManager::Send(std::shared_ptr<RTypeNetworkPayload> payload) {
     std::cout << "Sending packet to " << payload->Ip << std::endl;
     if (_clients.find(payload->Ip) == _clients.end()) {
-        _clients[payload->Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload->Ip, 9876));
+        {
+            _clients[payload->Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload->Ip, 9876));
+            _clients[payload->Ip]->Send(payload);
+        }
     } else {
         _clients[payload->Ip]->Send(payload);
     }
