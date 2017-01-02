@@ -112,7 +112,7 @@ void LobbyManager::CheckInstance() {
 void LobbyManager::SendToClients() {
     if (_toSend.size() != 0) {
         for (auto it = _toSend.begin(); it != _toSend.end();) {
-            if (_networkManager->SendOverTCP(it->second, it->first, -1)) {
+            if (_networkManager->SendOverTCP(it->second, it->first, 200)) {
                 it = _toSend.erase(it);
             } else {
                 ++it;
