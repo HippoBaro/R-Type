@@ -12,7 +12,9 @@
 LobbyManager::LobbyManager(std::shared_ptr<RType::EventManager> eventManager, std::shared_ptr<NetworkManager> networkManager) :
     _eventManager(eventManager),
     _networkManager(networkManager)
-{}
+{
+    _thread = std::unique_ptr<std::thread>(new std::thread(std::bind(&LobbyManager::Start, this)));
+}
 
 void LobbyManager::Start() {
     RType::EventListener sub(_eventManager);

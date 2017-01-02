@@ -16,6 +16,7 @@
 
 class LobbyManager {
 private:
+    std::unique_ptr<std::thread> _thread = nullptr;
     uint8_t _nextClientId = 0;
     std::shared_ptr<RType::EventManager> _eventManager;
     std::shared_ptr<NetworkManager> _networkManager;

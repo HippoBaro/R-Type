@@ -29,7 +29,7 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
         i.second->GetInstance()->Serialize(packer);
 
         for (auto &i : players) {
-            eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, i->GetAddress()), this); //todo : send to all clients from the instance
+            eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, i->GetAddress()), this);
         }
 
         count++;

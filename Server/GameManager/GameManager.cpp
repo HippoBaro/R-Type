@@ -3,13 +3,11 @@
 //
 
 #include "GameManager/GameManager.hpp"
-#include <chrono>
-#include <LobbyManager/LobbyManager.hpp>
 
 GameManager::GameManager() {}
 
 void GameManager::Start() {
     _networkManager->Start();
-    _lobbyManager = std::unique_ptr<std::thread>(new std::thread(&LobbyManager::Start, LobbyManager(_eventManager, _networkManager)));
+    _lobbyManager = std::unique_ptr<LobbyManager>(new LobbyManager(_eventManager, _networkManager));
     std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::hours((std::numeric_limits<int>::max)()));
 }

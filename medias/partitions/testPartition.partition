@@ -23,7 +23,7 @@
                 "y":300
             },
             "startTime":0,
-            "id":5
+            "id":5000
         },
         {
             "entityName":"OrbMonster",
@@ -32,7 +32,7 @@
                 "y":200
             },
             "startTime":0,
-            "id":6
+            "id":6000
         }
 	]
 }
