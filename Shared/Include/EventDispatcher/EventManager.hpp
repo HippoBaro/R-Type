@@ -58,7 +58,6 @@ namespace RType {
         }
 
         void Emit(RType::Event event, IMessage *message, void *sender) {
-            std::lock_guard<std::mutex> lock(_eventManagerMutex);
             size_t index = 0;
             for (index = 0; index < _listeners.size(); index++) {
                 if (_listeners[index] != nullptr)
@@ -70,7 +69,6 @@ namespace RType {
         }
 
         void EmitNoDelete(RType::Event event, IMessage *message, void *sender) {
-            std::lock_guard<std::mutex> lock(_eventManagerMutex);
             size_t index = 0;
             for (index = 0; index < _listeners.size(); index++) {
                 if (_listeners[index] != nullptr)
