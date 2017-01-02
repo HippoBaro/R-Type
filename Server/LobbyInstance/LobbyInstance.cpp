@@ -74,7 +74,7 @@ const std::string &LobbyInstance::getRoomName() const {
     return _roomName;
 }
 
-const std::map<uint8_t, std::shared_ptr<PlayerRef>> LobbyInstance::getPlayerRefs() const
+const std::map<uint8_t, std::shared_ptr<PlayerRef>> &LobbyInstance::getPlayerRefs() const
 {
     return _players;
 }
