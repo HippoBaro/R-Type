@@ -69,7 +69,7 @@ public:
 
     virtual void Serialize(RType::Packer &packer) {
         packer.Pack(_id);
-        packer.Pack(_traits, true);
+        //packer.Pack(_traits, true);
     };
 
     uint16_t getCyclesSinceLastSynch() const {
