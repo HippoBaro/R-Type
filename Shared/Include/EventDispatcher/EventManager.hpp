@@ -42,12 +42,12 @@ namespace RType {
         EventManager() {};
 
         void AddListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
-			std::lock_guard<std::mutex> lock(_eventManagerMutex);
+            std::lock_guard<std::mutex> lock(_eventManagerMutex);
             _listeners.push_back(callbacks);
         }
 
         void EraseListener(std::shared_ptr<std::map<RType::Event, std::vector<std::function<void(void *, IMessage *message)>>>> &callbacks){
-			std::lock_guard<std::mutex> lock(_eventManagerMutex);
+            std::lock_guard<std::mutex> lock(_eventManagerMutex);
 			size_t index = 0;
 			for ( index = 0; index < _listeners.size(); index++) {
 				if (_listeners[index] == callbacks) {
@@ -58,7 +58,7 @@ namespace RType {
         }
 
         void Emit(RType::Event event, IMessage *message, void *sender) {
-			std::lock_guard<std::mutex> lock(_eventManagerMutex);
+            std::lock_guard<std::mutex> lock(_eventManagerMutex);
 			size_t index = 0;
 			for (index = 0; index < _listeners.size(); index++) {
 				if (_listeners[index] != nullptr)
@@ -70,7 +70,7 @@ namespace RType {
         }
 
 		void EmitNoDelete(RType::Event event, IMessage *message, void *sender) {
-			std::lock_guard<std::mutex> lock(_eventManagerMutex);
+            std::lock_guard<std::mutex> lock(_eventManagerMutex);
 			size_t index = 0;
 			for (index = 0; index < _listeners.size(); index++) {
 				if (_listeners[index] != nullptr)
