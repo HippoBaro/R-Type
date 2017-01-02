@@ -21,7 +21,7 @@ void UdpCreateServer() {
 }
 
 void UdpCreateClient() {
-    auto payload = std::make_shared<RTypeNetworkPayload>((char *) "Bonjour server UDP !", (int) strlen("Bonjour server UDP !"));
+    auto payload = std::make_shared<RTypeNetworkPayload>((char *) "Bonjour server UDP !", (int) strlen("Bonjour server UDP !"), "127.0.0.1");
 
     std::unique_ptr<IRTypeSocket> client = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>("127.0.0.1", 5678));
     //Waiting 0.5 sec to give the time to UdpCreateServer to pass in the Receive loop.

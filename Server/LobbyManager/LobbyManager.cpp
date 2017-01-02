@@ -7,9 +7,17 @@
 #include "LobbyManager/LobbyManager.hpp"
 #include <Messages/SendTCPNetworkPayloadMessage.hpp>
 #include <Messages/ClientWaitForServerMessage.hpp>
+#include <Messages/StartNewGameMessage.hpp>
+
+LobbyManager::LobbyManager(std::shared_ptr<RType::EventManager> eventManager, std::shared_ptr<NetworkManager> networkManager) :
+    _eventManager(eventManager),
+    _networkManager(networkManager)
+{
+    _thread = std::unique_ptr<std::thread>(new std::thread(std::bind(&LobbyManager::Start, this)));
+}
 
 void LobbyManager::Start() {
-    auto sub = RType::EventListener(_eventManager);
+    RType::EventListener sub(_eventManager);
 
     //Event listener pour ajouter des clients a la pool
     sub.Subscribe<void, NewClientConnectionMessage>(NewClientConnectionMessage::EventType, [&](void *sender, NewClientConnectionMessage *message) {
@@ -48,8 +56,17 @@ void LobbyManager::Start() {
 
 void LobbyManager::Run() {
     while (true) {
-        _networkManager.IsThereNewClient();
-        _networkManager.CheckForIncomingMessage(_clients);
+        for (auto &i : _instances) {
+            if (i.second->shouldRemove()) {
+                i.second->NotifyGameStarted(i.second->getState().getPartitionName(), i.second->getState().getGameInstanceId()); //todo change this
+                _instances.erase(i.first);
+                Run();
+                break;
+            }
+        }
+
+        _networkManager->IsThereNewClient();
+        _networkManager->CheckForIncomingMessage(_clients);
         CheckInstance();
         SendToClients();
     }
@@ -78,14 +95,16 @@ void LobbyManager::LeftInstance(const std::string &roomName, const uint8_t id) {
 }
 
 void LobbyManager::CheckInstance() {
-    for (auto const &instance : _instances) {
-        if (!instance.second->IsThereAnyone()) {
-            _instances.erase(instance.first);
+    for (auto instance = _instances.begin() ; instance != _instances.end() ; ++instance) {
+        if (!instance->second->IsThereAnyone()) {
+            _instances.erase(instance->first);
             break;
         }
-        if (instance.second->IsReady()) {
+        if (instance->second->IsReady()) {
             //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
-            std::cout << "Instance: " << instance.second->getRoomName() << " is ready to go !" << std::endl;
+            std::cout << "Instance: " << instance->second->getRoomName() << " is ready to go !" << std::endl;
+
+            TransformIntoGameInstance(instance->second);
         }
     }
 }
@@ -93,7 +112,7 @@ void LobbyManager::CheckInstance() {
 void LobbyManager::SendToClients() {
     if (_toSend.size() != 0) {
         for (auto it = _toSend.begin(); it != _toSend.end();) {
-            if (_networkManager.SendOverTCP(it->second, it->first, 100)) {
+            if (_networkManager->SendOverTCP(it->second, it->first, 200)) {
                 it = _toSend.erase(it);
             } else {
                 ++it;
@@ -110,4 +129,29 @@ void LobbyManager::UserDisconnect(uint8_t id) {
         }
     }
     _clients.erase(id);
+}
+
+void LobbyManager::TransformIntoGameInstance(const std::shared_ptr<LobbyInstance> &instance)
+{
+    // Build Message
+    std::string randomPartition("testPartition");
+    std::vector<std::shared_ptr<PlayerRef>> playerRefs;
+
+    for (const auto &player : instance->getPlayerRefs()) {
+        playerRefs.push_back(player.second);
+    }
+
+    auto tmpPlayers = std::vector<PlayerRef>();
+    for (const auto &i : playerRefs)
+        tmpPlayers.push_back(*i);
+
+    LobbyStatePayload lobbyState;
+    lobbyState.setPlayers(tmpPlayers);
+    lobbyState.setPartitionName(randomPartition);
+    lobbyState.setGameInstanceId(_nextInstanceId);
+    instance->setState(lobbyState);
+    this->_eventManager->Emit(StartNewGameMessage::EventType, new StartNewGameMessage(randomPartition, playerRefs, _nextInstanceId++), instance.get());
+
+    std::cout << randomPartition << " | " << playerRefs.size() << std::endl;
+    instance->Remove();
 }

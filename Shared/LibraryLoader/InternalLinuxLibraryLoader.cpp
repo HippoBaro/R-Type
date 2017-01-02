@@ -14,19 +14,22 @@ std::shared_ptr<ExternalClassFactory> InternalLibraryLoader::GetFactoryForClass(
 #endif
     std::string lib = (libraryPath + "lib" + libName + ext);
 
+    const char *dlsym_error;
+
     void *factory = dlopen(lib.c_str(), RTLD_LAZY);
+    dlsym_error = dlerror();
     if (!factory)
-        throw std::runtime_error("Unable to load library");
+        throw std::runtime_error(dlsym_error);
 
     create_t *create_triangle = (create_t*) dlsym(factory, constructor.c_str());
-    const char *dlsym_error = dlerror();
+    dlsym_error = dlerror();
     if (dlsym_error)
-        throw std::runtime_error("Unable to load library");
+        throw std::runtime_error(dlsym_error);
 
     destroy_t* destroy_triangle = (destroy_t*) dlsym(factory, destructor.c_str());
     dlsym_error = dlerror();
     if (dlsym_error)
-        throw std::runtime_error("Unable to load library");
+        throw std::runtime_error(dlsym_error);
     return std::make_shared<ExternalClassFactory>(create_triangle, destroy_triangle, factory, libName, [&](void *ptr) { this->DestroyFactory(ptr); });
 }
 

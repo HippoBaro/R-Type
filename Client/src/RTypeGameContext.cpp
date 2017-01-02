@@ -15,12 +15,17 @@
 #include <Messages/UserInputMessage.hpp>
 #include <IUserControlled.hpp>
 
-void RTypeGameContext::Setup(std::string const &partitionFile) {
+void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
+    _lobby = lobby;
     _timer = std::make_shared<Timer>(std::chrono::steady_clock::now());
     _pool = std::make_shared<ClientEntityPool>(_timer, _eventManager);
 
     std::ifstream infile;
-    infile.open(partitionFile);
+
+    std::stringstream str;
+    str << "medias/partitions/" << _lobby.getPartitionName() << ".partition";
+
+    infile.open(str.str());
 
     std::string data((std::istreambuf_iterator<char>(infile)),
                      std::istreambuf_iterator<char>());
@@ -39,11 +44,15 @@ void RTypeGameContext::Setup(std::string const &partitionFile) {
             return; //Drop the packet
 
          entityPacker.UnpackEntity(_timer, _pool->getEventManager());
-        _mailbox.enqueue(entityPacker);
+         _mailbox.enqueue(entityPacker);
     });
 
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         RType::Packer packer(RType::WRITE);
+        int id = _lobby.getGameInstanceId();
+        packer.Pack(id);
+        int playerId = _lobby.getPlayerId();
+        packer.Pack(playerId);
         message->Serialize(packer);
         _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
         //if (_pool->Exist(2)) //todo reattivate this once current player id is known
@@ -60,7 +69,7 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))
         _pool->AddEntity(entityPacker.GetEntity(_timer, _pool->getEventManager()));
-    if (entityPacker.getTimeStamp() != -1)
+    if (entityPacker.getTimeStamp() != 0)
         _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
 
     _pool->ProcessEntities();
