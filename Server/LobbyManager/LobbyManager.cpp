@@ -104,7 +104,7 @@ void LobbyManager::CheckInstance() {
             //TODO: Transform LobbyInstance into GameInstance and remove LobbyInstance and close clients TCP connections
             std::cout << "Instance: " << instance->second->getRoomName() << " is ready to go !" << std::endl;
 
-            TransformIntoGameInstance(instance);
+            TransformIntoGameInstance(instance->second);
         }
     }
 }
@@ -131,13 +131,15 @@ void LobbyManager::UserDisconnect(uint8_t id) {
     _clients.erase(id);
 }
 
-void LobbyManager::TransformIntoGameInstance(std::map<std::string, std::shared_ptr<LobbyInstance>>::iterator &instance)
+void LobbyManager::TransformIntoGameInstance(const std::shared_ptr<LobbyInstance> &instance)
 {
     // Build Message
     std::string randomPartition("testPartition");
     std::vector<std::shared_ptr<PlayerRef>> playerRefs;
-    for (auto it = instance->second->getPlayerRefs().begin(); it != instance->second->getPlayerRefs().end(); ++it)
-        playerRefs.push_back(it->second);
+
+    for (const auto &player : instance->getPlayerRefs()) {
+        playerRefs.push_back(player.second);
+    }
 
     auto tmpPlayers = std::vector<PlayerRef>();
     for (const auto &i : playerRefs)
@@ -147,9 +149,9 @@ void LobbyManager::TransformIntoGameInstance(std::map<std::string, std::shared_p
     lobbyState.setPlayers(tmpPlayers);
     lobbyState.setPartitionName(randomPartition);
     lobbyState.setGameInstanceId(_nextInstanceId);
-    instance->second->setState(lobbyState);
-    this->_eventManager->Emit(StartNewGameMessage::EventType, new StartNewGameMessage(randomPartition, playerRefs, _nextInstanceId++), instance->second.get());
+    instance->setState(lobbyState);
+    this->_eventManager->Emit(StartNewGameMessage::EventType, new StartNewGameMessage(randomPartition, playerRefs, _nextInstanceId++), instance.get());
 
     std::cout << randomPartition << " | " << playerRefs.size() << std::endl;
-    (*instance).second->Remove();
+    instance->Remove();
 }

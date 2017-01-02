@@ -26,7 +26,7 @@ private:
     void NotifyClients();
 
 public:
-    const std::map<uint8_t, std::shared_ptr<PlayerRef>> getPlayerRefs() const;
+    const std::map<uint8_t, std::shared_ptr<PlayerRef>> &getPlayerRefs() const;
     const std::string &getRoomName() const;
     LobbyInstance(const std::shared_ptr<RType::EventManager> &eventManager, std::string roomName);
     bool AddPlayerToInstance(const uint8_t id, const std::shared_ptr<IRTypeSocket> &client, const std::shared_ptr<PlayerRef> &ref);

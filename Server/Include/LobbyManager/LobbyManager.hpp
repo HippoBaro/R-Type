@@ -26,7 +26,7 @@ private:
     int _nextInstanceId = 0;
 
 private:
-    void TransformIntoGameInstance(std::map<std::string, std::shared_ptr<LobbyInstance>>::iterator &);
+    void TransformIntoGameInstance(const std::shared_ptr<LobbyInstance> &instance);
     bool CreateInstance(const std::string &roomName);
     bool JoinInstance(const std::string &roomName, const std::shared_ptr<PlayerRef> &ref);
     void LeftInstance(const std::string &roomName, const uint8_t id);
