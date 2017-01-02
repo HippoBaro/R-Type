@@ -44,7 +44,7 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
             return; //Drop the packet
 
          entityPacker.UnpackEntity(_timer, _pool->getEventManager());
-        _mailbox.enqueue(entityPacker);
+         _mailbox.enqueue(entityPacker);
     });
 
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {

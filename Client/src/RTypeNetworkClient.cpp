@@ -46,8 +46,11 @@ void RTypeNetworkClient::StartReceive() {
     char data[1500];
     while (!_poisonPill) {
         auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
-        while (!_poisonPill && _networkGameClient->Receive(payload))
-            _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
+		while (!_poisonPill && _networkGameClient->Receive(payload))
+		{
+			std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
+			_eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
+		}
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
