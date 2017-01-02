@@ -128,7 +128,12 @@ public:
     }
 
     bool Send(std::shared_ptr<RTypeNetworkPayload> payload) override final {
-        return sendto(_socket, payload->Payload, (size_t) payload->Length, 0, (struct sockaddr *) &_addr, sizeof(_addr)) >= 0;
+        struct sockaddr_in addr;
+        bzero(&addr, sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_addr.s_addr = inet_addr(payload->Ip.c_str());
+        addr.sin_port = htons(_port);
+        return sendto(_socket, payload->Payload, (size_t) payload->Length, 0, (struct sockaddr *) &addr, sizeof(addr)) >= 0;
     }
 };
 
