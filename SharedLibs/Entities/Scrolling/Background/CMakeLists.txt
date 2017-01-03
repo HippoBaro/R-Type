@@ -7,13 +7,13 @@ ELSE()
 ENDIF()
 
 add_library(Background SHARED
-        TentacleBoss.hpp
+        Background.hpp
         Background.cpp)
 target_link_libraries(Background)
 
 if (NOT RTYPE_BUILD_SERVER_ONLY)
     add_library(DrawableBackground SHARED
-            TentacleBoss.hpp
+            Background.hpp
             Background.cpp
             GraphicBackground.cpp
             GraphicBackground.hpp)

@@ -7,7 +7,7 @@
 
 #include <AAnimatable.hpp>
 #include <TextureBag.hpp>
-#include "TentacleBoss.hpp"
+#include "Background.hpp"
 
 class GraphicBackground : public Background, public AAnimatable {
 

@@ -2,7 +2,7 @@
 // Created by aguado_e on 12/21/16.
 //
 
-#include "TentacleBoss.hpp"
+#include "Background.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 Background::Background(const std::initializer_list<void *> init) : Background(*GetParamFromInitializerList<uint16_t *>(init, 0),
