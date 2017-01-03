@@ -37,7 +37,7 @@ public :
 
 
 protected:
-    virtual void SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) override;
+    virtual void SpawnProjectile(const FireProjectileMessage &message) override;
 
 private:
     void DrawBackground(sf::RenderTexture &target, TextureBag &bag);

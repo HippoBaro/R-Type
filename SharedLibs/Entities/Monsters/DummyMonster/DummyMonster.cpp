@@ -32,7 +32,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
 
     _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *sender, ProjectilePositionChangedMessage *message) {
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
-        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), _id))
+        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
         {
             message->DidHit(sender);
             this->Destroy();
@@ -45,7 +45,7 @@ void DummyMonster::Cycle() {
     if (_partition.ShouldFire(now)) {
         auto segment = _partition.GetCurrentSegment(now);
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 180), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 180, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
     }
 }
 

@@ -28,7 +28,7 @@ SimpleProjectile::SimpleProjectile(uint16_t id,
     auto dest = vec2<float>(0, 0);
 
     if (params != nullptr) {
-        _emitterId = *GetParamFromInitializerList<uint16_t *>(*params, 0);
+        _origin = *GetParamFromInitializerList<FireProjectileMessage::Origin *>(*params, 0);
         float direction = *GetParamFromInitializerList<float *>(*params, 1);
         dest = vec2<float>(1920 * cosf((float) ((direction * M_PI) / 180)),
                            1920 * sinf((float) ((direction * M_PI) / 180)));
@@ -45,7 +45,7 @@ void SimpleProjectile::Cycle() {
     if (_partition.isPartitionPlayed(_timer->getCurrent()))
         this->Destroy();
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
-    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(_emitterId, pos, true), this);
+    _eventManager->Emit(ProjectilePositionChangedMessage::EventType, new ProjectilePositionChangedMessage(_origin, pos, true), this);
 }
 
 vec2<float> SimpleProjectile::GetRenderRect() {
@@ -60,7 +60,7 @@ vec2<float> SimpleProjectile::GetPosition() {
 void SimpleProjectile::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
     _partition.Serialize(packer);
-    packer.Pack(_emitterId);
+    packer.Pack(_origin);
 }
 
 uint16_t SimpleProjectile::getTypeId() const {
