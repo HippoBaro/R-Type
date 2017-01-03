@@ -24,7 +24,8 @@ public:
         SIMPLE_PROJECTILE,
         DEATH_STAR,
         MARS,
-        SHIP
+        SHIP,
+        BACKGROUND
     };
 
 protected:

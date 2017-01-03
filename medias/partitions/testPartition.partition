@@ -26,6 +26,15 @@
             "id":5000
         },
         {
+            "entityName":"Background",
+            "startPosition": {
+                "x":0,
+                "y":0
+            },
+            "startTime":0,
+            "id":5500
+        },
+        {
             "entityName":"OrbMonster",
             "startPosition": {
                 "x":500,
