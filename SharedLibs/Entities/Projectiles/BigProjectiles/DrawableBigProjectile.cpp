@@ -24,7 +24,7 @@ void DrawableBigProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         std::vector<sf::IntRect> framePos;
         framePos.push_back(sf::IntRect(0, 0, 65, 14));
         framePos.push_back(sf::IntRect(65, 0, 65, 14));
-        setAnimation("medias/images/r-typesheet1.png", framePos, bag);
+        setAnimation("medias/images/bigprojectile.png", framePos, bag);
         setLoopDuration(100);
         setScale(sf::Vector2f(1.0f, 1.0f));
     }
