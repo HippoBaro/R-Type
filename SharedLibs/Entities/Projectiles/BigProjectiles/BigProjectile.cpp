@@ -49,7 +49,7 @@ void BigProjectile::Cycle() {
 }
 
 vec2<float> BigProjectile::GetRenderRect() {
-    return vec2<float>(65, 14);
+    return vec2<float>(65 * 2, 14 * 2);
 }
 
 vec2<float> BigProjectile::GetPosition() {
