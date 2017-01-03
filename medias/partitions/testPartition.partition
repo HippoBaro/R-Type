@@ -23,10 +23,10 @@
         {
             "entityName":"TentacleBoss",
             "startPosition": {
-                "x":300,
+                "x":1300,
                 "y":300
             },
-            "startTime":0,
+            "startTime":20000,
             "id":5000
         },
         {
