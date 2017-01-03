@@ -15,8 +15,11 @@ GameInstance::GameInstance(uint16_t id, const std::vector<std::shared_ptr<Player
     _timer = std::make_shared<Timer>(origin);
     _pool = std::unique_ptr<ServerEntityPool>(new ServerEntityPool(_timer, _eventManager));
     _pool->LoadPartition(partition);
+
+    int initialPos = 200;
     for (auto &i : _players) {
-        _pool->AddEntity("Player", i->GetId(), vec2<float>(0, 100 * i->GetId()), _timer->getCurrent());
+        _pool->AddEntity("Player", i->GetId(), vec2<float>(0, initialPos), _timer->getCurrent());
+        initialPos += 200;
     }
     _thread = std::unique_ptr<std::thread>(new std::thread(std::bind(&GameInstance::Start, this)));
 }
