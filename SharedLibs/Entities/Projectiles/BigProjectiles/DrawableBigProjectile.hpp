@@ -7,22 +7,14 @@
 
 
 #include <IDrawable.hpp>
+#include <AAnimatable.hpp>
 #include "BigProjectile.hpp"
 
-class DrawableBigProjectile : public BigProjectile, public IDrawable  {
+class DrawableBigProjectile : public BigProjectile, public AAnimatable {
 public:
     DrawableBigProjectile(const std::initializer_list<void *> init);
 
-public:
     void Draw(sf::RenderTexture *rect, TextureBag &) override;
-
-
-    virtual bool NeedRedraw() override ;
-
-public:
-    virtual ~DrawableBigProjectile();
-
-private:
     void Cycle() override;
 };
 

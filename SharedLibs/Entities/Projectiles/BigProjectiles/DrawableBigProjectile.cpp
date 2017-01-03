@@ -10,30 +10,27 @@
 RTYPE_DRAWABLE_ENTITY_REGISTER(DrawableBigProjectile)
 #endif
 
-DrawableBigProjectile::DrawableBigProjectile(const std::initializer_list<void *> init) : BigProjectile(init) {
+DrawableBigProjectile::DrawableBigProjectile(const std::initializer_list<void *> init) :
+        BigProjectile(init),
+        AAnimatable()
+{
     this->RegisterTrait(Trait::Drawable);
 }
 
 void DrawableBigProjectile::Draw(sf::RenderTexture *rect, TextureBag &bag) {
-    auto texture = bag.getTexture("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
+    if (!isTextureSetInit) {
+        isTextureSetInit = true;
 
-    rect->clear(sf::Color::Transparent);
-    if (texture == nullptr) {
-        auto newtexture = std::make_shared<sf::Texture>();
-        newtexture->loadFromFile("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8));
-        texture = bag.AddTexture("medias/images/r-typesheet1.png", sf::IntRect(249, 105, 16, 8), newtexture);
+        std::vector<sf::IntRect> framePos;
+        framePos.push_back(sf::IntRect(0, 0, 65, 14));
+        framePos.push_back(sf::IntRect(65, 0, 65, 14));
+        setAnimation("medias/images/r-typesheet1.png", framePos, bag);
+        setLoopDuration(100);
+        setScale(sf::Vector2f(1.0f, 1.0f));
     }
-    sf::Sprite sprite;
-    sprite.setTexture(*texture);
-    rect->draw(sprite);
+    updateAnimation(rect, bag);
 }
 
 void DrawableBigProjectile::Cycle() {
     BigProjectile::Cycle();
-}
-
-DrawableBigProjectile::~DrawableBigProjectile() {}
-
-bool DrawableBigProjectile::NeedRedraw() {
-    return false;
 }
