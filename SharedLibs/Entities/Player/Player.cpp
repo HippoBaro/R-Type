@@ -17,8 +17,7 @@ Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromI
 
 Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
         Entity(id, timer, eventManager),
-        _currentPosition(startPosition),
-        _shotCooldown(std::chrono::steady_clock::now())
+        _currentPosition(startPosition)
 {
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, startPosition).AddSegment(
@@ -82,11 +81,10 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
         direction = vec2<float>(-velocity, 0);
     if (events.count(USER_SPACE) > 0)
     {
-        auto now = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - _shotCooldown).count();
+        auto duration = _timer->getCurrent().getMilliseconds().count() - _lastShot.getMilliseconds().count();
         if (duration > 500)
         {
-            _shotCooldown = std::chrono::steady_clock::now();
+            _lastShot = _timer->getCurrent();
             _shouldFire = true;
         }
     }
