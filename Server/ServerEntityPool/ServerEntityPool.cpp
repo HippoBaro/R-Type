@@ -23,8 +23,8 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         auto packer = RType::Packer(RType::WRITE);
 
-        uint8_t typeP = 2;
-        packer.Pack(typeP);
+//        uint8_t typeP = 2;
+//        packer.Pack(typeP);
 
         uint64_t time = (uint64_t) _timer->getCurrent().getMilliseconds().count();
         packer.Pack(time);
