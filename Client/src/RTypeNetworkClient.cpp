@@ -50,7 +50,6 @@ void RTypeNetworkClient::StartReceive() {
                 continue; //drop packet
 			std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
 			_eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
-		}
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

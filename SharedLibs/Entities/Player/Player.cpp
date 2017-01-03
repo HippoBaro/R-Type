@@ -70,15 +70,23 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     vec2<float> direction;
 
     if (events.count(USER_UP) > 0)
-        direction = vec2<float>(direction.x, direction.y - velocity);
+        direction = vec2<float>(0, -velocity);
     if (events.count(USER_DOWN) > 0)
-        direction = vec2<float>(direction.x, direction.y + velocity);
+        direction = vec2<float>(0, velocity);
     if (events.count(USER_RIGHT) > 0)
-        direction =  vec2<float>(direction.x + velocity, direction.y);
+        direction =  vec2<float>(velocity, 0);
     if (events.count(USER_LEFT) > 0)
-        direction = vec2<float>(direction.x - velocity,direction.y);
+        direction = vec2<float>(-velocity, 0);
     if (events.count(USER_SPACE) > 0)
-        _shouldFire = true;
+    {
+        auto now = std::chrono::high_resolution_clock::now();
+        int duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - _shotCooldown).count();
+        if (duration > 500)
+        {
+            _shotCooldown = std::chrono::high_resolution_clock::now();
+            _shouldFire = true;
+        }
+    }
 
     return direction;
 }

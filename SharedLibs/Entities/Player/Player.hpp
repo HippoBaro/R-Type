@@ -17,6 +17,7 @@ protected:
     vec2<float> _currentPosition;
     bool _shouldFire = false;
     TimeRef _lastUserInput = TimeRef(0);
+    std::chrono::time_point _shotCooldown = std::chrono::high_resolution_clock::now();
 
 public:
     Player(const std::initializer_list<void *> init);
