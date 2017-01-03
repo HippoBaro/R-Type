@@ -28,8 +28,7 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
-                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
-                {
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT)) {
                     message->DidHit(projectile);
                     this->takeDamage(10);
                 }
