@@ -23,7 +23,7 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         auto packer = RType::Packer(RType::WRITE);
 
-        uint8_t typeP = 1;
+        uint8_t typeP = 2;
         packer.Pack(typeP);
 
         uint64_t time = (uint64_t) _timer->getCurrent().getMilliseconds().count();
@@ -35,8 +35,8 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
         packer.Pack(id);
         i.second->GetInstance()->Serialize(packer);
 
-        for (auto &i : players) {
-            eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, i->GetAddress()), this);
+        for (auto &player : players) {
+            eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, player->GetAddress()), this);
         }
 
         count++;
@@ -53,10 +53,7 @@ void ServerEntityPool::BroadcastEntitiesThatStillExist(const std::shared_ptr<RTy
                                                        const std::vector<std::shared_ptr<PlayerRef>> &players) {
     auto packer = RType::Packer(RType::WRITE);
 
-    //uint64_t time = (uint64_t) _timer->getCurrent().getMilliseconds().count();
-    //packer.Pack(time);
-
-    uint8_t type = 0;
+    uint8_t type = 1;
     packer.Pack(type);
 
     std::set<std::uint16_t> entities;
