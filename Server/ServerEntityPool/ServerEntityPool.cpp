@@ -11,7 +11,7 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer,
         _serverEventManager(eventManager) { }
 
 void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager,
-                                         const std::vector<std::shared_ptr<PlayerRef>> &players) {
+                                         std::vector<std::shared_ptr<PlayerRef>> &players) {
     int count = 0;
     for(auto &i : _pool) {
         if (i.second->GetInstance()->getCyclesSinceLastSynch() < 100 && i.second->GetInstance()->getCyclesSinceLastSynch() > 0) {
@@ -35,14 +35,16 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
         packer.Pack(id);
         i.second->GetInstance()->Serialize(packer);
 
+        int l = 0;
         for (auto &player : players) {
             if (Exist(player->GetId()))
                 eventManager->Emit(SendNetworkPayloadMessage::EventType,
                                    new SendNetworkPayloadMessage(packer, player->GetAddress()), this);
             else {
-                players.erase(player);
+                players.erase(players.begin() + l);
                 break;
             }
+            l++;
         }
 
         count++;

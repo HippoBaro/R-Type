@@ -19,7 +19,7 @@ public:
     virtual ~ServerEntityPool();
 
 public :
-    void BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &);
+    void BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager, std::vector<std::shared_ptr<PlayerRef>> &);
     void BroadcastEntitiesThatStillExist(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &);
 };
 
