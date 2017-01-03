@@ -30,6 +30,8 @@ public :
 
     void LoadPartition(std::string const &string) override;
 
+    void CleanBasedOnServer(std::set<uint16_t> &ids);
+
 
 protected:
     virtual void SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) override;

@@ -3,7 +3,6 @@
 //
 
 #include "Player.hpp"
-#include <Messages/FireProjectileMessage.hpp>
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
@@ -27,7 +26,12 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 }
 
 void Player::Cycle() {
-    if (_shouldFire) {
+    if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
+    {
+        std::cout << "Timeout player" << std::endl;
+        RegisterTrait(Trait::Garbage);
+    }
+    else if (_shouldFire) {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
@@ -49,6 +53,7 @@ uint16_t Player::getTypeId() const {
 }
 
 void Player::Action(std::set<UserEventType> events) {
+    _lastUserInput = _timer->getCurrent();
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(
@@ -56,7 +61,8 @@ void Player::Action(std::set<UserEventType> events) {
                             .For(std::chrono::milliseconds(50))
                             .Translate(getVectorFromInput(events)))
             .Build();
-    NeedSynch();
+    if (events.size() > 0)
+        NeedSynch();
 }
 
 vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
