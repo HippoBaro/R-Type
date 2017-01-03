@@ -39,6 +39,12 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
     _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
         auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
 
+        uint16_t instanceId;
+        packet.Pack(instanceId);
+
+        if (instanceId != _lobby.getGameInstanceId())
+            return;
+
         uint8_t typePack;
         packet.Pack(typePack);
 
