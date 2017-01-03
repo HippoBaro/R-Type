@@ -21,7 +21,7 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10))
-                            .Translate(vec2<float>(-2000, -10))
+                            .Translate(vec2<float>(-300f, -100f))
                             .Fire(Entity::SIMPLE_PROJECTILE, 5))
     .Build();
 
