@@ -48,7 +48,6 @@ void RTypeNetworkClient::StartReceive() {
         {
             if (payload->Ip != _currentServerIp)
                 continue; //drop packet
-             std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
             _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload),
                                 this);
         }

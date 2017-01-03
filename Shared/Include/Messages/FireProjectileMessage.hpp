@@ -14,15 +14,22 @@ class FireProjectileMessage : public IMessage {
 public:
     static constexpr RType::Event EventType = RType::NEW_ENTITY;
 
+public:
+    enum Origin : uint16_t {
+        PROJECTILE_ORIGIN_PLAYER,
+        PROJECTILE_ORIGIN_ENVIRONEMENT
+    };
+
 private:
     const uint16_t _projectileType;
     const vec2<float> _spawnPosition;
     const uint16_t _id;
     const float _direction;
+    const Origin _origin;
 
 public:
-    FireProjectileMessage(const uint16_t id, const uint16_t projectileType, const vec2<float> &spawnPosition, const float direction) :
-            _projectileType(projectileType), _spawnPosition(spawnPosition), _id(id), _direction(direction) {}
+    FireProjectileMessage(const uint16_t id, const uint16_t projectileType, const vec2<float> &spawnPosition, const float direction, const Origin origin) :
+            _projectileType(projectileType), _spawnPosition(spawnPosition), _id(id), _direction(direction), _origin(origin) {}
 
     uint16_t getProjectileName() const {
         return _projectileType;
@@ -38,6 +45,10 @@ public:
 
     float getDirection() const {
         return _direction;
+    }
+
+    const Origin getOrigin() const {
+        return _origin;
     }
 };
 

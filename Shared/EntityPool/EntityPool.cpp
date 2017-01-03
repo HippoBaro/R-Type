@@ -21,7 +21,7 @@ EntityPool::~EntityPool() { }
 
 EntityPool::EntityPool(std::shared_ptr<Timer> const &timer) : _timer(timer) {
     _eventListener.Subscribe<Entity, FireProjectileMessage>(FireProjectileMessage::EventType, [&](Entity *sender, FireProjectileMessage *message) {
-        SpawnProjectile(*message, sender->getId());
+        SpawnProjectile(*message);
     });
 }
 
@@ -45,11 +45,12 @@ bool EntityPool::GarbageEntities(const ManagedExternalInstance<Entity> &entity) 
     return true;
 }
 
-void EntityPool::SpawnProjectile(FireProjectileMessage const &message, uint16_t emitterId) {
+void EntityPool::SpawnProjectile(FireProjectileMessage const &message) {
     if (_pool.count(message.getId()) > 0)
         return;
     auto direction = message.getDirection();
-    std::initializer_list<void *> params = { &emitterId, &direction };
+    uint16_t origin = message.getOrigin();
+    std::initializer_list<void *> params = { &origin, &direction };
     AddEntity(_factory.getTypeFromTypeId(message.getProjectileName()), message.getId(), message.getSpawnPosition(), _timer->getCurrent(), &params);
 }
 

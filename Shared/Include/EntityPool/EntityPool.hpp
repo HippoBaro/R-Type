@@ -46,7 +46,7 @@ public:
     std::shared_ptr<RType::EventManager> &getEventManager();
 
 protected:
-    virtual void SpawnProjectile(FireProjectileMessage const &, const uint16_t emitterId);
+    virtual void SpawnProjectile(FireProjectileMessage const &);
 
 private:
     bool GarbageEntities(const ManagedExternalInstance<Entity> &entity);
