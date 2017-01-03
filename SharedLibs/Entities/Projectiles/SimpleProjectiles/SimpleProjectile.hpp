@@ -9,11 +9,12 @@
 #include <EventDispatcher/EventManager.hpp>
 #include <Base.h>
 #include <Entities/Entity.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 
 class SimpleProjectile : public Entity {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
-    uint16_t _emitterId = 0;
+    FireProjectileMessage::Origin _origin = FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT;
 
 public:
     SimpleProjectile(const std::initializer_list<void *> init);
