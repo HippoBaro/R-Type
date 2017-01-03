@@ -35,11 +35,11 @@ void GameInstance::Start() {
                 dynamic_cast<IUserControlled *>(_pool->getEntityById((uint16_t) events.first)->GetInstance())->Action(events.second);
 
         _pool->ProcessEntities();
-        _pool->BroadcastEntities(_globalEventManager, _players);
+        _pool->BroadcastEntities(_id, _globalEventManager, _players);
 
         cycle++;
         if (cycle > 30) {
-            _pool->BroadcastEntitiesThatStillExist(_globalEventManager, _players);
+            _pool->BroadcastEntitiesThatStillExist(_id, _globalEventManager, _players);
             cycle = 0;
         }
 
