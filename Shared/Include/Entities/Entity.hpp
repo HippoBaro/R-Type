@@ -24,7 +24,11 @@ public:
         SIMPLE_PROJECTILE,
         DEATH_STAR,
         MARS,
-        SHIP
+        SHIP,
+        TREERESORT,
+        SPACESHIP,
+        TANK,
+        DUCK
     };
 
 protected:
