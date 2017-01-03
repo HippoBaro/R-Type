@@ -32,7 +32,7 @@ DummyMonster::DummyMonster(uint16_t id, std::shared_ptr<Timer> timer, std::share
 
     _eventListener->Subscribe<Entity, ProjectilePositionChangedMessage>(ProjectilePositionChangedMessage::EventType, [&](Entity *sender, ProjectilePositionChangedMessage *message) {
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
-        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), _id))
+        if (message->TestHitBox(segment->getLocationVector().GetTweened(), vec2<float>(32 * 5, 14 * 5), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
         {
             message->DidHit(sender);
             this->Destroy();
