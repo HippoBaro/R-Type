@@ -26,7 +26,7 @@ void Background::Cycle() {
 }
 
 vec2<float> Background::GetRenderRect() {
-    return vec2<float>(4 * 256, 4 * 142);
+    return vec2<float>(1280, 720);
 }
 
 vec2<float> Background::GetPosition() {
