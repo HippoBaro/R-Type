@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <Queue/SingleReaderWriterQueue.hpp>
 #include <EntityPacker/EntityPacker.hpp>
+#include <Model/LobbyStatePayload.hpp>
 #include "IRTypeDrawingContext.hpp"
 #include "ClientEntityPool.hpp"
 
@@ -18,10 +19,12 @@ private:
     std::shared_ptr<RType::EventManager> _eventManager;
     std::unique_ptr<RType::EventListener> _eventListener;
     RType::ReaderWriterQueue<EntityPacker> _mailbox;
+    LobbyStatePayload _lobby;
+
 public:
     RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager);
 
-    void Setup(std::string const &partitionString) override final;
+    void Setup(const LobbyStatePayload &);
     void ReleaseListener() override final;
     void Draw(sf::RenderTexture &, TextureBag &) override final;
 };

@@ -17,8 +17,8 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
-                            .For(std::chrono::seconds(10000))
-                            .Translate(vec2<float>(900, 900)))
+                            .For(std::chrono::seconds(5))
+                            .Translate(vec2<float>(0, 0)))
             .Build();
 }
 

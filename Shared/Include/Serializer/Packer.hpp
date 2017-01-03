@@ -95,23 +95,23 @@ namespace RType {
         void Pack(std::vector<T> &v, bool append = false) {
             if (_type == WRITE) {
                 // Serialize size so we can get it back later
-                uint32_t len = (uint32_t) v.size();
+                uint16_t len = (uint16_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(uint32_t);
+                _index += sizeof(uint16_t);
 
                 for (auto &it : v) {
                     RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &it);
                     _index += sizeof(T);
                 }
             } else {
-                uint32_t len;
+                uint16_t len;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(uint32_t);
+                _index += sizeof(uint16_t);
 
                 if (!append)
                     v.clear();
 
-                for (size_t i = 0; i < len; i++) {
+                for (uint16_t i = 0; i < len; i++) {
                     T val;
 
                     RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &val);
@@ -126,22 +126,22 @@ namespace RType {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
-                uint32_t len = (uint32_t) v.size();
+                uint16_t len = (uint16_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(uint32_t);
+                _index += sizeof(uint16_t);
 
                 for (auto it : v) {
                     RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &it);
                     _index += sizeof(T);
                 }
             } else {
-                uint32_t len;
+                uint16_t len;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(uint32_t);
+                _index += sizeof(uint16_t);
 
                 if (!append) v.clear();
 
-                for (size_t i = 0; i < len; i++) {
+                for (uint16_t i = 0; i < len; i++) {
                     T val;
 
                     RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &val);
@@ -156,20 +156,20 @@ namespace RType {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
-                size_t len = v.size();
+                uint16_t len = (uint16_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
 
                 for (auto &&it : v)
                     it.Serialize(*this);
             } else {
-                size_t len;
+                uint16_t len;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
                 if (v.size() < len)
                     v.resize(len);
 
-                for (size_t i = 0; i < len; i++)
+                for (uint16_t i = 0; i < len; i++)
                     v[i].Serialize(*this);
             }
         }
@@ -179,20 +179,20 @@ namespace RType {
             if (_type == WRITE) {
 
                 // Serialize size so we can get it back later
-                size_t len = v.size();
+                uint16_t len = (uint16_t) v.size();
                 RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
 
                 for (auto &&it : v)
                     it->Serialize(*this);
             } else {
-                size_t len;
+                uint16_t len;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
                 if (v.size() < len)
                     v.resize(len);
 
-                for (size_t i = 0; i < len; i++)
+                for (uint16_t i = 0; i < len; i++)
                     v[i]->Serialize(*this);
             }
         }
@@ -209,22 +209,22 @@ namespace RType {
         void Pack(std::string &v) {
             if (_type == WRITE) {
 
-                size_t len = v.length();
+                uint16_t len = (uint16_t) v.length();
                 RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
 
                 for (auto &it : v) {
                     RType::SerializationHelper::Serialize(_buffer->Buffer, _index, &it);
                     _index += sizeof(char);
                 }
             } else {
-                size_t len = 0;
+                uint16_t len = 0;
                 RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &len);
-                _index += sizeof(size_t);
+                _index += sizeof(uint16_t);
                 if (v.length() < len)
                     v.resize(len);
 
-                for (size_t i = 0; i < len; i++) {
+                for (uint16_t i = 0; i < len; i++) {
                     RType::SerializationHelper::Deserialize(_buffer->Buffer, _index, &v[i]);
                     _index += sizeof(char);
                 }

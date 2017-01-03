@@ -15,7 +15,7 @@ MenuCreate::MenuCreate(std::shared_ptr<RType::EventManager> &eventManager) {
     _eventListener = std::unique_ptr<RType::EventListener>(new RType::EventListener(_eventManager));
     _eventListener->Subscribe<void, MenuStateUpdateMessage>(MenuStateUpdateMessage::EventType, [&](void *sender, MenuStateUpdateMessage *message) {
         _textToWrite = "         Waiting\n";
-        for (const auto &i : message->getPlayers()) {
+        for (const auto &i : message->getState().getPlayers()) {
             _textToWrite += "Player ";
             _textToWrite += (char) (i.GetId() + 48);
             if (i.isReady())

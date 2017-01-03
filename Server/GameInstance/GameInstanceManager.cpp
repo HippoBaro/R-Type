@@ -3,12 +3,13 @@
 //
 
 #include <fstream>
+#include <Messages/StartNewGameMessage.hpp>
+#include <Messages/ReceivedNetworkPayloadMessage.hpp>
 #include "GameInstance/GameInstanceManager.hpp"
 
-void GameInstanceManager::CreateInstance(std::vector<PlayerRef> &) {
-
+void GameInstanceManager::CreateInstance(const int id, const std::vector<std::shared_ptr<PlayerRef>> &players, const std::string &partitionName) {
     std::ifstream infile;
-    infile.open("medias/partitions/testPartition.partition");
+    infile.open(partitionName);
 
     std::string data((std::istreambuf_iterator<char>(infile)),
                      std::istreambuf_iterator<char>());
@@ -17,10 +18,26 @@ void GameInstanceManager::CreateInstance(std::vector<PlayerRef> &) {
     if (data.empty())
         throw new std::runtime_error("Invalid partition file");
 
-    //auto timestamp = std::chrono::time_point<std::chrono::steady_clock>() + std::chrono::milliseconds(time_point);
-
-    _instances.push_back(std::unique_ptr<GameInstance>(new GameInstance(10, _eventManager, data, std::chrono::steady_clock::now())));
+    _instances.push_back(std::unique_ptr<GameInstance>(new GameInstance((uint16_t) id, players, _eventManager, data, std::chrono::steady_clock::now())));
 }
 
-GameInstanceManager::GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(
-        eventManager) {}
+GameInstanceManager::GameInstanceManager(const std::shared_ptr<RType::EventManager> &eventManager) :
+        _eventManager(eventManager),
+        _eventListener(eventManager)
+{
+    _eventListener.Subscribe<LobbyInstance, StartNewGameMessage>(RType::Event::START_NEW_GAME, [this](LobbyInstance *lobby, StartNewGameMessage *message) {
+        CreateInstance(message->getId(), message->getPlayerRefs(), "medias/partitions/" + message->getPartition() + ".partition");
+    });
+
+    _eventListener.Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
+        std::cout << "Received User Input" << std::endl;
+        RType::Packer packer(RType::READ, message->getPayload()->Payload);
+        int instanceId;
+        packer.Pack(instanceId);
+        for (auto &i : _instances) {
+            if (i->getId() == instanceId)
+                i->ReceivedNetworkPayload(packer);
+        }
+    });
+}
+

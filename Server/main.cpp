@@ -7,7 +7,6 @@
 
 int main()
 {
-    LobbyManager().Start();
-    //GameManager().Start();
+    GameManager().Start();
     return (0);
 }

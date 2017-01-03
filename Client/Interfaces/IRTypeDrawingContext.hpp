@@ -10,7 +10,6 @@
 
 class IRTypeDrawingContext {
 public:
-    virtual void Setup(std::string const &) = 0;
     virtual void ReleaseListener() = 0;
     virtual void Draw(sf::RenderTexture &, TextureBag &) = 0;
     virtual ~IRTypeDrawingContext() {};

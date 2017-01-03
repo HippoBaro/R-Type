@@ -7,6 +7,7 @@
 
 
 #include <EntityPool/EntityPool.hpp>
+#include <Entities/PlayerRef.hpp>
 
 class ServerEntityPool : public EntityPool {
 private:
@@ -18,7 +19,7 @@ public:
     virtual ~ServerEntityPool();
 
 public :
-    void BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager);
+    void BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &);
 };
 
 #endif //R_TYPE_SERVERENTITYPOOL_HPP

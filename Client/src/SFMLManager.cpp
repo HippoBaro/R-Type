@@ -13,6 +13,7 @@
 #include <Entities/PlayerRef.hpp>
 #include <Messages/MenuStateUpdateMessage.hpp>
 #include <Messages/ApplicationQuitMessage.hpp>
+#include <Messages/StartNewGameMessage.hpp>
 
 SFMLManager::SFMLManager(std::shared_ptr<RType::EventManager> &eventManager, std::shared_ptr<RTypeNetworkClient> &networkClient)
         : _inputListener(new RTypeInputListener(eventManager)), _gameContext(new RTypeGameContext(eventManager)),
@@ -49,9 +50,15 @@ void SFMLManager::CheckForNetwork() {
 
             auto state = new MenuStateUpdateMessage();
             auto packer = RType::Packer(RType::READ, payload->Payload);
-            packer.PackSerializables(state->getPlayers());
+            state->getState().Serialize(packer);
 
-            _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
+            if (state->getState().getGameInstanceId() > -1) {
+                _currentContext = _gameContext.get();
+                ((RTypeGameContext *)_currentContext)->Setup(state->getState());
+                _switch = true;
+            }
+            else
+                _eventManager->Emit(MenuStateUpdateMessage::EventType, state, this);
         }
     }
 }
@@ -77,8 +84,6 @@ void SFMLManager::Run() {
     while (_window.isOpen()) {
         if (_switch) {
             _menuContext->ReleaseListener();
-            _currentContext = _gameContext.get();
-            _currentContext->Setup("medias/partitions/testPartition.partition");
             _switch = !_switch;
             minFPS = 60;
             maxFPS = 0;

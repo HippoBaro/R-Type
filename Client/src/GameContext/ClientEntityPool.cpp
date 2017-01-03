@@ -23,7 +23,8 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
                 renderTarget->display();
                 sprite->setTexture(renderTarget->getTexture());
             }
-            sprite->setPosition(i.second->GetInstance()->GetPosition().x, i.second->GetInstance()->GetPosition().y);
+			auto currentPos = i.second->GetInstance()->GetPosition();
+            sprite->setPosition(currentPos.x, currentPos.y);
 
             target.draw(*sprite);
         }

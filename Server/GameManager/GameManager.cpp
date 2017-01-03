@@ -3,12 +3,11 @@
 //
 
 #include "GameManager/GameManager.hpp"
-#include <chrono>
+
+GameManager::GameManager() {}
 
 void GameManager::Start() {
-    _networkManager.Start();
-    auto temp = std::vector<PlayerRef>();
-    _gameInstanceManager.CreateInstance(temp);
-
+    _networkManager->Start();
+    _lobbyManager = std::unique_ptr<LobbyManager>(new LobbyManager(_eventManager, _networkManager));
     std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::hours((std::numeric_limits<int>::max)()));
 }

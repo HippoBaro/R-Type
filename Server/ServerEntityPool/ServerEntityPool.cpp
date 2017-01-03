@@ -7,7 +7,7 @@
 
 ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer, const std::shared_ptr<RType::EventManager> &eventManager) : EntityPool(timer), _serverEventManager(eventManager) { }
 
-void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager) {
+void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &players) {
     int count = 0;
     for(auto &i : _pool) {
         if (i.second->GetInstance()->getCyclesSinceLastSynch() < 100 && i.second->GetInstance()->getCyclesSinceLastSynch() > 0) {
@@ -19,7 +19,7 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         auto packer = RType::Packer(RType::WRITE);
 
-        long time = _timer->getCurrent().getMilliseconds().count();
+        uint64_t time = (uint64_t) _timer->getCurrent().getMilliseconds().count();
         packer.Pack(time);
 
         uint16_t type = i.second->GetInstance()->getTypeId();
@@ -27,7 +27,11 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
         uint16_t id = i.second->GetInstance()->getId();
         packer.Pack(id);
         i.second->GetInstance()->Serialize(packer);
-        eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, "127.0.0.1"), this); //todo : send to all clients from the instance
+
+        for (auto &i : players) {
+            eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer, i->GetAddress()), this);
+        }
+
         count++;
     }
     if (count > 0)
