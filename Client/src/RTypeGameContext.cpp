@@ -39,7 +39,7 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
     _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
         auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
 
-/*        uint8_t typePack;
+        uint8_t typePack;
         packet.Pack(typePack);
 
         if (typePack == 1) {
@@ -47,7 +47,7 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
             packet.Pack(entities);
             //_mailboxExist.enqueue(entities);
         }
-        else if (typePack == 2) {*/
+        else if (typePack == 2) {
             EntityPacker entityPacker(packet, _pool->getFactory());
 
             if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
@@ -60,12 +60,12 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
                 uint8_t type = 0;
                 packer.Pack(type);
                 _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
-                return;
-            } //Drop the packet
+                return; //Drop the packet
+            }
 
             entityPacker.UnpackEntity(_timer, _pool->getEventManager());
             _mailbox.enqueue(entityPacker);
-       // }
+        }
     });
 
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
