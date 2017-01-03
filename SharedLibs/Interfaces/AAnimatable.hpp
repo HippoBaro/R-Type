@@ -164,6 +164,7 @@ public:
 
     AAnimatable() :
             _clock(),
+            _flickering(),
             _frames()
     {}
 };
