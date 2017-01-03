@@ -3,7 +3,6 @@
 //
 
 #include "Player.hpp"
-#include <Messages/FireProjectileMessage.hpp>
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
@@ -29,7 +28,7 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 void Player::Cycle() {
     if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
         ImplementTrait(Trait::Garbage);
-    if (_shouldFire) {
+    else if (_shouldFire) {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);

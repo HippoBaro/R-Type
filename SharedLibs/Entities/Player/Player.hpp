@@ -8,6 +8,7 @@
 #include <Entities/Entity.hpp>
 #include <IUserControlled.hpp>
 #include <PartitionSystem/EntityPartition.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 #include <Base.h>
 
 class Player : public Entity, public IUserControlled {

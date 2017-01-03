@@ -44,6 +44,7 @@ void GameInstance::ReceivedNetworkPayload(RType::Packer &packer) {
     uint8_t type;
     packer.Pack(type);
     std::set<UserEventType> events;
+    stc::cout << "payload type is " << type << std::endl;
     if (type == 1)
         packer.Pack(events);
     _inbox->enqueue(std::make_pair(playerid, events));
