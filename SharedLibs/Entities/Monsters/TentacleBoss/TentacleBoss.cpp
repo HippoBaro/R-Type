@@ -27,7 +27,10 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
                 if (message->TestHitBox(GetPosition(), GetRenderRect(), _id))
+                {
+                    message->DidHit(projectile);
                     std::cout << "OUCH !" << std::endl;
+                }
             }
     );
 }

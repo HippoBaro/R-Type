@@ -36,7 +36,8 @@ void NetworkManager::Run() {
 }
 
 void NetworkManager::Send(std::shared_ptr<RTypeNetworkPayload> payload) {
-    std::cout << "Sending packet to " << payload->Ip << std::endl;
+//    std::cout << "Sending packet to " << payload->Ip << std::endl;
+
     _socketDownUDP->Send(payload);
 }
 
