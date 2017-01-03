@@ -46,6 +46,8 @@ void RTypeNetworkClient::StartReceive() {
         auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
 		while (!_poisonPill && _networkGameClient->Receive(payload))
 		{
+            if (payload->Ip != _currentServerIp)
+                continue; //drop packet
 			std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
 			_eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
 		}
