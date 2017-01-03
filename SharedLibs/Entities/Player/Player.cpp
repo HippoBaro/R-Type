@@ -15,8 +15,11 @@ Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromI
                                                                   *GetParamFromInitializerList<TimeRef*>(init, 3),
                                                                   *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager),
-                                                                                                                                                                         _currentPosition(startPosition) {
+Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
+        Entity(id, timer, eventManager),
+        _currentPosition(startPosition),
+        _shotCooldown(std::chrono::high_resolution_clock::now())
+{
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, startPosition).AddSegment(
                     PartitionSegmentBuilder()
