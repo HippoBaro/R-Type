@@ -17,7 +17,7 @@ class TentacleBoss : public Entity {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
     std::unique_ptr<RType::EventListener> _eventListener;
-    uint16_t _life = 100;
+    int16_t _life = 100;
 
 public:
     TentacleBoss(const std::initializer_list<void *> init);
