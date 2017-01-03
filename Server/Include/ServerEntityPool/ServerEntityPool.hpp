@@ -20,6 +20,7 @@ public:
 
 public :
     void BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &);
+    void BroadcastEntitiesThatStillExist(const std::shared_ptr<RType::EventManager> &eventManager, const std::vector<std::shared_ptr<PlayerRef>> &);
 };
 
 #endif //R_TYPE_SERVERENTITYPOOL_HPP

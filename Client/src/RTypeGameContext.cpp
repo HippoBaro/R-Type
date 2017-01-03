@@ -38,23 +38,34 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
 
     _eventListener->Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
         auto packet = RType::Packer(RType::READ, message->getPayload()->Payload);
-        EntityPacker entityPacker(packet, _pool->getFactory());
 
-        if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
-        {
-            RType::Packer packer(RType::WRITE);
-            uint16_t id = (uint16_t) _lobby.getGameInstanceId();
-            packer.Pack(id);
-            uint16_t playerId = (uint16_t) _lobby.getPlayerId();
-            packer.Pack(playerId);
-            uint8_t type = 0;
-            packer.Pack(type);
-            _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
-            return;
-        } //Drop the packet
+        uint8_t typePack;
+        packet.Pack(typePack);
 
-         entityPacker.UnpackEntity(_timer, _pool->getEventManager());
-         _mailbox.enqueue(entityPacker);
+        if (typePack == 0) {
+            std::set<uint16_t> entities;
+            packet.Pack(entities);
+            _mailboxExist.enqueue(entities);
+        }
+        else {
+            EntityPacker entityPacker(packet, _pool->getFactory());
+
+            if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
+            {
+                RType::Packer packer(RType::WRITE);
+                uint16_t id = (uint16_t) _lobby.getGameInstanceId();
+                packer.Pack(id);
+                uint16_t playerId = (uint16_t) _lobby.getPlayerId();
+                packer.Pack(playerId);
+                uint8_t type = 0;
+                packer.Pack(type);
+                _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
+                return;
+            } //Drop the packet
+
+            entityPacker.UnpackEntity(_timer, _pool->getEventManager());
+            _mailbox.enqueue(entityPacker);
+        }
     });
 
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
@@ -93,5 +104,6 @@ void RTypeGameContext::ReleaseListener() { }
 
 RTypeGameContext::RTypeGameContext(const std::shared_ptr<RType::EventManager> &eventManager) : _eventManager(eventManager),
                                                                                                _eventListener(std::unique_ptr<RType::EventListener>(new RType::EventListener(eventManager))),
-                                                                                               _mailbox(100){
+                                                                                               _mailbox(100),
+                                                                                               _mailboxExist(1) {
 }

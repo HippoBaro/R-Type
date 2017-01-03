@@ -19,6 +19,7 @@ private:
     std::shared_ptr<RType::EventManager> _eventManager;
     std::unique_ptr<RType::EventListener> _eventListener;
     RType::ReaderWriterQueue<EntityPacker> _mailbox;
+    RType::ReaderWriterQueue<std::set<uint16_t>> _mailboxExist;
     LobbyStatePayload _lobby;
 
 public:

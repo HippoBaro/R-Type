@@ -23,6 +23,7 @@ GameInstance::GameInstance(uint16_t id, const std::vector<std::shared_ptr<Player
 
 void GameInstance::Start() {
     auto t = std::chrono::steady_clock::now();
+    int cycle = 0;
 
     while (true) //todo : loop must break when game is over
     {
@@ -33,6 +34,13 @@ void GameInstance::Start() {
 
         _pool->ProcessEntities();
         _pool->BroadcastEntities(_globalEventManager, _players);
+
+        cycle++;
+        if (cycle > 30) {
+            _pool->BroadcastEntitiesThatStillExist(_globalEventManager, _players);
+            cycle = 0;
+        }
+
         t += std::chrono::milliseconds(32); //We'll send entities 30 times per seconds
         std::this_thread::sleep_until(t);
     }
