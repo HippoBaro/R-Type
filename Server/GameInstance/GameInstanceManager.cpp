@@ -11,6 +11,9 @@ void GameInstanceManager::CreateInstance(const int id, const std::vector<std::sh
     std::ifstream infile;
     infile.open(partitionName);
 
+    if (!infile.is_open())
+        throw new std::runtime_error("Unable to open partition file");
+
     std::string data((std::istreambuf_iterator<char>(infile)),
                      std::istreambuf_iterator<char>());
     infile.close();
