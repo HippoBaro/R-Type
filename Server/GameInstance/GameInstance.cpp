@@ -23,7 +23,7 @@ GameInstance::GameInstance(uint16_t id, const std::vector<std::shared_ptr<Player
 
 void GameInstance::Start() {
     auto t = std::chrono::steady_clock::now();
-    int cycle = 0;
+//    int cycle = 0;
 
     while (true) //todo : loop must break when game is over
     {
