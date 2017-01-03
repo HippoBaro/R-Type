@@ -21,14 +21,14 @@ void GraphicBackground::Draw(sf::RenderTexture *rect, TextureBag &bag) {
 
         std::vector<sf::IntRect> framePos;
 
-        for (int i = 0; i < 288; ++i) {
-            framePos.push_back(sf::IntRect(0 + (2 * i), 0, 576 + (2 * i), 240));
+        for (int i = 0; i < 110; ++i) {
+            framePos.push_back(sf::IntRect(0 + (2 * i), 0, 640 + (2 * i), 240));
         }
 
         setAnimation("medias/images/scrolling.jpg", framePos, bag);
         setLoopDuration(7000);
         setLoopBackAndForth(false);
-        setScale(sf::Vector2f(2.0f, 3.0f));
+        setScale(sf::Vector2f(4.0f, 3.0f));
     }
     updateAnimation(rect, bag);
 }
