@@ -12,6 +12,7 @@
 class AAnimatable : public IDrawable {
 private:
     sf::Clock _clock;
+    sf::Clock _flickering;
     std::vector<sf::IntRect> _frames;
     std::string _pathToFile = "";
     uint8_t _currentFrame = 0;
@@ -71,6 +72,11 @@ private:
         return this->shouldUpdateFrame();
     }
 
+    bool isFlickering() {
+        const int32_t timeElapsed = _flickering.getElapsedTime().asMilliseconds();
+        return timeElapsed < 300;
+    }
+
 protected:
     // Customize animation
     void setScale(const sf::Vector2f s) { this->_scale = s; }
@@ -122,9 +128,15 @@ protected:
             auto texture = bag.getTexture(_pathToFile, _frames[_currentFrame]);
             sprite.setTexture(*texture);
             sprite.setScale(sf::Vector2f(4.0f, 4.0f));
+            if (isFlickering())
+                sprite.setColor(sf::Color(200, 200, 200));
             rect->draw(sprite);
         }
     };
+
+    void flicker() {
+        _flickering.restart();
+    }
 
     ////////////////////////////////////////////////////
     /// \brief Tells if last frame has been reached
