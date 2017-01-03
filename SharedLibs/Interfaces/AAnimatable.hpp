@@ -129,7 +129,7 @@ protected:
             sprite.setTexture(*texture);
             sprite.setScale(sf::Vector2f(4.0f, 4.0f));
             if (isFlickering())
-                sprite.setColor(sf::Color(200, 200, 200));
+                sprite.setColor(sf::Color(255, 255, 255, 100));
             rect->draw(sprite);
         }
     };
