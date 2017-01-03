@@ -4,7 +4,8 @@
         "Player",
         "TentacleBoss",
         "OrbMonster",
-        "Background"
+        "Background",
+        "BigProjectile"
     ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
