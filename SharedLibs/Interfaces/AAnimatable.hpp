@@ -74,7 +74,7 @@ private:
 
     bool isFlickering() {
         const int32_t timeElapsed = _flickering.getElapsedTime().asMilliseconds();
-        return timeElapsed < 300;
+        return timeElapsed < 100;
     }
 
 protected:
@@ -129,7 +129,7 @@ protected:
             sprite.setTexture(*texture);
             sprite.setScale(sf::Vector2f(4.0f, 4.0f));
             if (isFlickering())
-                sprite.setColor(sf::Color(255, 255, 255, 100));
+                sprite.setColor(sf::Color(200, 50, 50));
             rect->draw(sprite);
         }
     };
