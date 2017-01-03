@@ -60,13 +60,13 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
     for (auto const &i : j["entityTypes"])
         RegisterType(i);
 
-    if (!j["backgroundEntity"].is_null()) {
+    /*if (!j["backgroundEntity"].is_null()) {
         std::string name = j["backgroundEntity"]["entityName"];
         vec2<float> startPos(j["backgroundEntity"]["startPosition"]["x"], j["backgroundEntity"]["startPosition"]["y"]);
         TimeRef startTime((std::chrono::milliseconds(j["backgroundEntity"]["startTime"])));
         uint16_t id = j["backgroundEntity"]["id"];
         AddEntity(name, id, startPos, startTime);
-    }
+    }*/
 }
 
 void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) {
