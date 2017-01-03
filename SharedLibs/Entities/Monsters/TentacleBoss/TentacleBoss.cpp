@@ -48,9 +48,9 @@ void TentacleBoss::Cycle() {
         auto pos = segment->getLocationVector().GetTweened();
         pos.x += 100;
         pos.y += 50;
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 160, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 180, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 200, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 20, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 0, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 340, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
     }
 }
 
