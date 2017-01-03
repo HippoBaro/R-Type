@@ -2,8 +2,8 @@
 // Created by aguado_e on 12/22/16.
 //
 
-#ifndef R_TYPE_GRAPHICTENTACLEBOSS_HPP
-#define R_TYPE_GRAPHICTENTACLEBOSS_HPP
+#ifndef R_TYPE_GRAPHICBACKGROUND_HPP
+#define R_TYPE_GRAPHICBACKGROUND_HPP
 
 #include <AAnimatable.hpp>
 #include <TextureBag.hpp>
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //R_TYPE_GRAPHICTENTACLEBOSS_HPP
+#endif //R_TYPE_GRAPHICBACKGROUND_HPP
