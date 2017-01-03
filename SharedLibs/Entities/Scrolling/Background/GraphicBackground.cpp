@@ -37,7 +37,8 @@ void GraphicBackground::Draw(sf::RenderTexture *rect, TextureBag &bag) {
         framePos.push_back(sf::IntRect(140, 0, 566, 240));
         framePos.push_back(sf::IntRect(150, 0, 576, 240));
         setAnimation("medias/images/scrolling.jpg", framePos, bag);
-        setLoopDuration(1500);
+        setLoopDuration(3500);
+        setLoopBackAndForth(false);
         setScale(sf::Vector2f(3.0f, 3.0f));
     }
     updateAnimation(rect, bag);
