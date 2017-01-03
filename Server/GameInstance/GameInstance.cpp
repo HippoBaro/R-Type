@@ -27,9 +27,9 @@ void GameInstance::Start() {
     while (true) //todo : loop must break when game is over
     {
         std::pair<int, std::set<UserEventType>> events;
-        while (_inbox->try_dequeue(events)) {
-            dynamic_cast<IUserControlled *>(_pool->getEntityById(events.first)->GetInstance())->Action(events.second);
-        }
+        while (_inbox->try_dequeue(events))
+            if (_pool->Exist(events.first))
+                dynamic_cast<IUserControlled *>(_pool->getEntityById((uint16_t) events.first)->GetInstance())->Action(events.second);
 
         _pool->ProcessEntities();
         _pool->BroadcastEntities(_globalEventManager, _players);
@@ -39,9 +39,12 @@ void GameInstance::Start() {
 }
 
 void GameInstance::ReceivedNetworkPayload(RType::Packer &packer) {
-    int playerid;
+    uint16_t playerid;
     packer.Pack(playerid);
+    uint8_t type;
+    packer.Pack(type);
     std::set<UserEventType> events;
-    packer.Pack(events);
+    if (type == 1)
+        packer.Pack(events);
     _inbox->enqueue(std::make_pair(playerid, events));
 }

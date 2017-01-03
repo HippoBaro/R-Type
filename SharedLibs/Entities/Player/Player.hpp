@@ -15,6 +15,7 @@ protected:
     EntityPartition _partition = EntityPartition(_timer);
     vec2<float> _currentPosition;
     bool _shouldFire = false;
+    TimeRef _lastUserInput = TimeRef(0);
 
 public:
     Player(const std::initializer_list<void *> init);
@@ -26,7 +27,7 @@ public:
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
 
-    virtual void Action(std::set<UserEventType> events) override ;
+    virtual void Action(std::set<UserEventType> events) override;
 
     void Serialize(RType::Packer &packer) override;
 

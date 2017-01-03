@@ -27,6 +27,8 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 }
 
 void Player::Cycle() {
+    if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
+        ImplementTrait(Trait::Drawable);
     if (_shouldFire) {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
@@ -49,6 +51,7 @@ uint16_t Player::getTypeId() const {
 }
 
 void Player::Action(std::set<UserEventType> events) {
+    _lastUserInput = _timer->getCurrent();
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(

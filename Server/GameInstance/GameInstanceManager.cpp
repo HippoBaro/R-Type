@@ -30,9 +30,8 @@ GameInstanceManager::GameInstanceManager(const std::shared_ptr<RType::EventManag
     });
 
     _eventListener.Subscribe<void, ReceivedNetworkPayloadMessage>(ReceivedNetworkPayloadMessage::EventType, [&](void *sender, ReceivedNetworkPayloadMessage *message) {
-        std::cout << "Received User Input" << std::endl;
         RType::Packer packer(RType::READ, message->getPayload()->Payload);
-        int instanceId;
+        uint16_t instanceId;
         packer.Pack(instanceId);
         for (auto &i : _instances) {
             if (i->getId() == instanceId)

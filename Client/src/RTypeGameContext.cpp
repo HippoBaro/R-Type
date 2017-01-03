@@ -49,13 +49,15 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
 
     _eventListener->Subscribe<Entity, UserInputMessage>(UserInputMessage::EventType, [&](Entity *, UserInputMessage *message) {
         RType::Packer packer(RType::WRITE);
-        int id = _lobby.getGameInstanceId();
+        uint16_t id = (uint16_t) _lobby.getGameInstanceId();
         packer.Pack(id);
-        int playerId = _lobby.getPlayerId();
+        uint16_t playerId = (uint16_t) _lobby.getPlayerId();
         packer.Pack(playerId);
+        uint8_t type = 1;
+        packer.Pack(type);
         message->Serialize(packer);
         _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
-        //if (_pool->Exist(2)) //todo reattivate this once current player id is known
+        //if (_pool->Exist(2))
         //    dynamic_cast<IUserControlled *>(_pool->getEntityById(2).GetInstance())->Action(message->getPressed());
     });
 
@@ -65,6 +67,15 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
+
+    RType::Packer packer(RType::WRITE);
+    uint16_t id = (uint16_t) _lobby.getGameInstanceId();
+    packer.Pack(id);
+    uint16_t playerId = (uint16_t) _lobby.getPlayerId();
+    packer.Pack(playerId);
+    uint8_t type = 0;
+    packer.Pack(type);
+    _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
 
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))

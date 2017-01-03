@@ -38,7 +38,6 @@ RTypeNetworkClient::RTypeNetworkClient(const std::shared_ptr<RType::EventManager
         auto packet = message->ConvertToSocketMessage();
         packet->Ip = _currentServerIp;
         _networkGameClient->Send(packet);
-        //_networkGameUpClient->Send(packet);
     });
 }
 
