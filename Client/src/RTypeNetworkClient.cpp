@@ -23,7 +23,6 @@ RTypeNetworkClient::RTypeNetworkClient(const std::shared_ptr<RType::EventManager
         _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(_currentServerIp, 6789));
     }
 
-    //_networkGameUpClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(serverIp, 9875));
     _networkGameClient->Bind();
 
     _eventListener.Subscribe<void, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](void *, StartReceiveNetworkGamePayload *message) {

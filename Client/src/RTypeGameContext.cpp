@@ -41,7 +41,17 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
         EntityPacker entityPacker(packet, _pool->getFactory());
 
         if (_pool->Exist(entityPacker.getEntityId()) && !_pool->isPlayer(entityPacker.getEntityId()))
-            return; //Drop the packet
+        {
+            RType::Packer packer(RType::WRITE);
+            uint16_t id = (uint16_t) _lobby.getGameInstanceId();
+            packer.Pack(id);
+            uint16_t playerId = (uint16_t) _lobby.getPlayerId();
+            packer.Pack(playerId);
+            uint8_t type = 0;
+            packer.Pack(type);
+            _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
+            return;
+        } //Drop the packet
 
          entityPacker.UnpackEntity(_timer, _pool->getEventManager());
          _mailbox.enqueue(entityPacker);
@@ -67,15 +77,6 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
 
 void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     context.clear(sf::Color::Black);
-
-    RType::Packer packer(RType::WRITE);
-    uint16_t id = (uint16_t) _lobby.getGameInstanceId();
-    packer.Pack(id);
-    uint16_t playerId = (uint16_t) _lobby.getPlayerId();
-    packer.Pack(playerId);
-    uint8_t type = 0;
-    packer.Pack(type);
-    _eventManager->Emit(SendNetworkPayloadMessage::EventType, new SendNetworkPayloadMessage(packer), this);
 
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))
