@@ -26,9 +26,10 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
-                if (message->TestHitBox(GetPosition(), GetRenderRect(), _id))
+                if (message->TestHitBox(GetPosition(), vec2<float>(3*256, 4*142), _id))
                 {
                     message->DidHit(projectile);
+                    this->takeDamage(10);
                     std::cout << "OUCH !" << std::endl;
                 }
             }
@@ -50,10 +51,18 @@ vec2<float> TentacleBoss::GetPosition() {
 void TentacleBoss::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
     _partition.Serialize(packer);
+    packer.Pack(_life);
 }
 
 uint16_t TentacleBoss::getTypeId() const {
     return Entity::TENTACLE_BOSS;
+}
+
+void TentacleBoss::takeDamage(const uint16_t value)
+{
+    _life -= value;
+    if (_life <= 0)
+        this->Destroy();
 }
 
 #ifndef ENTITY_DRW_CTOR
