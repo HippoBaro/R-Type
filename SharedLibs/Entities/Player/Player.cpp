@@ -71,7 +71,7 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     constexpr float velocity = 15;
     vec2<float> direction;
 
-    std::cout << _currentPosition.y << " | " << _currentPosition.x << std::endl;
+    std::cout << GetPosition().y << " | " << GetPosition().x << std::endl;
     if (events.count(USER_UP) > 0)
         direction = vec2<float>(0, -velocity * (_currentPosition.y > 0));
     if (events.count(USER_DOWN) > 0)
