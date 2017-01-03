@@ -9,13 +9,16 @@
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
 	"backgroundEntity":
-		{
-			"entityName":"testEntity",
-			"startPosition": {
-				"x":0,
-				"y":0
-		}
-	},
+    {
+        "entityName":"Background",
+        "startPosition":
+        {
+            "x":0,
+            "y":0
+        },
+        "startTime":0,
+        "id":9999
+    },
 	"entities":[
         {
             "entityName":"TentacleBoss",
@@ -25,15 +28,6 @@
             },
             "startTime":0,
             "id":5000
-        },
-        {
-            "entityName":"Background",
-            "startPosition": {
-                "x":0,
-                "y":0
-            },
-            "startTime":0,
-            "id":5500
         },
         {
             "entityName":"OrbMonster",

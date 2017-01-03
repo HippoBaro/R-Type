@@ -7,6 +7,8 @@
 #include "ClientEntityPool.hpp"
 
 void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
+    if (_backgroundEntity != nullptr)
+        DrawBackground(target, bag);
     for (const auto& i : _pool)
     {
         if (i.second->GetInstance()->ImplementTrait(Trait::Drawable)) {
@@ -18,14 +20,14 @@ void ClientEntityPool::Draw(sf::RenderTexture &target, TextureBag &bag) {
             if (renderTarget == nullptr || entity->NeedRedraw())
             {
                 if (renderTarget == nullptr)
-                    renderTarget = entity->createRenderTexture((unsigned int) i.second->GetInstance()->GetRenderRect().x, (unsigned int) i.second->GetInstance()->GetRenderRect().y);
+                    renderTarget = entity->createRenderTexture((unsigned int) i.second->GetInstance()->GetRenderRect().x,
+                                                               (unsigned int) i.second->GetInstance()->GetRenderRect().y);
                 entity->Draw(renderTarget, bag);
                 renderTarget->display();
                 sprite->setTexture(renderTarget->getTexture());
             }
 			auto currentPos = i.second->GetInstance()->GetPosition();
             sprite->setPosition(currentPos.x, currentPos.y);
-
             target.draw(*sprite);
         }
     }
@@ -60,13 +62,13 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
     for (auto const &i : j["entityTypes"])
         RegisterType(i);
 
-    /*if (!j["backgroundEntity"].is_null()) {
+    if (!j["backgroundEntity"].is_null()) {
         std::string name = j["backgroundEntity"]["entityName"];
         vec2<float> startPos(j["backgroundEntity"]["startPosition"]["x"], j["backgroundEntity"]["startPosition"]["y"]);
         TimeRef startTime((std::chrono::milliseconds(j["backgroundEntity"]["startTime"])));
         uint16_t id = j["backgroundEntity"]["id"];
-        AddEntity(name, id, startPos, startTime);
-    }*/
+        SetBackground(name, id, startPos, startTime);
+    }
 }
 
 void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) {
@@ -78,4 +80,31 @@ void ClientEntityPool::CleanBasedOnServer(std::set<uint16_t> &ids) {
         if (ids.count(entity.first) == 0)
             entity.second->GetInstance()->RegisterTrait(Trait::Garbage); //Detroy
     }
+}
+
+void ClientEntityPool::SetBackground(std::string const &entityName, uint16_t id, vec2<float> const &initialPos,
+                                     const TimeRef &startTime, std::initializer_list<void *> *params) {
+    auto now = startTime;
+    auto pos = initialPos;
+    _backgroundEntity = ExternalClassFactoryLoader::Instance->GetInstanceOf<Entity>("", "Drawable" + entityName, { &id, &_timer, &_eventManager, &now, &pos, params }, "create", "destroy");
+}
+
+void ClientEntityPool::DrawBackground(sf::RenderTexture &target, TextureBag &bag) {
+    IDrawable *entity = dynamic_cast<IDrawable*>(_backgroundEntity->GetInstance());
+    auto renderTarget = entity->getRenderTexture();
+    auto sprite = entity->getSprite();
+    if (sprite == nullptr)
+        sprite = entity->createSprite();
+    if (renderTarget == nullptr || entity->NeedRedraw())
+    {
+        if (renderTarget == nullptr)
+            renderTarget = entity->createRenderTexture((unsigned int) _backgroundEntity->GetInstance()->GetRenderRect().x,
+                                                       (unsigned int) _backgroundEntity->GetInstance()->GetRenderRect().y);
+        entity->Draw(renderTarget, bag);
+        renderTarget->display();
+        sprite->setTexture(renderTarget->getTexture());
+    }
+    auto currentPos = _backgroundEntity->GetInstance()->GetPosition();
+    sprite->setPosition(currentPos.x, currentPos.y);
+    target.draw(*sprite);
 }
