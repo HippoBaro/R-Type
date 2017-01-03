@@ -64,3 +64,10 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
 void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) {
     //EntityPool::SpawnProjectile(message, emitterId);
 }
+
+void ClientEntityPool::CleanBasedOnServer(std::set<uint16_t> &ids) {
+    for (auto &entity : _pool) {
+        if (ids.count(entity.first) == 0)
+            entity.second->GetInstance()->RegisterTrait(Trait::Garbage); //Detroy
+    }
+}

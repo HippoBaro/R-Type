@@ -15,7 +15,7 @@
 class GameInstance {
 private:
     std::unique_ptr<std::thread> _thread = nullptr;
-    uint16_t _id = -1;
+    uint16_t _id = 0;
     std::unique_ptr<ServerEntityPool> _pool = nullptr;
     std::shared_ptr<Timer> _timer = nullptr;
     std::shared_ptr<RType::EventManager> _eventManager = std::shared_ptr<RType::EventManager>(new RType::EventManager());

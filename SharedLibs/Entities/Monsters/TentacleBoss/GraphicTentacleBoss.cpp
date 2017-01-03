@@ -2,6 +2,8 @@
 // Created by aguado_e on 12/22/16.
 //
 
+#include <Messages/ProjectilePositionChangedMessage.hpp>
+#include <Entities/Projectiles/SimpleProjectiles/SimpleProjectile.hpp>
 #include "GraphicTentacleBoss.hpp"
 
 #ifdef ENTITY_DRW_CTOR
@@ -13,6 +15,15 @@ GraphicTentacleBoss::GraphicTentacleBoss(const std::initializer_list<void *> ini
         AAnimatable()
 {
     RegisterTrait(Trait::Drawable);
+    _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
+            ProjectilePositionChangedMessage::EventType,
+            [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), _id))
+                {
+                    flicker();
+                }
+            }
+    );
 }
 
 void GraphicTentacleBoss::Draw(sf::RenderTexture *rect, TextureBag &bag) {

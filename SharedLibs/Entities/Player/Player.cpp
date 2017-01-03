@@ -3,7 +3,6 @@
 //
 
 #include "Player.hpp"
-#include <Messages/FireProjectileMessage.hpp>
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
 
 #ifndef ENTITY_DRW_CTOR
@@ -16,8 +15,11 @@ Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromI
                                                                   *GetParamFromInitializerList<TimeRef*>(init, 3),
                                                                   *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager),
-                                                                                                                                                                         _currentPosition(startPosition) {
+Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
+        Entity(id, timer, eventManager),
+        _currentPosition(startPosition),
+        _shotCooldown(std::chrono::steady_clock::now())
+{
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, startPosition).AddSegment(
                     PartitionSegmentBuilder()
@@ -27,7 +29,12 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 }
 
 void Player::Cycle() {
-    if (_shouldFire) {
+    if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
+    {
+        std::cout << "Timeout player" << std::endl;
+        RegisterTrait(Trait::Garbage);
+    }
+    else if (_shouldFire) {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
         std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
@@ -49,6 +56,7 @@ uint16_t Player::getTypeId() const {
 }
 
 void Player::Action(std::set<UserEventType> events) {
+    _lastUserInput = _timer->getCurrent();
     auto pos = _partition.GetCurrentSegment(_timer->getCurrent())->getLocationVector().GetTweened();
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, pos).AddSegment(
@@ -56,7 +64,8 @@ void Player::Action(std::set<UserEventType> events) {
                             .For(std::chrono::milliseconds(50))
                             .Translate(getVectorFromInput(events)))
             .Build();
-    NeedSynch();
+    if (events.size() > 0)
+        NeedSynch();
 }
 
 vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
@@ -64,15 +73,23 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     vec2<float> direction;
 
     if (events.count(USER_UP) > 0)
-        direction = vec2<float>(direction.x, direction.y - velocity);
+        direction = vec2<float>(0, -velocity);
     if (events.count(USER_DOWN) > 0)
-        direction = vec2<float>(direction.x, direction.y + velocity);
+        direction = vec2<float>(0, velocity);
     if (events.count(USER_RIGHT) > 0)
-        direction =  vec2<float>(direction.x + velocity, direction.y);
+        direction =  vec2<float>(velocity, 0);
     if (events.count(USER_LEFT) > 0)
-        direction = vec2<float>(direction.x - velocity,direction.y);
+        direction = vec2<float>(-velocity, 0);
     if (events.count(USER_SPACE) > 0)
-        _shouldFire = true;
+    {
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - _shotCooldown).count();
+        if (duration > 500)
+        {
+            _shotCooldown = std::chrono::steady_clock::now();
+            _shouldFire = true;
+        }
+    }
 
     return direction;
 }

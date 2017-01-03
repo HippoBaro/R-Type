@@ -23,25 +23,39 @@ GameInstance::GameInstance(uint16_t id, const std::vector<std::shared_ptr<Player
 
 void GameInstance::Start() {
     auto t = std::chrono::steady_clock::now();
+    int cycle = 0;
 
-    while (true) //todo : loop must break when game is over
+    while (true)
     {
+        if (_players.size() == 0)
+            break;
         std::pair<int, std::set<UserEventType>> events;
-        while (_inbox->try_dequeue(events)) {
-            dynamic_cast<IUserControlled *>(_pool->getEntityById(events.first)->GetInstance())->Action(events.second);
-        }
+        while (_inbox->try_dequeue(events))
+            if (_pool->Exist((const uint16_t) events.first))
+                dynamic_cast<IUserControlled *>(_pool->getEntityById((uint16_t) events.first)->GetInstance())->Action(events.second);
 
         _pool->ProcessEntities();
-        _pool->BroadcastEntities(_globalEventManager, _players);
+        _pool->BroadcastEntities(_id, _globalEventManager, _players);
+
+        cycle++;
+        if (cycle > 30) {
+            _pool->BroadcastEntitiesThatStillExist(_id, _globalEventManager, _players);
+            cycle = 0;
+        }
+
         t += std::chrono::milliseconds(32); //We'll send entities 30 times per seconds
         std::this_thread::sleep_until(t);
     }
+    std::cout << "Game instance prunned !" << std::endl;
 }
 
 void GameInstance::ReceivedNetworkPayload(RType::Packer &packer) {
-    int playerid;
+    uint16_t playerid;
     packer.Pack(playerid);
+    uint8_t type;
+    packer.Pack(type);
     std::set<UserEventType> events;
-    packer.Pack(events);
+    if (type == 1)
+        packer.Pack(events);
     _inbox->enqueue(std::make_pair(playerid, events));
 }

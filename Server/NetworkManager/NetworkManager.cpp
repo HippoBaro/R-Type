@@ -36,26 +36,17 @@ void NetworkManager::Run() {
 }
 
 void NetworkManager::Send(std::shared_ptr<RTypeNetworkPayload> payload) {
-    std::cout << "Sending packet to " << payload->Ip << std::endl;
+//    std::cout << "Sending packet to " << payload->Ip << std::endl;
 
     _socketDownUDP->Send(payload);
-/*    if (_clients.find(payload->Ip) == _clients.end()) {
-        {
-            _clients[payload->Ip] = std::unique_ptr<RTypeSocket<UDP>>(new RTypeSocket<UDP>(payload->Ip, 9875));
-            _clients[payload->Ip]->Send(payload);
-        }
-    } else {
-        _clients[payload->Ip]->Send(payload);
-    }*/
 }
 
 
 void NetworkManager::IsThereNewClient() {
     if (_socketTCP->PoolEventOnSocket(DATA_INCOMING, 500)) {
         std::shared_ptr<IRTypeSocket> newClient = _socketTCP->Accept();
-        if (newClient != nullptr) {
+        if (newClient != nullptr)
             _eventManager->Emit(NewClientConnectionMessage::EventType, new NewClientConnectionMessage(newClient), this);
-        }
     }
 }
 

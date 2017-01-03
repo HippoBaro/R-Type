@@ -8,6 +8,7 @@
 #include <Entities/Entity.hpp>
 #include <IUserControlled.hpp>
 #include <PartitionSystem/EntityPartition.hpp>
+#include <Messages/FireProjectileMessage.hpp>
 #include <Base.h>
 
 class Player : public Entity, public IUserControlled {
@@ -15,6 +16,8 @@ protected:
     EntityPartition _partition = EntityPartition(_timer);
     vec2<float> _currentPosition;
     bool _shouldFire = false;
+    TimeRef _lastUserInput = TimeRef(0);
+    std::chrono::steady_clock::time_point _shotCooldown;
 
 public:
     Player(const std::initializer_list<void *> init);
@@ -26,7 +29,7 @@ public:
     vec2<float> GetRenderRect() override;
     vec2<float> GetPosition() override;
 
-    virtual void Action(std::set<UserEventType> events) override ;
+    virtual void Action(std::set<UserEventType> events) override;
 
     void Serialize(RType::Packer &packer) override;
 

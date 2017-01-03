@@ -23,7 +23,6 @@ RTypeNetworkClient::RTypeNetworkClient(const std::shared_ptr<RType::EventManager
         _networkClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<TCP>(_currentServerIp, 6789));
     }
 
-    //_networkGameUpClient = std::unique_ptr<IRTypeSocket>(new RTypeSocket<UDP>(serverIp, 9875));
     _networkGameClient->Bind();
 
     _eventListener.Subscribe<void, StartReceiveNetworkGamePayload>(StartReceiveNetworkGamePayload::EventType, [&](void *, StartReceiveNetworkGamePayload *message) {
@@ -38,7 +37,6 @@ RTypeNetworkClient::RTypeNetworkClient(const std::shared_ptr<RType::EventManager
         auto packet = message->ConvertToSocketMessage();
         packet->Ip = _currentServerIp;
         _networkGameClient->Send(packet);
-        //_networkGameUpClient->Send(packet);
     });
 }
 
@@ -46,11 +44,14 @@ void RTypeNetworkClient::StartReceive() {
     char data[1500];
     while (!_poisonPill) {
         auto payload = std::make_shared<RTypeNetworkPayload>(data, 1500);
-		while (!_poisonPill && _networkGameClient->Receive(payload))
-		{
-			std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
-			_eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload), this);
-		}
+        while (!_poisonPill && _networkGameClient->Receive(payload))
+        {
+            if (payload->Ip != _currentServerIp)
+                continue; //drop packet
+             std::cout << "-----ReceivedNetworkPayloadMessage" << std::endl;
+            _eventManager->Emit(ReceivedNetworkPayloadMessage::EventType, new ReceivedNetworkPayloadMessage(payload),
+                                this);
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
