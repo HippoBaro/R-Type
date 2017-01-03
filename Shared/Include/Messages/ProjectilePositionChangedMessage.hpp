@@ -25,7 +25,7 @@ public:
     ProjectilePositionChangedMessage(const FireProjectileMessage::Origin origin, const vec2<float> &position, bool shouldDestroyOnHit) :
             _projectilePosition(position), _origin(origin), _shouldDestroyProjectileOnHit(shouldDestroyOnHit) {}
 
-    const uint16_t getOrigin() const {
+    FireProjectileMessage::Origin getOrigin() const {
         return _origin;
     }
 

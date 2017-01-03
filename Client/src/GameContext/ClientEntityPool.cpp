@@ -71,10 +71,6 @@ void ClientEntityPool::LoadPartition(std::string const &partition) {
     }
 }
 
-void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message, const uint16_t emitterId) {
-    //EntityPool::SpawnProjectile(message, emitterId);
-}
-
 void ClientEntityPool::CleanBasedOnServer(std::set<uint16_t> &ids) {
     for (auto &entity : _pool) {
         if (ids.count(entity.first) == 0)
@@ -107,4 +103,8 @@ void ClientEntityPool::DrawBackground(sf::RenderTexture &target, TextureBag &bag
     auto currentPos = _backgroundEntity->GetInstance()->GetPosition();
     sprite->setPosition(currentPos.x, currentPos.y);
     target.draw(*sprite);
+}
+
+void ClientEntityPool::SpawnProjectile(const FireProjectileMessage &message) {
+    //EntityPool::SpawnProjectile(message);
 }

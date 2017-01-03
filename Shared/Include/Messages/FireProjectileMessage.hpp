@@ -47,7 +47,7 @@ public:
         return _direction;
     }
 
-    const Origin getOrigin() const {
+    Origin getOrigin() const {
         return _origin;
     }
 };
