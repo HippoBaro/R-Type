@@ -38,6 +38,12 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
 }
 
 void OrbMonster::Cycle() {
+    auto now = _timer->getCurrent();
+    if (_partition.ShouldFire(now)) {
+        auto segment = _partition.GetCurrentSegment(now);
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 180, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+    }
 }
 
 vec2<float> OrbMonster::GetRenderRect() {
