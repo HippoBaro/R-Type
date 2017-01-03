@@ -28,7 +28,7 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 
 void Player::Cycle() {
     if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
-        ImplementTrait(Trait::Drawable);
+        ImplementTrait(Trait::Garbage);
     if (_shouldFire) {
         _shouldFire = false;
         auto segment = _partition.GetCurrentSegment(_timer->getCurrent());
@@ -59,7 +59,8 @@ void Player::Action(std::set<UserEventType> events) {
                             .For(std::chrono::milliseconds(50))
                             .Translate(getVectorFromInput(events)))
             .Build();
-    NeedSynch();
+    if (events.size() > 0)
+        NeedSynch();
 }
 
 vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
