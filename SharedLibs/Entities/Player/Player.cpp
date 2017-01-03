@@ -15,8 +15,11 @@ Player::Player(const std::initializer_list<void *> init) : Player(*GetParamFromI
                                                                   *GetParamFromInitializerList<TimeRef*>(init, 3),
                                                                   *GetParamFromInitializerList<vec2<float>*>(init, 4)) { }
 
-Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) : Entity(id, timer, eventManager),
-                                                                                                                                                                         _currentPosition(startPosition) {
+Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType::EventManager> eventManager, TimeRef const &timeRef, vec2<float> const &startPosition) :
+        Entity(id, timer, eventManager),
+        _currentPosition(startPosition),
+        _shotCooldown(std::chrono::steady_clock::now())
+{
     auto now = _timer->getCurrent();
     _partition = EntityPartitionBuilder(_timer, now, startPosition).AddSegment(
                     PartitionSegmentBuilder()
@@ -70,15 +73,23 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     vec2<float> direction;
 
     if (events.count(USER_UP) > 0)
-        direction = vec2<float>(direction.x, direction.y - velocity);
+        direction = vec2<float>(0, -velocity);
     if (events.count(USER_DOWN) > 0)
-        direction = vec2<float>(direction.x, direction.y + velocity);
+        direction = vec2<float>(0, velocity);
     if (events.count(USER_RIGHT) > 0)
-        direction =  vec2<float>(direction.x + velocity, direction.y);
+        direction =  vec2<float>(velocity, 0);
     if (events.count(USER_LEFT) > 0)
-        direction = vec2<float>(direction.x - velocity,direction.y);
+        direction = vec2<float>(-velocity, 0);
     if (events.count(USER_SPACE) > 0)
-        _shouldFire = true;
+    {
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - _shotCooldown).count();
+        if (duration > 500)
+        {
+            _shotCooldown = std::chrono::steady_clock::now();
+            _shouldFire = true;
+        }
+    }
 
     return direction;
 }
