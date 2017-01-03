@@ -25,7 +25,7 @@ void GameInstance::Start() {
     auto t = std::chrono::steady_clock::now();
     int cycle = 0;
 
-    while (true) //todo : loop must break when game is over
+    while (true)
     {
         if (_players.size() == 0)
             break;
