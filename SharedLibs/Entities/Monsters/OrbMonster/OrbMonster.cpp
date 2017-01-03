@@ -58,7 +58,7 @@ vec2<float> OrbMonster::GetPosition() {
 void OrbMonster::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
     _partition.Serialize(packer);
-}
+    packer.Pack(_life);
 
 
 uint16_t OrbMonster::getTypeId() const

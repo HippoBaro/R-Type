@@ -19,7 +19,7 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
-                            .For(std::chrono::seconds(8000))
+                            .For(std::chrono::seconds(8))
                             .Translate(vec2<float>(-800, 0)))
             .Build();
 
