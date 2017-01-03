@@ -30,8 +30,8 @@ BigProjectile::BigProjectile(uint16_t id,
     if (params != nullptr) {
         _origin = *GetParamFromInitializerList<FireProjectileMessage::Origin *>(*params, 0);
         float direction = *GetParamFromInitializerList<float *>(*params, 1);
-        dest = vec2<float>(1920 * cosf((float) ((direction * M_PI) / 180)),
-                           1920 * sinf((float) ((direction * M_PI) / 180)));
+        dest = vec2<float>(1920 * cosf((float) ((direction * M_PI) / 90)),
+                           1920 * sinf((float) ((direction * M_PI) / 90)));
     }
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
