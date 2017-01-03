@@ -29,7 +29,7 @@ void Player::Cycle() {
     if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
     {
         std::cout << "Timeout player" << std::endl;
-        ImplementTrait(Trait::Garbage);
+        RegisterTrait(Trait::Garbage);
     }
     else if (_shouldFire) {
         _shouldFire = false;
