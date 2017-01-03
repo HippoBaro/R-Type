@@ -45,7 +45,7 @@ void RTypeGameContext::Setup(const LobbyStatePayload &lobby) {
         if (typePack == 1) {
             std::set<uint16_t> entities;
             packet.Pack(entities);
-            //_mailboxExist.enqueue(entities);
+            _mailboxExist.enqueue(entities);
         }
         else if (typePack == 2) {
             EntityPacker entityPacker(packet, _pool->getFactory());
@@ -100,6 +100,11 @@ void RTypeGameContext::Draw(sf::RenderTexture &context, TextureBag &bag) {
     EntityPacker entityPacker;
     while (_mailbox.try_dequeue(entityPacker))
         _pool->AddEntity(entityPacker.GetEntity(_timer, _pool->getEventManager()));
+
+    std::set<uint16_t> entitiesIds;
+    if (_mailboxExist.try_dequeue(entitiesIds))
+        _pool->CleanBasedOnServer(entitiesIds);
+
     if (entityPacker.getTimeStamp() != 0)
         _timer->RecalibrateOrigin(entityPacker.getTimeStamp());
 
