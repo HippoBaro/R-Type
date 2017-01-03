@@ -27,7 +27,8 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
-                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT)
+                        && GetPosition().x < 1280)
                 {
                     message->DidHit(projectile);
                     this->takeDamage(10);

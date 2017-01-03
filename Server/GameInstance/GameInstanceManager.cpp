@@ -42,4 +42,3 @@ GameInstanceManager::GameInstanceManager(const std::shared_ptr<RType::EventManag
         }
     });
 }
-
