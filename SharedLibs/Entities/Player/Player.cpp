@@ -40,7 +40,7 @@ void Player::Cycle() {
         auto pos = segment->getLocationVector().GetTweened();
         pos.x += GetRenderRect().x;
         pos.y += GetRenderRect().y / 2;
-        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), Entity::SIMPLE_PROJECTILE, pos, 0, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), Entity::SIMPLE_PROJECTILE, pos, 0, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_PLAYER), this);
     }
 }
 
