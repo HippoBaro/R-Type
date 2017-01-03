@@ -85,7 +85,7 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     if (events.count(USER_SPACE) > 0)
     {
         auto duration = _timer->getCurrent().getMilliseconds().count() - _lastShot.getMilliseconds().count();
-        if (duration > 500)
+        if (duration > 300)
         {
             _lastShot = _timer->getCurrent();
             _shouldFire = true;

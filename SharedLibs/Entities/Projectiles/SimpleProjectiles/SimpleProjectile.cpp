@@ -36,7 +36,7 @@ SimpleProjectile::SimpleProjectile(uint16_t id,
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
-                            .For(std::chrono::seconds(2))
+                            .For(std::chrono::milliseconds(1200))
                             .Translate(dest))
             .Build();
 }
