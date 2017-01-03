@@ -89,6 +89,11 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
         }
     }
 
+    if (direction.y < 0)
+        direction.y = 0;
+    if (direction.x < 0)
+        direction.x = 0;
+
     return direction;
 }
 
