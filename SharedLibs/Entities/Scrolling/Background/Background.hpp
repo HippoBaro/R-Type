@@ -2,8 +2,8 @@
 // Created by aguado_e on 12/21/16.
 //
 
-#ifndef R_TYPE_TENTACLEBOSS_HPP
-#define R_TYPE_TENTACLEBOSS_HPP
+#ifndef R_TYPE_BACKGROUND_HPP
+#define R_TYPE_BACKGROUND_HPP
 
 #include "PartitionSystem/EntityPartition.hpp"
 #include <Time/Timer.hpp>
@@ -31,4 +31,4 @@ public:
     void Serialize(RType::Packer &packer) override;
 };
 
-#endif //R_TYPE_TENTACLEBOSS_HPP
+#endif //R_TYPE_BACKGROUND_HPP
