@@ -10,7 +10,7 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer,
         EntityPool(timer),
         _serverEventManager(eventManager) { }
 
-void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManager> &eventManager,
+void ServerEntityPool::BroadcastEntities(int id, const std::shared_ptr<RType::EventManager> &eventManager,
                                          std::vector<std::shared_ptr<PlayerRef>> &players) {
     int count = 0;
     for(auto &i : _pool) {
@@ -23,6 +23,8 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         auto packer = RType::Packer(RType::WRITE);
 
+        packer.Pack(id);
+
         uint8_t typeP = 2;
         packer.Pack(typeP);
 
@@ -31,8 +33,8 @@ void ServerEntityPool::BroadcastEntities(const std::shared_ptr<RType::EventManag
 
         uint16_t type = i.second->GetInstance()->getTypeId();
         packer.Pack(type);
-        uint16_t id = i.second->GetInstance()->getId();
-        packer.Pack(id);
+        uint16_t iden = i.second->GetInstance()->getId();
+        packer.Pack(iden);
         i.second->GetInstance()->Serialize(packer);
 
         int l = 0;
@@ -57,10 +59,11 @@ ServerEntityPool::~ServerEntityPool() {
 
 }
 
-void ServerEntityPool::BroadcastEntitiesThatStillExist(const std::shared_ptr<RType::EventManager> &eventManager,
+void ServerEntityPool::BroadcastEntitiesThatStillExist(int id, const std::shared_ptr<RType::EventManager> &eventManager,
                                                        const std::vector<std::shared_ptr<PlayerRef>> &players) {
     auto packer = RType::Packer(RType::WRITE);
 
+    packer.Pack(id);
     uint8_t type = 1;
     packer.Pack(type);
 
