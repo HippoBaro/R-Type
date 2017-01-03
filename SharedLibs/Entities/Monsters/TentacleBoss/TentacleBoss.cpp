@@ -20,8 +20,11 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(8))
-                            .Translate(vec2<float>(-800, 0))
-                            .Fire(Entity::BIG_PROJECTILE, 3))
+                            .Translate(vec2<float>(-800, 0)))
+            .AddSegment(PartitionSegmentBuilder()
+                                .Translate(vec2<float>(0, 0))
+                                .Fire(Entity::BIG_PROJECTILE, 3)
+                                .For(std::chrono::seconds(100000)))
             .Build();
 
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
@@ -38,6 +41,14 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
 }
 
 void TentacleBoss::Cycle() {
+    auto now = _timer->getCurrent();
+    if (_partition.ShouldFire(now)) {
+        auto segment = _partition.GetCurrentSegment(now);
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 120, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 180, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), segment->getLocationVector().GetTweened(), 60, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+    }
 }
 
 vec2<float> TentacleBoss::GetRenderRect() {
