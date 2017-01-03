@@ -26,11 +26,10 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
-                if (message->TestHitBox(GetPosition(), vec2<float>(3*256, 4*142), _id))
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), _id))
                 {
                     message->DidHit(projectile);
                     this->takeDamage(10);
-                    std::cout << "OUCH !" << std::endl;
                 }
             }
     );
