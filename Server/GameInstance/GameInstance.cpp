@@ -27,6 +27,8 @@ void GameInstance::Start() {
 
     while (true) //todo : loop must break when game is over
     {
+        if (_players.size() == 0)
+            break;
         std::pair<int, std::set<UserEventType>> events;
         while (_inbox->try_dequeue(events))
             if (_pool->Exist(events.first))
