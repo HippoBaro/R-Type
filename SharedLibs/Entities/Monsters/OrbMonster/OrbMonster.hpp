@@ -17,6 +17,7 @@ class OrbMonster : public Entity {
 protected:
     EntityPartition _partition = EntityPartition(_timer);
     std::unique_ptr<RType::EventListener> _eventListener;
+    int16_t _life = 30;
 
 public:
     OrbMonster(const std::initializer_list<void *> init);
@@ -29,6 +30,8 @@ public:
     vec2<float> GetPosition() override;
 
     void Serialize(RType::Packer &packer) override;
+
+    void takeDamage(const uint16_t value);
 };
 
 #endif //R_TYPE_ORBMONSTER_HPP

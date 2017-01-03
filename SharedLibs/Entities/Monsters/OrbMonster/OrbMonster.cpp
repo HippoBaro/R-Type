@@ -4,6 +4,9 @@
 
 #include "OrbMonster.hpp"
 #include <PartitionSystem/EntityPartitionBuilder.hpp>
+#include <Messages/FireProjectileMessage.hpp>
+#include <Messages/ProjectilePositionChangedMessage.hpp>
+#include <Entities/Projectiles/SimpleProjectiles/SimpleProjectile.hpp>
 
 OrbMonster::OrbMonster(const std::initializer_list<void *> init) : OrbMonster(*GetParamFromInitializerList<uint16_t *>(init, 0),
                                                                                     *GetParamFromInitializerList<std::shared_ptr<Timer>*>(init, 1),
@@ -21,6 +24,17 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
                             .Translate(vec2<float>(-2000, -10))
                             .Fire(Entity::SIMPLE_PROJECTILE, 5))
     .Build();
+
+    _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
+            ProjectilePositionChangedMessage::EventType,
+            [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
+                {
+                    message->DidHit(projectile);
+                    this->takeDamage(10);
+                }
+            }
+    );
 }
 
 void OrbMonster::Cycle() {
@@ -43,6 +57,12 @@ void OrbMonster::Serialize(RType::Packer &packer) {
 uint16_t OrbMonster::getTypeId() const
 {
     return Entity::ORB_MONSTER;
+}
+
+void OrbMonster::takeDamage(const uint16_t value) {
+    _life -= value;
+    if (_life <= 0)
+        this->Destroy();
 }
 
 #ifndef ENTITY_DRW_CTOR
