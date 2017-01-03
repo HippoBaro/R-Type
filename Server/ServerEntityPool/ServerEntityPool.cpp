@@ -51,8 +51,8 @@ void ServerEntityPool::BroadcastEntities(uint16_t id, const std::shared_ptr<RTyp
 
         count++;
     }
-    if (count > 0)
-        std::cout << "Sent " << count << std::endl;
+//    if (count > 0)
+//        std::cout << "Sent " << count << std::endl;
 }
 
 ServerEntityPool::~ServerEntityPool() {

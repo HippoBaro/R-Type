@@ -72,13 +72,13 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     vec2<float> direction;
 
     if (events.count(USER_UP) > 0)
-        direction = vec2<float>(0, -velocity);
+        direction = vec2<float>(0, -velocity * (GetPosition().y > 0));
     if (events.count(USER_DOWN) > 0)
-        direction = vec2<float>(0, velocity);
+        direction = vec2<float>(0, velocity * ((GetPosition().y + GetRenderRect().y) < 720));
     if (events.count(USER_RIGHT) > 0)
-        direction =  vec2<float>(velocity, 0);
+        direction =  vec2<float>(velocity * ((GetPosition().x + GetRenderRect().x) < 1280), 0);
     if (events.count(USER_LEFT) > 0)
-        direction = vec2<float>(-velocity, 0);
+        direction = vec2<float>(-velocity * (GetPosition().x > 0), 0);
     if (events.count(USER_SPACE) > 0)
     {
         auto duration = _timer->getCurrent().getMilliseconds().count() - _lastShot.getMilliseconds().count();
