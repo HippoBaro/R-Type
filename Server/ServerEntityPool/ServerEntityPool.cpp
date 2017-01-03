@@ -12,6 +12,7 @@ ServerEntityPool::ServerEntityPool(const std::shared_ptr<Timer> &timer,
 
 void ServerEntityPool::BroadcastEntities(uint16_t id, const std::shared_ptr<RType::EventManager> &eventManager,
                                          std::vector<std::shared_ptr<PlayerRef>> &players) {
+    int byteSent = 0;
     int count = 0;
     for(auto &i : _pool) {
         if (i.second->GetInstance()->getCyclesSinceLastSynch() < 100 && i.second->GetInstance()->getCyclesSinceLastSynch() > 0) {
@@ -40,6 +41,7 @@ void ServerEntityPool::BroadcastEntities(uint16_t id, const std::shared_ptr<RTyp
         int l = 0;
         for (auto &player : players) {
             if (Exist(player->GetId()))
+                byteSent += packer.getLength();
                 eventManager->Emit(SendNetworkPayloadMessage::EventType,
                                    new SendNetworkPayloadMessage(packer, player->GetAddress()), this);
             else {
@@ -48,11 +50,10 @@ void ServerEntityPool::BroadcastEntities(uint16_t id, const std::shared_ptr<RTyp
             }
             l++;
         }
-
         count++;
     }
-    if (count > 0)
-        std::cout << "Sent " << count << std::endl;
+    if (byteSent > 0 && count > 0)
+        std::cout << "[Instance " << id << "]" << " Sent " << count << " entities : " << byteSent << " byte to a total of " << players.size() << " clients" << std::endl;
 }
 
 ServerEntityPool::~ServerEntityPool() {
