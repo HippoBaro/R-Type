@@ -3,7 +3,8 @@
         "SimpleProjectile",
         "Player",
         "TentacleBoss",
-        "OrbMonster"
+        "OrbMonster",
+        "Background"
     ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
@@ -24,6 +25,15 @@
             },
             "startTime":0,
             "id":5000
+        },
+        {
+            "entityName":"Background",
+            "startPosition": {
+                "x":0,
+                "y":0
+            },
+            "startTime":0,
+            "id":5500
         },
         {
             "entityName":"OrbMonster",
