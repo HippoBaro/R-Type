@@ -37,6 +37,24 @@
             },
             "startTime":10,
             "id":6000
-        }
+        },
+        {
+            "entityName":"OrbMonster",
+            "startPosition": {
+                "x":1300,
+                "y":400
+            },
+            "startTime":300,
+            "id":7000
+        },
+         {
+             "entityName":"OrbMonster",
+             "startPosition": {
+                 "x":1300,
+                 "y":500
+             },
+             "startTime":600,
+             "id":8000
+         }
 	]
 }
