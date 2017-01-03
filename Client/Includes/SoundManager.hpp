@@ -12,8 +12,8 @@
 
 class SoundManager {
 private:
-    float _soundVolume = 0;
-    float _musicVolume = 0;
+    float _soundVolume = 50;
+    float _musicVolume = 50;
     sf::Music _music;
     sf::Sound _sound;
     std::map<std::string, sf::SoundBuffer> _cachedSound;
