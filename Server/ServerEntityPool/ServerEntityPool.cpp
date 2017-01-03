@@ -40,10 +40,12 @@ void ServerEntityPool::BroadcastEntities(uint16_t id, const std::shared_ptr<RTyp
 
         int l = 0;
         for (auto &player : players) {
-            if (Exist(player->GetId()))
+            if (Exist(player->GetId())) {
                 byteSent += packer.getLength();
                 eventManager->Emit(SendNetworkPayloadMessage::EventType,
                                    new SendNetworkPayloadMessage(packer, player->GetAddress()), this);
+            }
+
             else {
                 players.erase(players.begin() + l);
                 break;
