@@ -32,7 +32,7 @@
         {
             "entityName":"OrbMonster",
             "startPosition": {
-                "x":300,
+                "x":1300,
                 "y":300
             },
             "startTime":10,

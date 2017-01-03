@@ -21,7 +21,7 @@ OrbMonster::OrbMonster(uint16_t id, std::shared_ptr<Timer> timer, std::shared_pt
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
                             .For(std::chrono::seconds(10))
-                            .Translate(vec2<float>(-300f, -100f))
+                            .Translate(vec2<float>(-2000.f, -100.f))
                             .Fire(Entity::SIMPLE_PROJECTILE, 5))
     .Build();
 
@@ -51,6 +51,7 @@ vec2<float> OrbMonster::GetPosition() {
 
 void OrbMonster::Serialize(RType::Packer &packer) {
     Entity::Serialize(packer);
+    _partition.Serialize(packer);
 }
 
 
