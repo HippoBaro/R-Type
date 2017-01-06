@@ -4,7 +4,8 @@
         "Player",
         "TentacleBoss",
         "OrbMonster",
-        "Background"
+        "Background",
+        "BigProjectile"
     ],
 	"partitionName":"TestPartition",
 	"backgroundTheme":"test.ogg",
@@ -23,20 +24,38 @@
         {
             "entityName":"TentacleBoss",
             "startPosition": {
-                "x":300,
+                "x":1280,
                 "y":300
             },
-            "startTime":0,
+            "startTime":10000,
             "id":5000
         },
         {
             "entityName":"OrbMonster",
             "startPosition": {
-                "x":1350,
-                "y":400
+                "x":1300,
+                "y":300
             },
             "startTime":10,
             "id":6000
-        }
+        },
+        {
+            "entityName":"OrbMonster",
+            "startPosition": {
+                "x":1300,
+                "y":400
+            },
+            "startTime":600,
+            "id":7000
+        },
+         {
+             "entityName":"OrbMonster",
+             "startPosition": {
+                 "x":1300,
+                 "y":500
+             },
+             "startTime":1200,
+             "id":8000
+         }
 	]
 }

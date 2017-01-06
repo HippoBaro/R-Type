@@ -22,6 +22,7 @@ public:
         ORB_MONSTER,
         TENTACLE_BOSS,
         SIMPLE_PROJECTILE,
+        BIG_PROJECTILE,
         DEATH_STAR,
         MARS,
         SHIP,

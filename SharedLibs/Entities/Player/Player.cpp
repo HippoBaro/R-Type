@@ -28,7 +28,7 @@ Player::Player(uint16_t id, std::shared_ptr<Timer> timer, std::shared_ptr<RType:
 }
 
 void Player::Cycle() {
-    if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 10000)
+    if (_timer->getCurrent().getMilliseconds().count() - _lastUserInput.getMilliseconds().count() > 30000)
     {
         std::cout << "Timeout player" << std::endl;
         RegisterTrait(Trait::Garbage);
@@ -85,7 +85,7 @@ vec2<float> Player::getVectorFromInput(std::set<UserEventType> &events) {
     if (events.count(USER_SPACE) > 0)
     {
         auto duration = _timer->getCurrent().getMilliseconds().count() - _lastShot.getMilliseconds().count();
-        if (duration > 500)
+        if (duration > 300)
         {
             _lastShot = _timer->getCurrent();
             _shouldFire = true;

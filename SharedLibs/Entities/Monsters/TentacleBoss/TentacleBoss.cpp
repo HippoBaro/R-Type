@@ -19,14 +19,19 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
     _partition = EntityPartitionBuilder(timer, timeRef, startPosition).AddSegment(
                     PartitionSegmentBuilder()
                             .Begins(timeRef)
-                            .For(std::chrono::seconds(10000))
-                            .Translate(vec2<float>(0, 0)))
+                            .For(std::chrono::seconds(8))
+                            .Translate(vec2<float>(-800, 0)))
+            .AddSegment(PartitionSegmentBuilder()
+                                .Translate(vec2<float>(0, 0))
+                                .Fire(Entity::BIG_PROJECTILE, 8)
+                                .For(std::chrono::seconds(100000)))
             .Build();
 
     _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
             ProjectilePositionChangedMessage::EventType,
             [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
-                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT)
+                        && GetPosition().x < 1280)
                 {
                     message->DidHit(projectile);
                     this->takeDamage(10);
@@ -36,6 +41,17 @@ TentacleBoss::TentacleBoss(uint16_t id, std::shared_ptr<Timer> timer, std::share
 }
 
 void TentacleBoss::Cycle() {
+    auto now = _timer->getCurrent();
+    if (_partition.ShouldFire(now)) {
+        auto segment = _partition.GetCurrentSegment(now);
+        std::uniform_int_distribution<uint16_t > uni(100, UINT16_MAX);
+        auto pos = segment->getLocationVector().GetTweened();
+        pos.x += 100;
+        pos.y += 50;
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 20, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 0, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+        _eventManager->Emit(FireProjectileMessage::EventType, new FireProjectileMessage(uni(_ramdomGenerator), segment->getCurrentProjectile(), pos, 340, FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT), this);
+    }
 }
 
 vec2<float> TentacleBoss::GetRenderRect() {

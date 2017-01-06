@@ -2,6 +2,8 @@
 // Created by aguado_e on 12/22/16.
 //
 
+#include <Entities/Projectiles/SimpleProjectiles/SimpleProjectile.hpp>
+#include <Messages/ProjectilePositionChangedMessage.hpp>
 #include "GraphicOrbMonster.hpp"
 
 #ifdef ENTITY_DRW_CTOR
@@ -13,8 +15,14 @@ GraphicOrbMonster::GraphicOrbMonster(const std::initializer_list<void *> init) :
         AAnimatable()
 {
     RegisterTrait(Trait::Drawable);
+    _eventListener->Subscribe<SimpleProjectile, ProjectilePositionChangedMessage>(
+            ProjectilePositionChangedMessage::EventType,
+            [&](SimpleProjectile *projectile, ProjectilePositionChangedMessage *message) {
+                if (message->TestHitBox(GetPosition(), GetRenderRect(), FireProjectileMessage::Origin::PROJECTILE_ORIGIN_ENVIRONEMENT))
+                    flicker();
+            }
+    );
 }
-
 void GraphicOrbMonster::Draw(sf::RenderTexture *rect, TextureBag &bag) {
     if (!isTextureSetInit) {
         isTextureSetInit = true;
