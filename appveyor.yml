@@ -1,0 +1,34 @@
+# Operating system (build VM template)
+os: Visual Studio 2015
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+
+# clone directory
+clone_folder: c:\projects\RType
+
+platform: x64
+configuration: Release
+
+install:
+  # by default, all script lines are interpreted as batch
+
+build:
+  project: R_Type.sln      # path to Visual Studio solution or project
+
+# scripts to run before build
+before_build:
+  - echo Running cmake...
+  - cd c:\projects\RType
+  - cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P%
+
+after_build:
+  - echo Running CTest Unit Tests...
+  - cd c:\projects\RType
+
+notifications:
+  - provider: Slack
+    auth_token:
+      secure: xoxp-106362670305-107724972103-107943400887-237f119f5546462d3e1de37caa884e0e
+    channel: '#repo'
